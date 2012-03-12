@@ -16,6 +16,24 @@ mgr.gise
 mgr.xise
 *.prj
 
+# Compiled sources #
+####################
+top.bld
+top.cmd_log
+top.lso
+top.ngc
+top.ngr
+top.stx
+top.syr
+top.xst
+top_envsettings.html
+top_ngdbuild.xrpt
+top_xst.xrpt
+webtalk_pn.xml
+xst/*
+_ngo/*
+_xmsgs/*
+
 # xilinx #
 ###############
 xilinxsim.ini
