@@ -1,0 +1,25 @@
+# Logs #
+########
+*.log
+
+# Simulations #
+###############
+*.wdb
+sim_isim_beh.exe
+fuseRelaunch.cmd
+isim.cmd
+isim/*
+
+# Project files #
+#################
+mgr.gise
+mgr.xise
+*.prj
+
+# xilinx #
+###############
+xilinxsim.ini
+top_summary.html
+fuse.xmsgs
+_xmsgs/pn_parser.xmsgs
+iseconfig/*
