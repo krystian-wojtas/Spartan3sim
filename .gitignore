@@ -9,6 +9,21 @@ sim_isim_beh.exe
 fuseRelaunch.cmd
 isim.cmd
 isim/*
+test_summary.html
+test.xst
+test.cmd_log
+top.ncd
+top.ngd
+top.par
+top.pcf
+top_map.map
+top_map.mrp
+top_map.ncd
+top_map.ngm
+top_map.xrpt
+top_summary.xml
+top_usage.xml
+xlnx_auto_0_xdb/
 
 # Project files #
 #################
@@ -33,6 +48,18 @@ webtalk_pn.xml
 xst/*
 _ngo/*
 _xmsgs/*
+test_isim_beh.exe
+netgen/*
+top.pad
+top.ptwx
+top.twr
+top.twx
+top.unroutes
+top.xpi
+top_guide.ncd
+top_pad.csv
+top_pad.txt
+top_par.xrpt
 
 # xilinx #
 ###############

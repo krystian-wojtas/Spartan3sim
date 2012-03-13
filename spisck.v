@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    23:07:44 03/12/2012 
+// Create Date:    23:44:01 03/12/2012 
 // Design Name: 
-// Module Name:    top 
+// Module Name:    spisck 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,29 +18,19 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module top(
+module spisck(
 	input CLK50MHZ,
 	input RST,
-	output SPI_MOSI,
-	output SPI_SCK,
-	output DAC_CS,
-	output DAC_CLR,
-	input DAC_OUT
+	output reg SPI_SCK
    );
-
-	spisck spisck_(.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.SPI_SCK(SPI_SCK)
-	);
 	
-	dac dac_(
-		.RST(RST),
-		.SPI_SCK(SPI_SCK),
-		.DAC_CS(DAC_CS),
-		.DAC_CLR(DAC_CLR),
-		.dac_in(SPI_MOSI),
-		.DAC_OUT(DAC_OUT)
-	);
-				
+	reg [7:0] counter; //TODO counter
+	
+	always @(posedge CLK50MHZ) begin
+		if(~RST)
+			counter = 8'd0;
+		else
+			counter = counter + 1;
+	end
 
 endmodule
