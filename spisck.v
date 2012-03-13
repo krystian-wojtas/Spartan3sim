@@ -24,13 +24,17 @@ module spisck(
 	output reg SPI_SCK
    );
 	
-	reg [7:0] counter; //TODO counter
-	
-	always @(posedge CLK50MHZ) begin
+	reg [7:0] counter; //TODO counter zakres	
+	always @(posedge CLK50MHZ)
 		if(~RST)
 			counter = 8'd0;
 		else
 			counter = counter + 1;
+	
+	wire counterfull = & counter;
+	always @(posedge CLK50MHZ) begin
+		if(counterfull)
+			SPI_SCK <= ~SPI_SCK;
 	end
 
 endmodule

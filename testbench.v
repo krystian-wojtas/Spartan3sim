@@ -24,13 +24,13 @@ module testbench(
 	output reg [11:0] data,
 	output reg [3:0] address,
 	output reg [3:0] command,
-	output reg dac_trig,
-	input dac_done
+	output reg dactrig,
+	input dacdone
     );
 
 	initial begin
 		#10;
-		dac_trig = 1'b0;
+		dactrig = 1'b0;
 		//simulating only first dac
 		address = 4'b0001;
 		//command to immadiately update value in dac register
@@ -41,23 +41,23 @@ module testbench(
 		//first data
 		data = 12'h5f3;
 		@(negedge CLK50MHZ);
-		dac_trig = 1'b1; //TODO zegar probkowania triga daca musi byc 50MHZ !
+		dactrig = 1'b1; //TODO zegar probkowania triga daca musi byc 50MHZ !
 		
 		@(negedge CLK50MHZ);
 		@(posedge CLK50MHZ);
-		dac_trig = 1'b0;		
-		@(negedge dac_done);
+		dactrig = 1'b0;		
+		@(negedge dacdone);
 		
 			
 		//second data
 		data = 12'h3f5;
 		@(negedge CLK50MHZ);
-		dac_trig = 1'b1;
+		dactrig = 1'b1;
 				
 		@(negedge CLK50MHZ);
 		@(posedge CLK50MHZ);
-		dac_trig = 1'b0;		
-		@(negedge dac_done);
+		dactrig = 1'b0;		
+		@(negedge dacdone);
 		
 	end
 

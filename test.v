@@ -56,8 +56,8 @@ module test(
 		.data(data),
 		.address(address),
 		.command(command),
-		.dac_trig(dac_trig),
-		.dac_done(dac_done)
+		.dactrig(dactrig),
+		.dacdone(dacdone)
 	);
 	 
 	
@@ -67,8 +67,8 @@ module test(
 		.data(data),
 		.address(address),
 		.command(command),
-		.dac_trig(dac_trig),
-		.dac_done(dac_done)
+		.dactrig(dactrig),
+		.dacdone(dacdone)
 	);
 
 endmodule

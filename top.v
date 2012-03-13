@@ -28,18 +28,35 @@ module top(
 	input DAC_OUT
    );
 
-	spisck spisck_(.CLK50MHZ(CLK50MHZ),
+	spisck spisck_(
+		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.SPI_SCK(SPI_SCK)
 	);
 	
+	
+	wire [11:0] data = 12'd0;
+	wire [3:0] address = 4'd0;
+	wire [3:0] command = 4'd0;
+	wire dactrig = 1'd0;
+	wire dacdone = 1'd0;
+	//TODO modul sterujacy powyzszymi
+	
 	dac dac_(
+		.CLK50MHZ(CLK50MHZ),
+		// hardware dac interface
 		.RST(RST),
 		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
 		.dac_in(SPI_MOSI),
-		.DAC_OUT(DAC_OUT)
+		.DAC_OUT(DAC_OUT),
+		// verilog module interface
+		.data(data),
+		.address(address),
+		.command(command),
+		.dactrig(dactrig),
+		.dacdone(dacdone)
 	);
 				
 
