@@ -5,27 +5,27 @@
 # Simulations #
 ###############
 *.wdb
-sim_isim_beh.exe
-dacsendtest_isim_beh.exe
-dacsend.wcfg
-fuseRelaunch.cmd
-isim.cmd
-isim/*
-test_summary.html
-test.xst
-test.cmd_log
-top.ncd
-top.ngd
-top.par
-top.pcf
-top_map.map
-top_map.mrp
-top_map.ncd
-top_map.ngm
-top_map.xrpt
-top_summary.xml
-top_usage.xml
-xlnx_auto_0_xdb/
+*.exe
+*.cmd
+*/isim/*
+#top_usage.xml
+#top_summary.xml
+#test_summary.html
+#top_envsettings.html
+*.html
+*.xml
+*.xst
+*.cmd_log
+*.ncd
+*.ngd
+*.par
+*.pcf
+*.map
+*.mrp
+*.ncd
+*.ngm
+*.xrpt
+*/xlnx_auto_0_xdb/*
 
 # Project files #
 #################
@@ -35,41 +35,36 @@ mgr.xise
 
 # Compiled sources #
 ####################
-top.bld
-top.cmd_log
-top.lso
-top.ngc
-top.ngr
-top.stx
-top.syr
-top.xst
-top_envsettings.html
-top_ngdbuild.xrpt
-top_xst.xrpt
-webtalk_pn.xml
-xst/*
-_ngo/*
-_xmsgs/*
-test_isim_beh.exe
-netgen/*
-top.pad
-top.ptwx
-top.twr
-top.twx
-top.unroutes
-top.xpi
-top_guide.ncd
-top_pad.csv
-top_pad.txt
-top_par.xrpt
+*.bld
+*.cmd_log
+*.lso
+*.ngc
+*.ngr
+*.stx
+*.syr
+*.xst
+top_*.xrpt
+*/xst/*
+*/_ngo/*
+*/_xmsgs/*
+*/netgen/*
+*.pad
+*.ptwx
+*.twr
+*.twx
+*.unroutes
+*.xpi
+*.ncd
+*.csv
+*.txt
+*.xrpt
 
 # xilinx #
 ###############
 xilinxsim.ini
-top_summary.html
 fuse.xmsgs
 _xmsgs/pn_parser.xmsgs
-iseconfig/*
+*/iseconfig/*
 
 # git changes #
 ###############

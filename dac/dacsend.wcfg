@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/x/Dokumenty/projekty/jezyki opisu sprzetu/mgr/mgr/dacsendtest_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="dacsendtest" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="37" />
+   <wvobject fp_name="/dacsendtest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/SPI_SCK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_SCK</obj_property>
+      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/DAC_CS" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CS</obj_property>
+      <obj_property name="ObjectShortName">DAC_CS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/DAC_CLR" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CLR</obj_property>
+      <obj_property name="ObjectShortName">DAC_CLR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dac_in" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dac_in</obj_property>
+      <obj_property name="ObjectShortName">dac_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/DAC_OUT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_OUT</obj_property>
+      <obj_property name="ObjectShortName">DAC_OUT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[11:0]</obj_property>
+      <obj_property name="ObjectShortName">data[11:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">address[3:0]</obj_property>
+      <obj_property name="ObjectShortName">address[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/command" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">command[3:0]</obj_property>
+      <obj_property name="ObjectShortName">command[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dactrigsync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dactrigsync</obj_property>
+      <obj_property name="ObjectShortName">dactrigsync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dactrigsyncack" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dactrigsyncack</obj_property>
+      <obj_property name="ObjectShortName">dactrigsyncack</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacdonesync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dacdonesync</obj_property>
+      <obj_property name="ObjectShortName">dacdonesync</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider41" type="divider">
+      <obj_property name="label">ponizej dacsend</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/SPI_SCK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_SCK</obj_property>
+      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[11:0]</obj_property>
+      <obj_property name="ObjectShortName">data[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">address[3:0]</obj_property>
+      <obj_property name="ObjectShortName">address[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/command" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">command[3:0]</obj_property>
+      <obj_property name="ObjectShortName">command[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/dactrigsync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dactrigsync</obj_property>
+      <obj_property name="ObjectShortName">dactrigsync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/outdacshiftreg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">outdacshiftreg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">outdacshiftreg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/outdacshiftregbuf" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">outdacshiftregbuf[31:0]</obj_property>
+      <obj_property name="ObjectShortName">outdacshiftregbuf[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/firstbitoutdac" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">firstbitoutdac</obj_property>
+      <obj_property name="ObjectShortName">firstbitoutdac</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/sended" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sended</obj_property>
+      <obj_property name="ObjectShortName">sended</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/DAC_CS" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CS</obj_property>
+      <obj_property name="ObjectShortName">DAC_CS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/dac_in" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dac_in</obj_property>
+      <obj_property name="ObjectShortName">dac_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/dactrigsyncack" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dactrigsyncack</obj_property>
+      <obj_property name="ObjectShortName">dactrigsyncack</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/dacdonesync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dacdonesync</obj_property>
+      <obj_property name="ObjectShortName">dacdonesync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/_4dontcare" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">_4dontcare[3:0]</obj_property>
+      <obj_property name="ObjectShortName">_4dontcare[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/_8dontcare" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">_8dontcare[7:0]</obj_property>
+      <obj_property name="ObjectShortName">_8dontcare[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/dacsend_/outdacidx" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">outdacidx[5:0]</obj_property>
+      <obj_property name="ObjectShortName">outdacidx[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/spisck_/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/spisck_/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/spisck_/counterfull" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">counterfull</obj_property>
+      <obj_property name="ObjectShortName">counterfull</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/spisck_/SPI_SCK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_SCK</obj_property>
+      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dacsendtest/spisck_/counter" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">counter[2:0]</obj_property>
+      <obj_property name="ObjectShortName">counter[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>
