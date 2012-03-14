@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module test(
+module dactest(
     );
 	 
    wire CLK50MHZ;
@@ -28,9 +28,15 @@ module test(
    rst rst_(.RST(RST));
 	 
 	wire SPI_SCK;
+	spisck spisck_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.SPI_SCK(SPI_SCK)
+	);
+	 
 	wire DAC_CS;
 	wire DAC_CLR;
-	wire dac_in; //TODO konwencja wielkich liter zmiennych oznaczajacych wyjscie do usfa?
+	wire dac_in; //TODO konwencja wielkich liter zmiennych oznaczajacych wyjscie do ucfa?
 	wire DAC_OUT;
 	dacsim dacsim_(
 		.SPI_SCK(SPI_SCK),
@@ -61,7 +67,7 @@ module test(
 	);
 	 
 	
-	testbench testbench_(
+	dactestbench dactestbench_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.data(data),

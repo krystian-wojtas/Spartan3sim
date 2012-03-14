@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module testbench(
+module dactestbench(
 	input CLK50MHZ,
 	input RST,
 	output reg [11:0] data,
@@ -31,8 +31,8 @@ module testbench(
 	initial begin
 		#10;
 		dactrig = 1'b0;
-		//simulating only first dac
-		address = 4'b0001;
+		//simulating only first dac A
+		address = 4'b0000;
 		//command to immadiately update value in dac register
 		command = 4'b0011;
 		
@@ -41,7 +41,7 @@ module testbench(
 		//first data
 		data = 12'h5f3;
 		@(negedge CLK50MHZ);
-		dactrig = 1'b1; //TODO zegar probkowania triga daca musi byc 50MHZ !
+		dactrig = 1'b1;
 		
 		@(negedge CLK50MHZ);
 		@(posedge CLK50MHZ);

@@ -6,6 +6,8 @@
 ###############
 *.wdb
 sim_isim_beh.exe
+dacsendtest_isim_beh.exe
+dacsend.wcfg
 fuseRelaunch.cmd
 isim.cmd
 isim/*

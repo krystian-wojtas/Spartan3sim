@@ -50,7 +50,7 @@ module dacsend(
 	wire sended = & outdacidx;
 	
 	
-	always @(posedge SPI_SCK) begin
+	always @(posedge SPI_SCK) begin //TODO czy resetowac przez RST? wtedy szybciej sie zresetuje ale wymagany nextstate
 		if(~RST) state = TRIG_WAITING;
 		else begin
 			case(state)

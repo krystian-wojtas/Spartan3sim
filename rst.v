@@ -18,15 +18,15 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module rst(
+module rst #(parameter DELAY = 40) (
     output reg RST
-     );
+   );
 
     initial begin
         RST = 1;
         #10;
         RST = 0;
-        #40;
+        #DELAY;
         RST = 1;
     end
 
