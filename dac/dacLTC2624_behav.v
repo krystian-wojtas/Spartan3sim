@@ -22,31 +22,28 @@ module dacLTC2624behav (
 	input SPI_SCK,
 	input DAC_CS,
 	input DAC_CLR,
-	input dac_in, //TODO in i outy zawsze patrze od strony hardwaru?
+	input SPI_MOSI,
 	output DAC_OUT
     );
 	
-	assign DAC_OUT = dac_in;
+	assign DAC_OUT = SPI_MOSI;
 	
-	reg [5:0] indacshiftregidx;
-	reg [5:0] nindacshiftregidx;
-	always @(negedge DAC_CS or negedge DAC_CLR)
-		nindacshiftregidx = 6'd0;
-	always @(SPI_SCK)
-		indacshiftregidx <= nindacshiftregidx;
-	
-	reg [31:0] indacshiftreg; //TODO to samo pytanie co w dacu czy krotszy rejestr bez dontcarow?
+	reg [31:0] indacshiftreg;	
 	wire [11:0] data = indacshiftreg[4:15];
 	wire [3:0] address = indacshiftreg[16:19];
-	wire [3:0] command = indacshiftreg[20:23];		
+	wire [3:0] command = indacshiftreg[20:23];
+	reg [4:0] indacshiftregidx;
 	always @(posedge SPI_SCK) begin
-		if(~DAC_CS) begin
-			indacshiftreg[indacshiftregidx] = dac_in;
-			nindacshiftregidx = indacshiftregidx + 1;
+		if(~DAC_CLR || DAC_CS) begin
+			indacshiftreg = 32'd0;
+			indacshiftregidx = 5'd0;
+		end else begin
+			indacshiftreg[indacshiftregidx] = SPI_MOSI;
+			indacshiftregidx = indacshiftregidx + 1;
 		end
 	end
 	
-	
+	//TODO sprawdzac czy miedzy wlaczeniem a wylaczeniem daca wyslano 32bity - sprawdzac counter
 	wire data_received = & indacshiftregidx;
 	always @(posedge data_received)
 		$display("ustawiono liczbe %d na dacu nr %d z komenda %d", data, address, command);	 

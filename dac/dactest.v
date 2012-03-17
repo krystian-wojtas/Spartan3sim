@@ -38,17 +38,16 @@ module dactest(
 	 
 	wire DAC_CS;
 	wire DAC_CLR;
-	wire dac_in; //TODO konwencja wielkich liter zmiennych oznaczajacych wyjscie do ucfa?
+	wire SPI_MOSI;
 	wire DAC_OUT;
 	dacLTC2624behav dacLTC2624behav_(
 		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
-		.dac_in(dac_in),
+		.SPI_MOSI(SPI_MOSI),
 		.DAC_OUT(DAC_OUT)
 	);	 
 	 
-	wire SPI_MOSI;
 	wire [11:0] data;
 	wire [3:0] address;
 	wire [3:0] command;
@@ -59,7 +58,7 @@ module dactest(
 		.spi_sck_trig(spi_sck_trig),			 
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
-		.dac_in(SPI_MOSI), //rename SPI_MOSI -> dac_in
+		.SPI_MOSI(SPI_MOSI),
 		.DAC_OUT(DAC_OUT),
 		// fpga module interface
 		.data(data),
@@ -71,7 +70,7 @@ module dactest(
 	 
 	
 	dactestbench dactestbench_(
-		.CLK50MHZ(CLK50MHZ),
+		.SPI_SCK(SPI_SCK),
 		.RST(RST),
 		.data(data),
 		.address(address),

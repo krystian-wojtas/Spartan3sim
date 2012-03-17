@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module dactestbench(
-	input CLK50MHZ,
+	input SPI_SCK,
 	input RST,
 	output reg [11:0] data,
 	output reg [3:0] address,
@@ -40,22 +40,24 @@ module dactestbench(
 		
 		//first data
 		data = 12'h5f3;
-		@(negedge CLK50MHZ);
+		@(negedge SPI_SCK);
 		dactrig = 1'b1;
 		
-		@(negedge CLK50MHZ);
-		@(posedge CLK50MHZ);
+		@(negedge SPI_SCK);
+		@(posedge SPI_SCK);
 		dactrig = 1'b0;		
 		@(negedge dacdone);
+		@(negedge SPI_SCK);
+		@(posedge SPI_SCK);
 		
 			
 		//second data
 		data = 12'h3f5;
-		@(negedge CLK50MHZ);
+		@(negedge SPI_SCK);
 		dactrig = 1'b1;
 				
-		@(negedge CLK50MHZ);
-		@(posedge CLK50MHZ);
+		@(negedge SPI_SCK);
+		@(posedge SPI_SCK);
 		dactrig = 1'b0;		
 		@(negedge dacdone);
 		

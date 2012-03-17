@@ -59,6 +59,12 @@ top_*.xrpt
 *.txt
 *.xrpt
 *.gise
+*.bgn
+*.bit
+*.drc
+*.ut
+*.xwbt
+
 
 # xilinx #
 ###############

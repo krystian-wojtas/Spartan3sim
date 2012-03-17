@@ -46,12 +46,12 @@ module top(
 	
 	dacspi dacspi_(
 		.CLK50MHZ(CLK50MHZ),
-		// hardware dac interface
 		.RST(RST),
-		.SPI_SCK(SPI_SCK),
+		// hardware dac interface
+		.spi_sck_trig(spi_sck_trig),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
-		.dac_in(SPI_MOSI),
+		.SPI_MOSI(SPI_MOSI),
 		.DAC_OUT(DAC_OUT),
 		// verilog module interface
 		.data(data),

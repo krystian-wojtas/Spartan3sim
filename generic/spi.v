@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    00:07:49 03/13/2012 
+// Create Date:    17:35:36 03/17/2012 
 // Design Name: 
-// Module Name:    dac 
+// Module Name:    spi 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,41 +18,26 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module dacspi(
+module spi #(parameter WIDTH=31) (
 	input RST,
 	input CLK50MHZ,
-	// hardware dac interface
-	output reg DAC_CS,
-	output reg DAC_CLR,
-	output SPI_MOSI,
-	input	DAC_OUT,
-	// verilog module interface
+	// spi interface
 	input spi_sck_trig,
-	input [11:0] data,
-	input [3:0] address,
-	input [3:0] command,
-	input dactrig,
-	output dacdone
-	);	
-	
-	
-	wire dacdone_;
-	wire [31:0] dacdatatosend = {4'b0, data, address, command, 8'b0};
-	wire [31:0] dacdatareceived;
-	spi spi_(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.spi_sck_trig(spi_sck_trig),
-		.SPI_MISO(SPI_MISO),
-		.SPI_MOSI(SPI_MOSI),
-		.data_in(dacdatatosend),
-		.data_out(dacdatareceived),
-		.spi_trig(dactrig),
-		.spi_done(dacdone_)
-	);
-	assign dacdone = dacdone_;
-	
-		
+	input SPI_MISO,
+	output SPI_MOSI,
+	input [WIDTH:0] data_in,
+	output reg [WIDTH:0] data_out,
+	input spi_trig,
+	output reg spi_done
+    );
+			
+	reg [31:0] outdacshiftreg;
+	assign SPI_MOSI = outdacshiftreg[WIDTH];
+	reg [4:0] outdacidx;
+	wire sended = & outdacidx;
+	//wire sended = outdacidx[6]; //the content of outdacshiftreg is sended if counter outdacidx is 6'b1_xxxxx
+			
+			
 	reg [1:0] state;
 	localparam [1:0] 	TRIG_WAITING = 2'd0,
 							TRIGGING = 2'd1,
@@ -66,14 +51,14 @@ module dacspi(
 			if(spi_sck_trig)
 				case(state)
 					TRIG_WAITING:
-						if(~dactrig)
+						if(~spi_trig)
 							state = TRIG_WAITING;
 						else
 							state = TRIGGING;
 					TRIGGING:
 						state = SENDING;
 					SENDING:
-						if(~dacdone_)
+						if(~sended)
 							state = SENDING;
 						else
 							state = DONE;
@@ -82,18 +67,28 @@ module dacspi(
 				endcase
 		end		
 	end
+			
 	
-	
+	always @(posedge CLK50MHZ)
+		if(~RST) begin
+			outdacshiftreg <= 32'd0;
+			outdacidx <= 6'd0;
+		end else if(spi_sck_trig)
+			case(state)
+				TRIGGING: begin
+					outdacshiftreg <= data_in;
+					outdacidx <= 6'd0;
+				end
+				SENDING: begin
+					outdacshiftreg <= outdacshiftreg << 1;
+					outdacidx <= outdacidx + 1;
+				end
+			endcase
+			
 	always @*
-		if(state == SENDING)
-			DAC_CS = 1'b0;
+		if(state == DONE)
+			spi_done = 1'b1;
 		else
-			DAC_CS = 1'b1;
-	
-	always @*
-		if(~RST) // czy negacja? moze odwrotnie wartosci?
-			DAC_CLR = 1'b0;
-		else
-			DAC_CLR = 1'b1;
-	
+			spi_done = 1'b0;
+
 endmodule
