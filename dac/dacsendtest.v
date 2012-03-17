@@ -22,10 +22,10 @@ module dacsendtest(
     );
 
    wire CLK50MHZ;
-   clk clk_(.CLK50MHZ(CLK50MHZ));
+   clock clock_(.CLK50MHZ(CLK50MHZ));
     
    wire RST;
-   rst #(400) rst_(.RST(RST));
+   reset #(40) reset_(.RST(RST));
    //rst rst_(.RST(RST));
 	 
 	wire SPI_SCK;

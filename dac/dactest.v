@@ -22,16 +22,18 @@ module dactest(
     );
 	 
    wire CLK50MHZ;
-   clk clk_(.CLK50MHZ(CLK50MHZ));
+   clock clock_(.CLK50MHZ(CLK50MHZ));
     
    wire RST;
-   rst rst_(.RST(RST));
+   reset reset_(.RST(RST));
 	 
 	wire SPI_SCK;
+	wire spi_sck_trig;
 	spisck spisck_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		.SPI_SCK(SPI_SCK)
+		.SPI_SCK(SPI_SCK),
+		.spi_sck_trig(spi_sck_trig)
 	);
 	 
 	wire DAC_CS;
@@ -51,14 +53,15 @@ module dactest(
 	wire [3:0] address;
 	wire [3:0] command;
 	dacspi dacspi_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
 		// hardware dac interface
-		.SPI_SCK(SPI_SCK),			 
+		.spi_sck_trig(spi_sck_trig),			 
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
 		.dac_in(SPI_MOSI), //rename SPI_MOSI -> dac_in
 		.DAC_OUT(DAC_OUT),
 		// fpga module interface
-		.RST(RST),
 		.data(data),
 		.address(address),
 		.command(command),

@@ -22,10 +22,10 @@ module dacspi(
 	input RST,
 	input CLK50MHZ,
 	// hardware dac interface
-	input SPI_SCK,
-	output DAC_CS,
+	input spi_sck_trig,
+	output reg DAC_CS,
 	output reg DAC_CLR,
-	output dac_in,
+	output reg dac_in,
 	input DAC_OUT,
 	// verilog module interface
 	//TODO fpga module interface ?
@@ -35,24 +35,6 @@ module dacspi(
 	input dactrig,
 	output reg dacdone
 	);	
-			
-	reg dactrigsync;
-	wire dactrigsyncack; //TODO dactrigsyncok ?
-	wire dacdonesync;
-	dacsend dacsend_(
-		.RST(RST),
-		// hardware dac interface
-		.SPI_SCK(SPI_SCK),
-		.DAC_CS(DAC_CS),
-		.dac_in(dac_in),
-		// verilog module interface
-		.data(data),
-		.address(address),
-		.command(command),
-		.dactrigsync(dactrigsync),
-		.dactrigsyncack(dactrigsyncack),
-		.dacdonesync(dacdonesync)
-	);
 	
 	
 	always @*
@@ -62,102 +44,73 @@ module dacspi(
 			DAC_CLR = 1'b1;			
 			
 			
+	reg [31:0] outdacshiftreg = 32'dx;
+	reg [5:0] outdacidx;
+	wire sended = outdacidx[6]; //the content of outdacshiftreg is sended if counter outdacidx is 6'b1_xxxxx
 			
 			
 	reg [1:0] state;
 	localparam [1:0] 	TRIG_WAITING = 2'd0,
-							SENDING = 2'd1,	
-							DONE = 2'd2;
+							TRIGGING = 2'd1,
+							SENDING = 2'd2,	
+							DONE = 2'd3;
 	
 	
 	always @(posedge CLK50MHZ) begin
 		if(~RST) state = TRIG_WAITING;
 		else begin
-			//if(
-			case(state)
-				TRIG_WAITING:
-					if(~dactrigsync)
-						state = TRIG_WAITING;
-					else
-						state = TRIGACK;
-				TRIGACK:
-					state = SENDING;
-				SENDING:
-					if(~sended)
+			if(spi_sck_trig)
+				case(state)
+					TRIG_WAITING:
+						if(~dactrig)
+							state = TRIG_WAITING;
+						else
+							state = TRIGGING;
+					TRIGGING:
 						state = SENDING;
-					else
-						state = DONE;
-				DONE:
-					state = TRIG_WAITING;
-			endcase
-		end		
-	end
-			
-			
-			
-			
-			
-			
-			
-	reg [2:0] state;
-	localparam [2:0]	TRIG_WAITING = 3'd0,
-							TRIGGING = 3'd1,
-							TRIGGINGACK = 3'd2,
-							WAITING_DONE = 3'd3,
-							DONE = 3'd4;
-	
-	//state mashines are synchronizing trigers
-	//dactrig has frequency 50MHz but dac is clocked by SPI_SCK
-	always @(posedge CLK50MHZ) begin
-		if(~RST) state = TRIG_WAITING;
-		else begin
-			case(state)
-				TRIG_WAITING:
-					if(~dactrig) //TODO ~?
+					SENDING:
+						if(~sended)
+							state = SENDING;
+						else
+							state = DONE;
+					DONE:
 						state = TRIG_WAITING;
-					else
-						state = TRIGGING;
-				TRIGGING:
-					state = TRIGGINGACK;
-				TRIGGINGACK:
-					if(~dactrigsyncack)
-						state = TRIGGINGACK;
-					else
-						state = WAITING_DONE;
-				WAITING_DONE:
-					if(~dacdonesync)
-						state = WAITING_DONE;
-					else
-						state = DONE;
-				DONE:
-					state = TRIG_WAITING;
-			endcase
+				endcase
 		end		
 	end
+			
 	
-	
+	wire dacdatatosend = {4'bx, data, address, command, 8'bx};
+	always @(posedge CLK50MHZ)
+		if(~RST) begin
+			outdacshiftreg <= 32'd0;
+			outdacidx <= 6'd0;
+		end else if(spi_sck_trig)
+			case(state)
+				TRIGGING: begin
+					outdacshiftreg <= dacdatatosend;
+					outdacidx <= 6'd0;
+				end
+				SENDING: begin
+					outdacshiftreg <= outdacshiftreg << 1;
+					outdacidx <= outdacidx + 1;
+				end
+			endcase
+			
+			
+	wire firstbitoutdac = outdacshiftreg[0];
 	always @* begin
-		dactrigsync = 1'b0;
+		DAC_CS = 1'b1;
+		dac_in = 1'b0;
 		dacdone = 1'b0;
 		case(state)
-			TRIGGING: dactrigsync = 1'b1;
-			TRIGGINGACK: dactrigsync = 1'b1;
-			DONE: dacdone = 1'b1;
-		endcase
+			SENDING: begin
+				DAC_CS = 1'b0;
+				dac_in = firstbitoutdac;
+			end
+			DONE:
+				dacdone = 1'b1;
+		endcase		
 	end
-	
-	
-//	always @(posedge CLK50MHZ) begin
-//		if(~RST) begin
-//			dactrig <= 1'b0;
-//			dacdone <= 1'b0;
-//		end else begin
-//			case(state)
-//				TRIGGING: dactrigsync <= 1'b1;
-//				TRIGGINGACK: dactdactrigsyncrig <= 1'b0;
-//				DONE: dacdone <= 1'b1;
-//			endcase
-//		end
-//	end
 			
 endmodule

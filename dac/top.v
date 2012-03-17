@@ -28,10 +28,12 @@ module top(
 	input DAC_OUT
    );
 
+	wire spi_sck_trig;
 	spisck spisck_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		.SPI_SCK(SPI_SCK)
+		.SPI_SCK(SPI_SCK),
+		.spi_sck_trig(spi_sck_trig)
 	);
 	
 	

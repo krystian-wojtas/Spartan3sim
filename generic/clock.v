@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module clk(output reg CLK50MHZ
+module clock(output reg CLK50MHZ
     );
 
     initial CLK50MHZ = 0;

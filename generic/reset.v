@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module rst #(parameter DELAY = 40) (
+module reset #(parameter DELAY = 40) (
     output reg RST
    );
 
