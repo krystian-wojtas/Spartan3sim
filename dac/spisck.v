@@ -24,27 +24,10 @@ module spisck(
 	output SPI_SCK
    );
 	
-	reg spisckreg = 1'b0;
-	assign SPI_SCK = spisckreg;
-	
-	reg rstneg2 = 1'b1;
-	reg rstneg1 = 1'b1;
-	always @(posedge CLK50MHZ) begin
-		rstneg2 <= rstneg1;
-		rstneg1 <= RST;
-	end
-	wire rstnegalert = rstneg2 & ~rstneg1;
-	
-	reg [2:0] counter; //TODO counter zakres	
-	always @(posedge CLK50MHZ)
-		if(rstnegalert)
-			counter <= 8'd0;
-		else
-			counter <= counter + 1;
-	
-	wire counterfull = & counter;
-	always @(posedge CLK50MHZ)
-		if(counterfull)
-			spisckreg <= ~spisckreg;
+	clock_divider clock_divider_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.clk_div(SPI_SCK)
+	);
 
 endmodule

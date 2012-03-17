@@ -22,6 +22,6 @@ module clk(output reg CLK50MHZ
     );
 
     initial CLK50MHZ = 0;
-    always #10 CLK50MHZ <= ~CLK50MHZ;
+    always #20 CLK50MHZ <= ~CLK50MHZ;
 
 endmodule

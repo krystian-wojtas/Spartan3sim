@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module dacspi( //TODO rename dacbridge?
+module dacspi(
 	input RST,
 	input CLK50MHZ,
 	// hardware dac interface
@@ -60,6 +60,43 @@ module dacspi( //TODO rename dacbridge?
 			DAC_CLR = 1'b0;
 		else
 			DAC_CLR = 1'b1;			
+			
+			
+			
+			
+	reg [1:0] state;
+	localparam [1:0] 	TRIG_WAITING = 2'd0,
+							SENDING = 2'd1,	
+							DONE = 2'd2;
+	
+	
+	always @(posedge CLK50MHZ) begin
+		if(~RST) state = TRIG_WAITING;
+		else begin
+			//if(
+			case(state)
+				TRIG_WAITING:
+					if(~dactrigsync)
+						state = TRIG_WAITING;
+					else
+						state = TRIGACK;
+				TRIGACK:
+					state = SENDING;
+				SENDING:
+					if(~sended)
+						state = SENDING;
+					else
+						state = DONE;
+				DONE:
+					state = TRIG_WAITING;
+			endcase
+		end		
+	end
+			
+			
+			
+			
+			
 			
 			
 	reg [2:0] state;

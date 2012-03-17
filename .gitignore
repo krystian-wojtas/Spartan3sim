@@ -58,6 +58,7 @@ top_*.xrpt
 *.csv
 *.txt
 *.xrpt
+*.gise
 
 # xilinx #
 ###############
