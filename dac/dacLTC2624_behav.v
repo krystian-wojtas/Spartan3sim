@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module dacsim(
+module dacLTC2624behav (
 	input SPI_SCK,
 	input DAC_CS,
 	input DAC_CLR,

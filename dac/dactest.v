@@ -38,7 +38,7 @@ module dactest(
 	wire DAC_CLR;
 	wire dac_in; //TODO konwencja wielkich liter zmiennych oznaczajacych wyjscie do ucfa?
 	wire DAC_OUT;
-	dacsim dacsim_(
+	dacLTC2624behav dacLTC2624behav_(
 		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
@@ -50,7 +50,7 @@ module dactest(
 	wire [11:0] data;
 	wire [3:0] address;
 	wire [3:0] command;
-	dac dac_(
+	dacspi dacspi_(
 		// hardware dac interface
 		.SPI_SCK(SPI_SCK),			 
 		.DAC_CS(DAC_CS),

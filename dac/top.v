@@ -42,7 +42,7 @@ module top(
 	wire dacdone = 1'd0;
 	//TODO modul sterujacy powyzszymi
 	
-	dac dac_(
+	dacspi dacspi_(
 		.CLK50MHZ(CLK50MHZ),
 		// hardware dac interface
 		.RST(RST),

@@ -39,7 +39,7 @@ module dacsendtest(
 	wire DAC_CLR = 1'b1; //TODO czy obsluga dac_clr w srodku dacsenda?
 	wire dac_in; //TODO konwencja wielkich liter zmiennych oznaczajacych wyjscie do ucfa?
 	wire DAC_OUT;
-	dacsim dacsim_(
+	dacLTC2624behav dacLTC2624behav_(
 		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),

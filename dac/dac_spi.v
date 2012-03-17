@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module dac( //TODO rename dacbridge?
+module dacspi( //TODO rename dacbridge?
 	input RST,
 	input CLK50MHZ,
 	// hardware dac interface
