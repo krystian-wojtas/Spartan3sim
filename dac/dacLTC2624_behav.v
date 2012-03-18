@@ -29,9 +29,9 @@ module dacLTC2624behav (
 	assign DAC_OUT = SPI_MOSI;
 	
 	reg [31:0] indacshiftreg;	
-	wire [11:0] data = indacshiftreg[15:4];
-	wire [3:0] address = indacshiftreg[19:16];
-	wire [3:0] command = indacshiftreg[23:20];
+	wire [11:0] data = indacshiftreg[27:16];
+	wire [3:0] address = indacshiftreg[15:12];
+	wire [3:0] command = indacshiftreg[11:8];
 	reg [5:0] indacshiftregidx;
 	always @(posedge SPI_SCK or negedge DAC_CLR) begin
 		if(~DAC_CLR || DAC_CS) begin

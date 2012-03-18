@@ -43,7 +43,7 @@ module dacspi(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.spi_sck_trig(spi_sck_trig),
-		.SPI_MISO(SPI_MISO),
+		.SPI_MISO(DAC_OUT),
 		.SPI_MOSI(SPI_MOSI),
 		.data_in(dacdatatosend),
 		.data_out(dacdatareceived),
