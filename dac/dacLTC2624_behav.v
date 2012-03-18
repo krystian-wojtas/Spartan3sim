@@ -32,7 +32,7 @@ module dacLTC2624behav (
 	wire [11:0] data = indacshiftreg[15:4];
 	wire [3:0] address = indacshiftreg[19:16];
 	wire [3:0] command = indacshiftreg[23:20];
-	reg [4:0] indacshiftregidx;
+	reg [5:0] indacshiftregidx;
 	always @(posedge SPI_SCK or negedge DAC_CLR) begin
 		if(~DAC_CLR || DAC_CS) begin
 			indacshiftreg = 32'd0;
@@ -43,9 +43,8 @@ module dacLTC2624behav (
 		end
 	end
 	
-	//TODO sprawdzac czy miedzy wlaczeniem a wylaczeniem daca wyslano 32bity - sprawdzac counter
-	wire data_received = & indacshiftregidx;
-	always @(posedge data_received)
+	wire received = indacshiftregidx[5];
+	always @(posedge received)
 		$display("ustawiono liczbe %d na dacu nr %d z komenda %d", data, address, command);	 
 	always @(negedge DAC_CLR)
 		$display("zresetowana dac");	

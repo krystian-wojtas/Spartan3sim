@@ -24,7 +24,7 @@ module spi #(parameter WIDTH=31) (
 	// spi interface
 	input spi_sck_trig,
 	input SPI_MISO,
-	output SPI_MOSI,
+	output reg SPI_MOSI,
 	input [WIDTH:0] data_in,
 	output reg [WIDTH:0] data_out,
 	input spi_trig,
@@ -32,7 +32,6 @@ module spi #(parameter WIDTH=31) (
     );
 			
 	reg [31:0] outdacshiftreg;
-	assign SPI_MOSI = outdacshiftreg[WIDTH];
 //	reg [4:0] outdacidx;
 //	wire sended = & outdacidx;
 	reg [5:0] outdacidx;
@@ -41,9 +40,8 @@ module spi #(parameter WIDTH=31) (
 			
 	reg [1:0] state;
 	localparam [1:0] 	TRIG_WAITING = 2'd0,
-							TRIGGING = 2'd1,
-							SENDING = 2'd2,	
-							DONE = 2'd3;
+							SENDING = 2'd1,	
+							DONE = 2'd2;
 	
 	
 	always @(posedge CLK50MHZ) begin
@@ -55,9 +53,7 @@ module spi #(parameter WIDTH=31) (
 						if(~spi_trig)
 							state = TRIG_WAITING;
 						else
-							state = TRIGGING;
-					TRIGGING:
-						state = SENDING;
+							state = SENDING;
 					SENDING:
 						if(~sended)
 							state = SENDING;
@@ -70,21 +66,27 @@ module spi #(parameter WIDTH=31) (
 	end
 			
 	
-	always @(posedge CLK50MHZ)
+	always @(posedge CLK50MHZ) begin
 		if(~RST) begin
 			outdacshiftreg <= 32'd0;
 			outdacidx <= 6'd0;
+			SPI_MOSI <= 1'b0;
 		end else if(spi_sck_trig)
 			case(state)
-				TRIGGING: begin
+				TRIG_WAITING: begin
 					outdacshiftreg <= data_in;
 					outdacidx <= 6'd0;
+					SPI_MOSI <= 1'b0;
 				end
 				SENDING: begin
 					outdacshiftreg <= outdacshiftreg << 1;
+					SPI_MOSI <= outdacshiftreg[WIDTH];
 					outdacidx <= outdacidx + 1;
 				end
+				DONE:
+					SPI_MOSI <= 1'b0;
 			endcase
+	end
 			
 	always @*
 		if(state == DONE)

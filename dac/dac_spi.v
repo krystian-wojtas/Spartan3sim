@@ -52,43 +52,55 @@ module dacspi(
 	);
 	assign dacdone = dacdone_;
 	
-		
-	reg [1:0] state;
-	localparam [1:0] 	TRIG_WAITING = 2'd0,
-							TRIGGING = 2'd1,
-							SENDING = 2'd2,	
-							DONE = 2'd3;
-	
 	
 	always @(posedge CLK50MHZ) begin
-		if(~RST) state = TRIG_WAITING;
-		else begin
+		if(~RST) begin
+			DAC_CS <= 1'b1;
+		end else
 			if(spi_sck_trig)
-				case(state)
-					TRIG_WAITING:
-						if(~dactrig)
-							state = TRIG_WAITING;
-						else
-							state = TRIGGING;
-					TRIGGING:
-						state = SENDING;
-					SENDING:
-						if(~dacdone_)
-							state = SENDING;
-						else
-							state = DONE;
-					DONE:
-						state = TRIG_WAITING;
-				endcase
-		end		
+				if(dactrig)
+					DAC_CS <= 1'b0;
+				if(dacdone_)
+					DAC_CS <= 1'b1;
 	end
 	
-	
-	always @*
-		if(state == SENDING || state == TRIGGING)
-			DAC_CS = 1'b0;
-		else
-			DAC_CS = 1'b1;
+		
+//	reg [1:0] state;
+//	localparam [1:0] 	TRIG_WAITING = 2'd0,
+//							TRIGGING = 2'd1,
+//							SENDING = 2'd2,	
+//							DONE = 2'd3;
+//	
+//	
+//	always @(posedge CLK50MHZ) begin
+//		if(~RST) state = TRIG_WAITING;
+//		else begin
+//			if(spi_sck_trig)
+//				case(state)
+//					TRIG_WAITING:
+//						if(~dactrig)
+//							state = TRIG_WAITING;
+//						else
+//							state = TRIGGING;
+//					TRIGGING:
+//						state = SENDING;
+//					SENDING:
+//						if(~dacdone_)
+//							state = SENDING;
+//						else
+//							state = DONE;
+//					DONE:
+//						state = TRIG_WAITING;
+//				endcase
+//		end		
+//	end
+//	
+//	
+//	always @*
+//		if(state == SENDING || state == TRIGGING)
+//			DAC_CS = 1'b0;
+//		else
+//			DAC_CS = 1'b1;
 	
 	always @*
 		if(~RST) // czy negacja? moze odwrotnie wartosci?
