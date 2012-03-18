@@ -33,9 +33,10 @@ module spi #(parameter WIDTH=31) (
 			
 	reg [31:0] outdacshiftreg;
 	assign SPI_MOSI = outdacshiftreg[WIDTH];
-	reg [4:0] outdacidx;
-	wire sended = & outdacidx;
-	//wire sended = outdacidx[6]; //the content of outdacshiftreg is sended if counter outdacidx is 6'b1_xxxxx
+//	reg [4:0] outdacidx;
+//	wire sended = & outdacidx;
+	reg [5:0] outdacidx;
+	wire sended = outdacidx[5]; //the content of outdacshiftreg is sended if counter outdacidx is 6'b1_xxxxx
 			
 			
 	reg [1:0] state;

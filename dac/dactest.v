@@ -22,7 +22,7 @@ module dactest(
     );
 	 
    wire CLK50MHZ;
-   clock clock_(.CLK50MHZ(CLK50MHZ));
+   clock clock50mhz_(.clk(CLK50MHZ));
     
    wire RST;
    reset reset_(.RST(RST));

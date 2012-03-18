@@ -25,20 +25,19 @@ module spisck(
 	output spi_sck_trig
    );
 	
-	wire spi_sck_trig_;
+	wire spi_sck_trig2x;
 	clock_divider_trig clock_divider_trig_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		.clk_div_trig(spi_sck_trig_)
+		.clk_div_trig(spi_sck_trig2x)
 	);
 	
 	clock_divider clock_divider_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		.clk_div(SPI_SCK),
-		.clk_div_trig(spi_sck_trig_)	
+		.clk_div_trig2x(spi_sck_trig2x),
+		.clk_div_trig(spi_sck_trig),
+		.clk_div(SPI_SCK)
 	);
-	
-	assign spi_sck_trig = spi_sck_trig_;
 
 endmodule

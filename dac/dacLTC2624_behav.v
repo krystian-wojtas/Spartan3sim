@@ -29,17 +29,17 @@ module dacLTC2624behav (
 	assign DAC_OUT = SPI_MOSI;
 	
 	reg [31:0] indacshiftreg;	
-	wire [11:0] data = indacshiftreg[4:15];
-	wire [3:0] address = indacshiftreg[16:19];
-	wire [3:0] command = indacshiftreg[20:23];
+	wire [11:0] data = indacshiftreg[15:4];
+	wire [3:0] address = indacshiftreg[19:16];
+	wire [3:0] command = indacshiftreg[23:20];
 	reg [4:0] indacshiftregidx;
-	always @(posedge SPI_SCK) begin
+	always @(posedge SPI_SCK or negedge DAC_CLR) begin
 		if(~DAC_CLR || DAC_CS) begin
 			indacshiftreg = 32'd0;
-			indacshiftregidx = 5'd0;
+			indacshiftregidx = {5{1'b1}};
 		end else begin
 			indacshiftreg[indacshiftregidx] = SPI_MOSI;
-			indacshiftregidx = indacshiftregidx + 1;
+			indacshiftregidx = indacshiftregidx - 1;
 		end
 	end
 	

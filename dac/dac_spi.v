@@ -37,7 +37,7 @@ module dacspi(
 	
 	
 	wire dacdone_;
-	wire [31:0] dacdatatosend = {4'b0, data, address, command, 8'b0};
+	wire [31:0] dacdatatosend = {4'b1000, data, address, command, 8'd1};
 	wire [31:0] dacdatareceived;
 	spi spi_(
 		.CLK50MHZ(CLK50MHZ),
@@ -85,7 +85,7 @@ module dacspi(
 	
 	
 	always @*
-		if(state == SENDING)
+		if(state == SENDING || state == TRIGGING)
 			DAC_CS = 1'b0;
 		else
 			DAC_CS = 1'b1;
