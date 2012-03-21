@@ -27,11 +27,11 @@ module clock_divider(
     );
 	
 	reg second_trig;
-	always @*
-		if(~RST) second_trig = 1'b0; //jesli reset ustawi 1, bedzie pikowac na poczatku opadajacego zbocza
+	always @(posedge CLK50MHZ)
+		if(~RST) second_trig <= 1'b1; //jesli reset ustawi 1, bedzie pikowac na poczatku opadajacego zbocza
 		else
 			if(clk_div_trig2x)
-				second_trig = second_trig + 1;
+				second_trig <= second_trig + 1;
 			
 	always @(posedge CLK50MHZ) begin
 		clk_div_trig <= 1'b0;

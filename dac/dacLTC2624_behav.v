@@ -45,12 +45,12 @@ module dacLTC2624behav (
 	
 	wire received = indacshiftregidx[5];
 	always @(posedge received)
-		$display("ustawiono liczbe %d na dacu nr %d z komenda %d", data, address, command);	 
+		$display("%t ustawiono liczbe %d na dacu nr %d z komenda %d", $time, data, address, command);	 
 	always @(negedge DAC_CLR)
-		$display("zresetowana dac");	
+		$display("%t zresetowana dac", $time);	
 	always @(negedge DAC_CS)
-		$display("wlaczono przesyl dac");	
+		$display("%t wlaczono przesyl dac", $time);	
 	always @(posedge DAC_CS)
-		$display("wylaczono przesyl dac");
+		$display("%t wylaczono przesyl dac", $time);
 
 endmodule

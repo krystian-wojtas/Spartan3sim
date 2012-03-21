@@ -47,7 +47,6 @@ module spi #(parameter WIDTH=31) (
 	always @(posedge CLK50MHZ) begin
 		if(~RST) state = TRIG_WAITING;
 		else begin
-			if(spi_sck_trig)
 				case(state)
 					TRIG_WAITING:
 						if(~spi_trig)
@@ -55,6 +54,7 @@ module spi #(parameter WIDTH=31) (
 						else
 							state = SENDING;
 					SENDING:
+			if(spi_sck_trig)
 						if(~sended)
 							state = SENDING;
 						else
@@ -88,11 +88,13 @@ module spi #(parameter WIDTH=31) (
 					outdacidx <= outdacidx + 1;
 				end
 				DONE: begin
-					SPI_MOSI <= 1'b0;
+					SPI_MOSI <= 1'b0;	
 					//dac potrzebuje dodatkowego cyklu aby wyslac ostatni bit; zaczyna odsylac bity kiedy juz dostal pierwszy; stad poslizg w dacu; dla ogolnego przypadku spi nie moze wystepowac poslizg
 					//inshiftreg <= inshiftreg << 1; //TODO del
 					//inshiftreg[0] <= SPI_MISO; 
 				end
+				default:
+					SPI_MOSI <= 1'b0;					
 			endcase
 	end
 			

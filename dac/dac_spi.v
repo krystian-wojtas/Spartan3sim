@@ -35,7 +35,6 @@ module dacspi(
 	output dacdone
 	);	
 	
-	
 	wire dacdone_;
 	wire [31:0] dacdatatosend = {4'b1000, data, address, command, 8'd1};
 	wire [31:0] dacdatareceived;
@@ -52,7 +51,6 @@ module dacspi(
 	);
 	assign dacdone = dacdone_;
 	
-	
 	always @(posedge CLK50MHZ) begin
 		if(~RST) begin
 			DAC_CS <= 1'b1;
@@ -63,44 +61,6 @@ module dacspi(
 				if(dacdone_)
 					DAC_CS <= 1'b1;
 	end
-	
-		
-//	reg [1:0] state;
-//	localparam [1:0] 	TRIG_WAITING = 2'd0,
-//							TRIGGING = 2'd1,
-//							SENDING = 2'd2,	
-//							DONE = 2'd3;
-//	
-//	
-//	always @(posedge CLK50MHZ) begin
-//		if(~RST) state = TRIG_WAITING;
-//		else begin
-//			if(spi_sck_trig)
-//				case(state)
-//					TRIG_WAITING:
-//						if(~dactrig)
-//							state = TRIG_WAITING;
-//						else
-//							state = TRIGGING;
-//					TRIGGING:
-//						state = SENDING;
-//					SENDING:
-//						if(~dacdone_)
-//							state = SENDING;
-//						else
-//							state = DONE;
-//					DONE:
-//						state = TRIG_WAITING;
-//				endcase
-//		end		
-//	end
-//	
-//	
-//	always @*
-//		if(state == SENDING || state == TRIGGING)
-//			DAC_CS = 1'b0;
-//		else
-//			DAC_CS = 1'b1;
 	
 	always @*
 		if(~RST) // czy negacja? moze odwrotnie wartosci?
