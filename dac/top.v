@@ -29,6 +29,7 @@ module top(
    );
 
 	wire spi_sck_trig;
+
 	spisck spisck_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
