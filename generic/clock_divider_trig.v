@@ -39,7 +39,7 @@ module clock_divider_trig #(parameter N = 10) (
 
 	always @(posedge CLK50MHZ) begin
 		clk_div_trig = 1'b0;
-		if(~RST) counter = {log2(N){1'b0}};
+		if(RST) counter = {log2(N){1'b0}};
 		else begin
 			counter = counter + 1;
 			if(counter == N) begin

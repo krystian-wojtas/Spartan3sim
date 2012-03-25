@@ -23,11 +23,11 @@ module reset #(parameter DELAY = 40) (
    );
 
     initial begin
-        RST = 1;
-        #10;
         RST = 0;
-        #DELAY;
+        #10;
         RST = 1;
+        #DELAY;
+        RST = 0;
     end
 
 endmodule

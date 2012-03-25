@@ -23,6 +23,6 @@ module clock #(parameter DELAY = 20) ( //DELAY 20ns - clock 50MHZ
 	);
 
    initial clk = 0;
-   always #DELAY clk <= ~clk;
+   always #DELAY clk <= ~clk; //TODO =?
 
 endmodule

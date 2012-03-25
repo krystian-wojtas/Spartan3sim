@@ -21,13 +21,14 @@
 module top(
 	input CLK50MHZ,
 	input RST,
+	//input BTN_SOUTH,
 	output SPI_MOSI,
 	output SPI_SCK,
 	output DAC_CS,
 	output DAC_CLR,
 	input DAC_OUT,
 	output [7:0] LED
-   );
+   );	
 
 	wire spi_sck_trig;
 	spisck spisck_(
@@ -51,7 +52,7 @@ module top(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// debug
-		.debug(LED),
+		.LED(LED),
 		// verilog module interface
 		.data(data),
 		.address(address),
