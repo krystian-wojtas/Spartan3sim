@@ -1,0 +1,55 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date:    22:25:01 03/24/2012 
+// Design Name: 
+// Module Name:    toptest 
+// Project Name: 
+// Target Devices: 
+// Tool versions: 
+// Description: 
+//
+// Dependencies: 
+//
+// Revision: 
+// Revision 0.01 - File Created
+// Additional Comments: 
+//
+//////////////////////////////////////////////////////////////////////////////////
+module toptest(
+    );
+	 
+	wire CLK50MHZ;
+   clock clock50mhz_(.clk(CLK50MHZ));
+    
+   wire RST;
+   reset reset_(.RST(RST));
+	
+	wire SPI_SCK;
+	wire DAC_CS;
+	wire DAC_CLR;
+	wire SPI_MOSI;
+	wire DAC_OUT;
+	dacLTC2624behav dacLTC2624behav_(
+		.SPI_SCK(SPI_SCK),
+		.DAC_CS(DAC_CS),
+		.DAC_CLR(DAC_CLR),
+		.SPI_MOSI(SPI_MOSI),
+		.DAC_OUT(DAC_OUT)
+	);	
+	
+	wire [7:0] LED;	
+	top top_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.SPI_MOSI(SPI_MOSI),
+		.SPI_SCK(SPI_SCK),
+		.DAC_CS(DAC_CS),
+		.DAC_CLR(DAC_CLR),
+		.DAC_OUT(DAC_OUT),
+		.LED(LED)
+	);
+
+endmodule

@@ -45,22 +45,17 @@ module spi #(parameter WIDTH=31) (
 	
 	
 	always @(posedge CLK50MHZ) begin
-		if(~RST) state = TRIG_WAITING;
+		if(~RST) state <= TRIG_WAITING;
 		else begin
 				case(state)
 					TRIG_WAITING:
-						if(~spi_trig)
-							state = TRIG_WAITING;
-						else
-							state = SENDING;
+						if(spi_trig)
+							state <= SENDING;
 					SENDING:
-			if(spi_sck_trig)
-						if(~sended)
-							state = SENDING;
-						else
-							state = DONE;
+						if(spi_sck_trig & sended)
+							state <= DONE;
 					DONE:
-						state = TRIG_WAITING;
+						state <= TRIG_WAITING;
 				endcase
 		end		
 	end

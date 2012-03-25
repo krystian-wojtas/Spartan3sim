@@ -25,7 +25,8 @@ module top(
 	output SPI_SCK,
 	output DAC_CS,
 	output DAC_CLR,
-	input DAC_OUT
+	input DAC_OUT,
+	output [7:0] LED
    );
 
 	wire spi_sck_trig;
@@ -37,12 +38,27 @@ module top(
 	);
 	
 	
-	wire [11:0] data = 12'd0;
-	wire [3:0] address = 4'd0;
-	wire [3:0] command = 4'd0;
-	wire dactrig = 1'd0;
-	wire dacdone = 1'd0;
-	//TODO modul sterujacy powyzszymi
+	wire [11:0] data;
+	wire [3:0] address;
+	wire [3:0] command;
+	wire dactrig;
+	wire dacdone;
+//	assign data = 12'h03f;
+//	assign address = 4'b1111;
+//	assign command = 4'b0011;
+//	assign dactrig = 1'b1;
+	cntr cntr_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		// debug
+		.debug(LED),
+		// verilog module interface
+		.data(data),
+		.address(address),
+		.command(command),
+		.dactrig(dactrig),
+		.dacdone(dacdone)		
+	);
 	
 	dacspi dacspi_(
 		.CLK50MHZ(CLK50MHZ),
