@@ -94,8 +94,9 @@ module dacsend(
 	always @(posedge SPI_SCK) begin
 		case(state)
 			TRIGACK: begin
-				outdacshiftregbuf <= outdacshiftreg;
-				//outdacshiftregbuf <= {_4dontcare, data, address, command, _8dontcare};
+				//outdacshiftregbuf <= outdacshiftreg;
+				outdacshiftregbuf <= {_4dontcare, data, address, command, _8dontcare};
+				outdacidx <= 0;
 			end
 			SENDING: begin
 				outdacshiftregbuf <= outdacshiftregbuf << 1; //TODO w jaki sposob przekrecac rejestr?
