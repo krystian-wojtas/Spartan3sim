@@ -266,7 +266,7 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 ##############################################################################
 
 #NET "BTN_WEST"      LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 NET "RST"   		   LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ; #BTN_SOUTH
 #NET "button<1>"     LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 

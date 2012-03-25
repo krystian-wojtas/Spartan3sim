@@ -20,14 +20,18 @@
 //////////////////////////////////////////////////////////////////////////////////
 module top(
 	input CLK50MHZ,
-	input RST,
+	//input RST,
 	output SPI_MOSI,
 	output SPI_SCK,
 	output DAC_CS,
 	output DAC_CLR,
 	input DAC_OUT,
-	output [7:0] LED
+	output [7:0] LED,
+	//del
+	input BTN_NORTH
    );
+	
+	wire RST = ~BTN_NORTH;
 
 	wire spi_sck_trig;
 	spisck spisck_(
@@ -57,7 +61,9 @@ module top(
 		.address(address),
 		.command(command),
 		.dactrig(dactrig),
-		.dacdone(dacdone)		
+		.dacdone(dacdone)
+//del
+//.BTN_NORTH(BTN_NORTH)		
 	);
 	
 	dacspi dacspi_(

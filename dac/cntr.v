@@ -31,7 +31,9 @@ module cntr(
 	output reg dactrig,
 	input dacdone,
 	// debug
-	output reg [7:0] debug
+	output reg [7:0] debug//,
+	//del
+//	input BTN_NORTH
     );
 	 
 	assign data = 12'h03f;
@@ -39,11 +41,12 @@ module cntr(
 	assign command = 4'b0011;
 	
 	always @(posedge CLK50MHZ) begin
-		debug <= 8'b11111111;
 		if(~RST) begin
 			dactrig <= 1'b0;
 			debug <= 8'b01010101;
-		end else begin
+		end //else if(BTN_NORTH)
+//			debug <= 8'b001000100;
+		else begin
 			dactrig <= 1'b1;
 			if(dacdone)
 				debug <= 8'b11001100;
