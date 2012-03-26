@@ -52,7 +52,8 @@ module dactestbench(
 		
 			
 		//second data
-		data = 12'h3f5;
+		//data = 12'h3f5;
+		data = 12'h5f3;
 		@(negedge SPI_SCK);
 		dactrig = 1'b1;
 				
