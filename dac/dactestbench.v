@@ -36,7 +36,7 @@ module dactestbench(
 		//command to immadiately update value in dac register
 		command = 4'b0011;
 		
-      @(posedge RST);
+      @(negedge RST);
 		
 		//first data
 		data = 12'h5f3;

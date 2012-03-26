@@ -28,7 +28,8 @@ module spi #(parameter WIDTH=32) (
 	input [WIDTH-1:0] data_in,
 	output [WIDTH-1:0] data_out,
 	input spi_trig,
-	output reg spi_done
+	output reg spi_sending,
+	output spi_done
     );
 			
 	reg [31:0] outshiftreg; //TODO WIDTH-1
@@ -45,7 +46,7 @@ module spi #(parameter WIDTH=32) (
 	
 	
 	always @(posedge CLK50MHZ) begin
-		if(~RST) state <= TRIG_WAITING;
+		if(RST) state <= TRIG_WAITING;
 		else begin
 				case(state)
 					TRIG_WAITING:
@@ -62,7 +63,7 @@ module spi #(parameter WIDTH=32) (
 			
 	
 	always @(posedge CLK50MHZ) begin
-		if(~RST) begin
+		if(RST) begin
 			outshiftreg <= 32'd0;
 			inshiftreg <= 32'd0; //TODO czy potrzebne zerowanie na resecie ina i outa?
 			outdacidx <= 6'd0;
@@ -93,11 +94,19 @@ module spi #(parameter WIDTH=32) (
 					SPI_MOSI <= 1'b0;					
 			endcase
 	end
-			
-	always @*
-		if(state == DONE)
-			spi_done = 1'b1;
+	
+	
+	always @(posedge CLK50MHZ) begin
+		if(RST) spi_sending <= 1'b0;
 		else
-			spi_done = 1'b0;
+			if(state == SENDING) begin
+				if(spi_sck_trig)
+					spi_sending <= 1'b1;
+			end else
+				spi_sending <= 1'b0;
+	end
+	
+	
+	assign spi_done = (state == DONE);
 
 endmodule

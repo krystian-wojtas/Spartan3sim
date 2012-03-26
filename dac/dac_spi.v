@@ -22,8 +22,8 @@ module dacspi(
 	input RST,
 	input CLK50MHZ,
 	// hardware dac interface
-	output reg DAC_CS,
-	output reg DAC_CLR,
+	output DAC_CS,
+	output DAC_CLR,
 	output SPI_MOSI,
 	input	DAC_OUT,
 	// verilog module interface
@@ -35,7 +35,8 @@ module dacspi(
 	output dacdone
 	);	
 	
-	wire dacdone_;
+	wire spi_sending;
+	wire spi_done;
 	wire [31:0] dacdatatosend = {4'b1000, data, address, command, 8'd1};
 	wire [31:0] dacdatareceived;
 	spi spi_(
@@ -47,25 +48,12 @@ module dacspi(
 		.data_in(dacdatatosend),
 		.data_out(dacdatareceived),
 		.spi_trig(dactrig),
-		.spi_done(dacdone_)
+		.spi_sending(spi_sending),
+		.spi_done(spi_done)
 	);
-	assign dacdone = dacdone_;
 	
-	always @(posedge CLK50MHZ) begin
-		if(~RST) begin
-			DAC_CS <= 1'b1;
-		end else
-			if(spi_sck_trig)
-				if(dactrig)
-					DAC_CS <= 1'b0;
-				if(dacdone_)
-					DAC_CS <= 1'b1;
-	end
-	
-	always @*
-		if(~RST) // czy negacja? moze odwrotnie wartosci?
-			DAC_CLR = 1'b0;
-		else
-			DAC_CLR = 1'b1;
+	assign dacdone = spi_done;	
+	assign DAC_CS = ~spi_sending;
+	assign DAC_CLR = ~RST;
 	
 endmodule

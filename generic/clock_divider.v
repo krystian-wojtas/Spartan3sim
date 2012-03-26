@@ -27,14 +27,14 @@ module clock_divider(
     );
 			
 	always @(posedge CLK50MHZ)
-		if(~RST)
+		if(RST)
 			clk_div <= 1'b0;
 		else
 			if(clk_div_trig2x)
 				clk_div <= ~clk_div;
 		
 	always @*
-		if(~RST) clk_div_trig = 1'b1;
+		if(RST) clk_div_trig = 1'b1;
 		else
 			clk_div_trig = clk_div_trig2x && clk_div;
 			

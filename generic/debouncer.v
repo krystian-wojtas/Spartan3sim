@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    12:51:23 03/17/2012 
+// Create Date:    18:34:41 03/25/2012 
 // Design Name: 
-// Module Name:    clock_divider 
+// Module Name:    debuncer 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,12 +18,14 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module clock_divider_trig #(parameter N = 10) (
+module debouncer #(parameter N=10000000) (
 	input CLK50MHZ,
 	input RST,
-	output reg clk_div_trig
+	input in,
+	output reg out
     );
-	
+
+
 	//constant function calculetes value at collaboration time
 	//source http://www.beyond-circuits.com/wordpress/2008/11/constant-functions/
 	//TODO czy mozna zrobic modul z ta funkcja?
@@ -35,19 +37,22 @@ module clock_divider_trig #(parameter N = 10) (
 			value = value>>1;
 	  end
 	endfunction
-	reg [log2(N):0] counter;
-
+	reg [log2(N):0] counter;	
+	
+	
 	always @(posedge CLK50MHZ) begin
-		clk_div_trig <= 1'b0;
+		out <= 1'b0;
 		if(RST) counter <= {log2(N){1'b0}};
 		else begin
-			counter <= counter + 1;
-			if(counter == N) begin
-				clk_div_trig <= 1'b1;
+			if(in) begin
+				counter <= counter + 1;
+				if(counter == N) begin
+					out <= 1'b1;
+					counter <= {log2(N){1'b0}};
+				end
+			end else
 				counter <= {log2(N){1'b0}};
-			end
 		end
-	end			
+	end	
 
 endmodule
-

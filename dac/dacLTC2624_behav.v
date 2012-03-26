@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module dacLTC2624behav (
+module dacLTC2624behav #(parameter LOGLEVEL=1) (
 	input SPI_SCK,
 	input DAC_CS,
 	input DAC_CLR,
@@ -45,12 +45,16 @@ module dacLTC2624behav (
 	
 	wire received = indacshiftregidx[5];
 	always @(posedge received)
-		$display("%t ustawiono liczbe %d na dacu nr %d z komenda %d", $time, data, address, command);	 
+		//if(LOGLEVEL >= 1)
+			$display("%t ustawiono liczbe %d na dacu nr %d z komenda %d", $time, data, address, command);	 
 	always @(negedge DAC_CLR)
-		$display("%t zresetowana dac", $time);	
+		if(LOGLEVEL >= 1)
+			$display("%t zresetowana dac", $time);	
 	always @(negedge DAC_CS)
-		$display("%t wlaczono przesyl dac", $time);	
+		//if(LOGLEVEL >= 2)
+			$display("%t wlaczono przesyl dac", $time);	
 	always @(posedge DAC_CS)
-		$display("%t wylaczono przesyl dac", $time);
+		//if(LOGLEVEL >= 2)
+			$display("%t wylaczono przesyl dac", $time);
 
 endmodule
