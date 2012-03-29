@@ -37,7 +37,6 @@ module dacspi(
 	
 	wire spi_sending;
 	wire spi_done;
-	assign dacdone = spi_done;
 	wire [31:0] dacdatatosend = {4'b1000, data, address, command, 8'd1};
 	wire [31:0] dacdatareceived;
 	spi spi_(
@@ -53,7 +52,8 @@ module dacspi(
 		.spi_done(spi_done)
 	);
 	
+	assign dacdone = spi_done;	
 	assign DAC_CS = ~spi_sending;
 	assign DAC_CLR = ~RST;
-		
+	
 endmodule

@@ -18,25 +18,24 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module spi #(parameter WIDTH=31) (
+module spi #(parameter WIDTH=32) (
 	input RST,
 	input CLK50MHZ,
 	// spi interface
 	input spi_sck_trig,
 	input SPI_MISO,
 	output reg SPI_MOSI,
-	input [WIDTH:0] data_in,
-	output [WIDTH:0] data_out,
+	input [WIDTH-1:0] data_in,
+	output [WIDTH-1:0] data_out,
 	input spi_trig,
 	output reg spi_sending,
 	output spi_done
     );
 			
-	reg [31:0] outshiftreg; //TODO WIDTH
-	reg [WIDTH:0] inshiftreg; //TODO WIDTH
-	assign data_out = inshiftreg;
-	reg [5:0] outdacidx;	//TODO log2
-	wire sended = outdacidx[5]; //the content of outshiftreg is sended if counter outdacidx is 6'b1_xxxxx //TODO log2
+	reg [WIDTH-1:0] shiftreg; //TODO WIDTH-1
+	assign data_out = shiftreg;
+	reg [5:0] shiftreg_idx;	//TODO log2
+	wire [5:0] shiftreg_idx_full = 6'd32; //TODO WIDTH
 			
 			
 	reg [1:0] state;
@@ -53,7 +52,7 @@ module spi #(parameter WIDTH=31) (
 						if(spi_trig)
 							state <= SENDING;
 					SENDING:
-						if(spi_sck_trig & sended)
+						if(spi_sck_trig & shiftreg_idx == shiftreg_idx_full)
 							state <= DONE;
 					DONE:
 						state <= TRIG_WAITING;
@@ -64,39 +63,29 @@ module spi #(parameter WIDTH=31) (
 	
 	always @(posedge CLK50MHZ) begin
 		if(RST) begin
-			outshiftreg <= 32'd0;
-			inshiftreg <= 32'd0; //TODO czy potrzebne zerowanie na resecie ina i outa?
-			outdacidx <= 6'd0;
+			shiftreg <= 32'd0;
+			shiftreg_idx <= 6'd0;
 			SPI_MOSI <= 1'b0;
 		end else
 			case(state)
 				TRIG_WAITING: begin
-					outshiftreg <= data_in;
-					inshiftreg <= 32'd0;
-					outdacidx <= 6'd0;
-					SPI_MOSI <= 1'b0;
+					shiftreg <= data_in;
+					shiftreg_idx <= 6'd0;
 				end
-				SENDING:
+				SENDING: 
 					if(spi_sck_trig) begin
-						outshiftreg <= outshiftreg << 1;
-						SPI_MOSI <= outshiftreg[WIDTH];
-						inshiftreg <= inshiftreg << 1;
-						inshiftreg[0] <= SPI_MISO;
-						outdacidx <= outdacidx + 1;
+						shiftreg <= { shiftreg[WIDTH-2:0], SPI_MISO };
+						SPI_MOSI <= shiftreg[WIDTH-1];						
+						shiftreg_idx <= shiftreg_idx + 1;
 					end
 				DONE: begin
-					SPI_MOSI <= 1'b0;	
-					//dac potrzebuje dodatkowego cyklu aby wyslac ostatni bit; zaczyna odsylac bity kiedy juz dostal pierwszy; stad poslizg w dacu; dla ogolnego przypadku spi nie moze wystepowac poslizg
-					//inshiftreg <= inshiftreg << 1; //TODO del
-					//inshiftreg[0] <= SPI_MISO; 
-				end
-				default:
-					SPI_MOSI <= 1'b0;					
+					SPI_MOSI <= 1'b0;
+				end					
 			endcase
 	end
 	
-	//spi_sending is synchronized with spi_sck_trig closk
-	always @(posedge CLK50MHZ)
+	
+	always @(posedge CLK50MHZ) begin
 		if(RST) spi_sending <= 1'b0;
 		else
 			if(state == SENDING) begin
@@ -104,7 +93,9 @@ module spi #(parameter WIDTH=31) (
 					spi_sending <= 1'b1;
 			end else
 				spi_sending <= 1'b0;
-				
+	end
+	
+	
 	assign spi_done = (state == DONE);
 
 endmodule

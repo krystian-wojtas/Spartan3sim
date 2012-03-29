@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module dacLTC2624behav (
+module dacLTC2624behav #(parameter LOGLEVEL=1) (
 	input SPI_SCK,
 	input DAC_CS,
 	input DAC_CLR,
@@ -26,7 +26,7 @@ module dacLTC2624behav (
 	output DAC_OUT
     );
 	
-	assign DAC_OUT = SPI_MOSI;
+	assign DAC_OUT = DAC_CS ? 1'b0 : indacshiftreg[31];
 	
 	reg [31:0] indacshiftreg;	
 	wire [11:0] data = indacshiftreg[27:16];
@@ -34,23 +34,30 @@ module dacLTC2624behav (
 	wire [3:0] command = indacshiftreg[11:8];
 	reg [5:0] indacshiftregidx;
 	always @(posedge SPI_SCK or negedge DAC_CLR) begin
-		if(~DAC_CLR || DAC_CS) begin
-			indacshiftreg = 32'd0;
-			indacshiftregidx = {5{1'b1}};
-		end else begin
-			indacshiftreg[indacshiftregidx] = SPI_MOSI;
-			indacshiftregidx = indacshiftregidx - 1;
+		if(~DAC_CLR) begin
+			indacshiftreg <= 32'd0;
+			indacshiftregidx <= {5{1'b1}};
+		end else
+			if(DAC_CS)
+				indacshiftregidx <= {5{1'b1}};
+			else begin
+				indacshiftreg <= { indacshiftreg[30:0], SPI_MOSI };
+				indacshiftregidx <= indacshiftregidx - 1;
 		end
 	end
 	
 	wire received = indacshiftregidx[5];
 	always @(posedge received)
-		$display("%t ustawiono liczbe %d na dacu nr %d z komenda %d", $time, data, address, command);	 
+		//if(LOGLEVEL >= 1)
+			$display("%t ustawiono liczbe %d na dacu nr %d z komenda %d", $time, data, address, command);	 
 	always @(negedge DAC_CLR)
-		$display("%t zresetowana dac", $time);	
+		if(LOGLEVEL >= 1)
+			$display("%t zresetowana dac", $time);	
 	always @(negedge DAC_CS)
-		$display("%t wlaczono przesyl dac", $time);	
+		//if(LOGLEVEL >= 2)
+			$display("%t wlaczono przesyl dac", $time);	
 	always @(posedge DAC_CS)
-		$display("%t wylaczono przesyl dac", $time);
+		//if(LOGLEVEL >= 2)
+			$display("%t wylaczono przesyl dac", $time);
 
 endmodule

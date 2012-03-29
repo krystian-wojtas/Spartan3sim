@@ -21,12 +21,14 @@
 module top(
 	input CLK50MHZ,
 	input RST,
-	//input BTN_SOUTH,
 	output SPI_MOSI,
 	output SPI_SCK,
 	output DAC_CS,
 	output DAC_CLR,
 	input DAC_OUT,
+	//control
+	input BTN_WEST,
+	input BTN_EAST,
 	output [7:0] LED
    );	
 
@@ -38,6 +40,29 @@ module top(
 		.spi_sck_trig(spi_sck_trig)
 	);
 	
+	
+	wire less;
+	debouncer debouncer_less_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.in(BTN_WEST),
+		.out(less)
+	);
+	wire more;
+	debouncer debouncer_more_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.in(BTN_EAST),
+		.out(more)
+	);
+	
+	debouncer_debug deboucer_debug_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.less(less),
+		.more(more),
+		.LED(LED)
+	);
 	
 	wire [11:0] data;
 	wire [3:0] address;
@@ -51,14 +76,15 @@ module top(
 	cntr cntr_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		// debug
-		.LED(LED),
 		// verilog module interface
 		.data(data),
 		.address(address),
 		.command(command),
 		.dactrig(dactrig),
-		.dacdone(dacdone)		
+		.dacdone(dacdone),
+		//control
+		.less(less),
+		.more(more)
 	);
 	
 	dacspi dacspi_(

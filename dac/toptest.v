@@ -40,15 +40,21 @@ module toptest(
 		.DAC_OUT(DAC_OUT)
 	);	
 	
+	wire BTN_WEST;
+	wire BTN_EAST;
 	wire [7:0] LED;	
 	top top_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
+		//dac
 		.SPI_MOSI(SPI_MOSI),
 		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
 		.DAC_OUT(DAC_OUT),
+		//control
+		.BTN_WEST(BTN_WEST),
+		.BTN_EAST(BTN_EAST),
 		.LED(LED)
 	);
 
