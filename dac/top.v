@@ -37,7 +37,7 @@ module top(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.SPI_SCK(SPI_SCK),
-		.spi_sck_trig(spi_sck_trig)
+		.spi_sck_trig_div2_delay(spi_sck_trig)
 	);
 	
 	

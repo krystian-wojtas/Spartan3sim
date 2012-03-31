@@ -21,8 +21,8 @@
 module clock_divider(
 	input CLK50MHZ,
 	input RST,
-	input clk_div_trig2x,
-	output reg clk_div_trig,
+	input clk_div_trig,
+	output reg clk_div_trig_div2,
 	output reg clk_div
     );
 			
@@ -30,12 +30,12 @@ module clock_divider(
 		if(RST)
 			clk_div <= 1'b0;
 		else
-			if(clk_div_trig2x)
+			if(clk_div_trig)
 				clk_div <= ~clk_div;
 		
 	always @*
-		if(RST) clk_div_trig = 1'b1;
+		if(RST) clk_div_trig_div2 = 1'b1;
 		else
-			clk_div_trig = clk_div_trig2x && clk_div;
+			clk_div_trig_div2 = clk_div_trig && clk_div;
 			
 endmodule

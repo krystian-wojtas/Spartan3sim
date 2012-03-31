@@ -49,7 +49,7 @@ module dacLTC2624behav #(parameter LOGLEVEL=1) (
 	wire received = indacshiftregidx[5];
 	always @(posedge received)
 		//if(LOGLEVEL >= 1)
-			$display("%t ustawiono liczbe %d na dacu nr %d z komenda %d", $time, data, address, command);	 
+			$display("%t ustawiono liczbe %d (0x%h) na dacu nr %d z komenda %d", $time, data, data, address, command);	 
 	always @(negedge DAC_CLR)
 		if(LOGLEVEL >= 1)
 			$display("%t zresetowana dac", $time);	
