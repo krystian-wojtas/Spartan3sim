@@ -79,7 +79,7 @@ module spi #(parameter WIDTH=32) (
 				end
 				SENDING: 
 					if(spi_sck_trig_div2_delay) begin
-						shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };			
+						shiftreg <= { spi_miso, shiftreg[WIDTH-1:1] };			
 						shiftreg_idx <= shiftreg_idx + 1;
 					end		
 			endcase
@@ -95,7 +95,7 @@ module spi #(parameter WIDTH=32) (
 					spi_mosi <= 1'b0;
 				SENDING:
 					if(spi_sck_trig_div2_delay)
-						spi_mosi <= shiftreg[WIDTH-1];
+						spi_mosi <= shiftreg[0];
 			endcase
 	end
 			
@@ -115,9 +115,20 @@ module spi #(parameter WIDTH=32) (
 							spi_cs <= 1'b1;
 			endcase
 	end
+			
+	reg spi_clocking;
+	always @(posedge CLK50MHZ)
+		if(RST) spi_clocking <= 1'b0;
+		else
+			if(~spi_cs)
+				spi_clocking <= 1'b1;
+			else
+				if(spi_sck_trig_delay)
+					spi_clocking <= 1'b0;
 	
 	
-	assign spi_sck = (~spi_cs) ? spi_sck_50 : 1'b0;
+	assign spi_sck = (spi_clocking) ? spi_sck_50 : 1'b0;
+	//assign spi_sck = spi_sck_50;
 	
 	assign spi_done = (state == DONE);
 
