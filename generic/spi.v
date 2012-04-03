@@ -22,9 +22,12 @@ module spi #(parameter WIDTH=32) (
 	input RST,
 	input CLK50MHZ,
 	// clocks
+	input spi_sck_50,
 	input spi_sck_trig_delay,
 	input spi_sck_trig_div2_delay,
 	// spi lines
+//	output reg spi_sck,
+	output spi_sck,
 	output reg  spi_cs,
 	input spi_miso,
 	output reg spi_mosi,
@@ -34,7 +37,6 @@ module spi #(parameter WIDTH=32) (
 	input spi_trig,
 	output spi_done
     );
-	 
 			
 	reg [WIDTH-1:0] shiftreg; //TODO WIDTH-1
 	assign data_out = shiftreg;
@@ -97,7 +99,6 @@ module spi #(parameter WIDTH=32) (
 			endcase
 	end
 			
-			
 	always @(posedge CLK50MHZ) begin
 		if(RST) spi_cs <= 1'b1;
 		else
@@ -115,25 +116,8 @@ module spi #(parameter WIDTH=32) (
 			endcase
 	end
 	
-//	always @(posedge CLK50MHZ) begin
-//		if(RST) spi_cs <= 1'b1;
-//		else
-//			case(state)
-//				TRIG_WAITING:
-//					spi_cs <= 1'b1;
-//				SENDING: begin
-//					if(spi_cs) begin
-//						if(spi_sck_trig_div2_delay)
-//							spi_cs <= 1'b0;
-//					end else
-//						if(shiftreg_idx == shiftreg_idx_full & spi_sck_trig_delay)
-//							spi_cs <= 1'b1;
-//				end
-//				DONE:
-//					spi_cs <= 1'b1;
-//			endcase
-//	end
 	
+	assign spi_sck = (~spi_cs) ? spi_sck_50 : 1'b0;
 	
 	assign spi_done = (state == DONE);
 

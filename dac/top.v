@@ -33,12 +33,13 @@ module top(
 	output [7:0] LED
    );	
 
+	wire spi_sck_50;
 	wire spi_sck_trig_delay;
 	wire spi_sck_trig_div2_delay;
 	spisck spisck_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		.SPI_SCK(SPI_SCK),
+		.spi_sck_50(spi_sck_50),
 		.spi_sck_trig_delay(spi_sck_trig_delay),
 		.spi_sck_trig_div2_delay(spi_sck_trig_div2_delay)
 	);
@@ -89,9 +90,11 @@ module top(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// clocks
+		.spi_sck_50(spi_sck_50),
 		.spi_sck_trig_delay(spi_sck_trig_delay),
 		.spi_sck_trig_div2_delay(spi_sck_trig_div2_delay),
 		// hardware dac interface
+		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
 		.SPI_MOSI(SPI_MOSI),

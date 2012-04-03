@@ -21,7 +21,7 @@
 module spisck(
 	input CLK50MHZ,
 	input RST,
-	output SPI_SCK,
+	output spi_sck_50,
 	output spi_sck_trig_delay,
 	output spi_sck_trig_div2_delay	
    );
@@ -39,7 +39,7 @@ module spisck(
 		.RST(RST),
 		.clk_div_trig(spi_sck_trig),
 		.clk_div_trig_div2(spi_sck_trig_div2),
-		.clk_div(SPI_SCK)
+		.clk_div(spi_sck_50)
 	);
 	
 	

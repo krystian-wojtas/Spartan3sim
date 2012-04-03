@@ -42,7 +42,7 @@ module toptestbench(
 		#1000;
 		BTN_WEST = 1'b0;
 
-		$finish;
+		//$finish;
 	end
 
 endmodule
