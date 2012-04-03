@@ -57,5 +57,13 @@ module toptest(
 		.BTN_EAST(BTN_EAST),
 		.LED(LED)
 	);
+	
+	
+	toptestbench toptestbench_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.BTN_WEST(BTN_WEST),
+		.BTN_EAST(BTN_EAST)		
+	);
 
 endmodule

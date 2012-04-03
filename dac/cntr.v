@@ -25,40 +25,49 @@ module cntr(
 	input CLK50MHZ,
 	// verilog module interface
 	//input spi_sck_trig, //TODO ?
-	output reg [11:0] data,
-//	output [11:0] data,
+	output [11:0] data,
 	output [3:0] address,
 	output [3:0] command,
-//	output reg dactrig,
-	output dactrig,
+	output reg dactrig,
 	input dacdone,
 	// control
 	input less,
-	input more
+	input more,
+	// debug
+	output [7:0] LED
     );
 	 
 	assign address = 4'b1111;
 	assign command = 4'b0011;
-//	assign data = 12'h03f;
+	reg [7:0] datareg = 8'h55;
+	assign LED = datareg;
+//	assign data = {datareg, 4'b1}; //TODO 4'b1 ?
+	assign data = 12'h03f;
 //	assign data = 12'h3ff;
 	
-	assign dactrig = ~RST;
-	
-	localparam STEP = 400;
-	localparam MAXV = {12{1'b1}};
+	localparam STEP = 32;
+	localparam MAXV = {8{1'b1}};
 	
 	always @(posedge CLK50MHZ)
-		if(RST) data <= 12'h03f;
+		if(RST) datareg <= 8'h0f;
 		else
 			if(less)
-				if(data-STEP > 0)
-					data <= data-STEP;
+				if(datareg-STEP > 0)
+					datareg <= datareg-STEP;
 				else
-					data <= 0;
+					datareg <= 0;
 			else if(more)
-				if(data+STEP<MAXV)
-					data <= data+STEP;
+				if(datareg+STEP<MAXV)
+					datareg <= datareg+STEP;
 				else
-					data <= MAXV;
+					datareg <= MAXV;
+				
+	always @(posedge CLK50MHZ)
+		if(RST) dactrig <= 1'b0;
+		else
+			if(less | more)
+				dactrig <= 1'b1;
+			else
+				dactrig <= 1'b0;
 	
 endmodule

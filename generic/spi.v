@@ -21,16 +21,20 @@
 module spi #(parameter WIDTH=32) (
 	input RST,
 	input CLK50MHZ,
-	// spi interface
-	input spi_sck_trig,
-	input SPI_MISO,
-	output reg SPI_MOSI,
+	// clocks
+	input spi_sck_trig_delay,
+	input spi_sck_trig_div2_delay,
+	// spi lines
+	output reg  spi_cs,
+	input spi_miso,
+	output reg spi_mosi,
+	// spi module interface
 	input [WIDTH-1:0] data_in,
 	output [WIDTH-1:0] data_out,
 	input spi_trig,
-	output reg spi_sending,
 	output spi_done
     );
+	 
 			
 	reg [WIDTH-1:0] shiftreg; //TODO WIDTH-1
 	assign data_out = shiftreg;
@@ -52,7 +56,7 @@ module spi #(parameter WIDTH=32) (
 						if(spi_trig)
 							state <= SENDING;
 					SENDING:
-						if(spi_sck_trig & shiftreg_idx == shiftreg_idx_full)
+						if(spi_sck_trig_div2_delay & shiftreg_idx == shiftreg_idx_full)
 							state <= DONE;
 					DONE:
 						state <= TRIG_WAITING;
@@ -65,7 +69,6 @@ module spi #(parameter WIDTH=32) (
 		if(RST) begin
 			shiftreg <= 32'd0;
 			shiftreg_idx <= 6'd0;
-			SPI_MOSI <= 1'b0;
 		end else
 			case(state)
 				TRIG_WAITING: begin
@@ -73,27 +76,63 @@ module spi #(parameter WIDTH=32) (
 					shiftreg_idx <= 6'd0;
 				end
 				SENDING: 
-					if(spi_sck_trig) begin
-						shiftreg <= { shiftreg[WIDTH-2:0], SPI_MISO };
-						SPI_MOSI <= shiftreg[WIDTH-1];						
+					if(spi_sck_trig_div2_delay) begin
+						shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };			
 						shiftreg_idx <= shiftreg_idx + 1;
-					end
-				DONE: begin
-					SPI_MOSI <= 1'b0;
-				end					
+					end		
+			endcase
+	end
+			
+	
+	always @(posedge CLK50MHZ) begin
+		if(RST) begin
+			spi_mosi <= 1'b0;
+		end else
+			case(state)
+				TRIG_WAITING:
+					spi_mosi <= 1'b0;
+				SENDING:
+					if(spi_sck_trig_div2_delay)
+						spi_mosi <= shiftreg[WIDTH-1];
+			endcase
+	end
+			
+			
+	always @(posedge CLK50MHZ) begin
+		if(RST) spi_cs <= 1'b1;
+		else
+			case(state)
+				TRIG_WAITING:
+					spi_cs <= 1'b1;
+				SENDING:
+					if(spi_sck_trig_delay)
+						//if(shiftreg_idx > 0 & shiftreg_idx < shiftreg_idx_full-2)
+						if(shiftreg_idx < shiftreg_idx_full) begin
+							if(spi_sck_trig_div2_delay)
+								spi_cs <= 1'b0;
+						end else
+							spi_cs <= 1'b1;
 			endcase
 	end
 	
-	
-	always @(posedge CLK50MHZ) begin
-		if(RST) spi_sending <= 1'b0;
-		else
-			if(state == SENDING) begin
-				if(spi_sck_trig)
-					spi_sending <= 1'b1;
-			end else
-				spi_sending <= 1'b0;
-	end
+//	always @(posedge CLK50MHZ) begin
+//		if(RST) spi_cs <= 1'b1;
+//		else
+//			case(state)
+//				TRIG_WAITING:
+//					spi_cs <= 1'b1;
+//				SENDING: begin
+//					if(spi_cs) begin
+//						if(spi_sck_trig_div2_delay)
+//							spi_cs <= 1'b0;
+//					end else
+//						if(shiftreg_idx == shiftreg_idx_full & spi_sck_trig_delay)
+//							spi_cs <= 1'b1;
+//				end
+//				DONE:
+//					spi_cs <= 1'b1;
+//			endcase
+//	end
 	
 	
 	assign spi_done = (state == DONE);

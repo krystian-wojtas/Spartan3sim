@@ -21,23 +21,26 @@
 module top(
 	input CLK50MHZ,
 	input RST,
-	output SPI_MOSI,
+	// dac
 	output SPI_SCK,
-	output DAC_CS,
 	output DAC_CLR,
+	output DAC_CS,
+	output SPI_MOSI,
 	input DAC_OUT,
-	//control
+	// control
 	input BTN_WEST,
 	input BTN_EAST,
 	output [7:0] LED
    );	
 
-	wire spi_sck_trig;
+	wire spi_sck_trig_delay;
+	wire spi_sck_trig_div2_delay;
 	spisck spisck_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.SPI_SCK(SPI_SCK),
-		.spi_sck_trig_div2_delay(spi_sck_trig)
+		.spi_sck_trig_delay(spi_sck_trig_delay),
+		.spi_sck_trig_div2_delay(spi_sck_trig_div2_delay)
 	);
 	
 	
@@ -48,20 +51,13 @@ module top(
 		.in(BTN_WEST),
 		.out(less)
 	);
+	
 	wire more;
 	debouncer debouncer_more_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.in(BTN_EAST),
 		.out(more)
-	);
-	
-	debouncer_debug deboucer_debug_(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.less(less),
-		.more(more),
-		.LED(LED)
 	);
 	
 	wire [11:0] data;
@@ -84,14 +80,18 @@ module top(
 		.dacdone(dacdone),
 		//control
 		.less(less),
-		.more(more)
+		.more(more),
+		// debug
+		.LED(LED)
 	);
 	
 	dacspi dacspi_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
+		// clocks
+		.spi_sck_trig_delay(spi_sck_trig_delay),
+		.spi_sck_trig_div2_delay(spi_sck_trig_div2_delay),
 		// hardware dac interface
-		.spi_sck_trig(spi_sck_trig),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
 		.SPI_MOSI(SPI_MOSI),

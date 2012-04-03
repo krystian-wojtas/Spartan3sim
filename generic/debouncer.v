@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module debouncer #(parameter N=10000000) (
+module debouncer #(parameter N=4) ( //10000000
 	input CLK50MHZ,
 	input RST,
 	input in,
