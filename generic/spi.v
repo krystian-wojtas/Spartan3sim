@@ -79,7 +79,7 @@ module spi #(parameter WIDTH=32) (
 				end
 				SENDING: 
 					if(spi_sck_trig_div2_delay) begin
-						shiftreg <= { spi_miso, shiftreg[WIDTH-1:1] };			
+						shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };			
 						shiftreg_idx <= shiftreg_idx + 1;
 					end		
 			endcase
@@ -95,7 +95,7 @@ module spi #(parameter WIDTH=32) (
 					spi_mosi <= 1'b0;
 				SENDING:
 					if(spi_sck_trig_div2_delay)
-						spi_mosi <= shiftreg[0];
+						spi_mosi <= shiftreg[WIDTH-1];
 			endcase
 	end
 			

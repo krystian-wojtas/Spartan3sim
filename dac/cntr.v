@@ -25,7 +25,7 @@ module cntr(
 	input CLK50MHZ,
 	// verilog module interface
 	//input spi_sck_trig, //TODO ?
-	output [11:0] data,
+	output reg [11:0] data,
 	output [3:0] address,
 	output [3:0] command,
 	output reg dactrig,
@@ -38,29 +38,37 @@ module cntr(
     );
 	 
 	assign address = 4'b1111;
-	assign command = 4'b1100;
-	reg [7:0] datareg = 8'h55;
-	assign LED = datareg;
-//	assign data = {datareg, 4'b1}; //TODO 4'b1 ?
-	assign data = 12'hffe;
+	assign command = 4'b0011;
+	reg [7:0] data_debug = 8'h55;
+	assign LED = data_debug;
+//	assign data = {4'h0, datareg}; //TODO 4'b1 ?
+//	assign data = 12'hffe;
 //	assign data = 12'h3ff;
 	
 	localparam STEP = 32;
-	localparam MAXV = {8{1'b1}};
+	localparam MAXV = {12{1'b1}};
 	
 	always @(posedge CLK50MHZ)
-		if(RST) datareg <= 8'h0f;
-		else
+		if(RST) begin
+			data <= 12'h000;
+			data_debug <= 8'h00;
+		end else
 			if(less)
-				if(datareg-STEP > 0)
-					datareg <= datareg-STEP;
-				else
-					datareg <= 0;
+				if(data-STEP > 0) begin
+					data <= data-STEP;
+					data_debug <= data_debug - 1;
+				end else begin
+					data <= 0;
+					data_debug <= 8'h00;
+				end
 			else if(more)
-				if(datareg+STEP<MAXV)
-					datareg <= datareg+STEP;
-				else
-					datareg <= MAXV;
+				if(data+STEP<MAXV) begin
+					data <= data+STEP;
+					data_debug <= data_debug + 1;					
+				end else begin
+					data <= MAXV;
+					data_debug <= 8'hff;
+				end
 				
 	always @(posedge CLK50MHZ)
 		if(RST) dactrig <= 1'b0;

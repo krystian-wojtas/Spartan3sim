@@ -32,15 +32,15 @@ module toptestbench(
 		@(negedge RST);
 		#300;
 		@(negedge CLK50MHZ);
-		BTN_WEST = 1'b1;
+		BTN_EAST = 1'b1;
 		#1000;
-		BTN_WEST = 1'b0;
+		BTN_EAST = 1'b0;
 		
 		#40000;
 		@(negedge CLK50MHZ);
-		BTN_WEST = 1'b1;
+		BTN_EAST = 1'b1;
 		#1000;
-		BTN_WEST = 1'b0;
+		BTN_EAST = 1'b0;
 
 		//$finish;
 	end

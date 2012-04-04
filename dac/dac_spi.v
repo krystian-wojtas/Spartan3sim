@@ -39,7 +39,7 @@ module dacspi #(parameter WIDTH=32) (
 	output dacdone
 	);	
 	
-	wire [WIDTH-1:0] dacdatatosend = {4'b1000, data, address, command, 8'd1};
+	wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
 	wire [WIDTH-1:0] dacdatareceived;
 	spi #(WIDTH) spi_ (
 		.CLK50MHZ(CLK50MHZ),
