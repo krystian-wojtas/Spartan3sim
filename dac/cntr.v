@@ -38,11 +38,11 @@ module cntr(
     );
 	 
 	assign address = 4'b1111;
-	assign command = 4'b0011;
+	assign command = 4'b1100;
 	reg [7:0] datareg = 8'h55;
 	assign LED = datareg;
 //	assign data = {datareg, 4'b1}; //TODO 4'b1 ?
-	assign data = 12'h03f;
+	assign data = 12'hffe;
 //	assign data = 12'h3ff;
 	
 	localparam STEP = 32;

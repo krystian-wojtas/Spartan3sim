@@ -10,17 +10,18 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="56" />
+   <WVObjectSize size="57" />
    <wave_markers>
-      <marker time="1380000000" label="" />
-      <marker time="4020000000" label="" />
-      <marker time="4900000000" label="" />
-      <marker time="14580000000" label="" />
+      <marker time="7540000000" label="" />
+      <marker time="8420000000" label="" />
+      <marker time="11940000000" label="" />
       <marker time="15460000000" label="" />
-      <marker time="18100000000" label="" />
-      <marker time="18980000000" label="" />
-      <marker time="21620000000" label="" />
+      <marker time="26020000000" label="" />
+      <marker time="11060000000" label="" />
+      <marker time="14580000000" label="" />
+      <marker time="25140000000" label="" />
       <marker time="28660000000" label="" />
+      <marker time="1380000000" label="" />
    </wave_markers>
    <wvobject fp_name="/toptest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
@@ -38,13 +39,13 @@
       <obj_property name="ElementShortName">DAC_CS</obj_property>
       <obj_property name="ObjectShortName">DAC_CS</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/DAC_CLR" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">DAC_CLR</obj_property>
-      <obj_property name="ObjectShortName">DAC_CLR</obj_property>
-   </wvobject>
    <wvobject fp_name="/toptest/SPI_MOSI" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">SPI_MOSI</obj_property>
       <obj_property name="ObjectShortName">SPI_MOSI</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/DAC_CLR" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CLR</obj_property>
+      <obj_property name="ObjectShortName">DAC_CLR</obj_property>
    </wvobject>
    <wvobject fp_name="/toptest/DAC_OUT" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">DAC_OUT</obj_property>
@@ -75,10 +76,6 @@
    <wvobject fp_name="/toptest/top_/spisck_/RST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">RST</obj_property>
       <obj_property name="ObjectShortName">RST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/toptest/top_/spisck_/SPI_SCK" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">SPI_SCK</obj_property>
-      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
    </wvobject>
    <wvobject fp_name="/toptest/top_/spisck_/spi_sck_trig_delay" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">spi_sck_trig_delay</obj_property>
@@ -133,6 +130,14 @@
    <wvobject fp_name="/toptest/top_/dacspi_/DAC_OUT" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">DAC_OUT</obj_property>
       <obj_property name="ObjectShortName">DAC_OUT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/top_/cntr_/less" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">less</obj_property>
+      <obj_property name="ObjectShortName">less</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/top_/cntr_/more" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">more</obj_property>
+      <obj_property name="ObjectShortName">more</obj_property>
    </wvobject>
    <wvobject fp_name="/toptest/top_/dacspi_/data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">data[11:0]</obj_property>
