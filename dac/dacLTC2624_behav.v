@@ -29,9 +29,9 @@ module dacLTC2624behav #(parameter LOGLEVEL=1) (
 	assign DAC_OUT = DAC_CS ? 1'b0 : indacshiftreg[31];
 	
 	reg [31:0] indacshiftreg;	
-	wire [11:0] data = indacshiftreg[27:16];
-	wire [3:0] address = indacshiftreg[15:12];
-	wire [3:0] command = indacshiftreg[11:8];
+	wire [11:0] data = indacshiftreg[15:4];
+	wire [3:0] address = indacshiftreg[19:16];
+	wire [3:0] command = indacshiftreg[23:20];
 	reg [5:0] indacshiftregidx;
 	always @(posedge SPI_SCK or negedge DAC_CLR) begin
 		if(~DAC_CLR) begin
@@ -52,7 +52,10 @@ module dacLTC2624behav #(parameter LOGLEVEL=1) (
 			$display("%t ustawiono liczbe %d (0x%h) na dacu nr %d z komenda %d", $time, data, data, address, command);	 
 	always @(negedge DAC_CLR)
 		if(LOGLEVEL >= 1)
-			$display("%t zresetowana dac", $time);	
+			$display("%t resetowanie dac", $time);
+	always @(posedge DAC_CLR)
+		if(LOGLEVEL >= 1)
+			$display("%t zresetowano dac", $time);
 	always @(negedge DAC_CS)
 		//if(LOGLEVEL >= 2)
 			$display("%t wlaczono przesyl dac", $time);	

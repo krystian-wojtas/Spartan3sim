@@ -22,10 +22,12 @@ module toptestbench(
 	input CLK50MHZ,
 	input RST,
 	output reg BTN_WEST,
-	output reg BTN_EAST
+	output reg BTN_EAST,
+	output reg [3:0] SW
     );
 	
 	initial begin
+		SW = 4'h0;
 		BTN_WEST = 1'b0;
 		BTN_EAST = 1'b0;
 		
@@ -41,7 +43,23 @@ module toptestbench(
 		BTN_EAST = 1'b1;
 		#1000;
 		BTN_EAST = 1'b0;
-
+		
+		
+		#40000;
+		SW = 4'h1;
+		#1000;
+		SW = 4'h0;
+		
+		#40000;
+		SW = 4'h4;
+		#1000;
+		SW = 4'h0;
+		
+		#40000;
+		SW = 4'h8;
+		#1000;
+		SW = 4'h0;
+		
 		//$finish;
 	end
 

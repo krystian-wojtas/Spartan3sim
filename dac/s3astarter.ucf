@@ -283,10 +283,10 @@ NET "BTN_EAST"     LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 ## Mechanical Switches (SW)
 ###############################################################################
 #
-#NET "SW<0>"         LOC = "V8"   | IOSTANDARD = LVCMOS33 ;
-#NET "SW<1>"         LOC = "U10"  | IOSTANDARD = LVCMOS33 ;
-#NET "SW<2>"         LOC = "U8"   | IOSTANDARD = LVCMOS33 ;
-#NET "SW<3>"         LOC = "T9"   | IOSTANDARD = LVCMOS33 ;
+NET "SW<0>"         LOC = "V8"   | IOSTANDARD = LVCMOS33 ;
+NET "SW<1>"         LOC = "U10"  | IOSTANDARD = LVCMOS33 ;
+NET "SW<2>"         LOC = "U8"   | IOSTANDARD = LVCMOS33 ;
+NET "SW<3>"         LOC = "T9"   | IOSTANDARD = LVCMOS33 ;
 #
 ###############################################################################
 ## Serial Ports (RS232)

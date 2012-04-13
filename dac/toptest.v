@@ -42,6 +42,7 @@ module toptest(
 	
 	wire BTN_WEST;
 	wire BTN_EAST;
+	wire [3:0] SW;
 	wire [7:0] LED;	
 	top top_(
 		.CLK50MHZ(CLK50MHZ),
@@ -55,6 +56,7 @@ module toptest(
 		//control
 		.BTN_WEST(BTN_WEST),
 		.BTN_EAST(BTN_EAST),
+		.SW(SW),
 		.LED(LED)
 	);
 	
@@ -63,7 +65,8 @@ module toptest(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.BTN_WEST(BTN_WEST),
-		.BTN_EAST(BTN_EAST)		
+		.BTN_EAST(BTN_EAST),
+		.SW(SW)
 	);
 
 endmodule

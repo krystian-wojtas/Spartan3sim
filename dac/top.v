@@ -28,6 +28,7 @@ module top(
 	output SPI_MOSI,
 	input DAC_OUT,
 	// control
+	input [3:0] SW,
 	input BTN_WEST,
 	input BTN_EAST,
 	output [7:0] LED
@@ -61,6 +62,14 @@ module top(
 		.out(more)
 	);
 	
+	wire [3:0] sw;
+	debouncer_sw debouncer_sw_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.sw_in(SW),
+		.sw_out(sw)	
+	);
+	
 	wire [11:0] data;
 	wire [3:0] address;
 	wire [3:0] command;
@@ -82,6 +91,7 @@ module top(
 		//control
 		.less(less),
 		.more(more),
+		.sw(SW), //moze byc sw po zdebouncowaniu
 		// debug
 		.LED(LED)
 	);

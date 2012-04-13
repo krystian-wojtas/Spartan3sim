@@ -33,6 +33,7 @@ module cntr(
 	// control
 	input less,
 	input more,
+	input [3:0] sw,
 	// debug
 	output [7:0] LED
     );
@@ -53,27 +54,46 @@ module cntr(
 			data <= 12'h000;
 			data_debug <= 8'h00;
 		end else
-			if(less)
-				if(data-STEP > 0) begin
-					data <= data-STEP;
-					data_debug <= data_debug - 1;
-				end else begin
-					data <= 0;
-					data_debug <= 8'h00;
-				end
-			else if(more)
-				if(data+STEP<MAXV) begin
-					data <= data+STEP;
-					data_debug <= data_debug + 1;					
-				end else begin
-					data <= MAXV;
+			case(sw)
+				4'h8: begin
+					data <= 12'hfff;
 					data_debug <= 8'hff;
 				end
+				4'h4: begin
+					data <= 12'h800;
+					data_debug <= 8'h80;
+				end
+				4'h2: begin
+					data <= 12'h001;
+					data_debug <= 8'h01;
+				end
+				4'h1: begin
+					data <= 12'h000;
+					data_debug <= 8'h00;
+				end
+				default: begin
+					if(less)
+						if(data-STEP > 0) begin
+							data <= data-STEP;
+							data_debug <= data_debug - 1;
+						end else begin
+							data <= 0;
+						end
+					else if(more)
+						if(data+STEP<MAXV) begin
+							data <= data+STEP;
+							data_debug <= data_debug + 1;					
+						end else begin
+							data <= MAXV;
+						end
+				end
+			endcase
+			
 				
 	always @(posedge CLK50MHZ)
 		if(RST) dactrig <= 1'b0;
 		else
-			if(less | more)
+			if(less | more | sw)
 				dactrig <= 1'b1;
 			else
 				dactrig <= 1'b0;

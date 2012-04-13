@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="57" />
+   <WVObjectSize size="70" />
    <wave_markers>
       <marker time="7540000000" label="" />
       <marker time="8420000000" label="" />
@@ -247,7 +247,7 @@
    <wvobject fp_name="/toptest/top_/dacspi_/spi_/shiftreg" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">shiftreg[31:0]</obj_property>
       <obj_property name="ObjectShortName">shiftreg[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/toptest/top_/dacspi_/spi_/state" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">state[1:0]</obj_property>
@@ -268,5 +268,59 @@
    <wvobject fp_name="/toptest/top_/dacspi_/spi_/DONE" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">DONE[1:0]</obj_property>
       <obj_property name="ObjectShortName">DONE[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider68" type="divider">
+      <obj_property name="label">behav</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/SPI_SCK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_SCK</obj_property>
+      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/DAC_CS" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CS</obj_property>
+      <obj_property name="ObjectShortName">DAC_CS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/DAC_CLR" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CLR</obj_property>
+      <obj_property name="ObjectShortName">DAC_CLR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/SPI_MOSI" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_MOSI</obj_property>
+      <obj_property name="ObjectShortName">SPI_MOSI</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/DAC_OUT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_OUT</obj_property>
+      <obj_property name="ObjectShortName">DAC_OUT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[11:0]</obj_property>
+      <obj_property name="ObjectShortName">data[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">address[3:0]</obj_property>
+      <obj_property name="ObjectShortName">address[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/command" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">command[3:0]</obj_property>
+      <obj_property name="ObjectShortName">command[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/received" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">received</obj_property>
+      <obj_property name="ObjectShortName">received</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/indacshiftreg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">indacshiftreg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">indacshiftreg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/indacshiftregidx" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">indacshiftregidx[5:0]</obj_property>
+      <obj_property name="ObjectShortName">indacshiftregidx[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/dacLTC2624behav_/LOGLEVEL" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL[31:0]</obj_property>
    </wvobject>
 </wave_config>
