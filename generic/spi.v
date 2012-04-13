@@ -99,6 +99,23 @@ module spi #(parameter WIDTH=32) (
 			endcase
 	end
 			
+//	always @(posedge CLK50MHZ) begin
+//		if(RST) spi_cs <= 1'b1;
+//		else
+//			case(state)
+//				TRIG_WAITING:
+//					spi_cs <= 1'b1;
+//				SENDING:
+//					if(spi_sck_trig_delay)
+//						//if(shiftreg_idx > 0 & shiftreg_idx < shiftreg_idx_full-2)
+//						if(shiftreg_idx < shiftreg_idx_full) begin
+//							if(spi_sck_trig_div2_delay)
+//								spi_cs <= 1'b0;
+//						end else
+//							spi_cs <= 1'b1;
+//			endcase
+//	end
+			
 	always @(posedge CLK50MHZ) begin
 		if(RST) spi_cs <= 1'b1;
 		else
@@ -106,11 +123,10 @@ module spi #(parameter WIDTH=32) (
 				TRIG_WAITING:
 					spi_cs <= 1'b1;
 				SENDING:
-					if(spi_sck_trig_delay)
+					if(spi_sck_trig_div2_delay)
 						//if(shiftreg_idx > 0 & shiftreg_idx < shiftreg_idx_full-2)
 						if(shiftreg_idx < shiftreg_idx_full) begin
-							if(spi_sck_trig_div2_delay)
-								spi_cs <= 1'b0;
+							spi_cs <= 1'b0;
 						end else
 							spi_cs <= 1'b1;
 			endcase
@@ -127,8 +143,8 @@ module spi #(parameter WIDTH=32) (
 					spi_clocking <= 1'b0;
 	
 	
-	assign spi_sck = (spi_clocking) ? spi_sck_50 : 1'b0;
-	//assign spi_sck = spi_sck_50;
+	//assign spi_sck = (spi_clocking) ? spi_sck_50 : 1'b0;
+	assign spi_sck = spi_sck_50;
 	
 	assign spi_done = (state == DONE);
 
