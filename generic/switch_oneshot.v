@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module debouncer_sw(
+module switch_oneshot(
 	input RST,
 	input CLK50MHZ,
 	input [3:0] sw_in,
