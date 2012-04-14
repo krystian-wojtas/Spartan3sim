@@ -18,7 +18,11 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module dacspi #(parameter WIDTH=32) (
+module dacspi #(
+	parameter TURNING_OFF_CLK = 0,
+	parameter FASTDAC = 1,
+	parameter EARLY_CS_POSEDGE = 0
+) (
 	input RST,
 	input CLK50MHZ,
 	// clocks
@@ -37,11 +41,18 @@ module dacspi #(parameter WIDTH=32) (
 	input [3:0] command,
 	input dactrig,
 	output dacdone
-	);	
+	);
+	
+	localparam WIDTH=32;
 	
 	wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
 	wire [WIDTH-1:0] dacdatareceived;
-	spi #(WIDTH) spi_ (
+	spi #(
+		.WIDTH(WIDTH),
+		.TURNING_OFF_CLK(TURNING_OFF_CLK),
+		.FASTDAC(FASTDAC),
+		.EARLY_CS_POSEDGE(EARLY_CS_POSEDGE)
+	) spi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// clocks

@@ -18,7 +18,40 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module top(
+
+//	sensible sets of parameters
+//	parameter TURNING_OFF_CLK = 0,
+//	parameter FASTDAC = 1,
+//	parameter EARLY_CS_POSEDGE = 0
+//
+//	parameter TURNING_OFF_CLK = 1,
+//	parameter FASTDAC = 1,
+//	parameter EARLY_CS_POSEDGE = 0
+//
+//	parameter TURNING_OFF_CLK = 0,
+//	parameter FASTDAC = 0,
+//	parameter EARLY_CS_POSEDGE = 0
+//
+//	parameter TURNING_OFF_CLK = 1,
+//	parameter FASTDAC = 0,
+//	parameter EARLY_CS_POSEDGE = 0
+//
+//	parameter TURNING_OFF_CLK = 1,
+//	parameter FASTDAC = 0,
+//	parameter EARLY_CS_POSEDGE = 1
+module top #(
+	parameter TURNING_OFF_CLK = 1,
+// TURNING_OFF_CLK=1 if spi should be clocking all the time
+
+	parameter FASTDAC = 1,
+// FASTDAC=1 stands for clocking dac with max speed CLK50MHZ
+// if FASTDAC=0, it should be wired slower clock-triger spi_sck_trig_div2_delay
+
+	parameter EARLY_CS_POSEDGE = 0
+// only with FASTDAC=0 and TURNING_OFF_CLK=1
+// with EARLY_CS_POSEDGE=1 posedge of spi_cs is triggering on high state of spi_sck
+// it should be wired clock-triger spi_sck_trig_delay - 2 times faster then spi_sck_trig_div2_delay
+) (
 	input CLK50MHZ,
 	input RST,
 	// dac
@@ -63,7 +96,7 @@ module top(
 	);
 	
 	wire [3:0] sw;
-	debouncer_sw debouncer_sw_(
+	switch_oneshot switch_oneshot_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.sw_in(SW),
@@ -75,10 +108,6 @@ module top(
 	wire [3:0] command;
 	wire dactrig;
 	wire dacdone;
-//	assign data = 12'h03f;
-//	assign address = 4'b1111;
-//	assign command = 4'b0011;
-//	assign dactrig = 1'b1;
 	cntr cntr_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
@@ -96,7 +125,11 @@ module top(
 		.LED(LED)
 	);
 	
-	dacspi dacspi_(
+	dacspi #(
+		.TURNING_OFF_CLK(TURNING_OFF_CLK),
+		.FASTDAC(FASTDAC),
+		.EARLY_CS_POSEDGE(EARLY_CS_POSEDGE)
+	) dacspi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// clocks
