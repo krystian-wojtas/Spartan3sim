@@ -33,19 +33,8 @@ module toptestbench(
 		
 		@(negedge RST);
 		#300;
-		@(negedge CLK50MHZ);
-		BTN_EAST = 1'b1;
-		#1000;
-		BTN_EAST = 1'b0;
-		
-		#40000;
-		@(negedge CLK50MHZ);
-		BTN_EAST = 1'b1;
-		#1000;
-		BTN_EAST = 1'b0;
 		
 		
-		#40000;
 		SW = 4'h1;
 		#1000;
 		SW = 4'h0;
@@ -59,6 +48,17 @@ module toptestbench(
 		SW = 4'h8;
 		#1000;
 		SW = 4'h0;
+		
+		
+		#40000;
+		BTN_EAST = 1'b1;
+		#1000;
+		BTN_EAST = 1'b0;
+		
+		#40000;
+		BTN_EAST = 1'b1;
+		#1000;
+		BTN_EAST = 1'b0;
 		
 		//$finish;
 	end
