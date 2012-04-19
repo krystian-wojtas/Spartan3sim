@@ -83,11 +83,19 @@ module dacLTC2624behav
 					$display("%t DEBUG wyzerowano index", $time);
 			end else begin
 				indacshiftreg <= { indacshiftreg[30:0], SPI_MOSI };
-				indacshiftregidx <= indacshiftregidx + 1;
+				if(indacshiftregidx < 32)
+					indacshiftregidx <= indacshiftregidx + 1;
+				else
+					indacshiftregidx <= 6'd0;
 			end
 	end
 	
-	wire received32bits = (indacshiftregidx == 33);
+	reg received32bits;
+	always @(negedge SPI_SCK)
+		if(indacshiftregidx == 32)
+			received32bits <= 1'b1;
+		else
+			received32bits <= 1'b0;
 	
 	
 	always @(negedge DAC_CS) begin
