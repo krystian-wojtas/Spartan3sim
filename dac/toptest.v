@@ -32,7 +32,7 @@ module toptest(
 	wire DAC_CLR;
 	wire SPI_MOSI;
 	wire DAC_OUT;
-	dacLTC2624behav dacLTC2624behav_(
+	dacLTC2624behav #(.LOGLEVEL(4)) dacLTC2624behav_(
 		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),

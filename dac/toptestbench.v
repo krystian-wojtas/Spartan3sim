@@ -35,12 +35,12 @@ module toptestbench(
 		#300;
 		
 		
-		SW = 4'h1;
+		SW = 4'h4;
 		#1000;
 		SW = 4'h0;
 		
 		#40000;
-		SW = 4'h4;
+		SW = 4'h1;
 		#1000;
 		SW = 4'h0;
 		

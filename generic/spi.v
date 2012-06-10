@@ -18,9 +18,31 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
+
+//	sensible sets of parameters
+//	parameter TURNING_OFF_CLK = 0,
+//	parameter FASTDAC = 1,
+//	parameter EARLY_CS_POSEDGE = 0
+//
+//	parameter TURNING_OFF_CLK = 1,
+//	parameter FASTDAC = 1,
+//	parameter EARLY_CS_POSEDGE = 0
+//
+//	parameter TURNING_OFF_CLK = 0,
+//	parameter FASTDAC = 0,
+//	parameter EARLY_CS_POSEDGE = 0
+//
+//	parameter TURNING_OFF_CLK = 1,
+//	parameter FASTDAC = 0,
+//	parameter EARLY_CS_POSEDGE = 0
+//
+//	parameter TURNING_OFF_CLK = 1,
+//	parameter FASTDAC = 0,
+//	parameter EARLY_CS_POSEDGE = 1
 module spi #(
 	parameter WIDTH=32,
-	parameter TURNING_OFF_CLK = 0,
+	parameter TURNING_OFF_CLK = 1,
+// TURNING_OFF_CLK=1 if spi should be clocking all the time
 
 	parameter FASTDAC = 1,
 // FASTDAC=1 stands for clocking dac with max speed CLK50MHZ
