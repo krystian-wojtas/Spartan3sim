@@ -45,13 +45,20 @@ module dacLTC2624behav
 	output DAC_OUT
 );
 	 
+	//Przed uzyciem daca nalezy go najpierw zresetowac
+	//Resetowany on jest negatywnym zboczem linii DAC_CLR
+	//W rejestrze reseting nastepuje zapamietanie faktu zainicjowania poczatkowego resetowania
+	//UWAGA: Obsluga daca bez poczatkowego resetu nie bedzie symulowana
 	reg reseting = 1'b0;
 	always @(negedge DAC_CLR) begin
 		reseting = 1'b1;
 		if(LOGLEVEL >= 4)
 			$display("%t INFO4 resetowanie dac", $time);
 	end
-		
+	
+	//W bloku sprawdzane jest czy po poczatkowym resecie linia DAC_CLR powrocila do stanu wysokiego
+	//Jesli tak, rejestr reseted przyjmuje wartosc wysoka i mozna przystapic do obslugi daca
+	//TODO odczekanie cykli zegarowych pomiedzy obnizeniem o podniesieniem??	
 	reg reseted = 1'b0;
 	always @(posedge DAC_CLR)
 		if(reseting) begin
@@ -60,36 +67,47 @@ module dacLTC2624behav
 				$display("%t INFO4 zresetowano dac", $time);
 			if(LOGLEVEL >= 1)
 				if(~DAC_CS)
-					$display("%t BLAD Bezposrednio po zresetowaniu ukladu linia DAC_CS powinna byc w stanie wysokim.", $time); //TODO po ilu cyklach mozna wysylac dane?
+					$display("%t BLAD Podczas resetowania ukladu linia DAC_CS powinna byc w stanie wysokim.", $time); //TODO po ilu cyklach mozna wysylac dane?
 		end
 	
+	//Aktywacja odbioru danych nastepuje przez obnizenie linii DAC_CS
+	//Nie mozna zaczac odbierac danych bez uprzedniego zresetowania ukladu
+	always @(negedge DAC_CS) begin
+		if(~reseted)
+			if(LOGLEVEL >= 1)
+				$display("%t BLAD Nastepuje proba przesylnia danych, bez uprzedniego zresetowania ukladu", $time);			
+	end
 	
-	reg [31:0] indacshiftreg;	
+	
+	reg [31:0] indacshiftreg;
 	wire [11:0] data = indacshiftreg[15:4];
 	wire [3:0] address = indacshiftreg[19:16];
 	wire [3:0] command = indacshiftreg[23:20];
-	reg [5:0] indacshiftregidx;
-			
+	//rejestr licznika jest poszerzony o jeden bit w celu wykrycia bledu odbierania zbyt wielu bitow
+	reg [5:0] indacshiftregidx; 
+	
+	//Blok odbioru danych z linii SPI_MOSI
+	//Reset ukladu (chwilowym obnizeniem DAC_CLR) zeruje glowny rejestr konfigurujacy daca indacshiftreg oraz jego licznik indacshiftregidx
+	//Obnizenie linii DAC_CS powoduje aktywowanie odbioru bitow i doklejanie ich do rejestru przesuwnego indacshiftreg w takt zegara SPI_SCK
+	//Licznik indacshiftregidx zerowany jest gdy transmisja nie jest aktywna.
+	//Gdy jest aktywna zwiekszany jest o jeden w takt zegara, co pokazuje aktulna liczbe odebranych bitow
 	always @(negedge DAC_CS or negedge DAC_CLR or negedge SPI_SCK) begin
 		if(~DAC_CLR) begin
 			indacshiftreg <= 32'd0;
 			indacshiftregidx <= 6'd0;
-			if(LOGLEVEL >= 6)
-				$display("%t DEBUG resetem wyzerowano index i shiftreg", $time);
 		end else
 			if(DAC_CS) begin
 				indacshiftregidx <= 6'd0;
-				if(LOGLEVEL >= 6)
-					$display("%t DEBUG wyzerowano index", $time);
 			end else begin
 				indacshiftreg <= { indacshiftreg[30:0], SPI_MOSI };
-				if(indacshiftregidx < 32)
-					indacshiftregidx <= indacshiftregidx + 1;
-				else
-					indacshiftregidx <= 6'd0;
+				indacshiftregidx <= indacshiftregidx + 1;
 			end
 	end
 	
+	//Blok sprawdza czy ilosc odebranych bitow wynosi dokladnie 32
+	//Jesli sie zgadza ustawia flage received32bits
+	//Flaga ta jest sprawdzana w kolejnym bloku w momencie podniesienia linii DAC_CS, co sygnalizuje koniec transmisji
+	//Na tej podstwie moga zostac zglaszane bledy jesli przeslanych bitow jest zbyt malo
 	reg received32bits;
 	always @(negedge SPI_SCK)
 		if(indacshiftregidx == 32)
@@ -97,21 +115,46 @@ module dacLTC2624behav
 		else
 			received32bits <= 1'b0;
 	
+	//Blok wykrywa przeslanie zbyt duzej liczby bitow do daca
+	//Flaga receivedtoomanybits jest wygaszana w momencie aktywowania odbioru danych obnizeniem linii DAC_CS
+	//Flaga jest podnoszona jesli liczba odebranych bitow przekroczy prawidlowa ilosc 32.
+	//Stan podniesionej flagi jest utrzymywany do momentu aktywowania odbioru nowej danej.
+	//W tym czasie licznik odebranych bitow indacshiftregidx bedzie sie wielokrotnie przepelniac odbieraja nowe bity,
+	// przez co nie bedzie mozna stwierdzic ile bitow za duzo zostalo przeslanych
+	reg receivedtoomanybits = 1'b0;
+	always @(negedge SPI_SCK)
+		if(DAC_CS)
+			receivedtoomanybits <= 1'b0;
+		else if(indacshiftregidx > 32)
+			receivedtoomanybits <= 1'b1;
 	
-	always @(negedge DAC_CS) begin
-		if(LOGLEVEL >= 4)
-			$display("%t INFO4 Odbieranie danych", $time);
-		if(~reseted)
-			if(LOGLEVEL >= 1)
-				$display("%t BLAD Nastepuje proba przesylnia danych, bez uprzedniego zresetowania ukladu", $time);			
-	end
 	
-	always @(posedge DAC_CS)
+	always @(negedge DAC_CS)
 		if(reseted)
+			if(LOGLEVEL >= 4)
+				$display("%t INFO4 Odbieranie danych", $time);
+	
+	//Blok obsluguje moment podniesienia linii DAC_CS, co sygnalizuje koniec transmisji
+	//Operacje tutaj zawarte sa wykonywane tylko po uprzednim zresetowaniu ukladu
+	//Sprawdzana jest ilosc odebranych bitow i wyswietlane sa informacje o bledach jesli bitow nie jest dokladnie 32
+	//Jesli ilosc bitow jest wlasciwa, wypisywane sa informacje o odebranej probce z podzialem na wywstawiana wartosc, adres daca i komende
+	//Jesli adres daca lub komenda maja nieprawidlowa wartosc, zglaszany jest blad
+	//Komenda zawsze powinna miec wartosc 0011
+	always @(posedge DAC_CS)
+		if(reseted) begin
+		
 			if(~received32bits) begin
-				if(LOGLEVEL >= 1)			
-					$display("%t BLAD Do daca wyslanych zostalo %d bitow. Nalezy wyslac 32", $time, indacshiftregidx-1);
+			//Bledy nieodpowiedniej ilosci odebranych bitow
+				if(receivedtoomanybits) begin
+					if(LOGLEVEL >= 1)
+						$display("%t BLAD Do daca wyslanych zostalo wiecej bitow niz 32", $time);
+				end else
+					if(LOGLEVEL >= 1)		
+						$display("%t BLAD Do daca wyslanych zostalo %d bitow. Nalezy wyslac 32", $time, indacshiftregidx-1);
+			
+			
 			end else begin
+			//Odebrana wlasciwa ilosc bitow
 				if(LOGLEVEL >= 4)
 					$display("%t INFO4 Zakonczenie odbioru danych", $time);
 				if(LOGLEVEL >= 3)
@@ -129,8 +172,12 @@ module dacLTC2624behav
 				if(command != 4'b0011)
 					if(LOGLEVEL >= 1)			
 						$display("%t BLAD nieprawidlowa komenda %b (0x%h) - aby natychmiastowo ustwic dac nalezy wyslac 0011 (0x3)", $time, command, command);
-			end
+			end			
+		end
 
 
+	//Na linii wyjsciowej DAC_OUT beda sie pojawiac kolejne bity wypychane z rejestru przesuwnego konfigurujacego daca
+	//Nastepuje to w takt zegara SPI_SCK przy obnizonej linii aktywacji transmisji DAC_CS
+	//TODO odbieranie ostatniego bitu !!
 	assign DAC_OUT = DAC_CS ? 1'b0 : indacshiftreg[31];
 endmodule
