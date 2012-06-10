@@ -3,25 +3,25 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/x/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3sim/dac/toptest_isim_par2.wdb" id="1" type="auto">
+      <db_ref path="/home/x/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3sim/dac/toptest_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="glbl" />
             <top_module name="toptest" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="10" />
+   <WVObjectSize size="11" />
    <wave_markers>
-      <marker time="1429054000" label="" />
-      <marker time="4069054000" label="" />
-      <marker time="4949054000" label="" />
-      <marker time="14629054000" label="" />
-      <marker time="15509054000" label="" />
-      <marker time="18149054000" label="" />
-      <marker time="19029054000" label="" />
-      <marker time="21669054000" label="" />
-      <marker time="22549054000" label="" />
-      <marker time="28709054000" label="" />
+      <marker time="1380000000" label="" />
+      <marker time="7540000000" label="" />
+      <marker time="8420000000" label="" />
+      <marker time="11060000000" label="" />
+      <marker time="11940000000" label="" />
+      <marker time="14580000000" label="" />
+      <marker time="15460000000" label="" />
+      <marker time="25140000000" label="" />
+      <marker time="26020000000" label="" />
+      <marker time="28660000000" label="" />
    </wave_markers>
    <wvobject fp_name="/toptest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
@@ -58,6 +58,10 @@
    <wvobject fp_name="/toptest/BTN_EAST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">BTN_EAST</obj_property>
       <obj_property name="ObjectShortName">BTN_EAST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/toptest/SW" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">SW[3:0]</obj_property>
+      <obj_property name="ObjectShortName">SW[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/toptest/LED" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">LED[7:0]</obj_property>

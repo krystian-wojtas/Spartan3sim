@@ -19,39 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-//	sensible sets of parameters
-//	parameter TURNING_OFF_CLK = 0,
-//	parameter FASTDAC = 1,
-//	parameter EARLY_CS_POSEDGE = 0
-//
-//	parameter TURNING_OFF_CLK = 1,
-//	parameter FASTDAC = 1,
-//	parameter EARLY_CS_POSEDGE = 0
-//
-//	parameter TURNING_OFF_CLK = 0,
-//	parameter FASTDAC = 0,
-//	parameter EARLY_CS_POSEDGE = 0
-//
-//	parameter TURNING_OFF_CLK = 1,
-//	parameter FASTDAC = 0,
-//	parameter EARLY_CS_POSEDGE = 0
-//
-//	parameter TURNING_OFF_CLK = 1,
-//	parameter FASTDAC = 0,
-//	parameter EARLY_CS_POSEDGE = 1
-module top #(
-	parameter TURNING_OFF_CLK = 1,
-// TURNING_OFF_CLK=1 if spi should be clocking all the time
-
-	parameter FASTDAC = 1,
-// FASTDAC=1 stands for clocking dac with max speed CLK50MHZ
-// if FASTDAC=0, it should be wired slower clock-triger spi_sck_trig_div2_delay
-
-	parameter EARLY_CS_POSEDGE = 0
-// only with FASTDAC=0 and TURNING_OFF_CLK=1
-// with EARLY_CS_POSEDGE=1 posedge of spi_cs is triggering on high state of spi_sck
-// it should be wired clock-triger spi_sck_trig_delay - 2 times faster then spi_sck_trig_div2_delay
-) (
+module top (
 	input CLK50MHZ,
 	input RST,
 	// dac
@@ -125,11 +93,7 @@ module top #(
 		.LED(LED)
 	);
 	
-	dacspi #(
-		.TURNING_OFF_CLK(TURNING_OFF_CLK),
-		.FASTDAC(FASTDAC),
-		.EARLY_CS_POSEDGE(EARLY_CS_POSEDGE)
-	) dacspi_ (
+	dacspi dacspi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// clocks
