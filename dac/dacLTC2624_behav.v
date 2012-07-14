@@ -178,6 +178,6 @@ module dacLTC2624behav
 
 	//Na linii wyjsciowej DAC_OUT beda sie pojawiac kolejne bity wypychane z rejestru przesuwnego konfigurujacego daca
 	//Nastepuje to w takt zegara SPI_SCK przy obnizonej linii aktywacji transmisji DAC_CS
-	//TODO odbieranie ostatniego bitu !!
+	//TODO odbieranie ostatniego bitu
 	assign DAC_OUT = DAC_CS ? 1'b0 : indacshiftreg[31];
 endmodule
