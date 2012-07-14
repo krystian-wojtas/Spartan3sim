@@ -41,10 +41,10 @@
 //	parameter EARLY_CS_POSEDGE = 1
 module spi #(
 	parameter WIDTH=32,
-	parameter TURNING_OFF_CLK = 1,
+	parameter TURNING_OFF_CLK = 0,
 // TURNING_OFF_CLK=1 if spi should be clocking all the time
 
-	parameter FASTDAC = 1,
+	parameter FASTDAC = 0,
 // FASTDAC=1 stands for clocking dac with max speed CLK50MHZ
 // if FASTDAC=0, it should be wired slower clock-triger spi_sck_trig_div2_delay
 
