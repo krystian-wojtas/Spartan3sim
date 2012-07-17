@@ -67,7 +67,7 @@ module dacLTC2624behav
 				$display("%t INFO4 zresetowano dac", $time);
 			if(LOGLEVEL >= 1)
 				if(~DAC_CS)
-					$display("%t BLAD Podczas resetowania ukladu linia DAC_CS powinna byc w stanie wysokim", $time); //TODO po ilu cyklach mozna wysylac dane?
+					$display("%t BLAD Podczas resetowania ukladu linia DAC_CS powinna byc w stanie wysokim.", $time); //TODO po ilu cyklach mozna wysylac dane?
 		end
 	
 	//Aktywacja odbioru danych nastepuje przez obnizenie linii DAC_CS
@@ -166,7 +166,7 @@ module dacLTC2624behav
 					4'b0010:	if(LOGLEVEL >= 5) $display("%t INFO5 dac nr %b (0x%h) - ustawi dac C (mozliwe ustawienie wzmocnienia)", $time, address, address);
 					4'b0011:	if(LOGLEVEL >= 5) $display("%t INFO5 dac nr %b (0x%h) - ustawi dac D (mozliwe ustawienie wzmocnienia)", $time, address, address);
 					4'b1111:	if(LOGLEVEL >= 5) $display("%t INFO5 dac nr %b (0x%h) - ustawi wszystkie dac'i", $time, address, address);
-					default: if(LOGLEVEL >= 1) $display("%t BLAD nieprawidlowy numer daca", $time);
+					default: if(LOGLEVEL >= 1) $display("%t BLAD niprawidlowy numer daca", $time);
 				endcase
 				
 				if(command != 4'b0011)
