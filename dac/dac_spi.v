@@ -21,10 +21,6 @@
 module dacspi (
 	input RST,
 	input CLK50MHZ,
-	// clocks
-	input spi_sck_50,
-	input spi_sck_trig_delay,
-	input spi_sck_trig_div2_delay,
 	// hardware dac interface
 	output SPI_SCK,
 	output DAC_CLR,
@@ -48,10 +44,6 @@ module dacspi (
 	) spi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		// clocks
-		.spi_sck_50(spi_sck_50),
-		.spi_sck_trig_delay(spi_sck_trig_delay),
-		.spi_sck_trig_div2_delay(spi_sck_trig_div2_delay),
 		// spi lines
 		.spi_sck(SPI_SCK),
 		.spi_cs(DAC_CS),
