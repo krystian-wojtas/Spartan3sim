@@ -103,6 +103,9 @@ module dacLTC2624behav
 				conf_idx <= conf_idx + 1;
 			end
 	end
+	
+	always @(negedge DAC_CS)
+		conf_idx <= 6'd0;
 		
 	
 	//Blok sprawdza czy ilosc odebranych bitow wynosi dokladnie 32

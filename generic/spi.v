@@ -36,32 +36,35 @@ module spi #(
 	input spi_trig,
 	output spi_done
     );
-	 
-	
+	 	
 	
 	wire mod_clk_hf;
 	wire mod_clk_trig;
-	generate
-		if(DIV == 1) begin
-			assign mod_clk_hf = CLK50MHZ;
-			assign mod_clk_trig = CLK50MHZ;
-		end else begin
-			ModClk #(
-				.DIV(DIV)
-			) ModClk_ (
-				.CLK50MHZ(CLK50MHZ),
-				.RST(RST),
-				.mod_clk_hf(mod_clk_hf),
-				.mod_clk_trig(mod_clk_trig)
-			);	
-		end 
-	endgenerate
+	ModClkConditional #(
+		.DIV(DIV)
+	) ModClkConditional_ (
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.mod_clk_hf(mod_clk_hf),
+		.mod_clk_trig(mod_clk_trig)	
+	);
+	
+	 
+	//constant function calculetes value at collaboration time
+	//source http://www.beyond-circuits.com/wordpress/2008/11/constant-functions/
+	function integer log2;
+	  input integer value;
+	  begin
+		 value = value-1;
+		 for (log2=0; value>0; log2=log2+1)
+			value = value>>1;
+	  end
+	endfunction
 	
 			
 	reg [WIDTH-1:0] shiftreg;
 	assign data_out = shiftreg;
-	reg [5:0] shiftreg_idx;	//TODO log2
-	wire [5:0] shiftreg_idx_full = WIDTH; //TODO WIDTH, log2, shiftreg_full
+	reg [log2(WIDTH):0] shiftreg_idx;
 			
 			
 	reg [1:0] state;
@@ -127,7 +130,7 @@ module spi #(
 					spi_cs <= 1'b1;
 				SENDING:
 					if(mod_clk_trig)
-						if(shiftreg_idx < shiftreg_idx_full) begin
+						if(shiftreg_idx < WIDTH) begin
 							spi_cs <= 1'b0;
 						end else
 							spi_cs <= 1'b1;
