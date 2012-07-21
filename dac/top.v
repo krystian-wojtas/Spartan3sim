@@ -34,17 +34,6 @@ module top (
 	input BTN_EAST,
 	output [7:0] LED
    );	
-
-	wire spi_sck_50;
-	wire spi_sck_trig_delay;
-	wire spi_sck_trig_div2_delay;
-	spisck spisck_(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.spi_sck_50(spi_sck_50),
-		.spi_sck_trig_delay(spi_sck_trig_delay),
-		.spi_sck_trig_div2_delay(spi_sck_trig_div2_delay)
-	);
 	
 	
 	wire less;
@@ -96,10 +85,6 @@ module top (
 	dacspi dacspi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		// clocks
-		.spi_sck_50(spi_sck_50),
-		.spi_sck_trig_delay(spi_sck_trig_delay),
-		.spi_sck_trig_div2_delay(spi_sck_trig_div2_delay),
 		// hardware dac interface
 		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
@@ -113,6 +98,7 @@ module top (
 		.dactrig(dactrig),
 		.dacdone(dacdone)
 	);
+
 				
 
 endmodule
