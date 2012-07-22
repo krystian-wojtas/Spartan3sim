@@ -21,7 +21,7 @@
 
 module spi #(
 	parameter WIDTH=32,
-	parameter DIV=6
+	parameter DIV=1
 ) (
 	input RST,
 	input CLK50MHZ,
