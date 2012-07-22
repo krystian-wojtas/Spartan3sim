@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module dacspi (
+module DacSpi (
 	input RST,
 	input CLK50MHZ,
 	// hardware dac interface
@@ -39,9 +39,9 @@ module dacspi (
 	
 	wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
 	wire [WIDTH-1:0] dacdatareceived;
-	spi #(
+	Spi #(
 		.WIDTH(WIDTH)
-	) spi_ (
+	) Spi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// spi lines

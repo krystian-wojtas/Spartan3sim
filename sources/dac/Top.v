@@ -82,7 +82,7 @@ module top (
 		.LED(LED)
 	);
 	
-	dacspi dacspi_ (
+	DacSpi DacSpi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// hardware dac interface
