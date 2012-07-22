@@ -5,7 +5,7 @@
 // 
 // Create Date:    09:48:08 03/13/2012 
 // Design Name: 
-// Module Name:    dacsim 
+// Module Name:    DacLTC2624Behav 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -34,7 +34,7 @@
 // 	informuje o adresie daca
 // LOGLEVEL = 6 //TODO del
 // 	debug
-module dacLTC2624behav
+module DacLTC2624Behav
 #(
 	parameter LOGLEVEL=5
 ) (

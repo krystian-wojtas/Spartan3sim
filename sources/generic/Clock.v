@@ -5,7 +5,7 @@
 // 
 // Create Date:    23:10:02 03/12/2012 
 // Design Name: 
-// Module Name:    clk 
+// Module Name:    Clock 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module clock #(parameter DELAY = 20) ( //DELAY 20ns - clock 50MHZ
+module Clock #(parameter DELAY = 20) ( //DELAY 20ns - clock 50MHZ
 	output reg clk
 	);
 

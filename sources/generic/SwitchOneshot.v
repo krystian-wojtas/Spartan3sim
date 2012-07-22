@@ -5,7 +5,7 @@
 // 
 // Create Date:    18:33:22 04/13/2012 
 // Design Name: 
-// Module Name:    debouncer_sw 
+// Module Name:    SwitchOneshot 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module switch_oneshot(
+module SwitchOneshot(
 	input RST,
 	input CLK50MHZ,
 	input [3:0] sw_in,

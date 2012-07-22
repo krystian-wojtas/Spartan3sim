@@ -5,7 +5,7 @@
 // 
 // Create Date:    00:07:49 03/13/2012 
 // Design Name: 
-// Module Name:    dac 
+// Module Name:    DacSpi 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 

@@ -5,7 +5,7 @@
 // 
 // Create Date:    22:25:01 03/24/2012 
 // Design Name: 
-// Module Name:    toptest 
+// Module Name:    TopTest 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,21 +18,21 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module toptest(
+module TopTest(
     );
 	 
 	wire CLK50MHZ;
-   clock clock50mhz_(.clk(CLK50MHZ));
+   Clock Clock_(.clk(CLK50MHZ));
     
    wire RST;
-   reset reset_(.RST(RST));
+   Reset Reset_(.RST(RST));
 	
 	wire SPI_SCK;
 	wire DAC_CS;
 	wire DAC_CLR;
 	wire SPI_MOSI;
 	wire DAC_OUT;
-	dacLTC2624behav #(.LOGLEVEL(4)) dacLTC2624behav_(
+	DacLTC2624Behav #(.LOGLEVEL(4)) DacLTC2624Behav_(
 		.SPI_SCK(SPI_SCK),
 		.DAC_CS(DAC_CS),
 		.DAC_CLR(DAC_CLR),
@@ -44,7 +44,7 @@ module toptest(
 	wire BTN_EAST;
 	wire [3:0] SW;
 	wire [7:0] LED;	
-	top top_(
+	Top Top_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		//dac
@@ -61,7 +61,7 @@ module toptest(
 	);
 	
 	
-	toptestbench toptestbench_(
+	TopTestBench TopTestBench_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.BTN_WEST(BTN_WEST),

@@ -5,7 +5,7 @@
 // 
 // Create Date:    23:07:44 03/12/2012 
 // Design Name: 
-// Module Name:    top 
+// Module Name:    Top 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-module top (
+module Top (
 	input CLK50MHZ,
 	input RST,
 	// dac
@@ -37,7 +37,7 @@ module top (
 	
 	
 	wire less;
-	debouncer debouncer_less_(
+	Debouncer Debouncer_less_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.in(BTN_WEST),
@@ -45,7 +45,7 @@ module top (
 	);
 	
 	wire more;
-	debouncer debouncer_more_(
+	Debouncer Debouncer_more_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.in(BTN_EAST),
@@ -53,7 +53,7 @@ module top (
 	);
 	
 	wire [3:0] sw;
-	switch_oneshot switch_oneshot_(
+	SwitchOneshot SwitchOneshot_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.sw_in(SW),

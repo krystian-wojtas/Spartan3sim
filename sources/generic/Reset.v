@@ -5,7 +5,7 @@
 // 
 // Create Date:    23:10:29 03/12/2012 
 // Design Name: 
-// Module Name:    rst 
+// Module Name:    Reset 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module reset #(parameter DELAY = 40) (
+module Reset #(parameter DELAY = 40) (
     output reg RST
    );
 

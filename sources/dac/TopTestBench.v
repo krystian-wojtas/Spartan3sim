@@ -5,7 +5,7 @@
 // 
 // Create Date:    21:11:02 03/31/2012 
 // Design Name: 
-// Module Name:    toptestbench 
+// Module Name:    TopTestBench 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module toptestbench(
+module TopTestBench(
 	input CLK50MHZ,
 	input RST,
 	output reg BTN_WEST,
