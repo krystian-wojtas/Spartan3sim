@@ -5,7 +5,7 @@
 // 
 // Create Date:    19:53:34 03/24/2012 
 // Design Name: 
-// Module Name:    cntr 
+// Module Name:    Cntr 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 

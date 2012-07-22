@@ -5,7 +5,7 @@
 // 
 // Create Date:    18:34:41 03/25/2012 
 // Design Name: 
-// Module Name:    debuncer 
+// Module Name:    Debouncer 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module debouncer #(parameter N=10000000) ( //10000000
+module Debouncer #(parameter N=10000000) ( //10000000
 	input CLK50MHZ,
 	input RST,
 	input in,
