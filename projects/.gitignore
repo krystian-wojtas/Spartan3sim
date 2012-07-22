@@ -29,8 +29,6 @@
 
 # Project files #
 #################
-mgr.gise
-mgr.xise
 *.prj
 
 # Compiled sources #
@@ -72,6 +70,9 @@ xilinxsim.ini
 fuse.xmsgs
 _xmsgs/pn_parser.xmsgs
 */iseconfig/*
+
+# impact #
+*.xsl
 
 # git changes #
 ###############
