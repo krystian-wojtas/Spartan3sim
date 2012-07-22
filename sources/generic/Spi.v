@@ -5,7 +5,7 @@
 // 
 // Create Date:    17:35:36 03/17/2012 
 // Design Name: 
-// Module Name:    spi 
+// Module Name:    Spi 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-module spi #(
+module Spi #(
 	parameter WIDTH=32,
 	parameter DIV=1
 ) (
