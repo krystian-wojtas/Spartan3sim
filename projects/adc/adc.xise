@@ -15,70 +15,64 @@
   <version xil_pn:ise_version="13.3" xil_pn:schema_version="2"/>
 
   <files>
-    <file xil_pn:name="../../sources/dac/Top.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="11"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="8"/>
-    </file>
-    <file xil_pn:name="../../sources/dac/DacSpi.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="6"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="6"/>
-    </file>
-    <file xil_pn:name="../../sources/dac/Cntr.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="7"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="7"/>
-    </file>
-    <file xil_pn:name="../../sources/dac/DacLTC2624-behav.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="12"/>
-      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="4"/>
-      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="4"/>
-      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="4"/>
-    </file>
-    <file xil_pn:name="../../sources/dac/TopTest.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="13"/>
-      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="5"/>
-      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="5"/>
-      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="5"/>
-    </file>
-    <file xil_pn:name="../../sources/dac/TopTestBench.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="10"/>
-      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="6"/>
-      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="6"/>
-      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="6"/>
-    </file>
     <file xil_pn:name="../../sources/generic/Clock.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="9"/>
-      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="7"/>
-      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="7"/>
-      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="7"/>
-    </file>
-    <file xil_pn:name="../../sources/generic/Debouncer.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="5"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="5"/>
+      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="1"/>
+      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="2"/>
+      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="1"/>
     </file>
     <file xil_pn:name="../../sources/generic/Reset.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="8"/>
-      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="9"/>
-      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="9"/>
-      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="9"/>
+      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="2"/>
+      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="1"/>
+      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="2"/>
     </file>
     <file xil_pn:name="../../sources/generic/Spi.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="3"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="3"/>
     </file>
-    <file xil_pn:name="../../sources/generic/SwitchOneshot.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="4"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="4"/>
-    </file>
-    <file xil_pn:name="../../sources/dac/s3astarter.ucf" xil_pn:type="FILE_UCF">
-      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
+    <file xil_pn:name="../../sources/generic/ModClk.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="1"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="1"/>
     </file>
     <file xil_pn:name="../../sources/generic/ModClkConditional.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="2"/>
     </file>
-    <file xil_pn:name="../../sources/generic/ModClk.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="1"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="1"/>
+    <file xil_pn:name="../../sources/adc/Top.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="11"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="8"/>
+    </file>
+    <file xil_pn:name="../../sources/adc/s3astarter.ucf" xil_pn:type="FILE_UCF">
+      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
+    </file>
+    <file xil_pn:name="../../sources/adc/TopTest.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="12"/>
+      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="8"/>
+      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="5"/>
+      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="8"/>
+    </file>
+    <file xil_pn:name="../../sources/adc/TopTestBench.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="10"/>
+      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="9"/>
+      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="3"/>
+      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="9"/>
+    </file>
+    <file xil_pn:name="../../sources/adc/Amp.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="6"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="6"/>
+    </file>
+    <file xil_pn:name="../../sources/adc/Adc.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="7"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="7"/>
+    </file>
+    <file xil_pn:name="../../sources/generic/Counter.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="4"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="4"/>
+    </file>
+    <file xil_pn:name="../../sources/adc/Cntr.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="5"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="5"/>
     </file>
   </files>
 
@@ -91,7 +85,7 @@
     <property xil_pn:name="Allow Unmatched Timing Group Constraints" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Asynchronous To Synchronous" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Auto Implementation Compile Order" xil_pn:value="true" xil_pn:valueState="default"/>
-    <property xil_pn:name="Auto Implementation Top" xil_pn:value="true" xil_pn:valueState="default"/>
+    <property xil_pn:name="Auto Implementation Top" xil_pn:value="false" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Automatic BRAM Packing" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Automatically Insert glbl Module in the Netlist" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Automatically Run Generate Target PROM/ACE File" xil_pn:value="false" xil_pn:valueState="default"/>
@@ -180,11 +174,11 @@
     <property xil_pn:name="Global Set/Reset Port Name" xil_pn:value="GSR_PORT" xil_pn:valueState="default"/>
     <property xil_pn:name="Global Tristate Port Name" xil_pn:value="GTS_PORT" xil_pn:valueState="default"/>
     <property xil_pn:name="Hierarchy Separator" xil_pn:value="/" xil_pn:valueState="default"/>
-    <property xil_pn:name="ISim UUT Instance Name" xil_pn:value="UUT" xil_pn:valueState="default"/>
+    <property xil_pn:name="ISim UUT Instance Name" xil_pn:value="Clock_" xil_pn:valueState="default"/>
     <property xil_pn:name="Ignore User Timing Constraints Map" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Ignore User Timing Constraints Par" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Implementation Top" xil_pn:value="Module|Top" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Implementation Top File" xil_pn:value="../../sources/dac/Top.v" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Implementation Top File" xil_pn:value="../../sources/adc/Top.v" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Implementation Top Instance Path" xil_pn:value="/Top" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Include 'uselib Directive in Verilog File" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Include SIMPRIM Models in Verilog File" xil_pn:value="false" xil_pn:valueState="default"/>
@@ -308,9 +302,9 @@
     <property xil_pn:name="Selected Module Instance Name" xil_pn:value="/TopTest" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="work.TopTest" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Post-Map" xil_pn:value="" xil_pn:valueState="default"/>
-    <property xil_pn:name="Selected Simulation Root Source Node Post-Route" xil_pn:value="" xil_pn:valueState="default"/>
+    <property xil_pn:name="Selected Simulation Root Source Node Post-Route" xil_pn:value="work.TopTest" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Post-Translate" xil_pn:value="" xil_pn:valueState="default"/>
-    <property xil_pn:name="Selected Simulation Source Node" xil_pn:value="UUT" xil_pn:valueState="default"/>
+    <property xil_pn:name="Selected Simulation Source Node" xil_pn:value="Clock_" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Shift Register Extraction" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Show All Models" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Simulation Model Target" xil_pn:value="Verilog" xil_pn:valueState="default"/>
@@ -324,7 +318,7 @@
     <property xil_pn:name="Specify 'define Macro Name and Value" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Behavioral" xil_pn:value="work.TopTest" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Post-Map" xil_pn:value="Default" xil_pn:valueState="default"/>
-    <property xil_pn:name="Specify Top Level Instance Names Post-Route" xil_pn:value="Default" xil_pn:valueState="default"/>
+    <property xil_pn:name="Specify Top Level Instance Names Post-Route" xil_pn:value="work.TopTest" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Post-Translate" xil_pn:value="Default" xil_pn:valueState="default"/>
     <property xil_pn:name="Speed Grade" xil_pn:value="-5" xil_pn:valueState="default"/>
     <property xil_pn:name="Starting Placer Cost Table (1-100) Map" xil_pn:value="1" xil_pn:valueState="default"/>
@@ -373,22 +367,24 @@
     <!-- The following properties are for internal use only. These should not be modified.-->
     <!--                                                                                  -->
     <property xil_pn:name="PROP_BehavioralSimTop" xil_pn:value="Module|TopTest" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="PROP_DesignName" xil_pn:value="dac" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="PROP_DesignName" xil_pn:value="adc" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_DevFamilyPMName" xil_pn:value="spartan3a" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_FPGAConfiguration" xil_pn:value="FPGAConfiguration" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_PostFitSimTop" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_PostMapSimTop" xil_pn:value="" xil_pn:valueState="default"/>
-    <property xil_pn:name="PROP_PostParSimTop" xil_pn:value="" xil_pn:valueState="default"/>
+    <property xil_pn:name="PROP_PostParSimTop" xil_pn:value="Module|TopTest" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_PostSynthSimTop" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_PostXlateSimTop" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_PreSynthesis" xil_pn:value="PreSynthesis" xil_pn:valueState="default"/>
-    <property xil_pn:name="PROP_intProjectCreationTimestamp" xil_pn:value="2012-07-22T17:13:03" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="PROP_intWbtProjectID" xil_pn:value="D642D1EC4F44D76563D8D5D3A972908A" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="PROP_intProjectCreationTimestamp" xil_pn:value="2012-07-22T19:08:44" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="PROP_intWbtProjectID" xil_pn:value="DB4B7E22D21108662ED5C124547BDF92" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_intWorkingDirLocWRTProjDir" xil_pn:value="Same" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_intWorkingDirUsed" xil_pn:value="No" xil_pn:valueState="non-default"/>
   </properties>
 
-  <bindings/>
+  <bindings>
+    <binding xil_pn:location="/Top" xil_pn:name="../../sources/adc/s3astarter.ucf"/>
+  </bindings>
 
   <libraries/>
 
