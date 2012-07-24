@@ -26,10 +26,8 @@ module cntr(
 	output [3:0] amp_a,
 	output [3:0] amp_b,
 	input amp_done,
-	// counter
-	output cnt_en,
-	output [31:0] cnt_max, //TODO log2
 	// adc
+	output adc_trig,
 	input adc_done,
 	input [13:0] adc_a,
 	input [13:0] adc_b,
@@ -42,8 +40,17 @@ module cntr(
 	assign amp_b = 4'b0010;
 	
 	//frequency
-//	assign cnt_max = 50_000_000;
-	assign cnt_max = 10;
+	// wire cnt_max = 50_000_000;
+	wire [31:0] cnt_max = 10;	//TODO log2
+	wire cnt_en;
+	Counter Counter_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		// counter
+		.cnt_en(cnt_en),
+		.cnt_max(cnt_max),
+		.cnt_trig(adc_trig)
+	);
 	
 	
 	localparam [1:0]	RESTART = 2'd0,
@@ -67,7 +74,9 @@ module cntr(
 	
 	reg [7:0] ledreg;
 	always @(posedge CLK50MHZ)
-		if(adc_done)
+		if(RST)
+			ledreg = 8'd0;
+		else if(adc_done)
 			case(sw)
 				4'h1:		ledreg = adc_a[7:0];
 				4'h2:		ledreg = adc_a[13:8];
