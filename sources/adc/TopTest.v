@@ -59,6 +59,22 @@ module TopTest(
 	);
 	
 	
+	AmpLTC6912_1_behav AmpLTC6912_1_behav_(
+		.SPI_SCK(SPI_SCK),
+		.SPI_MOSI(SPI_MOSI),
+		.AMP_CS(AMP_CS),
+		.AMP_SHDN(AMP_SHDN),
+		.AMP_DOUT(AMP_DOUT)
+	);
+	
+	
+	AdcLTC1407A_1_behav AdcLTC1407A_1_behav_(
+		.SPI_SCK(SPI_SCK),
+		.AD_CONV(AD_CONV),
+		.ADC_OUT(ADC_OUT)
+	);
+	
+	
 	TopTestBench TopTestBench_(
 		.SW(SW)
 	);
