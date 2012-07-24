@@ -23,7 +23,6 @@ module Adc(
 	input RST,
 	// spi wires
 	output spi_sck,
-	output spi_mosi,
 	// adc wires
 	output adc_conv,
 	input adc_out,	
@@ -43,6 +42,7 @@ module Adc(
 	assign adc_b = adc_datareceived[31:18];
 	
 	wire spi_cs;
+	wire spi_mosi;
 	Spi #(
 		.WIDTH(WIDTH)
 	) Spi_ (

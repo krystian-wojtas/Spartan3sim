@@ -72,13 +72,12 @@ module Top (
 	
 	// spi wires
 	wire spi_sck_amp;
-	wire spi_mosi_amp;
 	Amp amp_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// spi wires
 		.spi_sck(spi_sck_amp),
-		.spi_mosi(spi_mosi_amp),
+		.spi_mosi(SPI_MOSI),
 		// amp wires
 		.amp_cs(AMP_CS),
 		.amp_shdn(AMP_SHDN),
@@ -103,13 +102,11 @@ module Top (
 	
 	
 	wire spi_sck_adc;
-	wire spi_mosi_adc;
 	Adc Adc_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// spi wires
 		.spi_sck(spi_sck_adc),
-		.spi_mosi(spi_mosi_adc),
 		// adc wires
 		.adc_conv(AD_CONV),
 		.adc_out(ADC_OUT),
@@ -121,9 +118,7 @@ module Top (
 	);
 	
 
-//	assign SPI_SCK = spi_sck_amp | spi_sck_adc;
-	assign SPI_SCK = spi_sck_amp;
-	assign SPI_MOSI = spi_mosi_amp | spi_mosi_adc;
+	assign SPI_SCK = spi_sck_amp | spi_sck_adc;
 
 endmodule
 
