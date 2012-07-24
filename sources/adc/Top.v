@@ -42,10 +42,8 @@ module Top (
 	wire [3:0] amp_a;
 	wire [3:0] amp_b;
 	wire amp_done;
-	// counter
-	wire cnt_en;
-	wire [31:0] cnt_max; //TODO log2
 	// adc
+	wire adc_trig;
 	wire adc_done;
 	wire [13:0] adc_a;
 	wire [13:0] adc_b;
@@ -57,10 +55,8 @@ module Top (
 		.amp_a(amp_a),
 		.amp_b(amp_b),
 		.amp_done(amp_done),
-		// counter
-		.cnt_en(cnt_en),
-		.cnt_max(cnt_max),
 		// adc
+		.adc_trig(adc_trig),
 		.adc_done(adc_done),
 		.adc_a(adc_a),
 		.adc_b(adc_b),
@@ -88,17 +84,6 @@ module Top (
 		.amp_a(amp_a),
 		.amp_b(amp_b)
 	);
-	
-	
-	wire adc_trig;	
-	Counter Counter_(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		// counter
-		.cnt_en(cnt_en),
-		.cnt_max(cnt_max),
-		.cnt_trig(adc_trig)
-	);	
 	
 	
 	wire spi_sck_adc;
