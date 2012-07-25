@@ -33,15 +33,16 @@ module cntr(
 	input [13:0] adc_b,
 	// control
 	input [3:0] sw,
-	output [7:0] led
+	output [7:0] led,
+	input [7:0] amp_datareceived
     );	
 	
 	assign amp_a = 4'b0100;
 	assign amp_b = 4'b0010;
 	
 	//frequency
-	// wire cnt_max = 50_000_000;
-	wire [31:0] cnt_max = 10;	//TODO log2
+	wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza
+	//wire [31:0] cnt_max = 50;	//TODO log2
 	wire cnt_en;
 	Counter Counter_(
 		.CLK50MHZ(CLK50MHZ),
@@ -53,11 +54,13 @@ module cntr(
 	);
 	
 	
-	localparam [1:0]	RESTART = 2'd0,
-							AMP_SENDING = 2'd1,
-							ADC_CONVERTING = 2'd2;
+	localparam [2:0]	RESTART = 3'd0,
+							AMP_SENDING = 3'd1,
+							AMP_TRIG2 = 3'd2,
+							AMP_RE = 3'd3,
+							ADC_CONVERTING = 3'd4;
 
-	reg [1:0] state;
+	reg [2:0] state;
 	always @(posedge CLK50MHZ)
 		if(RST)
 			state <= RESTART;
@@ -67,7 +70,13 @@ module cntr(
 					state <= AMP_SENDING;
 				AMP_SENDING:
 					if(amp_done)
-						state <= ADC_CONVERTING;
+						state <= AMP_TRIG2;
+				AMP_TRIG2:
+					state <= AMP_RE;
+				AMP_RE:
+					if(amp_done)
+						//state <= ADC_CONVERTING;
+						state <= AMP_TRIG2;
 				//ADC_CONVERTING:
 					// stay here until reset
 			endcase
@@ -75,19 +84,20 @@ module cntr(
 	reg [7:0] ledreg;
 	always @(posedge CLK50MHZ)
 		if(RST)
-			ledreg = 8'd0;
+			ledreg = 8'haa;
 		else if(adc_done)
 			case(sw)
 				4'h1:		ledreg = adc_a[7:0];
 				4'h2:		ledreg = adc_a[13:8];
 				4'h4:		ledreg = adc_b[7:0];
 				4'h8:		ledreg = adc_b[13:8];
-				default:	ledreg = 8'd0;
+				4'h3:		ledreg = amp_datareceived;
+				default:	ledreg = 8'h55;
 			endcase
 	assign led = ledreg;
 			
 	
-	assign amp_trig = (state == RESTART);
+	assign amp_trig = (state == RESTART || state == AMP_TRIG2);
 	assign cnt_en = (state == ADC_CONVERTING);
 
 endmodule

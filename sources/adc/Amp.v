@@ -32,14 +32,15 @@ module Amp(
 	input amp_trig,
 	output amp_done,
 	input [3:0] amp_a,
-	input [3:0] amp_b
+	input [3:0] amp_b,
+	// debug
+	output [7:0] amp_datareceived
     );
 	 
 	 
 	localparam WIDTH=8;
 	
 	wire [WIDTH-1:0] amp_datatosend = { amp_a, amp_b };
-	wire [WIDTH-1:0] amp_datareceived;
 	
 	Spi #(
 		.WIDTH(WIDTH),
@@ -54,7 +55,7 @@ module Amp(
 		.spi_miso(amp_dout),
 		// spi module interface
 		.data_in(amp_datatosend),
-		//.data_out(amp_datareceived),
+		.data_out(amp_datareceived),
 		.spi_trig(amp_trig),
 		.spi_done(amp_done)
 	);

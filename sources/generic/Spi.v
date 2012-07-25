@@ -63,8 +63,9 @@ module Spi #(
 	
 			
 	reg [WIDTH-1:0] shiftreg;
-	assign data_out = shiftreg;
 	reg [log2(WIDTH):0] shiftreg_idx;
+	
+	assign data_out = shiftreg;
 			
 			
 	reg [1:0] state;
