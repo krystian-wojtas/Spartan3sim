@@ -70,7 +70,8 @@ module cntr(
 					state <= AMP_SENDING;
 				AMP_SENDING:
 					if(amp_done)
-						state <= AMP_TRIG2;
+						//state <= AMP_TRIG2;
+						state <= ADC_CONVERTING;
 				AMP_TRIG2:
 					state <= AMP_RE;
 				AMP_RE:
