@@ -47,6 +47,7 @@ module Top (
 	wire adc_done;
 	wire [13:0] adc_a;
 	wire [13:0] adc_b;
+	wire [7:0] amp_datareceived;
 	cntr cntr_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
@@ -62,7 +63,8 @@ module Top (
 		.adc_b(adc_b),
 		// control
 		.sw(SW),
-		.led(LED)
+		.led(LED),
+		.amp_datareceived(amp_datareceived)
 	);
 	
 	
@@ -82,28 +84,12 @@ module Top (
 		.amp_trig(amp_trig),
 		.amp_done(amp_done),
 		.amp_a(amp_a),
-		.amp_b(amp_b)
-	);
-	
-	
-	wire spi_sck_adc;
-	Adc Adc_(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		// spi wires
-		.spi_sck(spi_sck_adc),
-		// adc wires
-		.adc_conv(AD_CONV),
-		.adc_out(ADC_OUT),
-		// adc module interface
-		.adc_trig(adc_trig),
-		.adc_done(adc_done),
-		.adc_a(adc_a),
-		.adc_b(adc_b)
+		.amp_b(amp_b),
+		.amp_datareceived(amp_datareceived)
 	);
 	
 
-	assign SPI_SCK = spi_sck_amp | spi_sck_adc;
+	assign SPI_SCK = spi_sck_amp;
 
 endmodule
 
