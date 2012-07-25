@@ -37,12 +37,12 @@ module cntr(
 	input [7:0] amp_datareceived
     );	
 	
-	assign amp_a = 4'b0100;
-	assign amp_b = 4'b0010;
+	assign amp_a = 4'b1000;
+	assign amp_b = 4'b0001;
 	
 	//frequency
-	wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza
-	//wire [31:0] cnt_max = 50;	//TODO log2
+	//wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza
+	wire [31:0] cnt_max = 50;	//TODO log2
 	wire cnt_en;
 	Counter Counter_(
 		.CLK50MHZ(CLK50MHZ),
@@ -113,14 +113,13 @@ module cntr(
 		if(RST) counter <= 0;
 		else
 			if(cnt_en2) begin
-				if(counter <= 50_000_100)
+				if(counter <= cnt_max)
 					counter <= counter + 1;
 				else
 					counter <= 0;
 			end else
 				counter <= 0;
-	//assign cnt_trig2 = (counter == 50);
-	assign cnt_trig2 = (counter == 50_000_000);
+	assign cnt_trig2 = (counter == cnt_max);
 	
 	reg [7:0] ledreg;
 	always @(posedge CLK50MHZ)
