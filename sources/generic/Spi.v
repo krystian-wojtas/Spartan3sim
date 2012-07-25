@@ -101,7 +101,7 @@ module Spi #(
 					spi_sck_en <= 1'b1;
 				SENDING:
 					if(clk_neg_trig)
-						if(shiftreg_idx < WIDTH-1) begin
+						if(shiftreg_idx < WIDTH) begin
 							spi_sck_en <= 1'b0;
 						end else
 							spi_sck_en <= 1'b1;
@@ -111,24 +111,29 @@ module Spi #(
 	reg first_tick;
 	always @(posedge CLK50MHZ) begin
 		if(RST) begin
-			shiftreg <= 32'd0;
+			shiftreg <= 0;
+		end else
+			case(state)
+				TRIG_WAITING:
+					shiftreg <= data_in;
+				SENDING: 
+					if(clk_neg_trig)
+						if(shiftreg_idx > 0)
+							shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };
+			endcase
+	end
+			
+	always @(posedge CLK50MHZ) begin
+		if(RST) begin
 			shiftreg_idx <= 6'd0;
-			first_tick <= 1'b1;
 		end else
 			case(state)
 				TRIG_WAITING: begin
-					shiftreg <= data_in;
 					shiftreg_idx <= 6'd0;
 				end
 				SENDING: 
-					if(clk_neg_trig)
-						if(~first_tick) begin
-							shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };			
+					if(clk_neg_trig)		
 							shiftreg_idx <= shiftreg_idx + 1;
-							if(shiftreg_idx == WIDTH-1)
-								first_tick <= 1'b1;
-						end else
-							first_tick <= 1'b0;	
 			endcase
 	end
 			
