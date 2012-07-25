@@ -36,6 +36,7 @@ module Top (
 	output [7:0] LED
    );	
 	
+	assign AD_CONV = 1'b0;
 	
 	// amp
 	wire amp_trig;

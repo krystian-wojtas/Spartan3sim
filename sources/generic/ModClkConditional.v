@@ -20,8 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module ModClkConditional #(
 	parameter DIV=1,
-	parameter DELAY=0,
-	parameter POSE=1 //trigging on posedge or negedge
+	parameter DELAY=0
 	) (
 	input CLK50MHZ,
 	input RST,
@@ -37,8 +36,7 @@ module ModClkConditional #(
 		end else begin
 			ModClk #(
 				.DIV(DIV),
-				.DELAY(DELAY),
-				.POSE(POSE)
+				.DELAY(DELAY)
 			) ModClk_ (
 				.CLK50MHZ(CLK50MHZ),
 				.RST(RST),
