@@ -25,8 +25,9 @@ module ModClkConditional #(
 	) (
 	input CLK50MHZ,
 	input RST,
-	output mod_clk_hf, //half filled 50%
-	output mod_clk_trig
+	output clk_hf, //half filled 50%
+	output clk_pos_trig,
+	output clk_neg_trig
     );
 
 	generate
@@ -41,8 +42,9 @@ module ModClkConditional #(
 			) ModClk_ (
 				.CLK50MHZ(CLK50MHZ),
 				.RST(RST),
-				.mod_clk_hf(mod_clk_hf),
-				.mod_clk_trig(mod_clk_trig)
+				.clk_hf(clk_hf),
+				.clk_pos_trig(clk_pos_trig),
+				.clk_neg_trig(clk_neg_trig)
 			);	
 		end 
 	endgenerate

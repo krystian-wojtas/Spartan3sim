@@ -38,15 +38,17 @@ module Spi #(
     );
 	 	
 	
-	wire mod_clk_hf;
-	wire mod_clk_trig;
+	wire clk_hf;
+	wire clk_pos_trig;
+	wire clk_neg_trig;
 	ModClkConditional #(
 		.DIV(DIV)
 	) ModClkConditional_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		.mod_clk_hf(mod_clk_hf),
-		.mod_clk_trig(mod_clk_trig)	
+		.clk_hf(clk_hf),
+		.clk_pos_trig(clk_pos_trig),
+		.clk_neg_trig(clk_neg_trig)	
 	);
 	
 	 
@@ -82,12 +84,28 @@ module Spi #(
 						if(spi_trig)
 							state <= SENDING;
 					SENDING:
-						if(mod_clk_trig & shiftreg_idx == WIDTH)
+						if(clk_neg_trig & shiftreg_idx == WIDTH)
 							state <= DONE;
 					DONE:
 						state <= TRIG_WAITING;
 				endcase
 		end		
+	end
+	
+	reg spi_sck_en;
+	always @(posedge CLK50MHZ) begin
+		if(RST) spi_sck_en <= 1'b1;
+		else
+			case(state)
+				TRIG_WAITING:
+					spi_sck_en <= 1'b1;
+				SENDING:
+					if(clk_neg_trig)
+						if(~spi_cs) begin
+							spi_sck_en <= 1'b0;
+						end else
+							spi_sck_en <= 1'b1;
+			endcase
 	end
 			
 	
@@ -102,7 +120,7 @@ module Spi #(
 					shiftreg_idx <= 6'd0;
 				end
 				SENDING: 
-					if(mod_clk_trig) begin
+					if(clk_neg_trig & ~spi_sck_en) begin
 						shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };			
 						shiftreg_idx <= shiftreg_idx + 1;
 					end		
@@ -118,7 +136,7 @@ module Spi #(
 				TRIG_WAITING:
 					spi_mosi <= 1'b0;
 				SENDING:
-					if(mod_clk_trig)
+					if(clk_pos_trig)
 						spi_mosi <= shiftreg[WIDTH-1];
 			endcase
 	end
@@ -126,20 +144,14 @@ module Spi #(
 	always @(posedge CLK50MHZ) begin
 		if(RST) spi_cs <= 1'b1;
 		else
-			case(state)
-				TRIG_WAITING:
-					spi_cs <= 1'b1;
-				SENDING:
-					if(mod_clk_trig)
-						if(shiftreg_idx < WIDTH) begin
-							spi_cs <= 1'b0;
-						end else
-							spi_cs <= 1'b1;
-			endcase
+			if(spi_trig)
+				spi_cs <= 1'b0;
+			else if(spi_done)
+				spi_cs <= 1'b1;
 	end
 	
 	
-	assign spi_sck = (~spi_cs) ? mod_clk_hf : 1'b0;			
+	assign spi_sck = (~spi_sck_en) ? clk_hf : 1'b0;			
 	assign spi_done = (state == DONE);
 
 endmodule
