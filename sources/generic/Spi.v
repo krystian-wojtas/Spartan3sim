@@ -72,9 +72,8 @@ module Spi #(
 			
 	reg [1:0] state;
 	localparam [1:0] 	TRIG_WAITING = 2'd0,
-							CS_LOW = 2'd1,
-							SENDING = 2'd2,	
-							DONE = 2'd3;
+							SENDING = 2'd1,	
+							DONE = 2'd2;
 	
 	
 	always @(posedge CLK50MHZ) begin
@@ -83,35 +82,45 @@ module Spi #(
 				case(state)
 					TRIG_WAITING:
 						if(spi_trig)
-							state <= SENDING; //
-					CS_LOW: // TODO del
-						if(clk_pos_trig)
 							state <= SENDING;
 					SENDING:
-						if(clk_pos_trig & shiftreg_idx == WIDTH)
+						if(clk_pos_trig & shiftreg_idx == WIDTH+1)
 							state <= DONE;
 					DONE:
 						state <= TRIG_WAITING;
 				endcase
-		end		
+		end
+	end
+			
+			
+	always @(posedge CLK50MHZ) begin
+		if(RST) begin
+			shiftreg_idx <= 0;
+		end else
+			case(state)
+				TRIG_WAITING: begin
+					shiftreg_idx <= 0;
+				end
+				SENDING: 
+					if(clk_pos_trig)
+						if(shiftreg_idx <= WIDTH) //TODO <= ? <
+							shiftreg_idx <= shiftreg_idx + 1;
+						else
+							shiftreg_idx <= 0;
+			endcase
 	end
 			
 			
 	always @(posedge CLK50MHZ) begin
 		if(RST) begin
 			shiftreg <= 0;
-			shiftreg_idx <= 0;
 		end else
 			case(state)
-				TRIG_WAITING: begin
+				TRIG_WAITING:
 					shiftreg <= data_in;
-					shiftreg_idx <= 0;
-				end
 				SENDING: 
-					if(clk_pos_trig) begin
+					if(clk_pos_trig & shiftreg_idx > 0)
 						shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };
-						shiftreg_idx <= shiftreg_idx + 1;
-					end
 			endcase
 	end
 			
@@ -124,40 +133,23 @@ module Spi #(
 				TRIG_WAITING:
 					spi_mosi <= 1'b0;
 				SENDING:
-					if(clk_pos_trig)
+					if(clk_pos_trig & shiftreg_idx > 0)
 						spi_mosi <= shiftreg[WIDTH-1];
 			endcase
 	end
 	
-	
-	reg spi_sck_en;
-	always @(posedge CLK50MHZ) begin
-		if(RST) spi_sck_en <= 1'b1;
-		else
-			case(state)
-				TRIG_WAITING:
-					spi_sck_en <= 1'b1;
-				SENDING:
-					if(clk_pos_trig)
-						if(shiftreg_idx < WIDTH) begin
-							spi_sck_en <= 1'b0;
-						end else
-							spi_sck_en <= 1'b1;
-			endcase
-	end
-	
-	
+			
 	always @(posedge CLK50MHZ) begin
 		if(RST) spi_cs <= 1'b1;
 		else
-			if(state == SENDING)
+			if(spi_trig)
 				spi_cs <= 1'b0;
-			else if(state == DONE)
-				spi_cs <= 1'b1;
+			else if(spi_done)
+					spi_cs <= 1'b1;
 	end
 	
 	
-	assign spi_sck = ( state == SENDING & ~spi_cs) ? clk_hf : 1'b0;			
+	assign spi_sck = (shiftreg_idx > 1 & shiftreg_idx <= WIDTH+1) ? clk_hf : 1'b0;			
 	assign spi_done = (state == DONE);
 
 endmodule

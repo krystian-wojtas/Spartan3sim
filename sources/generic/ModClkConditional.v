@@ -31,8 +31,8 @@ module ModClkConditional #(
 
 	generate
 		if(DIV == 1) begin
-			assign mod_clk_hf = CLK50MHZ;
-			assign mod_clk_trig = 1'b1;
+			assign clk_hf = CLK50MHZ;
+			assign clk_pos_trig = 1'b1;
 		end else begin
 			ModClk #(
 				.DIV(DIV),
