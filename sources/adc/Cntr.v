@@ -54,44 +54,11 @@ module cntr(
 	);
 	
 	
-	//localparam [2:0]	RESTART = 3'd0,
-		//					AMP_SENDING = 3'd1,
-			//				AMP_TRIG2 = 3'd2,
-				//			AMP_RE = 3'd3,
-					//		ADC_CONVERTING = 3'd4;
-					
+	localparam [1:0]	RESTART = 2'd0,
+							AMP_SENDING = 2'd1,
+							ADC_CONVERTING = 2'd2;
 
-	//reg [2:0] state;
-	//always @(posedge CLK50MHZ)
-		//if(RST)
-			//state <= RESTART;
-		//else
-			//case(state)
-				//RESTART:
-					//state <= AMP_SENDING;
-//				AMP_SENDING:
-	//				if(amp_done)
-		//				state <= AMP_TRIG2;
-						//state <= ADC_CONVERTING;
-			//	AMP_TRIG2:
-				//	state <= AMP_RE;
-//				AMP_RE:
-	//				if(amp_done)
-						//state <= ADC_CONVERTING;
-		//				state <= AMP_TRIG2;
-				//ADC_CONVERTING:
-					// stay here until reset
-			//endcase
-			
-	
-	localparam [2:0]	RESTART = 3'd0,
-							AMP_SENDING = 3'd1,
-							AMP_TRIG2 = 3'd2,
-							AMP_RE = 3'd3,
-							CNT_WAIT = 3'd4;
-					
-	wire cnt_trig2;
-	reg [2:0] state;
+	reg [1:0] state;
 	always @(posedge CLK50MHZ)
 		if(RST)
 			state <= RESTART;
@@ -101,25 +68,10 @@ module cntr(
 					state <= AMP_SENDING;
 				AMP_SENDING:
 					if(amp_done)
-						state <= CNT_WAIT;
-				CNT_WAIT:
-					if(cnt_trig2)
-						state <= RESTART;
+						state <= ADC_CONVERTING;
+				//ADC_CONVERTING:
+					// stay here until reset
 			endcase
-					
-	reg [31:0] counter = 0;
-	wire cnt_en2 = (state == CNT_WAIT);
-	always @(posedge CLK50MHZ)
-		if(RST) counter <= 0;
-		else
-			if(cnt_en2) begin
-				if(counter <= cnt_max)
-					counter <= counter + 1;
-				else
-					counter <= 0;
-			end else
-				counter <= 0;
-	assign cnt_trig2 = (counter == cnt_max);
 	
 	reg [7:0] ledreg;
 	always @(posedge CLK50MHZ)
@@ -137,7 +89,7 @@ module cntr(
 	assign led = ledreg;
 			
 	
-	assign amp_trig = (state == RESTART || state == RESTART);
-	//assign cnt_en = (state == ADC_CONVERTING);
+	assign amp_trig = (state == RESTART);
+	assign cnt_en = (state == ADC_CONVERTING);
 
 endmodule

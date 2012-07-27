@@ -36,7 +36,6 @@ module Top (
 	output [7:0] LED
    );	
 	
-	assign AD_CONV = 1'b0;
 	
 	// amp
 	wire amp_trig;
@@ -45,7 +44,6 @@ module Top (
 	wire amp_done;
 	// adc
 	wire adc_trig;
-	wire adc_done = 1'b1;
 	wire [13:0] adc_a;
 	wire [13:0] adc_b;
 	wire [7:0] amp_datareceived;
@@ -89,8 +87,25 @@ module Top (
 		.amp_datareceived(amp_datareceived)
 	);
 	
+	
+	wire spi_sck_adc;
+	Adc Adc_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		// spi wires
+		.spi_sck(spi_sck_adc),
+		// adc wires
+		.adc_conv(AD_CONV),
+		.adc_out(ADC_OUT),
+		// adc module interface
+		.adc_trig(adc_trig),
+		.adc_done(adc_done),
+		.adc_a(adc_a),
+		.adc_b(adc_b)
+	);
+	
 
-	assign SPI_SCK = spi_sck_amp;
+	assign SPI_SCK = spi_sck_amp | spi_sck_adc;
 
 endmodule
 

@@ -72,9 +72,8 @@ module Spi #(
 			
 	reg [1:0] state;
 	localparam [1:0] 	TRIG_WAITING = 2'd0,
-							CS_LOW = 2'd1,
-							SENDING = 2'd2,	
-							DONE = 2'd3;
+							SENDING = 2'd1,	
+							DONE = 2'd2;
 	
 	
 	always @(posedge CLK50MHZ) begin
@@ -83,9 +82,6 @@ module Spi #(
 				case(state)
 					TRIG_WAITING:
 						if(spi_trig)
-							state <= SENDING; //
-					CS_LOW: // TODO del
-						if(clk_pos_trig)
 							state <= SENDING;
 					SENDING:
 						if(clk_pos_trig & shiftreg_idx == WIDTH+1)
