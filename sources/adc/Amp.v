@@ -44,7 +44,7 @@ module Amp(
 	
 	Spi #(
 		.WIDTH(WIDTH),
-		.DIV(12)
+		.DIV(1)
 	) Spi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),

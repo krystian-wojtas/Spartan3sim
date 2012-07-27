@@ -84,12 +84,12 @@ module Spi #(
 						if(spi_trig)
 							state <= SENDING;
 					SENDING:
-						if(clk_neg_trig & shiftreg_idx == WIDTH+1)
+						if(clk_pos_trig & shiftreg_idx == WIDTH+1)
 							state <= DONE;
 					DONE:
 						state <= TRIG_WAITING;
 				endcase
-		end		
+		end
 	end
 			
 			
@@ -102,13 +102,14 @@ module Spi #(
 					shiftreg_idx <= 0;
 				end
 				SENDING: 
-					if(clk_neg_trig)
+					if(clk_pos_trig)
 						if(shiftreg_idx <= WIDTH) //TODO <= ? <
 							shiftreg_idx <= shiftreg_idx + 1;
 						else
 							shiftreg_idx <= 0;
 			endcase
 	end
+			
 			
 	always @(posedge CLK50MHZ) begin
 		if(RST) begin
@@ -118,9 +119,8 @@ module Spi #(
 				TRIG_WAITING:
 					shiftreg <= data_in;
 				SENDING: 
-					if(clk_neg_trig)
-						if(shiftreg_idx > 0)
-							shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };
+					if(clk_pos_trig & shiftreg_idx > 0)
+						shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };
 			endcase
 	end
 			
@@ -133,25 +133,8 @@ module Spi #(
 				TRIG_WAITING:
 					spi_mosi <= 1'b0;
 				SENDING:
-					if(clk_pos_trig)
+					if(clk_pos_trig & shiftreg_idx > 0)
 						spi_mosi <= shiftreg[WIDTH-1];
-			endcase
-	end
-	
-	
-	reg spi_sck_en;
-	always @(posedge CLK50MHZ) begin
-		if(RST) spi_sck_en <= 1'b1;
-		else
-			case(state)
-				TRIG_WAITING:
-					spi_sck_en <= 1'b1;
-				SENDING:
-					if(clk_neg_trig)
-						if(shiftreg_idx < WIDTH) begin
-							spi_sck_en <= 1'b0;
-						end else
-							spi_sck_en <= 1'b1;
 			endcase
 	end
 	
@@ -166,7 +149,7 @@ module Spi #(
 	end
 	
 	
-	assign spi_sck = (~spi_sck_en) ? clk_hf : 1'b0;			
+	assign spi_sck = (shiftreg_idx > 1 & shiftreg_idx <= WIDTH+1) ? clk_hf : 1'b0;			
 	assign spi_done = (state == DONE);
 
 endmodule
