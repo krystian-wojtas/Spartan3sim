@@ -33,12 +33,12 @@ module Counter #(
 	always @(posedge CLK50MHZ)
 		if(RST)
 			counter_reg <= 0;
-		else
+		else if(cnt_en)
 			if(counter_reg < cnt_max)
 				counter_reg <= counter_reg + 1;
 			else
 				counter_reg <= 0;
 	
-	assign cnt_trig = (cnt_en && counter_reg == cnt_max);
+	assign cnt_trig = (counter_reg == cnt_max);
 
 endmodule
