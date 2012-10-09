@@ -37,8 +37,8 @@ module cntr(
 	input [7:0] amp_datareceived
     );	
 	
-	assign amp_a = 4'b1000;
-	assign amp_b = 4'b0001;
+	assign amp_a = 4'b0001; // 0.4 2.9
+	assign amp_b = 4'b0010; // 1.025 2.275
 	
 	//frequency
 	//wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza

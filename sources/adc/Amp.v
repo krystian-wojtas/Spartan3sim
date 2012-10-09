@@ -40,7 +40,7 @@ module Amp(
 	 
 	localparam WIDTH=8;
 	
-	wire [WIDTH-1:0] amp_datatosend = { amp_a, amp_b };
+	wire [WIDTH-1:0] amp_datatosend = { amp_b,  amp_a };
 	
 	Spi #(
 		.WIDTH(WIDTH),
