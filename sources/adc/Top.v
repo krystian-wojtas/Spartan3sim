@@ -44,6 +44,7 @@ module Top (
 	wire amp_done;
 	// adc
 	wire adc_trig;
+	wire adc_done;
 	wire [13:0] adc_a;
 	wire [13:0] adc_b;
 	wire [7:0] amp_datareceived;
