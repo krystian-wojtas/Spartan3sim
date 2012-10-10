@@ -33,10 +33,19 @@ module DacSpi (
 	input [3:0] command,
 	input dactrig,
 	output dacdone
+	);	
+	
+	wire clk_hf;
+	wire clk_pos_trig;
+	wire clk_neg_trig;
+	ModClkConditional ModClkConditional_ (
+		.CLK50MHZ(CLK50MHZ),
+		.clk_hf(clk_hf),
+		.clk_pos_trig(clk_pos_trig),
+		.clk_neg_trig(clk_neg_trig)	
 	);
 	
-	localparam WIDTH=32;
-	
+	localparam WIDTH = 32;
 	wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
 	wire [WIDTH-1:0] dacdatareceived;
 	Spi #(
@@ -53,7 +62,11 @@ module DacSpi (
 		.data_in(dacdatatosend),
 		.data_out(dacdatareceived),
 		.spi_trig(dactrig),
-		.spi_done(dacdone)
+		.spi_done(dacdone),
+		// spi clock
+		.clk_hf(clk_hf),
+		.write_trig(clk_pos_trig),
+		.read_trig(clk_pos_trig)		
 	);
 	
 	assign DAC_CLR = ~RST;

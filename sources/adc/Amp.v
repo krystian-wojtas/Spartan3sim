@@ -37,14 +37,25 @@ module Amp(
 	output [7:0] amp_datareceived
     );
 	 
+	
+	wire clk_hf;
+	wire clk_pos_trig;
+	wire clk_neg_trig;
+	ModClkConditional #(
+		.DIV(10)
+	)  ModClkConditional_ (
+		.CLK50MHZ(CLK50MHZ),
+		.clk_hf(clk_hf),
+		.clk_pos_trig(clk_pos_trig),
+		.clk_neg_trig(clk_neg_trig)	
+	);
+	
 	 
 	localparam WIDTH=8;
 	
-	wire [WIDTH-1:0] amp_datatosend = { amp_b,  amp_a };
-	
+	wire [WIDTH-1:0] amp_datatosend = { amp_b,  amp_a };	
 	Spi #(
-		.WIDTH(WIDTH),
-		.DIV(1)
+		.WIDTH(WIDTH)
 	) Spi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
@@ -57,7 +68,11 @@ module Amp(
 		.data_in(amp_datatosend),
 		.data_out(amp_datareceived),
 		.spi_trig(amp_trig),
-		.spi_done(amp_done)
+		.spi_done(amp_done),
+		// spi clock
+		.clk_hf(clk_hf),
+		.write_trig(clk_pos_trig),
+		.read_trig(clk_pos_trig)	
 	);
 	
 	

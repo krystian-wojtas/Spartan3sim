@@ -31,8 +31,21 @@ module Adc(
 	output adc_done,
 	output [13:0] adc_a,
 	output [13:0] adc_b
-    );
-	 
+    );	 
+	
+	
+	wire clk_hf;
+	wire clk_pos_trig;
+	wire clk_neg_trig;
+	ModClkConditional #(
+		.DIV(10)
+	)  ModClkConditional_ (
+		.CLK50MHZ(CLK50MHZ),
+		.clk_hf(clk_hf),
+		.clk_pos_trig(clk_pos_trig),
+		.clk_neg_trig(clk_neg_trig)	
+	);	
+	
 	
 	localparam WIDTH=32;
 	
@@ -44,8 +57,7 @@ module Adc(
 	wire spi_cs;
 	wire spi_mosi;
 	Spi #(
-		.WIDTH(WIDTH),
-		.DIV(10)
+		.WIDTH(WIDTH)
 	) Spi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
@@ -58,7 +70,11 @@ module Adc(
 		.data_in(adc_datatosend),
 		.data_out(adc_datareceived),
 		.spi_trig(adc_trig),
-		.spi_done(adc_done)
+		.spi_done(adc_done),
+		// spi clock
+		.clk_hf(clk_hf),
+		.write_trig(clk_pos_trig),
+		.read_trig(clk_neg_trig)	
 	);
 	
 	assign adc_conv = adc_trig;
