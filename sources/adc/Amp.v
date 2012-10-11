@@ -42,7 +42,7 @@ module Amp(
 	wire clk_pos_trig;
 	wire clk_neg_trig;
 	ModClkConditional #(
-		.DIV(10)
+		.DIV(4)
 	)  ModClkConditional_ (
 		.CLK50MHZ(CLK50MHZ),
 		.clk_hf(clk_hf),
@@ -71,7 +71,7 @@ module Amp(
 		.spi_done(amp_done),
 		// spi clock
 		.clk_hf(clk_hf),
-		.write_trig(clk_pos_trig),
+		.write_trig(clk_neg_trig),
 		.read_trig(clk_pos_trig)	
 	);
 	
