@@ -84,49 +84,52 @@ module AmpLTC6912_1_behav
 	//TODO moment odczekania 30ns miedzy opuszczeniem AMP_CS a pierwszym pozytywnym zboczem zegara
 	
 	
-	reg [7:0] conf = 8'd0;
-	wire [3:0] amp_b = conf[3:0];
-	wire [3:0] amp_a = conf[7:4];
+	reg [7:0] shiftreg_in = 8'd0;
+	wire [3:0] amp_b = shiftreg_in[3:0];
+	wire [3:0] amp_a = shiftreg_in[7:4];
 	//rejestr licznika jest poszerzony o jeden bit w celu wykrycia bledu odbierania zbyt wielu bitow
-	reg [3:0] conf_idx = 4'd0;
+	reg [3:0] shiftreg_idx = 4'd0;
+	
+	reg [7:0] shiftreg_out = 8'd0;
 	
 	//Blok odbioru danych z linii SPI_MOSI
-	//Reset ukladu (chwilowym podniesieniem AMP_SHDN) zeruje glowny rejestr konfigurujacy ampa conf oraz jego licznik conf_idx
-	//Obnizenie linii AMP_CS powoduje aktywowanie odbioru bitow i doklejanie ich do rejestru przesuwnego conf w takt zegara SPI_SCK
-	//Licznik conf_idx zerowany jest gdy transmisja nie jest aktywna.
+	//Reset ukladu (chwilowym podniesieniem AMP_SHDN) zeruje glowny rejestr konfigurujacy ampa shiftreg_in oraz jego licznik shiftreg_idx
+	//Obnizenie linii AMP_CS powoduje aktywowanie odbioru bitow i doklejanie ich do rejestru przesuwnego shiftreg_in w takt zegara SPI_SCK
+	//Licznik shiftreg_idx zerowany jest gdy transmisja nie jest aktywna.
 	//Gdy jest aktywna zwiekszany jest o jeden w takt zegara, co pokazuje aktulna liczbe odebranych bitow
 	always @(AMP_SHDN) begin
-		conf <= 8'd0;
-		conf_idx <= 4'd0;
+//		shiftreg_in <= 8'd0;
+//		shiftreg_out <= 8'd0;
+		shiftreg_idx <= 4'd0;
 	end
 	
-	always @(posedge SPI_SCK)
-		if(AMP_CS) begin
-//			conf <= 8'd0;
-			conf_idx <= 4'd0;
-		end else begin
-//			$display("%t aaa", $time);
-			conf <= { conf[6:0], SPI_MOSI };
-			conf_idx <= conf_idx + 1;
-		end
+	always @(posedge SPI_SCK) begin
+		shiftreg_in <= { shiftreg_in[6:0], SPI_MOSI };
+		shiftreg_idx <= shiftreg_idx + 1;
+	end
 	
-	always @(negedge AMP_CS)
-		conf_idx <= 4'd0;
+	always @(negedge AMP_CS) begin
+		shiftreg_idx <= 4'd0;	
+		shiftreg_out <= shiftreg_in;
+	end
+	
+	always @(negedge SPI_SCK)
+		shiftreg_out <= { shiftreg_out[6:0], 1'b0 };
 		
 	
 	//Blok sprawdza czy ilosc odebranych bitow wynosi dokladnie 8
 	//Jesli sie zgadza ustawia flage received8bits
 	//Flaga ta jest sprawdzana w kolejnym bloku w momencie podniesienia linii AMP_CS, co sygnalizuje koniec transmisji
 	//Na tej podstwie moga zostac zglaszane bledy jesli przeslanych bitow jest zbyt malo
-	wire received8bits = (conf_idx == 8);
+	wire received8bits = (shiftreg_idx == 8);
 	
 	//Blok wykrywa przeslanie zbyt duzej liczby bitow do ampa
 	//Flaga receivedtoomanybits jest wygaszana w momencie aktywowania odbioru danych obnizeniem linii AMP_CS
 	//Flaga jest podnoszona jesli liczba odebranych bitow przekroczy prawidlowa ilosc 8.
 	//Stan podniesionej flagi jest utrzymywany do momentu aktywowania odbioru nowej danej.
-	//W tym czasie licznik odebranych bitow conf_idx bedzie sie wielokrotnie przepelniac odbieraja nowe bity,
+	//W tym czasie licznik odebranych bitow shiftreg_idx bedzie sie wielokrotnie przepelniac odbieraja nowe bity,
 	// przez co nie bedzie mozna stwierdzic ile bitow za duzo zostalo przeslanych
-	wire receivedtoomanybits = (conf_idx > 8);	
+	wire receivedtoomanybits = (shiftreg_idx > 8);	
 	
 	always @(negedge AMP_CS)
 		if(reseted)
@@ -149,7 +152,7 @@ module AmpLTC6912_1_behav
 						$display("%t BLAD Do ampa wyslanych zostalo wiecej bitow niz 8", $time);
 				end else
 					if(LOGLEVEL >= 1)		
-						$display("%t BLAD Do ampa wyslanych zostalo %d bitow. Nalezy wyslac 8", $time, conf_idx);
+						$display("%t BLAD Do ampa wyslanych zostalo %d bitow. Nalezy wyslac 8", $time, shiftreg_idx);
 			
 			
 			end else begin
@@ -191,5 +194,5 @@ module AmpLTC6912_1_behav
 	//Na linii wyjsciowej AMP_DOUT beda sie pojawiac kolejne bity wypychane z rejestru przesuwnego konfigurujacego ampa
 	//Nastepuje to w takt zegara SPI_SCK przy obnizonej linii aktywacji transmisji AMP_CS
 	//TODO odbieranie ostatniego bitu
-	assign AMP_DOUT = AMP_CS ? 1'b0 : conf[7];
+	assign AMP_DOUT = AMP_CS ? 1'b0 : shiftreg_out[7];
 endmodule

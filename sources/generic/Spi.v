@@ -26,9 +26,9 @@ module Spi #(
 	input CLK50MHZ,
 	// spi lines
 	output spi_sck,
-	output reg spi_cs,
+	output reg spi_cs = 1,
 	input spi_miso,
-	output reg spi_mosi,
+	output reg spi_mosi = 0,
 	// spi module interface
 	input [WIDTH-1:0] data_in,
 	output [WIDTH-1:0] data_out,
@@ -39,7 +39,6 @@ module Spi #(
 	input write_trig,
 	input read_trig	
  );
-
 
 	//constant function calculetes value at collaboration time
 	//source http://www.beyond-circuits.com/wordpress/2008/11/constant-functions/
@@ -53,9 +52,9 @@ module Spi #(
 	endfunction
 	
 			
-	reg [log2(WIDTH):0] shiftreg_idx;
-	reg [WIDTH-1:0] shiftreg_in;
-	reg [WIDTH-1:0] shiftreg_out;
+	reg [log2(WIDTH):0] shiftreg_idx = 0;
+	reg [WIDTH-1:0] shiftreg_in = 0;
+	reg [WIDTH-1:0] shiftreg_out = 0;
 	
 	assign data_out = shiftreg_out;
 			
