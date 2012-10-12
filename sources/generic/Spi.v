@@ -59,10 +59,10 @@ module Spi #(
 	assign data_out = shiftreg_out;
 			
 			
-	reg [1:0] state;
 	localparam [1:0] 	TRIG_WAITING = 2'd0,
 							SENDING = 2'd1,	
 							DONE = 2'd2;
+	reg [1:0] state = TRIG_WAITING;
 	
 	
 	always @(posedge CLK50MHZ) begin

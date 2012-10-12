@@ -63,7 +63,7 @@ module cntr(
 							CNT_START = 3'd4,
 							CNT_WAIT = 3'd5; //TODO order
 
-	reg [2:0] state;
+	reg [2:0] state = RESTART;
 	always @(posedge CLK50MHZ)
 		if(RST)
 			state <= RESTART;

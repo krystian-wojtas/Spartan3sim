@@ -106,6 +106,8 @@ module AmpLTC6912_1_behav
 	always @(posedge SPI_SCK) begin
 		shiftreg_in <= { shiftreg_in[6:0], SPI_MOSI };
 		shiftreg_idx <= shiftreg_idx + 1;
+		if(LOGLEVEL >= 4)
+			$display("%t INFO4 AMP Odebrano bit %d", $time, SPI_MOSI);
 	end
 	
 	always @(negedge AMP_CS) begin
@@ -113,8 +115,11 @@ module AmpLTC6912_1_behav
 		shiftreg_out <= shiftreg_in;
 	end
 	
-	always @(negedge SPI_SCK)
+	always @(negedge SPI_SCK) begin
 		shiftreg_out <= { shiftreg_out[6:0], 1'b0 };
+		if(LOGLEVEL >= 4)
+			$display("%t INFO4 Wysylany bit %d", $time, shiftreg_out[6]);
+	end
 		
 	
 	//Blok sprawdza czy ilosc odebranych bitow wynosi dokladnie 8
