@@ -32,7 +32,7 @@
 // LOGLEVEL = 4
 // 	informuje o stanach linii AMP_SHDN i AMP_CS
 // LOGLEVEL = 5
-// 	informuje o adresie ampa
+// 	informuje o zmianach zegara
 // LOGLEVEL = 6 //TODO del
 // 	debug
 module AmpLTC6912_1_behav
@@ -79,6 +79,16 @@ module AmpLTC6912_1_behav
 			if(LOGLEVEL >= 1)
 				$display("%t BLAD Nastepuje proba przesylnia danych, bez uprzedniego zresetowania ukladu", $time);			
 	end
+	
+	
+	always @(posedge SPI_SCK)
+		if(LOGLEVEL >= 5)
+			$display("%t INFO5 AMP zegar sie podnosi", $time);
+	
+	always @(negedge SPI_SCK)
+		if(LOGLEVEL >= 5)
+			$display("%t INFO5 AMP zegar sie obniza", $time);
+	
 	
 	//TODO opuszczajac AMP_CS zegar niski
 	//TODO moment odczekania 30ns miedzy opuszczeniem AMP_CS a pierwszym pozytywnym zboczem zegara
