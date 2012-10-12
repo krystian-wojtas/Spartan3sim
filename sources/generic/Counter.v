@@ -39,6 +39,6 @@ module Counter #(
 			else
 				counter_reg <= 0;
 	
-	assign cnt_trig = (counter_reg == cnt_max);
+	assign cnt_trig = (counter_reg == cnt_max || counter_reg == cnt_max-1 || counter_reg == cnt_max-2 || counter_reg == cnt_max-3 || counter_reg == cnt_max-4 || counter_reg == cnt_max-5);
 
 endmodule

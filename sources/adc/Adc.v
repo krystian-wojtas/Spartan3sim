@@ -34,7 +34,7 @@ module Adc(
     );
 	 
 	
-	localparam WIDTH=32;
+	localparam WIDTH=34;
 	
 	wire [WIDTH-1:0] adc_datatosend = 0;
 	wire [WIDTH-1:0] adc_datareceived;
