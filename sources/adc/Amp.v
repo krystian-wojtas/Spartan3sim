@@ -42,7 +42,7 @@ module Amp(
 	wire clk_pos_trig;
 	wire clk_neg_trig;
 	ModClkConditional #(
-		.DIV(4)
+		.DIV(1)
 	)  ModClkConditional_ (
 		.CLK50MHZ(CLK50MHZ),
 		.clk_hf(clk_hf),
