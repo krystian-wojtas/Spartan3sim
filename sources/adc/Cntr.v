@@ -110,17 +110,17 @@ module cntr(
 				
 	
 	reg [7:0] ledreg;
-	always @*
+	always @(posedge CLK50MHZ)
 		if(RST)
-			ledreg = 8'haa;
+			ledreg <= 8'haa;
 		else if(adc_done)
 			case(sw)
-				4'h1:		ledreg = adc_a[7:0];
-				4'h2:		ledreg = adc_a[13:8];
-				4'h4:		ledreg = adc_b[7:0];
-				4'h8:		ledreg = adc_b[13:8];
-				4'h3:		ledreg = amp_datareceived;
-				default:	ledreg = { 7'h55, timer };
+				4'h1:		ledreg <= adc_a[7:0];
+				4'h2:		ledreg <= adc_a[13:8];
+				4'h4:		ledreg <= adc_b[7:0];
+				4'h8:		ledreg <= adc_b[13:8];
+				4'h3:		ledreg <= amp_datareceived;
+				default:	ledreg <= { 7'h55, timer };
 			endcase
 	assign led = ledreg;
 			
