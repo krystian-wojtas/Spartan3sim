@@ -41,8 +41,8 @@ module cntr(
 	assign amp_b = 4'b0010; // 1.025 2.275
 	
 	//frequency
-	//wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza
-	wire [31:0] cnt_max = 50;	//TODO log2
+	wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza
+//	wire [31:0] cnt_max = 300;	//TODO log2
 	wire cnt_en;
 	Counter Counter_(
 		.CLK50MHZ(CLK50MHZ),
@@ -58,7 +58,7 @@ module cntr(
 							AMP_SENDING = 2'd1,
 							ADC_CONVERTING = 2'd2;
 
-	reg [1:0] state;
+	reg [1:0] state = RESTART;
 	always @(posedge CLK50MHZ)
 		if(RST)
 			state <= RESTART;
