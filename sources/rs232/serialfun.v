@@ -18,6 +18,6 @@ reg [7:0] GPout;
 always @(posedge clk) if(RxD_data_ready) GPout <= RxD_data;
 
 ///////////////////////////////////////////////////
-async_transmitter serializer(.clk(clk), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(GPin));
+async_transmitter serializer(.clk(clk), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(GPout));
 
 endmodule

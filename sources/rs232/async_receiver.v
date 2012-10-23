@@ -5,9 +5,9 @@
 module async_receiver(clk, RxD, RxD_data_ready, RxD_data, RxD_endofpacket, RxD_idle);
 input clk, RxD;
 output RxD_data_ready;  // onc clock pulse when RxD_data is valid
-output [7:0] RxD_data;
+output reg [7:0] RxD_data = 8'd0;
 
-parameter ClkFrequency = 25000000; // 25MHz
+parameter ClkFrequency = 50000000; // 50MHz
 parameter Baud = 115200;
 
 // We also detect if a gap occurs in the received stream of characters
@@ -18,9 +18,9 @@ output RxD_idle;  // no data is being received
 
 // Baud generator (we use 8 times oversampling)
 parameter Baud8 = Baud*8;
-parameter Baud8GeneratorAccWidth = 16;
+parameter Baud8GeneratorAccWidth = 17;
 wire [Baud8GeneratorAccWidth:0] Baud8GeneratorInc = ((Baud8<<(Baud8GeneratorAccWidth-7))+(ClkFrequency>>8))/(ClkFrequency>>7);
-reg [Baud8GeneratorAccWidth:0] Baud8GeneratorAcc;
+reg [Baud8GeneratorAccWidth:0] Baud8GeneratorAcc = 0;
 always @(posedge clk) Baud8GeneratorAcc <= Baud8GeneratorAcc[Baud8GeneratorAccWidth-1:0] + Baud8GeneratorInc;
 wire Baud8Tick = Baud8GeneratorAcc[Baud8GeneratorAccWidth];
 
@@ -29,8 +29,8 @@ reg [1:0] RxD_sync_inv;
 always @(posedge clk) if(Baud8Tick) RxD_sync_inv <= {RxD_sync_inv[0], ~RxD};
 // we invert RxD, so that the idle becomes "0", to prevent a phantom character to be received at startup
 
-reg [1:0] RxD_cnt_inv;
-reg RxD_bit_inv;
+reg [1:0] RxD_cnt_inv = 2'd0;
+reg RxD_bit_inv = 1'b0;
 
 always @(posedge clk)
 if(Baud8Tick)
@@ -44,7 +44,7 @@ begin
 	if(RxD_cnt_inv==2'b11) RxD_bit_inv <= 1'b1;
 end
 
-reg [3:0] state;
+reg [3:0] state = 4'd0;
 reg [3:0] bit_spacing;
 
 // "next_bit" controls when the data sampling occurs
@@ -75,7 +75,6 @@ case(state)
 	default: state <= 4'b0000;
 endcase
 
-reg [7:0] RxD_data;
 always @(posedge clk)
 if(Baud8Tick && next_bit && state[3]) RxD_data <= {~RxD_bit_inv, RxD_data[7:1]};
 

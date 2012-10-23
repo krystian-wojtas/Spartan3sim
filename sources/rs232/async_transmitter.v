@@ -9,13 +9,13 @@ input clk, TxD_start;
 input [7:0] TxD_data;
 output TxD, TxD_busy;
 
-parameter ClkFrequency = 25000000;	// 25MHz
+parameter ClkFrequency = 50000000;	// 50MHz
 parameter Baud = 115200;
 parameter RegisterInputData = 1;	// in RegisterInputData mode, the input doesn't have to stay valid while the character is been transmitted
 
 // Baud generator
-parameter BaudGeneratorAccWidth = 16;
-reg [BaudGeneratorAccWidth:0] BaudGeneratorAcc;
+parameter BaudGeneratorAccWidth = 17;
+reg [BaudGeneratorAccWidth:0] BaudGeneratorAcc = 0;
 `ifdef DEBUG
 wire [BaudGeneratorAccWidth:0] BaudGeneratorInc = 17'h10000;
 `else
@@ -27,7 +27,7 @@ wire TxD_busy;
 always @(posedge clk) if(TxD_busy) BaudGeneratorAcc <= BaudGeneratorAcc[BaudGeneratorAccWidth-1:0] + BaudGeneratorInc;
 
 // Transmitter state machine
-reg [3:0] state;
+reg [3:0] state = 4'd0;
 wire TxD_ready = (state==0);
 assign TxD_busy = ~TxD_ready;
 

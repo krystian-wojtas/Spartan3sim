@@ -26,7 +26,7 @@ module Top(
 	input RXD,
 	output TXD
     );
-	 
+	 	 
 	 wire [7:0] aa = 8'h48;
 	 serialfun serialfun_(
 		.clk(CLK50MHZ),
