@@ -53,12 +53,10 @@ module Rs232_tx_behav
 	end
 		 
 	integer j = 0;
-	//wire [7:0] byte_tosend = string_value[(j+1)*8-1:j*8];
 	initial begin
 		#1000;
 		for(j=0; j<4; j=j+1)
-			transmit(mem[j]);
-			#17400;
+			transmit( mem[j] );
 	end
 
 
