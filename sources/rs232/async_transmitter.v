@@ -29,7 +29,7 @@ always @(posedge clk) if(TxD_busy) BaudGeneratorAcc <= BaudGeneratorAcc[BaudGene
 
 // Transmitter state machine
 reg [3:0] state = 4'd0;
-wire TxD_ready = (state==0);
+wire TxD_ready = (state==0 || state==4'b0010);
 assign TxD_busy = ~TxD_ready;
 
 reg [7:0] TxD_dataReg;
@@ -39,7 +39,7 @@ wire [7:0] TxD_dataD = RegisterInputData ? TxD_dataReg : TxD_data;
 always @(posedge clk)
 case(state)
 	4'b0000: if(TxD_start) state <= 4'b0001;
-	4'b0001: if(BaudTick) state <= 4'b0100;
+	4'b0001: state <= 4'b0100;
 	4'b0100: if(BaudTick) state <= 4'b1000;  // start
 	4'b1000: if(BaudTick) state <= 4'b1001;  // bit 0
 	4'b1001: if(BaudTick) state <= 4'b1010;  // bit 1
@@ -49,8 +49,7 @@ case(state)
 	4'b1101: if(BaudTick) state <= 4'b1110;  // bit 5
 	4'b1110: if(BaudTick) state <= 4'b1111;  // bit 6
 	4'b1111: if(BaudTick) state <= 4'b0010;  // bit 7
-	4'b0010: if(BaudTick) state <= 4'b0011;  // stop1
-	4'b0011: if(BaudTick) state <= 4'b0000;  // stop2
+	4'b0010:  state <= 4'b0000;  // stop
 	default: if(BaudTick) state <= 4'b0000;
 endcase
 
