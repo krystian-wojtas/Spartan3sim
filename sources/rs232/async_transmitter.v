@@ -11,7 +11,8 @@ output TxD, TxD_busy;
 
 parameter ClkFrequency = 50000000;	// 50MHz
 parameter Baud = 115200;
-parameter RegisterInputData = 1;	// in RegisterInputData mode, the input doesn't have to stay valid while the character is been transmitted
+parameter RegisterInputData = 0;	// in RegisterInputData mode, the input doesn't have to stay valid while the character is been transmitted
+//TODO wyzej 1, tymczasowo jest 0
 
 // Baud generator
 parameter BaudGeneratorAccWidth = 17;

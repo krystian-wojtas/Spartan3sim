@@ -18,23 +18,72 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module Rs232_tx_behav(
+
+
+// LOGLEVEL = 0
+// 	bez zadnych komunikatow
+// LOGLEVEL = 1
+// 	pokazuje bledy
+// LOGLEVEL = 2
+// 	pokazuje ostrzezenia
+//
+// LOGLEVEL = 3
+// 	informuje o wyslaniu pelnego bajtu
+// LOGLEVEL = 4
+// 	informuje o wysylaniu poszczegolnych bitow
+// LOGLEVEL = 5
+// 	
+// LOGLEVEL = 6 //TODO del
+// 	debug
+module Rs232_tx_behav
+#(
+	parameter LOGLEVEL=3
+	//TODO parameter bound rate
+) (
 	output reg tx = 1'b1
 );
-//TODO parameter bound
-//TODO array of values to send
-	 
-initial begin
-	#1000;
-	tx = 1'b0; //start bit
-	#8700;
-	tx = 1'b1;
-	#69_600; //data 0xff
-	#8700; //stop bit
-	tx = 1'b0; // start bit for next data
-	#8700;
-	tx = 1'b1; // next data also 0xff
-end
 
+	reg [7:0] mem [4:0];  
+	initial begin
+		 mem[0] = 8'h81;
+		 mem[1] = "e";
+		 mem[2] = "l";
+		 mem[3] = "l";
+		 mem[4] = "o";
+	end
+		 
+	integer j = 0;
+	//wire [7:0] byte_tosend = string_value[(j+1)*8-1:j*8];
+	initial begin
+		#1000;
+		for(j=0; j<4; j=j+1)
+			transmit(mem[j]);
+			#17400;
+	end
+
+
+	task transmit( input [7:0] byte_tosend);
+		integer i;
+		begin
+		//start bit
+		tx = 1'b0;
+		#17400;
+		
+		//byte
+		for(i=0; i < 8; i=i+1) begin
+			tx = byte_tosend[i];
+			if(LOGLEVEL >= 4)		
+				$display("%t\tINFO3 RSTX wyslano bit nr %d o wartosci %b", $time, i, tx);
+			#17400;
+		end
+		
+		//stop bit
+		tx = 1'b1;
+		#17400;
+		
+		if(LOGLEVEL >= 3)
+			$display("%t\tINFO2 RSTX wyslano bajt %b 0x%h %d %s", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
+		end
+	endtask
 
 endmodule

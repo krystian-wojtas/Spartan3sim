@@ -32,8 +32,12 @@ module TopTest(
 		.tx(RXD)
 	);
 	
-	wire [7:0] LED;
 	wire TXD;
+	Rs232_rx_behav Rs232_rx_behav_(
+		.rx(TXD)
+	);
+	
+	wire [7:0] LED;
 	Top Top_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
