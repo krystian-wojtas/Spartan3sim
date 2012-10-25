@@ -27,14 +27,21 @@ module TopTest(
    wire RST;
    Reset Reset_(.RST(RST));
 
+//	wire RXD;
+//	Rs232_tx_behav Rs232_tx_behav_(
+//		.tx(RXD)
+//	);
+//	
+//	wire TXD;
+//	Rs232_rx_behav Rs232_rx_behav_(
+//		.rx(TXD)
+//	);
+
 	wire RXD;
-	Rs232_tx_behav Rs232_tx_behav_(
-		.tx(RXD)
-	);
-	
 	wire TXD;
-	Rs232_rx_behav Rs232_rx_behav_(
-		.rx(TXD)
+	Rs232_behav Rs232_behav_(
+		.rx(TXD),
+		.tx(RXD)
 	);
 	
 	wire [7:0] LED;
