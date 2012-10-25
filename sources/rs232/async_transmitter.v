@@ -4,71 +4,100 @@
 
 //`define DEBUG   // in DEBUG mode, we output one bit per clock cycle (useful for faster simulations)
 
-module async_transmitter(clk, TxD_start, TxD_data, TxD, TxD_busy);
-input clk, TxD_start;
-input [7:0] TxD_data;
-output TxD, TxD_busy;
+module async_transmitter
+#(
+	parameter CLK50MHZFrequency = 50000000,	// 50MHz
+	parameter Baud = 115200,
+	parameter RegisterInputData = 1	// in RegisterInputData mode, the input doesn't have to stay valid while the character is been transmitted
+	//TODO wyzej 1, tymczasowo jest 0
+) (
+	input CLK50MHZ,
+	input TxD_start,
+	input [7:0] TxD_data,
+	output reg TxD,
+	output TxD_busy
+);
 
-parameter ClkFrequency = 50000000;	// 50MHz
-parameter Baud = 115200;
-parameter RegisterInputData = 0;	// in RegisterInputData mode, the input doesn't have to stay valid while the character is been transmitted
-//TODO wyzej 1, tymczasowo jest 0
+	// Baud generator
+	parameter BaudGeneratorAccWidth = 17;
+	reg [BaudGeneratorAccWidth:0] BaudGeneratorAcc = 0;
+	wire [BaudGeneratorAccWidth:0] BaudGeneratorInc = ((Baud<<(BaudGeneratorAccWidth-4))+(CLK50MHZFrequency>>5))/(CLK50MHZFrequency>>4);
 
-// Baud generator
-parameter BaudGeneratorAccWidth = 17;
-reg [BaudGeneratorAccWidth:0] BaudGeneratorAcc = 0;
-`ifdef DEBUG
-wire [BaudGeneratorAccWidth:0] BaudGeneratorInc = 17'h10000;
-`else
-wire [BaudGeneratorAccWidth:0] BaudGeneratorInc = ((Baud<<(BaudGeneratorAccWidth-4))+(ClkFrequency>>5))/(ClkFrequency>>4);
-`endif
+	wire BaudTick = BaudGeneratorAcc[BaudGeneratorAccWidth];
+	always @(posedge CLK50MHZ) if(TxD_busy) BaudGeneratorAcc <= BaudGeneratorAcc[BaudGeneratorAccWidth-1:0] + BaudGeneratorInc;
 
-wire BaudTick = BaudGeneratorAcc[BaudGeneratorAccWidth];
-wire TxD_busy;
-always @(posedge clk) if(TxD_busy) BaudGeneratorAcc <= BaudGeneratorAcc[BaudGeneratorAccWidth-1:0] + BaudGeneratorInc;
 
-// Transmitter state machine
-reg [3:0] state = 4'd0;
-wire TxD_ready = (state==0 || state==4'b0010);
-assign TxD_busy = ~TxD_ready;
+	localparam WIDTH = 8;
+	reg [7:0] shiftreg = 8'd0;
+	reg [3:0] shiftreg_idx = 4'd0;
+	wire shiftreg_full = shiftreg_idx[3];
 
-reg [7:0] TxD_dataReg;
-always @(posedge clk) if(TxD_ready & TxD_start) TxD_dataReg <= TxD_data;
-wire [7:0] TxD_dataD = RegisterInputData ? TxD_dataReg : TxD_data;
 
-always @(posedge clk)
-case(state)
-	4'b0000: if(TxD_start) state <= 4'b0001;
-	4'b0001: state <= 4'b0100;
-	4'b0100: if(BaudTick) state <= 4'b1000;  // start
-	4'b1000: if(BaudTick) state <= 4'b1001;  // bit 0
-	4'b1001: if(BaudTick) state <= 4'b1010;  // bit 1
-	4'b1010: if(BaudTick) state <= 4'b1011;  // bit 2
-	4'b1011: if(BaudTick) state <= 4'b1100;  // bit 3
-	4'b1100: if(BaudTick) state <= 4'b1101;  // bit 4
-	4'b1101: if(BaudTick) state <= 4'b1110;  // bit 5
-	4'b1110: if(BaudTick) state <= 4'b1111;  // bit 6
-	4'b1111: if(BaudTick) state <= 4'b0010;  // bit 7
-	4'b0010:  state <= 4'b0000;  // stop
-	default: if(BaudTick) state <= 4'b0000;
-endcase
+	localparam [1:0] 	TRIG_WAITING = 2'd0,
+											START_BIT = 2'd1,
+											SENDING = 2'd2,	
+											STOP_BIT = 2'd3;
 
-// Output mux
-reg muxbit;
-always @( * )
-case(state[2:0])
-	3'd0: muxbit <= TxD_dataD[0];
-	3'd1: muxbit <= TxD_dataD[1];
-	3'd2: muxbit <= TxD_dataD[2];
-	3'd3: muxbit <= TxD_dataD[3];
-	3'd4: muxbit <= TxD_dataD[4];
-	3'd5: muxbit <= TxD_dataD[5];
-	3'd6: muxbit <= TxD_dataD[6];
-	3'd7: muxbit <= TxD_dataD[7];
-endcase
+	// Transmitter state machine
+	reg [3:0] state = TRIG_WAITING;
+	wire TxD_ready = (state==TRIG_WAITING || state==STOP_BIT);
+	assign TxD_busy = ~TxD_ready;
 
-// Put together the start, data and stop bits
-reg TxD = 1'b1;
-always @(posedge clk) TxD <= (state<4) | (state[3] & muxbit);  // register the output to make it glitch free
+	always @(posedge CLK50MHZ)
+	case(state)
+		TRIG_WAITING:
+			if(TxD_start)
+				state <= START_BIT;
+		START_BIT:
+			if(BaudTick)
+				state <= SENDING;
+		SENDING:
+			if(shiftreg_full)
+				state <= STOP_BIT; 
+		STOP_BIT:
+			state <= TRIG_WAITING;
+		default:
+			state <= TRIG_WAITING;
+	endcase
+
+
+	always @(posedge CLK50MHZ) begin
+		case(state)
+			TRIG_WAITING: begin
+				shiftreg_idx <= 0;
+			end
+			SENDING: 
+				if(BaudTick)
+					if(shiftreg_idx <= WIDTH+1)
+						shiftreg_idx <= shiftreg_idx + 1;
+					else
+						shiftreg_idx <= 0;
+		endcase
+	end
+	
+	
+	always @(posedge CLK50MHZ) begin
+		case(state)
+			TRIG_WAITING:
+				if(TxD_ready & TxD_start)
+					shiftreg <= TxD_data;
+			SENDING: 
+				if(BaudTick)
+					shiftreg <= { 1'b0, shiftreg[WIDTH-1:1] };
+		endcase
+	end
+	
+	
+	always @* begin
+		case(state)
+			START_BIT:
+				TxD = 1'b0;
+			SENDING:
+				TxD = shiftreg[0];
+			default:
+				TxD = 1'b1;				
+		endcase
+	end
+	
 
 endmodule

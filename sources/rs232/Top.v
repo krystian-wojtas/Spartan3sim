@@ -27,13 +27,11 @@ module Top(
 	output TXD
     );
 	 	 
-	 wire [7:0] aa = 8'h48;
 	 serialfun serialfun_(
 		.clk(CLK50MHZ),
 		.RxD(RXD),
 		.TxD(TXD),
-		.GPin(aa),
-		.GPout(LED)
+		.debug(LED)
 	);
 		
 

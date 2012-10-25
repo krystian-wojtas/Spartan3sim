@@ -110,8 +110,8 @@ module Rs232_behav
 	localparam CHARS = 11;
 	reg [7:0] mem [CHARS-1:0];  
 	initial begin
-		 mem[0] = "H";
-		 mem[1] = "e";
+		 mem[0] = 8'he0; // "H";
+		 mem[1] = 8'hc2; //"e";
 		 mem[2] = "l";
 		 mem[3] = "l";
 		 mem[4] = "o";
