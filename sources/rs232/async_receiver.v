@@ -45,7 +45,7 @@ begin
 end
 
 reg [3:0] state = 4'd0;
-reg [3:0] bit_spacing;
+reg [3:0] bit_spacing = 1'b0;
 
 // "next_bit" controls when the data sampling occurs
 // depending on how noisy the RxD is, different values might work better
@@ -78,7 +78,7 @@ endcase
 always @(posedge clk)
 if(Baud8Tick && next_bit && state[3]) RxD_data <= {~RxD_bit_inv, RxD_data[7:1]};
 
-reg RxD_data_ready, RxD_data_error;
+reg RxD_data_ready = 1'b0, RxD_data_error = 1'b0;
 always @(posedge clk)
 begin
 	RxD_data_ready <= (Baud8Tick && next_bit && state==4'b0001 && ~RxD_bit_inv);  // ready only if the stop bit is received
@@ -88,6 +88,6 @@ end
 reg [4:0] gap_count;
 always @(posedge clk) if (state!=0) gap_count<=5'h00; else if(Baud8Tick & ~gap_count[4]) gap_count <= gap_count + 5'h01;
 assign RxD_idle = gap_count[4];
-reg RxD_endofpacket; always @(posedge clk) RxD_endofpacket <= Baud8Tick & (gap_count==5'h0F);
+reg RxD_endofpacket = 1'b0; always @(posedge clk) RxD_endofpacket <= Baud8Tick & (gap_count==5'h0F);
 
 endmodule

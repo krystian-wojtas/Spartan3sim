@@ -68,7 +68,7 @@ case(state[2:0])
 endcase
 
 // Put together the start, data and stop bits
-reg TxD;
+reg TxD = 1'b1;
 always @(posedge clk) TxD <= (state<4) | (state[3] & muxbit);  // register the output to make it glitch free
 
 endmodule

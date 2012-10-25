@@ -43,19 +43,26 @@ module Rs232_tx_behav
 	output reg tx = 1'b1
 );
 
-	reg [7:0] mem [4:0];  
+	localparam CHARS = 11;
+	reg [7:0] mem [CHARS-1:0];  
 	initial begin
-		 mem[0] = 8'h81;
+		 mem[0] = "H";
 		 mem[1] = "e";
 		 mem[2] = "l";
 		 mem[3] = "l";
 		 mem[4] = "o";
+		 mem[5] = " ";
+		 mem[6] = "R";
+		 mem[7] = "S";
+		 mem[8] = "2";
+		 mem[9] = "3";
+		 mem[10]="2";
 	end
 		 
 	integer j = 0;
 	initial begin
 		#1000;
-		for(j=0; j<4; j=j+1)
+		for(j=0; j<CHARS; j=j+1)
 			transmit( mem[j] );
 	end
 
