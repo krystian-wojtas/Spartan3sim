@@ -32,17 +32,22 @@
 // LOGLEVEL = 4
 // 	informuje o wysylaniu/otrzymywaniu poszczegolnych bitow
 // LOGLEVEL = 5
-// 	
+// 	informuje o wyslaniu/otrzymywaniue start i stop bitow
 // LOGLEVEL = 6 //TODO del
 // 	debug
 module Rs232_behav
 #(
-	parameter LOGLEVEL=3
-	//TODO parameter bound rate
+	parameter LOGLEVEL=3,
+	parameter BAUDRATE = 115_200
 ) (
 	input rx,
 	output reg tx = 1'b1
 );
+
+	// czas polowy okresu przy zakladanej szybkosci
+	parameter half_period = 1_000_000_000 / BAUDRATE;
+	// czas jednego okresu
+	parameter period = half_period * 2;
 
 
 	task transmit( input [7:0] byte_tosend);
@@ -50,19 +55,23 @@ module Rs232_behav
 		begin
 		//start bit
 		tx = 1'b0;
-		#17400;
+		if(LOGLEVEL >= 5)
+			$display("%t\tINFO5 RS rozpoczecie transmisji, start bit 0", $time);
+		#period;
 		
 		//byte
 		for(i=0; i < 8; i=i+1) begin
 			tx = byte_tosend[i];
 			if(LOGLEVEL >= 4)		
 				$display("%t\tINFO3 RS wyslano bit nr %d o wartosci %b", $time, i, tx);
-			#17400;
+			#period;
 		end
 		
 		//stop bit
 		tx = 1'b1;
-		#17400;
+		if(LOGLEVEL >= 5)
+			$display("%t\tINFO5 RS zakonczenie transmisji, stop bit 1", $time);
+		#period;
 		
 		if(LOGLEVEL >= 3)
 			$display("%t\tINFO2 RS wyslano bajt %b 0x%h %d %s", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
@@ -75,25 +84,25 @@ module Rs232_behav
 		begin
 		//start bit
 		if(LOGLEVEL >= 5)
-			$display("%t\tINFO5 RS start bit 0, rozpoczecie odbioru", $time);
-		#17400; // przeczekanie start bitu
-		#6700; // opoznienie aby probkowac w polowie taktu
+			$display("%t\tINFO5 RS rozpoczecie odbioru, start bit 0", $time);
+		#period; // przeczekanie start bitu
+		#half_period; // opoznienie aby probkowac w polowie taktu
 		
 		//byte
 		for(i=0; i < 8; i=i+1) begin
 			byte_received[i] = rx;
 			if(LOGLEVEL >= 4)
 				$display("%t\tINFO4 RS odebrano bit nr %d o wartosci %b", $time, i, rx);
-			#17400;
+			#period;
 		end
 		
 		//stop bit
 		if(LOGLEVEL >= 5)
-			$display("%t\tINFO5 RS stop bit %b, zakonczenie odbioru", $time, rx);
+			$display("%t\tINFO5 RS zakonczenie odbioru, stop bit %b", $time, rx);
 		if(~rx)
 			if(LOGLEVEL >= 1)
 				$display("%t\tERROR RS spodziwany odbior stop bitu (jedynki), jednak nastapilo zero", $time);
-		#6700; // przeczekanie polowy stop bitu; nie czekam do konca bo przeocze zdarzenie negatywnego zbocza rx (start bit 0) co rozpoczynaloby odbior kolejnego pakietu
+		#half_period; // przeczekanie polowy stop bitu; nie czekam do konca bo przeocze zdarzenie negatywnego zbocza rx (start bit 0) co rozpoczynaloby odbior kolejnego pakietu
 		end
 	endtask
 	
@@ -117,7 +126,7 @@ module Rs232_behav
 		 
 	integer j = 0;
 	initial begin
-		#1000;
+		#10_000; // opoznienie
 		for(j=0; j<CHARS; j=j+1)
 			transmit( mem[j] );
 	end
