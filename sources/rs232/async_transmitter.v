@@ -6,10 +6,8 @@
 
 module async_transmitter
 #(
-	parameter CLK50MHZFrequency = 50000000,	// 50MHz
-	parameter Baud = 115200,
-	parameter RegisterInputData = 1	// in RegisterInputData mode, the input doesn't have to stay valid while the character is been transmitted
-	//TODO wyzej 1, tymczasowo jest 0
+	parameter ClkFrequency = 50000000,	// 50MHz
+	parameter Baud = 115200
 ) (
 	input CLK50MHZ,
 	input TxD_start,
@@ -21,7 +19,7 @@ module async_transmitter
 	// Baud generator
 	parameter BaudGeneratorAccWidth = 17;
 	reg [BaudGeneratorAccWidth:0] BaudGeneratorAcc = 0;
-	wire [BaudGeneratorAccWidth:0] BaudGeneratorInc = ((Baud<<(BaudGeneratorAccWidth-4))+(CLK50MHZFrequency>>5))/(CLK50MHZFrequency>>4);
+	wire [BaudGeneratorAccWidth:0] BaudGeneratorInc = ((Baud<<(BaudGeneratorAccWidth-4))+(ClkFrequency>>5))/(ClkFrequency>>4);
 
 	wire BaudTick = BaudGeneratorAcc[BaudGeneratorAccWidth];
 	always @(posedge CLK50MHZ) if(TxD_busy) BaudGeneratorAcc <= BaudGeneratorAcc[BaudGeneratorAccWidth-1:0] + BaudGeneratorInc;

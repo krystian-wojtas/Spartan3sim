@@ -22,7 +22,7 @@ module TopTest(
     );
 	 
 	wire CLK50MHZ;
-   Clock Clock_(.clk(CLK50MHZ));
+	Clock Clock_(.clk(CLK50MHZ));
 
 	wire RXD;
 	wire TXD;
