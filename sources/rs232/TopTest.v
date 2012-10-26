@@ -23,19 +23,6 @@ module TopTest(
 	 
 	wire CLK50MHZ;
    Clock Clock_(.clk(CLK50MHZ));
-    
-   wire RST;
-   Reset Reset_(.RST(RST));
-
-//	wire RXD;
-//	Rs232_tx_behav Rs232_tx_behav_(
-//		.tx(RXD)
-//	);
-//	
-//	wire TXD;
-//	Rs232_rx_behav Rs232_rx_behav_(
-//		.rx(TXD)
-//	);
 
 	wire RXD;
 	wire TXD;
@@ -47,7 +34,6 @@ module TopTest(
 	wire [7:0] LED;
 	Top Top_(
 		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
 		.LED(LED),
 		.RXD(RXD),
 		.TXD(TXD)

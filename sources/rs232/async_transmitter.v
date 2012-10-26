@@ -30,7 +30,7 @@ module async_transmitter
 	localparam WIDTH = 8;
 	reg [7:0] shiftreg = 8'd0;
 	reg [3:0] shiftreg_idx = 4'd0;
-	wire shiftreg_full = shiftreg_idx[3];
+	wire shiftreg_empty = shiftreg_idx[3];
 
 
 	localparam [1:0] 	TRIG_WAITING = 2'd0,
@@ -39,7 +39,7 @@ module async_transmitter
 											STOP_BIT = 2'd3;
 
 	// Transmitter state machine
-	reg [3:0] state = TRIG_WAITING;
+	reg [1:0] state = TRIG_WAITING;
 	wire TxD_ready = (state==TRIG_WAITING || state==STOP_BIT);
 	assign TxD_busy = ~TxD_ready;
 
@@ -52,7 +52,7 @@ module async_transmitter
 			if(BaudTick)
 				state <= SENDING;
 		SENDING:
-			if(shiftreg_full)
+			if(shiftreg_empty)
 				state <= STOP_BIT; 
 		STOP_BIT:
 			state <= TRIG_WAITING;
