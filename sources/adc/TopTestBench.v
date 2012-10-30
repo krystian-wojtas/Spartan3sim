@@ -23,7 +23,7 @@ module TopTestBench(
     );
 	 
 	initial
-		SW = 4'h1;
+		SW = 4'h3;
 
 
 endmodule

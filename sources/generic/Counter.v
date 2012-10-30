@@ -19,7 +19,6 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Counter #(
-	parameter N=2,
 	parameter MAX=4,
 	parameter K=1,
 	parameter DELAY=0
@@ -31,8 +30,20 @@ module Counter #(
 	input sig, // signal which is counted
 	output cnt_tick // one pulse if counter is full
 );
+
+
+	//constant function calculetes value at collaboration time
+	//source http://www.beyond-circuits.com/wordpress/2008/11/constant-functions/
+	function integer log2;
+	  input integer value;
+	  begin
+		 value = value-1;
+		 for (log2=0; value>0; log2=log2+1)
+			value = value>>1;
+	  end
+	endfunction
 	
-	reg [N-1:0] counter_reg = 0;
+	reg [log2(MAX)-1:0] counter_reg = 0;
 	always @(posedge CLK50MHZ)
 		if(rst)
 			counter_reg <= 0;

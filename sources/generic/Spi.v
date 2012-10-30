@@ -38,23 +38,9 @@ module Spi #(
     );
 	 
 	 
-	//constant function calculetes value at collaboration time
-	//source http://www.beyond-circuits.com/wordpress/2008/11/constant-functions/
-	function integer log2;
-	  input integer value;
-	  begin
-		 value = value-1;
-		 for (log2=0; value>0; log2=log2+1)
-			value = value>>1;
-	  end
-	endfunction
-	
-	 
 	wire spi_en;
 	wire sent_all_bits;	
 	Counter #(
-//		.N(log2(WIDTH)),
-		.N(5),
 		.MAX(WIDTH)
 	) Counter_ (
 		.CLK50MHZ(CLK50MHZ),

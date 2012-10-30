@@ -40,25 +40,30 @@ module cntr(
 	assign amp_a = 4'b0001; // 0.4 2.9
 	assign amp_b = 4'b0010; // 1.025 2.275
 	
-	//frequency
-	wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza
-//	wire [31:0] cnt_max = 300;	//TODO log2
-	wire cnt_en;
-	Counter Counter_(
+	reg cnt_en;
+	wire cnt_tick;
+	assign adc_trig = cnt_tick;
+	Counter #(
+		.MAX(100_000_000)
+//		.MAX(300)
+	)	Counter_(
 		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
+		.rst(RST),
 		// counter
 		.cnt_en(cnt_en),
-		.cnt_max(cnt_max),
-		.cnt_trig(adc_trig)
+		.sig(1'b1),
+		.cnt_tick(cnt_tick)
 	);
 	
 	
-	localparam [1:0]	RESTART = 2'd0,
-							AMP_SENDING = 2'd1,
-							ADC_CONVERTING = 2'd2;
+	localparam [2:0]	RESTART = 3'd0,
+							AMP_SENDING = 3'd1,
+							ADC_CONVERT = 3'd2,
+							ADC_CONVERTING = 3'd3,
+							CNT_START = 3'd4,
+							CNT_WAIT = 3'd5; //TODO order
 
-	reg [1:0] state = RESTART;
+	reg [2:0] state = RESTART;
 	always @(posedge CLK50MHZ)
 		if(RST)
 			state <= RESTART;
@@ -68,10 +73,41 @@ module cntr(
 					state <= AMP_SENDING;
 				AMP_SENDING:
 					if(amp_done)
-						state <= ADC_CONVERTING;
-				//ADC_CONVERTING:
-					// stay here until reset
+						state <= CNT_START;
+				CNT_START:
+					state <= CNT_WAIT;
+				CNT_WAIT:
+					if(cnt_tick)
+						state <= ADC_CONVERT;
+				ADC_CONVERT:
+					state <= ADC_CONVERTING;
+				ADC_CONVERTING:
+					if(adc_done)
+						state <= CNT_START;
 			endcase
+	
+	always @(posedge CLK50MHZ)
+		if(RST)
+			cnt_en <= 1'b0;
+		else
+			case(state)
+				CNT_START:
+					cnt_en <= 1'b1;
+				ADC_CONVERT:
+					cnt_en <= 1'b0;
+			endcase
+	//TODO assign state == CNT_START or CNT_WAIT
+	
+	
+	//TODO del
+	reg timer;
+	always @(posedge CLK50MHZ)
+		if(RST)
+			timer <= 1'b0;
+		else
+			if(cnt_tick)
+				timer <= ~timer;
+				
 	
 	reg [7:0] ledreg;
 	always @(posedge CLK50MHZ)
@@ -84,12 +120,13 @@ module cntr(
 				4'h4:		ledreg <= adc_b[7:0];
 				4'h8:		ledreg <= adc_b[13:8];
 				4'h3:		ledreg <= amp_datareceived;
-				default:	ledreg <= 8'h55;
+				default:	ledreg <= { 7'h55, timer };
 			endcase
 	assign led = ledreg;
 			
 	
 	assign amp_trig = (state == RESTART);
-	assign cnt_en = (state == ADC_CONVERTING);
+	//assign cnt_en = (state == ADC_CONVERTING);
+	
 
 endmodule
