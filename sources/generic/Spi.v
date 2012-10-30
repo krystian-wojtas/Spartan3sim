@@ -27,7 +27,7 @@ module Spi #(
 	input CLK50MHZ,
 	// spi lines
 	output spi_sck,
-	output reg spi_cs,
+	output reg spi_cs = 1'b1,
 	input spi_miso,
 	output spi_mosi,
 	// spi module interface
@@ -65,6 +65,7 @@ module Spi #(
 		.cnt_tick(sent_all_bits) // one pulse if counter is full
 );
 
+wire tx;
 Shiftreg #(
 	.WIDTH(WIDTH)
 ) Shiftreg_ (
@@ -73,7 +74,7 @@ Shiftreg #(
 	.en(spi_en), // set shiftreg register to zero
 	.tick(1'b1), //TODO
 	.rx(1'b0),
-	.tx(spi_mosi),
+	.tx(tx),
 	.data_in(data_in),
 	.data_out(data_out)
 );
@@ -115,7 +116,8 @@ Shiftreg #(
 	
 	
 	assign spi_en = (state == SENDING);
-	assign spi_sck = (spi_en) ? CLK50MHZ : 1'b0;			
+	assign spi_sck = (spi_en) ? CLK50MHZ : 1'b0;
+	assign spi_mosi = (spi_en) ? tx : 1'b1;
 	assign spi_done = (state == DONE);
 
 endmodule
