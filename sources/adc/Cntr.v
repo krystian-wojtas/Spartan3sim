@@ -48,12 +48,12 @@ module cntr(
 //		.MAX(100_000_000)
 		.MAX(300)
 	)	Counter_(
-		.CLK50MHZ(CLK50MHZ),
+		.CLKB(CLK50MHZ),
 		.rst(RST),
 		// counter
-		.cnt_en(cnt_en),
+		.en(cnt_en),
 		.sig(1'b1),
-		.cnt_tick(cnt_tick)
+		.full(cnt_tick)
 	);
 	
 	

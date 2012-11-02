@@ -46,12 +46,12 @@ module Amp(
 		.MAX(5),
 		.DELAY(1)
 	) Counter_clk (
-		.CLK50MHZ(CLK50MHZ),
+		.CLKB(CLK50MHZ),
 		// counter
-		.cnt_en(1'b1), // if high counter is enabled and is counting
+		.en(1'b1), // if high counter is enabled and is counting
 		.rst(RST), // set counter register to zero
 		.sig(1'b1), // signal which is counted
-		.cnt_tick(clk_tick) // one pulse if counter is full
+		.full(clk_tick) // one pulse if counter is full
 	);
 	
 	
@@ -68,12 +68,12 @@ module Amp(
 		.MAX(8),
 		.DELAY(0)
 	) Counter_tick_pos (
-		.CLK50MHZ(CLK50MHZ),
+		.CLKB(CLK50MHZ),
 		// counter
-		.cnt_en(1'b1), // if high counter is enabled and is counting
+		.en(1'b1), // if high counter is enabled and is counting
 		.rst(RST), // set counter register to zero
 		.sig(1'b1), // signal which is counted
-		.cnt_tick(tick_pos) // one pulse if counter is full
+		.full(tick_pos) // one pulse if counter is full
 	);
 	
 	
@@ -81,18 +81,18 @@ module Amp(
 	Spi #(
 		.WIDTH(WIDTH)
 	) Spi_mosi (
-		.CLK50MHZ(CLK50MHZ),
+		.CLKB(CLK50MHZ),
 		.RST(RST),
 		// spi lines
 		.spi_sck(spi_sck),
 		.spi_cs(amp_cs),
 		.spi_mosi(spi_mosi),
-		.spi_miso(amp_dout),
+		.spi_miso(1'b1),
 		// spi module interface
 		.data_in(amp_datatosend),
 		.data_out(amp_datareceived),
-		.spi_trig(amp_trig),
-		.spi_ready(amp_done),
+		.trig(amp_trig),
+		.ready(amp_done),
 		.clk(clk),
 		.tick(tick_pos)
 	);
@@ -103,31 +103,29 @@ module Amp(
 		.MAX(8),
 		.DELAY(0)
 	) Counter_tick_neg (
-		.CLK50MHZ(CLK50MHZ),
+		.CLKB(CLK50MHZ),
 		// counter
-		.cnt_en(1'b1), // if high counter is enabled and is counting
+		.en(1'b1), // if high counter is enabled and is counting
 		.rst(RST), // set counter register to zero
 		.sig(1'b1), // signal which is counted
-		.cnt_tick(tick_neg) // one pulse if counter is full
+		.full(tick_neg) // one pulse if counter is full
 	);
 	
 	
-	wire [WIDTH-1:0] amp_datatosend = { amp_b,  amp_a };
 	Spi #(
 		.WIDTH(WIDTH)
 	) Spi_miso (
-		.CLK50MHZ(CLK50MHZ),
+		.CLKB(CLK50MHZ),
 		.RST(RST),
 		// spi lines
 		.spi_sck(spi_sck),
 		.spi_cs(amp_cs),
-		.spi_mosi(spi_mosi),
 		.spi_miso(amp_dout),
 		// spi module interface
-		.data_in(amp_datatosend),
+		.data_in( 0 ),
 		.data_out(amp_datareceived),
-		.spi_trig(amp_trig),
-		.spi_ready(amp_done),
+		.trig(amp_trig),
+		.ready(amp_done),
 		.clk(clk),
 		.tick(tick_neg)
 	);

@@ -47,7 +47,7 @@ module Adc(
 		.WIDTH(WIDTH),
 		.DIV(10)
 	) Spi_ (
-		.CLK50MHZ(CLK50MHZ),
+		.CLKB(CLK50MHZ),
 		.RST(RST),
 		// spi lines
 		.spi_sck(spi_sck),
@@ -57,8 +57,8 @@ module Adc(
 		// spi module interface
 		.data_in(adc_datatosend),
 		.data_out(adc_datareceived),
-		.spi_trig(adc_trig),
-		.spi_ready(adc_done),
+		.trig(adc_trig),
+		.ready(adc_done),
 		.tick(1'b1),
 		.clk(CLK50MHZ)
 	);

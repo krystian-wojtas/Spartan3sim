@@ -21,7 +21,7 @@
 module Shiftreg #(
 	parameter WIDTH=8
 ) (
-	input CLK50MHZ,
+	input CLKB,
 	// shiftreg
 	input en,
 	input set, // setting shiftreg value to data_in if spi_trig occurs
@@ -46,7 +46,7 @@ module Shiftreg #(
 	
 			
 	reg [WIDTH-1:0] shiftreg = {WIDTH{1'b0}};			
-	always @(posedge CLK50MHZ) begin
+	always @(posedge CLKB) begin
 		if(set)
 			shiftreg <= data_in;
 		else if(en & tick)
