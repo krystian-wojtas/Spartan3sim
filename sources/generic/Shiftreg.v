@@ -24,8 +24,8 @@ module Shiftreg #(
 	input CLK50MHZ,
 	// shiftreg
 	input en,
-	input set,
-	input tick,
+	input set, // setting shiftreg value to data_in if spi_trig occurs
+	input tick, // register shifting is syncronized with tick signal
 	input rx,
 	output reg tx = 1'b1,
 	input [WIDTH-1:0] data_in,

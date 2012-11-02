@@ -43,7 +43,6 @@ module Adc(
 	
 	wire spi_cs;
 	wire spi_mosi;
-	wire clk = 1'b1;
 	Spi #(
 		.WIDTH(WIDTH),
 		.DIV(10)
@@ -59,8 +58,9 @@ module Adc(
 		.data_in(adc_datatosend),
 		.data_out(adc_datareceived),
 		.spi_trig(adc_trig),
-		.spi_done(adc_done),
-		.clk(clk)
+		.spi_ready(adc_done),
+		.tick(1'b1),
+		.clk(CLK50MHZ)
 	);
 	
 	assign adc_conv = adc_trig;

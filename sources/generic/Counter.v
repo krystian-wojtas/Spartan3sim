@@ -28,7 +28,7 @@ module Counter #(
 	input cnt_en, // if high counter is enabled and is counting
 	input rst, // set counter register to zero
 	input sig, // signal which is counted
-	output cnt_tick // one pulse if counter is full
+	output reg cnt_tick // one pulse if counter is full
 );
 
 
@@ -43,16 +43,18 @@ module Counter #(
 	  end
 	endfunction
 	
-	reg [log2(MAX)-1:0] counter_reg = 0;
+	reg [log2(MAX):0] counter_reg = 0;
 	always @(posedge CLK50MHZ)
 		if(rst)
 			counter_reg <= 0;
 		else if(cnt_en & sig)
-			if(counter_reg < MAX)
+			if(counter_reg < MAX-1)
 				counter_reg <= counter_reg + K;
 			else
 				counter_reg <= DELAY;
 		
-	assign cnt_tick = (counter_reg == MAX-1);
+	//assign cnt_tick = (counter_reg == MAX-1);
+	always @*
+		cnt_tick = (counter_reg == MAX-1);
 
 endmodule

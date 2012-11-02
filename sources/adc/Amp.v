@@ -40,26 +40,96 @@ module Amp(
 	 
 	localparam WIDTH=8;
 	
+	
+	wire clk_tick;
+	Counter #(
+		.MAX(5),
+		.DELAY(1)
+	) Counter_clk (
+		.CLK50MHZ(CLK50MHZ),
+		// counter
+		.cnt_en(1'b1), // if high counter is enabled and is counting
+		.rst(RST), // set counter register to zero
+		.sig(1'b1), // signal which is counted
+		.cnt_tick(clk_tick) // one pulse if counter is full
+	);
+	
+	
+	wire clk;
+	Inverter Inverter (
+		.CLK(CLK50MHZ),
+		.tick(clk_tick),
+		.inv(clk)
+	);
+	
+	
+	wire tick_pos;
+	Counter #(
+		.MAX(8),
+		.DELAY(0)
+	) Counter_tick_pos (
+		.CLK50MHZ(CLK50MHZ),
+		// counter
+		.cnt_en(1'b1), // if high counter is enabled and is counting
+		.rst(RST), // set counter register to zero
+		.sig(1'b1), // signal which is counted
+		.cnt_tick(tick_pos) // one pulse if counter is full
+	);
+	
+	
 	wire [WIDTH-1:0] amp_datatosend = { amp_b,  amp_a };
-	wire clk = 1'b1;
 	Spi #(
-		.WIDTH(WIDTH),
-		.DIV(1)
-	) Spi_ (
+		.WIDTH(WIDTH)
+	) Spi_mosi (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// spi lines
 		.spi_sck(spi_sck),
 		.spi_cs(amp_cs),
 		.spi_mosi(spi_mosi),
-		.spi_miso(1'b1),
-//		.spi_miso(amp_dout),
+		.spi_miso(amp_dout),
 		// spi module interface
 		.data_in(amp_datatosend),
 		.data_out(amp_datareceived),
 		.spi_trig(amp_trig),
-		.spi_done(amp_done),
-		.clk(clk)
+		.spi_ready(amp_done),
+		.clk(clk),
+		.tick(tick_pos)
+	);
+	
+	
+	wire tick_neg;
+	Counter #(
+		.MAX(8),
+		.DELAY(0)
+	) Counter_tick_neg (
+		.CLK50MHZ(CLK50MHZ),
+		// counter
+		.cnt_en(1'b1), // if high counter is enabled and is counting
+		.rst(RST), // set counter register to zero
+		.sig(1'b1), // signal which is counted
+		.cnt_tick(tick_neg) // one pulse if counter is full
+	);
+	
+	
+	wire [WIDTH-1:0] amp_datatosend = { amp_b,  amp_a };
+	Spi #(
+		.WIDTH(WIDTH)
+	) Spi_miso (
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		// spi lines
+		.spi_sck(spi_sck),
+		.spi_cs(amp_cs),
+		.spi_mosi(spi_mosi),
+		.spi_miso(amp_dout),
+		// spi module interface
+		.data_in(amp_datatosend),
+		.data_out(amp_datareceived),
+		.spi_trig(amp_trig),
+		.spi_ready(amp_done),
+		.clk(clk),
+		.tick(tick_neg)
 	);
 	
 	
