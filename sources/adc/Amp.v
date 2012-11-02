@@ -41,7 +41,7 @@ module Amp(
 	localparam WIDTH=8;
 	
 	wire [WIDTH-1:0] amp_datatosend = { amp_b,  amp_a };
-	
+	wire clk = 1'b1;
 	Spi #(
 		.WIDTH(WIDTH),
 		.DIV(1)
@@ -52,12 +52,14 @@ module Amp(
 		.spi_sck(spi_sck),
 		.spi_cs(amp_cs),
 		.spi_mosi(spi_mosi),
-		.spi_miso(amp_dout),
+		.spi_miso(1'b1),
+//		.spi_miso(amp_dout),
 		// spi module interface
 		.data_in(amp_datatosend),
 		.data_out(amp_datareceived),
 		.spi_trig(amp_trig),
-		.spi_done(amp_done)
+		.spi_done(amp_done),
+		.clk(clk)
 	);
 	
 	

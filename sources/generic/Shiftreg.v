@@ -24,6 +24,7 @@ module Shiftreg #(
 	input CLK50MHZ,
 	// shiftreg
 	input en,
+	input set,
 	input tick,
 	input rx,
 	output reg tx = 1'b1,
@@ -46,9 +47,9 @@ module Shiftreg #(
 			
 	reg [WIDTH-1:0] shiftreg = {WIDTH{1'b0}};			
 	always @(posedge CLK50MHZ) begin
-		if(~en)
+		if(set)
 			shiftreg <= data_in;
-		else if(tick)
+		else if(en & tick)
 			shiftreg <= { shiftreg[WIDTH-2:0], rx };
 	end
 			

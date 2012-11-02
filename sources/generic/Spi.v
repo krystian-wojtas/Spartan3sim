@@ -34,7 +34,8 @@ module Spi #(
 	input [WIDTH-1:0] data_in,
 	output [WIDTH-1:0] data_out,
 	input spi_trig,
-	output spi_done
+	output spi_done,
+	input clk
     );
 	 
 	 
@@ -47,19 +48,21 @@ module Spi #(
 		// counter
 		.cnt_en(spi_en), // if high counter is enabled and is counting
 		.rst(~spi_en), // set counter register to zero
-		.sig(1'b1), // signal which is counted
+		.sig(clk), // signal which is counted
 		.cnt_tick(sent_all_bits) // one pulse if counter is full
 );
 
 wire tx;
+wire sr_set = spi_trig;
 Shiftreg #(
 	.WIDTH(WIDTH)
 ) Shiftreg_ (
 	.CLK50MHZ(CLK50MHZ),
 	// shiftreg
 	.en(spi_en), // set shiftreg register to zero
-	.tick(1'b1), //TODO
-	.rx(1'b0),
+	.set(sr_set),
+	.tick(clk),
+	.rx(spi_miso),
 	.tx(tx),
 	.data_in(data_in),
 	.data_out(data_out)

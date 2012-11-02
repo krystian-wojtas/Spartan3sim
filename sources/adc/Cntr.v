@@ -38,14 +38,15 @@ module cntr(
     );	
 	
 	assign amp_a = 4'b0001; // 0.4 2.9
-	assign amp_b = 4'b0010; // 1.025 2.275
+//	assign amp_b = 4'b0010; // 1.025 2.275
+	assign amp_b = 4'b1000; //  0.4 2.9 ??
 	
 	reg cnt_en;
 	wire cnt_tick;
 	assign adc_trig = cnt_tick;
 	Counter #(
-		.MAX(100_000_000)
-//		.MAX(300)
+//		.MAX(100_000_000)
+		.MAX(300)
 	)	Counter_(
 		.CLK50MHZ(CLK50MHZ),
 		.rst(RST),
