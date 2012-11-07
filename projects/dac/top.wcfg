@@ -3,10 +3,10 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/z/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3sim/projects/dac/toptest_isim_beh1.wdb" id="1" type="auto">
+      <db_ref path="/home/z/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3sim/projects/dac/TopTest_isim_beh1.wdb" id="1" type="auto">
          <top_modules>
+            <top_module name="TopTest" />
             <top_module name="glbl" />
-            <top_module name="toptest" />
          </top_modules>
       </db_ref>
    </db_ref_list>
@@ -43,47 +43,47 @@
       <marker time="5740000000" label="" />
       <marker time="5860000000" label="" />
    </wave_markers>
-   <wvobject fp_name="/toptest/CLK50MHZ" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/RST" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">RST</obj_property>
       <obj_property name="ObjectShortName">RST</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/SPI_SCK" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/SPI_SCK" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">SPI_SCK</obj_property>
       <obj_property name="ObjectShortName">SPI_SCK</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/DAC_CS" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/DAC_CS" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">DAC_CS</obj_property>
       <obj_property name="ObjectShortName">DAC_CS</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/DAC_CLR" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/DAC_CLR" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">DAC_CLR</obj_property>
       <obj_property name="ObjectShortName">DAC_CLR</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/SPI_MOSI" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/SPI_MOSI" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">SPI_MOSI</obj_property>
       <obj_property name="ObjectShortName">SPI_MOSI</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/DAC_OUT" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/DAC_OUT" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">DAC_OUT</obj_property>
       <obj_property name="ObjectShortName">DAC_OUT</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/BTN_WEST" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/BTN_WEST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">BTN_WEST</obj_property>
       <obj_property name="ObjectShortName">BTN_WEST</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/BTN_EAST" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/BTN_EAST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">BTN_EAST</obj_property>
       <obj_property name="ObjectShortName">BTN_EAST</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/SW" type="array" db_ref_id="1">
+   <wvobject fp_name="/TopTest/SW" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">SW[3:0]</obj_property>
       <obj_property name="ObjectShortName">SW[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/toptest/LED" type="array" db_ref_id="1">
+   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">LED[7:0]</obj_property>
       <obj_property name="ObjectShortName">LED[7:0]</obj_property>
    </wvobject>

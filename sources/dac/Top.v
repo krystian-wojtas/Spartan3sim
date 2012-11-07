@@ -45,7 +45,10 @@ module Top (
 	);
 	
 	wire more;
-	Debouncer Debouncer_more_(
+	Debouncer #(
+		.N(10) // sim
+//		.N(10000000) // synth
+	) Debouncer_more_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		.in(BTN_EAST),
