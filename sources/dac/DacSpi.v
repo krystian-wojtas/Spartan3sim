@@ -42,7 +42,7 @@ module DacSpi (
 	Spi #(
 		.WIDTH(WIDTH)
 	) Spi_ (
-		.CLK50MHZ(CLK50MHZ),
+		.CLKB(CLK50MHZ),
 		.RST(RST),
 		// spi lines
 		.spi_sck(SPI_SCK),
@@ -52,8 +52,10 @@ module DacSpi (
 		// spi module interface
 		.data_in(dacdatatosend),
 		.data_out(dacdatareceived),
-		.spi_trig(dactrig),
-		.spi_done(dacdone)
+		.trig(dactrig),
+		.ready(dacdone),
+		.clk(CLK50MHZ),
+		.tick(1'b1)
 	);
 	
 	assign DAC_CLR = ~RST;

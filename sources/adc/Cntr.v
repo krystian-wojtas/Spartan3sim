@@ -45,8 +45,8 @@ module cntr(
 	wire cnt_tick;
 	assign adc_trig = cnt_tick;
 	Counter #(
-//		.MAX(100_000_000)
-		.MAX(300)
+		.MAX(100_000_000)
+//		.MAX(300)
 	)	Counter_(
 		.CLKB(CLK50MHZ),
 		.rst(RST),

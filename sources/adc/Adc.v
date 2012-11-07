@@ -44,8 +44,7 @@ module Adc(
 	wire spi_cs;
 	wire spi_mosi;
 	Spi #(
-		.WIDTH(WIDTH),
-		.DIV(10)
+		.WIDTH(WIDTH)
 	) Spi_ (
 		.CLKB(CLK50MHZ),
 		.RST(RST),

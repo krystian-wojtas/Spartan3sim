@@ -36,11 +36,11 @@ module Serial  #(
 	 
 	wire sent_all_bits;	
 	Counter #(
-		.MAX(WIDTH+1) // TODO check
+		.MAX(WIDTH)
 	) Counter_bits (
 		.CLKB(CLKB),
 		// counter
-		.en(1'b1), // if high counter is enabled and is counting
+		.en(~ready), // if high counter is enabled and is counting
 		.rst(1'b0), // set counter register to zero
 		.sig(tick), // signal which is counted; counts ticks
 		.full(sent_all_bits) // one pulse if counter is full
@@ -51,7 +51,7 @@ module Serial  #(
 	) Shiftreg_ (
 		.CLKB(CLKB),
 		// shiftreg
-		.en(1'b1),
+		.en(~ready),
 		.set(trig), // setting shiftreg value to data_in if trig occurs
 		.tick(tick),
 		.rx(rx),

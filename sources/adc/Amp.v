@@ -90,7 +90,6 @@ module Amp(
 		.spi_miso(1'b1),
 		// spi module interface
 		.data_in(amp_datatosend),
-		.data_out(amp_datareceived),
 		.trig(amp_trig),
 		.ready(amp_done),
 		.clk(clk),
@@ -111,23 +110,20 @@ module Amp(
 		.full(tick_neg) // one pulse if counter is full
 	);
 	
-	
-	Spi #(
+
+	Shiftreg #(
 		.WIDTH(WIDTH)
-	) Spi_miso (
+	) Shiftreg_ (
 		.CLKB(CLK50MHZ),
-		.RST(RST),
-		// spi lines
-		.spi_sck(spi_sck),
-		.spi_cs(amp_cs),
-		.spi_miso(amp_dout),
-		// spi module interface
+		// shiftreg
+		.en(1'b1),
+		.set(1'b0),
+//		.set(trig), // setting shiftreg value to data_in if trig occurs
+		.tick(tick_neg),
+		.rx(amp_dout),
+//		.tx(tx),
 		.data_in( 0 ),
-		.data_out(amp_datareceived),
-		.trig(amp_trig),
-		.ready(amp_done),
-		.clk(clk),
-		.tick(tick_neg)
+		.data_out(amp_datareceived)
 	);
 	
 	
