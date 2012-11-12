@@ -94,13 +94,12 @@ module Spi #(
 			
 			
 	always @(posedge CLK50MHZ) begin
-		if(RST) begin
+		if(RST)
 			shiftreg_idx <= 0;
-		end else
+		else
 			case(state)
-				TRIG_WAITING: begin
+				TRIG_WAITING:
 					shiftreg_idx <= 0;
-				end
 				SENDING: 
 					if(clk_pos_trig)
 						if(shiftreg_idx <= WIDTH) //TODO <= ? <
@@ -137,15 +136,15 @@ module Spi #(
 						spi_mosi <= shiftreg[WIDTH-1];
 			endcase
 	end
-	
-			
+
+
 	always @(posedge CLK50MHZ) begin
 		if(RST) spi_cs <= 1'b1;
 		else
-			if(spi_trig)
+			if(state == SENDING)
 				spi_cs <= 1'b0;
-			else if(spi_done)
-					spi_cs <= 1'b1;
+			else if(state == DONE)
+				spi_cs <= 1'b1;
 	end
 	
 	

@@ -37,12 +37,12 @@ module cntr(
 	input [7:0] amp_datareceived
     );	
 	
-	assign amp_a = 4'b0100;
-	assign amp_b = 4'b0010;
+	assign amp_a = 4'b1000;
+	assign amp_b = 4'b0001;
 	
 	//frequency
-	wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza
-	//wire [31:0] cnt_max = 50;	//TODO log2
+	//wire [31:0] cnt_max = 100_000_000; //TODO zaleznie czy symulacja czy synteza
+	wire [31:0] cnt_max = 50;	//TODO log2
 	wire cnt_en;
 	Counter Counter_(
 		.CLK50MHZ(CLK50MHZ),
