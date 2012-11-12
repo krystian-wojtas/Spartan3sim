@@ -91,7 +91,7 @@ module top(
 		//control
 		.less(less),
 		.more(more),
-		.sw(SW), //moze byc sw po zdebouncowaniu
+		.sw(sw), //moze byc sw po zdebouncowaniu
 		// debug
 		.LED(LED)
 	);
