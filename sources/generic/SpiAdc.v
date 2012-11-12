@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-module Spi #(
+module SpiAdc #(
 	parameter WIDTH=32,
 	parameter DIV=1
 ) (
@@ -84,7 +84,7 @@ module Spi #(
 						if(spi_trig)
 							state <= SENDING;
 					SENDING:
-						if(clk_pos_trig & shiftreg_idx == WIDTH+1)
+						if(clk_neg_trig & shiftreg_idx == WIDTH+1)
 							state <= DONE;
 					DONE:
 						state <= TRIG_WAITING;
@@ -102,7 +102,7 @@ module Spi #(
 					shiftreg_idx <= 0;
 				end
 				SENDING: 
-					if(clk_pos_trig)
+					if(clk_neg_trig)
 						if(shiftreg_idx <= WIDTH) //TODO <= ? <
 							shiftreg_idx <= shiftreg_idx + 1;
 						else
@@ -119,7 +119,7 @@ module Spi #(
 				TRIG_WAITING:
 					shiftreg <= data_in;
 				SENDING: 
-					if(clk_pos_trig & shiftreg_idx > 0)
+					if(clk_neg_trig & shiftreg_idx > 0)
 						shiftreg <= { shiftreg[WIDTH-2:0], spi_miso };
 			endcase
 	end
@@ -133,7 +133,7 @@ module Spi #(
 				TRIG_WAITING:
 					spi_mosi <= 1'b0;
 				SENDING:
-					if(clk_pos_trig & shiftreg_idx > 0)
+					if(clk_neg_trig & shiftreg_idx > 0)
 						spi_mosi <= shiftreg[WIDTH-1];
 			endcase
 	end
