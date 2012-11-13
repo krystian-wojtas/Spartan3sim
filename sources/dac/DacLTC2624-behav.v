@@ -44,6 +44,8 @@ module DacLTC2624Behav
 	input SPI_MOSI,
 	output DAC_OUT
 );
+
+	//TODO musi byc jeden pusty cykl pomiedzy obnizeniem cs a poczatkiem taktowania sck bo czasami nie dziala inaczej
 	 
 	//Przed uzyciem daca nalezy go najpierw zresetowac
 	//Resetowany on jest negatywnym zboczem linii DAC_CLR

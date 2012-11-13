@@ -35,9 +35,9 @@ module DacSpi (
 	output dacdone
 	);
 	
-	localparam WIDTH=32;
+	localparam WIDTH=33;
 	
-	wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
+	wire [WIDTH-1:0] dacdatatosend = {9'h180, command, address, data, 4'h1};
 	wire [WIDTH-1:0] dacdatareceived;
 	Spi #(
 		.WIDTH(WIDTH)
