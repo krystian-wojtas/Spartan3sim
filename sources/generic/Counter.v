@@ -48,13 +48,13 @@ module Counter #(
 		if(rst)
 			counter_reg <= 0;
 		else if(en & sig)
-			if(counter_reg < MAX-1)
+			if(counter_reg < MAX)
 				counter_reg <= counter_reg + K;
 			else
 				counter_reg <= DELAY;
 		
 	//assign full = (counter_reg == MAX-1);
 	always @*
-		full = (counter_reg == MAX-1);
+		full = (counter_reg == MAX);
 
 endmodule
