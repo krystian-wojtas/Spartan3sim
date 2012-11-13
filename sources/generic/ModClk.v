@@ -25,8 +25,8 @@ module ModClk #(
 	input CLK50MHZ,
 	input RST,
 	output clk_hf, //half filled 50%
-	output clk_pos_trig,
-	output clk_neg_trig
+	output neg_trig,
+	output pos_trig
     );
 	 
 	//constant function calculetes value at collaboration time
@@ -40,23 +40,19 @@ module ModClk #(
 	  end
 	endfunction
 	
-	reg [log2(DIV-2):0] counter = 0;	
-	reg [log2(DIV-2):0] next_counter;	
+	reg [log2(DIV-2):0] counter = 0;
 	always @(posedge CLK50MHZ)
 		if(RST)
 			counter <= 0;
 		else
-			counter <= next_counter;
-	
-	always @*
 		if(counter < DIV-1)
-			next_counter = counter + 1;
+			counter <= counter + 1;
 		else
-			next_counter = 0;
+			counter <= 0;
 			
 	
-	assign clk_hf = (counter <= (DIV-1)/2);
-	assign clk_pos_trig = (counter == (DIV-1+DELAY)%DIV);
-	assign clk_neg_trig = (counter == (DIV-1)/2+DELAY);
+	assign clk_hf = (counter > (DIV-1)/2);
+	assign neg_trig = (counter == (DIV-1+DELAY)%DIV);
+	assign pos_trig= (counter == (DIV-1)/2+DELAY);
 	
 endmodule
