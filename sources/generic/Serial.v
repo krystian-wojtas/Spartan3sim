@@ -40,8 +40,8 @@ module Serial  #(
 	) Counter_bits (
 		.CLKB(CLKB),
 		// counter
-		.en(~ready), // if high counter is enabled and is counting
-		.rst(1'b0), // set counter register to zero
+		.en(1'b1), // if high counter is enabled and is counting
+		.rst(ready), // set counter register to zero
 		.sig(tick), // signal which is counted; counts ticks
 		.full(sent_all_bits) // one pulse if counter is full
 	);
@@ -66,7 +66,7 @@ module Serial  #(
 			ready <= 1'b1;
 		else if(trig)
 			ready <= 1'b0;
-		else if(sent_all_bits)
+		else if(sent_all_bits && tick)
 			ready <= 1'b1;
 
 endmodule
