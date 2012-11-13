@@ -44,8 +44,7 @@ module Amp(
 	wire tick_neg;
 	wire clk;
 	ModClk #(
-		.DIV(4),
-		.DELAY(1)
+		.DIV(5)
 	) ModClk_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
@@ -72,8 +71,7 @@ module Amp(
 		.ready(amp_done),
 		.clk(clk),
 		.tick(tick_pos)
-	);
-	
+	);	
 	
 
 	Shiftreg #(

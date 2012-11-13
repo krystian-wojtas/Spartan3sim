@@ -37,7 +37,7 @@ module cntr(
 	input [7:0] amp_datareceived
     );	
 	
-	assign amp_a = 4'b0001; // 0.4 2.9
+	assign amp_a = 4'b0000; // 0.4 2.9
 //	assign amp_b = 4'b0010; // 1.025 2.275
 	assign amp_b = 4'b1100; //  0.4 2.9 ??
 	
