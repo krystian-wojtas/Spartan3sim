@@ -3,45 +3,25 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/z/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3sim/projects/dac/TopTest_isim_beh1.wdb" id="1" type="auto">
+      <db_ref path="/home/z/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3sim/projects/dac/TopTest_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="TopTest" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="11" />
+   <WVObjectSize size="30" />
    <wave_markers>
-      <marker time="420000000" label="" />
-      <marker time="700000000" label="" />
-      <marker time="740000000" label="" />
-      <marker time="860000000" label="" />
-      <marker time="900000000" label="" />
-      <marker time="1020000000" label="" />
-      <marker time="1060000000" label="" />
-      <marker time="1500000000" label="" />
-      <marker time="1540000000" label="" />
-      <marker time="1660000000" label="" />
-      <marker time="2620000000" label="" />
-      <marker time="2900000000" label="" />
-      <marker time="2940000000" label="" />
-      <marker time="3060000000" label="" />
-      <marker time="3100000000" label="" />
-      <marker time="3220000000" label="" />
-      <marker time="3260000000" label="" />
-      <marker time="3700000000" label="" />
-      <marker time="3740000000" label="" />
-      <marker time="3860000000" label="" />
-      <marker time="4620000000" label="" />
-      <marker time="5060000000" label="" />
-      <marker time="4900000000" label="" />
-      <marker time="4940000000" label="" />
-      <marker time="5100000000" label="" />
-      <marker time="5220000000" label="" />
-      <marker time="5260000000" label="" />
-      <marker time="5700000000" label="" />
-      <marker time="5740000000" label="" />
-      <marker time="5860000000" label="" />
+      <marker time="570000000" label="" />
+      <marker time="710000000" label="" />
+      <marker time="730000000" label="" />
+      <marker time="790000000" label="" />
+      <marker time="810000000" label="" />
+      <marker time="870000000" label="" />
+      <marker time="890000000" label="" />
+      <marker time="1110000000" label="" />
+      <marker time="1130000000" label="" />
+      <marker time="1190000000" label="" />
    </wave_markers>
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
@@ -86,5 +66,83 @@
    <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">LED[7:0]</obj_property>
       <obj_property name="ObjectShortName">LED[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider186" type="divider">
+      <obj_property name="label">dacspi</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/SPI_SCK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_SCK</obj_property>
+      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/DAC_CLR" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CLR</obj_property>
+      <obj_property name="ObjectShortName">DAC_CLR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/DAC_CS" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CS</obj_property>
+      <obj_property name="ObjectShortName">DAC_CS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/SPI_MOSI" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_MOSI</obj_property>
+      <obj_property name="ObjectShortName">SPI_MOSI</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/DAC_OUT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_OUT</obj_property>
+      <obj_property name="ObjectShortName">DAC_OUT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[11:0]</obj_property>
+      <obj_property name="ObjectShortName">data[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">address[3:0]</obj_property>
+      <obj_property name="ObjectShortName">address[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/command" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">command[3:0]</obj_property>
+      <obj_property name="ObjectShortName">command[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/dac_datareceived" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dac_datareceived[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dac_datareceived[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/dactrig" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dactrig</obj_property>
+      <obj_property name="ObjectShortName">dactrig</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/dacdone" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dacdone</obj_property>
+      <obj_property name="ObjectShortName">dacdone</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/dacdatatosend" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dacdatatosend[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dacdatatosend[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/dacdatareceived" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dacdatareceived[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dacdatareceived[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/spi_sck" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_sck</obj_property>
+      <obj_property name="ObjectShortName">spi_sck</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/ignorefirsttick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ignorefirsttick</obj_property>
+      <obj_property name="ObjectShortName">ignorefirsttick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/WIDTH" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
    </wvobject>
 </wave_config>

@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module Clock #(parameter DELAY = 20) ( //DELAY 20ns - clock 50MHZ
+module Clock #(parameter DELAY = 10) ( //DELAY 10ns - clock 50MHZ
 	output reg clk
 	);
 
