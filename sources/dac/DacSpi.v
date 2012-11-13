@@ -37,15 +37,16 @@ module DacSpi (
 	
 	localparam WIDTH=33;
 	
-	wire [WIDTH-1:0] dacdatatosend = {9'h180, command, address, data, 4'h1};
+	wire [WIDTH-1:0] dacdatatosend = {9'h080, command, address, data, 4'h1};
 	wire [WIDTH-1:0] dacdatareceived;
+	wire spi_sck;
 	Spi #(
 		.WIDTH(WIDTH)
 	) Spi_ (
 		.CLKB(CLK50MHZ),
 		.RST(RST),
 		// spi lines
-		.spi_sck(SPI_SCK),
+		.spi_sck(spi_sck),
 		.spi_cs(DAC_CS),
 		.spi_mosi(SPI_MOSI),
 		.spi_miso(DAC_OUT),
@@ -58,6 +59,17 @@ module DacSpi (
 		.tick(1'b1)
 	);
 	
+	reg ignorefirsttick = 1'b0;
+	always @(posedge CLK50MHZ)
+		if(RST)
+			ignorefirsttick = 1'b0;
+		else if(~DAC_CS)
+			ignorefirsttick = 1'b1;
+		else
+			ignorefirsttick = 1'b0;
+			
+			
+	assign SPI_SCK = (ignorefirsttick && ~dacdone) ? spi_sck : 1'b0;	
 	assign DAC_CLR = ~RST;
 	
 endmodule
