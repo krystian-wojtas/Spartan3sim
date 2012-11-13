@@ -40,40 +40,18 @@ module Amp(
 	 
 	localparam WIDTH=8;
 	
-	
-	wire clk_tick;
-	Counter #(
-		.MAX(5),
-		.DELAY(1)
-	) Counter_clk (
-		.CLKB(CLK50MHZ),
-		// counter
-		.en(1'b1), // if high counter is enabled and is counting
-		.rst(RST), // set counter register to zero
-		.sig(1'b1), // signal which is counted
-		.full(clk_tick) // one pulse if counter is full
-	);
-	
-	
-	wire clk;
-	Inverter Inverter (
-		.CLK(CLK50MHZ),
-		.tick(clk_tick),
-		.inv(clk)
-	);
-	
-	
 	wire tick_pos;
-	Counter #(
-		.MAX(8),
-		.DELAY(0)
-	) Counter_tick_pos (
-		.CLKB(CLK50MHZ),
-		// counter
-		.en(1'b1), // if high counter is enabled and is counting
-		.rst(RST), // set counter register to zero
-		.sig(1'b1), // signal which is counted
-		.full(tick_pos) // one pulse if counter is full
+	wire tick_neg;
+	wire clk;
+	ModClk #(
+		.DIV(4),
+		.DELAY(1)
+	) ModClk_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.clk_hf(clk), //half filled 50%
+		.pos_trig(tick_pos),
+		.neg_trig(tick_neg)
 	);
 	
 	
@@ -96,19 +74,6 @@ module Amp(
 		.tick(tick_pos)
 	);
 	
-	
-	wire tick_neg;
-	Counter #(
-		.MAX(8),
-		.DELAY(0)
-	) Counter_tick_neg (
-		.CLKB(CLK50MHZ),
-		// counter
-		.en(1'b1), // if high counter is enabled and is counting
-		.rst(RST), // set counter register to zero
-		.sig(1'b1), // signal which is counted
-		.full(tick_neg) // one pulse if counter is full
-	);
 	
 
 	Shiftreg #(
