@@ -33,7 +33,7 @@ module cntr(
 	// control
 	input less,
 	input more,
-	input [3:0] sw,
+	input [3:0] SW,
 	// debug
 	output [7:0] LED
     );
@@ -54,7 +54,7 @@ module cntr(
 			data <= 12'h000;
 			data_debug <= 8'h00;
 		end else
-			case(sw)
+			case(SW)
 				4'h8: begin
 					data <= 12'hfff;
 					data_debug <= 8'hff;
@@ -93,7 +93,7 @@ module cntr(
 	always @(posedge CLK50MHZ)
 		if(RST) dactrig <= 1'b0;
 		else
-			if(less | more | sw)
+			if(less | more)
 				dactrig <= 1'b1;
 			else
 				dactrig <= 1'b0;

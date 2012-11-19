@@ -55,14 +55,6 @@ module Top (
 		.out(more)
 	);
 	
-	wire [3:0] sw;
-	SwitchOneshot SwitchOneshot_(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.sw_in(SW),
-		.sw_out(sw)	
-	);
-	
 	wire [11:0] data;
 	wire [3:0] address;
 	wire [3:0] command;
@@ -80,7 +72,7 @@ module Top (
 		//control
 		.less(less),
 		.more(more),
-		.sw(sw), //moze byc sw po zdebouncowaniu
+		.SW(SW),
 		// debug
 		.LED(LED)
 	);

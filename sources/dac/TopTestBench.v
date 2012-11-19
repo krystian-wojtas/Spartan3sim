@@ -34,20 +34,21 @@ module TopTestBench(
 		@(negedge RST);
 		#300;
 		
-		
-		SW = 4'h4;
-		#1000;
-		SW = 4'h0;
-		
-		#1000;
 		BTN_EAST = 1'b1;
-		#500;
+		#250;
 		BTN_EAST = 1'b0;
+		
 		
 		#1500;
 		BTN_EAST = 1'b1;
-		#500;
+		#250;
 		BTN_EAST = 1'b0;
+		
+		
+		#1000;
+		SW = 4'h4;
+		#1000;
+		SW = 4'h0;
 		
 		#1500;
 		$finish;
