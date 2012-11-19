@@ -31,6 +31,7 @@ module DacSpi (
 	input [11:0] data,
 	input [3:0] address,
 	input [3:0] command,
+	output [32:0] dac_datareceived, //TODO 31 _
 	input dactrig,
 	output dacdone
 	);
@@ -38,7 +39,6 @@ module DacSpi (
 	localparam WIDTH=33;
 	
 	wire [WIDTH-1:0] dacdatatosend = {9'h080, command, address, data, 4'h1};
-	wire [WIDTH-1:0] dacdatareceived;
 	wire spi_sck;
 	Spi #(
 		.WIDTH(WIDTH)
@@ -52,7 +52,7 @@ module DacSpi (
 		.spi_miso(DAC_OUT),
 		// spi module interface
 		.data_in(dacdatatosend),
-		.data_out(dacdatareceived),
+		.data_out(dac_datareceived),
 		.trig(dactrig),
 		.ready(dacdone),
 		.clk(CLK50MHZ),

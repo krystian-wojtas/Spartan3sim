@@ -60,6 +60,7 @@ module Top (
 	wire [3:0] command;
 	wire dactrig;
 	wire dacdone;
+	wire [31:0] dac_datareceived;
 	cntr cntr_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
@@ -67,6 +68,7 @@ module Top (
 		.data(data),
 		.address(address),
 		.command(command),
+		.dac_datareceived(dac_datareceived),
 		.dactrig(dactrig),
 		.dacdone(dacdone),
 		//control
@@ -90,6 +92,7 @@ module Top (
 		.data(data),
 		.address(address),
 		.command(command),
+		.dac_datareceived(dac_datareceived),
 		.dactrig(dactrig),
 		.dacdone(dacdone)
 	);

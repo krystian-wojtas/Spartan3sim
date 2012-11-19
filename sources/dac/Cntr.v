@@ -30,6 +30,7 @@ module cntr(
 	output [3:0] command,
 	output reg dactrig,
 	input dacdone,
+	input [31:0] dac_datareceived,
 	// control
 	input less,
 	input more,
@@ -41,7 +42,11 @@ module cntr(
 	assign address = 4'b1111;
 	assign command = 4'b0011;
 	reg [7:0] data_debug = 8'h55;
-	assign LED = data_debug;
+	
+	reg [7:0] dac_datareceived_r = 0;
+	
+	
+	assign LED = (SW) ? dac_datareceived_r : data_debug;
 //	assign data = {4'h0, datareg}; //TODO 4'b1 ?
 //	assign data = 12'hffe;
 //	assign data = 12'h3ff;
@@ -53,23 +58,20 @@ module cntr(
 		if(RST) begin
 			data <= 12'h000;
 			data_debug <= 8'h00;
+			dac_datareceived_r <= 0;
 		end else
 			case(SW)
 				4'h8: begin
-					data <= 12'hfff;
-					data_debug <= 8'hff;
+					dac_datareceived_r <= dac_datareceived[31:24];
 				end
 				4'h4: begin
-					data <= 12'h800;
-					data_debug <= 8'h80;
+					dac_datareceived_r <= dac_datareceived[23:16];
 				end
 				4'h2: begin
-					data <= 12'h001;
-					data_debug <= 8'h01;
+					dac_datareceived_r <= dac_datareceived[15:8];
 				end
 				4'h1: begin
-					data <= 12'h000;
-					data_debug <= 8'h00;
+					dac_datareceived_r <= dac_datareceived[7:0];
 				end
 				default: begin
 					if(less)
