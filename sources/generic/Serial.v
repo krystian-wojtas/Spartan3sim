@@ -36,7 +36,7 @@ module Serial  #(
 	 
 	wire sent_all_bits;	
 	Counter #(
-		.MAX(WIDTH)
+		.MAX(WIDTH-1)
 	) Counter_bits (
 		.CLKB(CLKB),
 		// counter
