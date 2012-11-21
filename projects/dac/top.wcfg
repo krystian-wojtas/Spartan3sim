@@ -3,25 +3,25 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/z/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3sim/projects/dac/TopTest_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/z/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3sim/projects/dac/TopTest_isim_beh2.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="TopTest" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="30" />
+   <WVObjectSize size="66" />
    <wave_markers>
-      <marker time="570000000" label="" />
-      <marker time="710000000" label="" />
-      <marker time="730000000" label="" />
-      <marker time="790000000" label="" />
-      <marker time="810000000" label="" />
-      <marker time="870000000" label="" />
-      <marker time="890000000" label="" />
-      <marker time="1110000000" label="" />
-      <marker time="1130000000" label="" />
-      <marker time="1190000000" label="" />
+      <marker time="590000000" label="" />
+      <marker time="1290000000" label="" />
+      <marker time="1390000000" label="" />
+      <marker time="1690000000" label="" />
+      <marker time="1790000000" label="" />
+      <marker time="2090000000" label="" />
+      <marker time="2190000000" label="" />
+      <marker time="3290000000" label="" />
+      <marker time="3390000000" label="" />
+      <marker time="3690000000" label="" />
    </wave_markers>
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
@@ -129,19 +129,169 @@
       <obj_property name="ElementShortName">dacdatatosend[31:0]</obj_property>
       <obj_property name="ObjectShortName">dacdatatosend[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/DacSpi_/dacdatareceived" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">dacdatareceived[31:0]</obj_property>
-      <obj_property name="ObjectShortName">dacdatareceived[31:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/TopTest/Top_/DacSpi_/spi_sck" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">spi_sck</obj_property>
       <obj_property name="ObjectShortName">spi_sck</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/DacSpi_/ignorefirsttick" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">ignorefirsttick</obj_property>
-      <obj_property name="ObjectShortName">ignorefirsttick</obj_property>
-   </wvobject>
    <wvobject fp_name="/TopTest/Top_/DacSpi_/WIDTH" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider42" type="divider">
+      <obj_property name="label">spi</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/CLKB" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLKB</obj_property>
+      <obj_property name="ObjectShortName">CLKB</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/spi_sck" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_sck</obj_property>
+      <obj_property name="ObjectShortName">spi_sck</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/spi_cs" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_cs</obj_property>
+      <obj_property name="ObjectShortName">spi_cs</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/spi_miso" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_miso</obj_property>
+      <obj_property name="ObjectShortName">spi_miso</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/spi_mosi" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_mosi</obj_property>
+      <obj_property name="ObjectShortName">spi_mosi</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/data_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/data_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/trig" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">trig</obj_property>
+      <obj_property name="ObjectShortName">trig</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/tick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tick</obj_property>
+      <obj_property name="ObjectShortName">tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/ready_" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ready_</obj_property>
+      <obj_property name="ObjectShortName">ready_</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/WIDTH" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider71" type="divider">
+      <obj_property name="label">serial</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/CLKB" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLKB</obj_property>
+      <obj_property name="ObjectShortName">CLKB</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/rx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/tx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/data_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/data_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/trig" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">trig</obj_property>
+      <obj_property name="ObjectShortName">trig</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/tick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tick</obj_property>
+      <obj_property name="ObjectShortName">tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/sent_all_bits" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sent_all_bits</obj_property>
+      <obj_property name="ObjectShortName">sent_all_bits</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/WIDTH" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider83" type="divider">
+      <obj_property name="label">sr</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/CLKB" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLKB</obj_property>
+      <obj_property name="ObjectShortName">CLKB</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/set" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">set</obj_property>
+      <obj_property name="ObjectShortName">set</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/tick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tick</obj_property>
+      <obj_property name="ObjectShortName">tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/rx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/data_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/data_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/tx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/shiftreg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">shiftreg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">shiftreg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/DacSpi_/Spi_/Serial_/Shiftreg_/WIDTH" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
       <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
    </wvobject>

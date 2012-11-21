@@ -39,15 +39,15 @@ module TopTestBench(
 		BTN_EAST = 1'b0;
 		
 		
-		#1500;
+		#3800;
 		BTN_EAST = 1'b1;
 		#250;
 		BTN_EAST = 1'b0;
 		
 		
-		#1000;
-		SW = 4'h4;
-		#1000;
+		#3800;
+		SW = 4'h1;
+		#2000;
 		SW = 4'h0;
 		
 		#1500;

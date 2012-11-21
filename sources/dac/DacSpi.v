@@ -31,22 +31,31 @@ module DacSpi (
 	input [11:0] data,
 	input [3:0] address,
 	input [3:0] command,
-	output [32:0] dac_datareceived, //TODO 31 _
+	output [31:0] dac_datareceived, //TODO 31 _
 	input dactrig,
 	output dacdone
 	);
 	
-	localparam WIDTH=33;
+	localparam WIDTH=32;
 	
-	wire [WIDTH-1:0] dacdatatosend = {9'h080, command, address, data, 4'h1};
+	wire tick_neg;
 	wire spi_sck;
+	ModClk #(
+		.DIV(5)
+	) ModClk_(
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.clk_hf(spi_sck), //half filled 50%
+		.neg_trig(tick_neg)
+	);
+	
+	wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
 	Spi #(
 		.WIDTH(WIDTH)
 	) Spi_ (
 		.CLKB(CLK50MHZ),
 		.RST(RST),
 		// spi lines
-		.spi_sck(spi_sck),
 		.spi_cs(DAC_CS),
 		.spi_mosi(SPI_MOSI),
 		.spi_miso(DAC_OUT),
@@ -56,20 +65,11 @@ module DacSpi (
 		.trig(dactrig),
 		.ready(dacdone),
 		.clk(CLK50MHZ),
-		.tick(1'b1)
+		.tick(tick_neg)
 	);
-	
-	reg ignorefirsttick = 1'b0;
-	always @(posedge CLK50MHZ)
-		if(RST)
-			ignorefirsttick = 1'b0;
-		else if(~DAC_CS)
-			ignorefirsttick = 1'b1;
-		else
-			ignorefirsttick = 1'b0;
 			
 			
-	assign SPI_SCK = (ignorefirsttick && ~dacdone) ? spi_sck : 1'b0;	
+	assign SPI_SCK = (~dacdone) ? spi_sck : 1'b0;	
 	assign DAC_CLR = ~RST;
 	
 endmodule
