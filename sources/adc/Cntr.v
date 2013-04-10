@@ -84,7 +84,7 @@ module cntr(
 					state <= ADC_CONVERTING;
 				ADC_CONVERTING:
 					if(adc_done)
-						state <= CNT_START;
+						state <= RESTART;
 			endcase
 	
 	always @(posedge CLK50MHZ)

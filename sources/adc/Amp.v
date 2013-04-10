@@ -38,58 +38,52 @@ module Amp(
     );
 	 
 	 
-	localparam WIDTH=8;
+	localparam WIDTH=9;
 	
-	wire tick_pos;
 	wire tick_neg;
-	wire clk;
+	wire spi_sck_;
 	ModClk #(
-		.DIV(5)
+		.DIV(6)
 	) ModClk_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		.clk_hf(clk), //half filled 50%
-		.pos_trig(tick_pos),
+		.clk_hf(spi_sck_), //half filled 50%
 		.neg_trig(tick_neg)
 	);
 	
 	
-	wire [WIDTH-1:0] amp_datatosend = { amp_b,  amp_a };
+	wire [WIDTH-1:0] amp_datatosend = { 1'b1,  amp_b,  amp_a };
 	Spi #(
 		.WIDTH(WIDTH)
 	) Spi_mosi (
 		.CLKB(CLK50MHZ),
 		.RST(RST),
 		// spi lines
-		.spi_sck(spi_sck),
 		.spi_cs(amp_cs),
 		.spi_mosi(spi_mosi),
 		.spi_miso(1'b1),
 		// spi module interface
 		.data_in(amp_datatosend),
+		.data_out(amp_datareceived),
 		.trig(amp_trig),
 		.ready(amp_done),
-		.clk(clk),
-		.tick(tick_pos)
+		.tick(tick_neg),
+		.clk(CLK50MHZ) // TODO del
 	);	
 	
-
-	Shiftreg #(
-		.WIDTH(WIDTH)
-	) Shiftreg_ (
-		.CLKB(CLK50MHZ),
-		// shiftreg
-		.en(1'b1),
-		.set(1'b0),
-//		.set(trig), // setting shiftreg value to data_in if trig occurs
-		.tick(tick_neg),
-		.rx(amp_dout),
-//		.tx(tx),
-		.data_in( 0 ),
-		.data_out(amp_datareceived)
-	);
+	reg ignorefirsttick = 1'b0;
+	always @(posedge CLK50MHZ)
+		if(RST)
+			ignorefirsttick = 1'b0;
+		else if(~amp_cs) begin
+			if(tick_neg)
+				ignorefirsttick = 1'b1;
+		end else
+			if(tick_neg)
+				ignorefirsttick = 1'b0;
 	
 	
+	assign spi_sck = (ignorefirsttick && ~amp_done) ? spi_sck_ : 1'b0;
 	assign amp_shdn = ~RST;
 
 
