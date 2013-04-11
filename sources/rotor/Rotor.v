@@ -31,8 +31,8 @@ module Rotor(
 
    wire left_;
 	Counter #(
-//	  .MAX(10) // sim
-	  .MAX(10_000_000) // synth
+	  .MAX(10) // sim
+//	  .MAX(10_000_000) // synth
 	) Debouncer_rota (
 	  .CLKB(clk),
 	  .en(1'b1),

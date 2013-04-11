@@ -19,6 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Controller(
+	 input clk,
 	 input rst,
 	 // tick inputs
 	 input center,
@@ -28,11 +29,10 @@ module Controller(
 	 output reg [7:0] leds = 8'b10101010
     );
 	 
-	 always @*
-	   if(rst)             leds = 8'b0101_0101;
-		else if(center) leds = 8'b0011_1100;
-		else if(left)      leds = 8'b1111_0000;
-		else if(right)   leds = 8'b0000_1111;
-		else                leds = 8'b0000_0000;
+	 always @(posedge clk)
+	   if(rst)             leds <= 8'b0101_0101;
+		else if(center) leds <= 8'b0011_1100;
+		else if(left)      leds <= 8'b1111_0000;
+		else if(right)    leds <= 8'b0000_1111;
 	 
 endmodule

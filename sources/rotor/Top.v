@@ -33,8 +33,8 @@ module Top (
 	
 	wire center;
 	Counter #(
-//	  .MAX(10) // sim
-	  .MAX(10_000_000) // synth
+	  .MAX(10) // sim
+//	  .MAX(10_000_000) // synth
 	) Debouncer_center (
 	  .CLKB(CLK50MHZ),
 	  .en(1'b1),
@@ -56,13 +56,13 @@ module Top (
 	  .right(right)
 	);	
 	
-	
 	Controller Controller_(
+	   .clk(CLK50MHZ),
 		.rst(RST),
 		// tick inputs
-		.center(center),
-	   .left(left),
-	   .right(right),
+		.center(ROT_CENTER),		
+	   .left(ROT_A),
+	   .right(ROT_B),
 		// debug
 		.leds(LED)
 	);				
