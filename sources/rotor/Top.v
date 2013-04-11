@@ -58,11 +58,15 @@ module Top (
 	
 	Controller Controller_(
 	   .clk(CLK50MHZ),
-		.rst(RST),
+//		.rst(RST),
+		.rst(center),
 		// tick inputs
-		.center(ROT_CENTER),		
-	   .left(ROT_A),
-	   .right(ROT_B),
+		.center(RST),	
+//		.center(center),	
+//	   .left(left),
+//	   .right(right),
+	   .left(~ROT_A),
+	   .right(1'b0),
 		// debug
 		.leds(LED)
 	);				

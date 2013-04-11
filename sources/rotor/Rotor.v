@@ -25,8 +25,8 @@ module Rotor(
 		input rota,
 		input rotb,
 		// one pulse output direction signals
-		output reg left,
-		output reg right
+		output left,
+		output right
 	);
 
 	reg rotary_q1 = 1'b0;
@@ -50,4 +50,8 @@ module Rotor(
 		end else
 			rotary_event <= 1'b0;
 	end
+	
+	assign left = rotary_event;
+//	assign left = rotary_event & rotary_left;
+	assign right = rotary_event & ~rotary_left;
 endmodule

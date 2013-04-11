@@ -26,13 +26,14 @@ module Controller(
 	 input left,
 	 input right,
 	 // debug leds
-	 output reg [7:0] leds = 8'b10101010
+	 output reg [7:0] leds = 8'b0001_0000
     );
 	 
 	 always @(posedge clk)
-	   if(rst)             leds <= 8'b0101_0101;
+//	   if(rst)             leds <= 8'b0001_0000;
+	   if(rst)             leds <= { leds[6:0], leds[7] };
+		else if(left)      leds <= { leds[6:0], leds[7] };
+		else if(right)    leds <= { leds[0], leds[7:1] };
 		else if(center) leds <= 8'b0011_1100;
-		else if(left)      leds <= 8'b1111_0000;
-		else if(right)    leds <= 8'b0000_1111;
 	 
 endmodule
