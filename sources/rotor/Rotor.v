@@ -19,38 +19,35 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Rotor(
-      input clk,
+		input clk,
 		input rst,
 		// inputs
 		input rota,
 		input rotb,
 		// one pulse output direction signals
-		output left,
-		output right
-    );
-
-   wire left_;
-	Counter #(
-	  .MAX(10) // sim
-//	  .MAX(10_000_000) // synth
-	) Debouncer_rota (
-	  .CLKB(clk),
-	  .en(1'b1),
-	  .rst(rst),
-	  .sig(rota),
-	  .full(left_)
+		output reg left,
+		output reg right
 	);
+
+	reg rotary_q1 = 1'b0;
+	always @(clk)
+		if(rota ^~ rotb)
+			rotary_q1 <= rotb;
 	
-	wire ritght_;
-	Counter #(
-//	  .MAX(10) // sim
-	  .MAX(10_000_000) // synth
-	) Debouncer_rotb (
-	  .CLKB(clk),
-	  .en(1'b1),
-	  .rst(rst),
-	  .sig(rotb),
-	  .full(right_)
-	);
-
+	reg rotary_q2 = 1'b0;
+	always @(clk)
+		if(rota ^ rotb)
+			rotary_q2 <= rotb;
+	
+	reg delay_rotary_q1 = 1'b0;
+	reg rotary_event = 1'b0;
+	reg rotary_left = 1'b0;
+	always @(clk) begin
+		delay_rotary_q1 <= rotary_q1;
+		if(delay_rotary_q1 == 1'b0 && rotary_q1 == 1'b1) begin
+			rotary_event <= 1'b1;
+			rotary_left <= rotary_q2;
+		end else
+			rotary_event <= 1'b0;
+	end
 endmodule
