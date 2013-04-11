@@ -37,22 +37,27 @@ module Top (
 	
 	
 	wire less;
-	Debouncer Debouncer_less_(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.in(BTN_WEST),
-		.out(less)
+	Counter #(
+//	  .MAX(10) // sim
+	  .MAX(10_000_000) // synth
+	) Debouncer_less (
+	  .CLKB(CLK50MHZ),
+	  .en(1'b1),
+	  .rst(RST),
+	  .sig(BTN_WEST),
+	  .full(less)
 	);
 	
 	wire more;
-	Debouncer #(
-		.N(10) // sim
-//		.N(5000000) // synth
-	) Debouncer_more_ (
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.in(BTN_EAST),
-		.out(more)
+	Counter #(
+//	  .MAX(10) // sim
+	  .MAX(10_000_000) // synth
+	) Debouncer_more (
+	  .CLKB(CLK50MHZ),
+	  .en(1'b1),
+	  .rst(RST),
+	  .sig(BTN_EAST),
+	  .full(more)
 	);
 	
 	wire [11:0] data;
