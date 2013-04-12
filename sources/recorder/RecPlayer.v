@@ -29,12 +29,11 @@ module RecPlayer #(
 	output rec_full,
 	// tx
 	input sending,
-	output send_busy,
-	output reg TxD
+	output sended,
+	output TxD
     );
 	 
-	wire reading;
-	wire current;
+	wire current_data;
 	RecBuf #(
 		.N(N)
 	) RecBuf_(
@@ -43,19 +42,18 @@ module RecPlayer #(
 		// rec
 		.signal(signal),
 		.recording(recording),
-		// read
-		.reading(reading),
 		.rec_full(rec_full),
-		.current(current)
+		// read
+		.reading(sending),
+		.read_full(sended),
+		.current(current_data)
 	);
 	
 	async_transmitter async_transmitter_(
 		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
 		.TxD_start(sending),
-		.TxD_data(current),
-		.TxD(TxD),
-		.TxD_busy(send_busy)
+		.TxD_data(current_data),
+		.TxD(TxD)
 	);
 
 endmodule
