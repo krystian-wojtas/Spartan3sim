@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module RecPlayer #(
-		parameter N = 1000
+		parameter WIDTH = 1000
 	) (
 	input CLK50MHZ,
 	input RST,
@@ -31,29 +31,39 @@ module RecPlayer #(
 	input sending,
 	output sended,
 	output TxD
-    );
+	);
 	 
-	wire current_data;
-	RecBuf #(
-		.N(N)
-	) RecBuf_(
-		.CLK50MHZ(CLK50MHZ),
+	
+	wire tx;
+	wire ready;
+	wire [WIDTH-1:0] data;
+	Serial #(
+		.WIDTH(WIDTH)
+	) Serial_(
+		.CLKB(CLK50MHZ),
 		.RST(RST),
 		// rec
-		.signal(signal),
-		.recording(recording),
-		.rec_full(rec_full),
-		// read
-		.reading(sending),
-		.read_full(sended),
-		.current(current_data)
+		.rx(signal),
+		.tx(tx),
+		.data_in(data),
+		.data_out(data),
+		.trig(recording),
+		.ready(ready),
+		.tick(1'b1)
 	);
 	
+//	wire [7:0] tx_data = tx ? "1" : "0";
+	wire [7:0] tx_data = tx ? {8'b1000_0001} : {8'b1100_0011};
 	async_transmitter async_transmitter_(
 		.CLK50MHZ(CLK50MHZ),
 		.TxD_start(sending),
-		.TxD_data(current_data),
-		.TxD(TxD)
-	);
+		.TxD_data(tx_data),
+		.TxD(TxD),
+		.TxD_busy(TxD_busy)
+	);	
+	
+	assign rec_full = ready;
+	assign sended = ready;
+	
 
 endmodule
