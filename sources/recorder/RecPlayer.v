@@ -37,6 +37,7 @@ module RecPlayer #(
 	wire tx;
 	wire ready;
 	wire [WIDTH-1:0] data;
+	wire tick;
 	Serial #(
 		.WIDTH(WIDTH)
 	) Serial_(
@@ -49,11 +50,18 @@ module RecPlayer #(
 		.data_out(data),
 		.trig(recording),
 		.ready(ready),
-		.tick(1'b1)
+		.tick(tick)
 	);
 	
-//	wire [7:0] tx_data = tx ? "1" : "0";
-	wire [7:0] tx_data = tx ? {8'b1000_0001} : {8'b1100_0011};
+	reg recording_ = 1'b0;
+	always @(posedge CLK50MHZ)
+		if(RST) recording_ <= 1'b0;
+		else recording_ <= recording;
+	assign rec_full = recording_ & ready;
+	
+	wire [7:0] tx_data = tx ? "1" : "0";
+//	wire [7:0] tx_data = tx ? {8'b1000_0001} : {8'b1100_0011};
+	wire TxD_busy;
 	async_transmitter async_transmitter_(
 		.CLK50MHZ(CLK50MHZ),
 		.TxD_start(sending),
@@ -62,8 +70,7 @@ module RecPlayer #(
 		.TxD_busy(TxD_busy)
 	);	
 	
-	assign rec_full = ready;
+	assign tick = sending ? ~TxD_busy : 1'b1;
 	assign sended = ready;
-	
 
 endmodule
