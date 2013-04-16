@@ -38,7 +38,7 @@ module async_transmitter
 
 	// Transmitter state machine
 	reg [1:0] state = TRIG_WAITING;
-	wire TxD_ready = (state==TRIG_WAITING || state==STOP_BIT);
+	wire TxD_ready = (state==TRIG_WAITING);
 	assign TxD_busy = ~TxD_ready;
 
 	always @(posedge CLK50MHZ)
