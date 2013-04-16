@@ -130,6 +130,20 @@ module Top(
 	assign a_sending		= (state == SENDING);
 	assign b_sending		= (state == SENDING);
 	assign c_sending		= (state == SENDING);
-						
+	
+	
+	
+	reg [7:0] leds = 8'b0110_0110;
+	always @*
+			case(state)
+				SIG_WAITING:
+					leds = 8'b0000_0001;
+				RECORDING:
+					leds = 8'b0000_0011;
+				SENDING:
+					leds = 8'b0000_0111;
+			endcase
+		
+	assign LED = leds;
 
 endmodule
