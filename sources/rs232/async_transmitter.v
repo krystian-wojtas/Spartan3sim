@@ -53,7 +53,8 @@ module async_transmitter
 			if(shiftreg_empty)
 				state <= STOP_BIT; 
 		STOP_BIT:
-			state <= TRIG_WAITING;
+			if(BaudTick)
+				state <= TRIG_WAITING;
 		default:
 			state <= TRIG_WAITING;
 	endcase
