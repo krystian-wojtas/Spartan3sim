@@ -265,8 +265,8 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 # Directional Push-Buttons (BTN)
 ##############################################################################
 
-#NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "RST"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "BTN"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "RST"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_WEST"      LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_EAST"     LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 

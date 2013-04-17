@@ -1,18 +1,28 @@
 `timescale 1ns / 1ps
 
 module serialfun(
-	input clk,
+	input CLK50MHZ,
+	input RST,
+	input BTN,
 	input RxD,
-	output TxD,
-	output reg [7:0] debug = 8'haa
+	output TxD
 );
 
 
-	wire RxD_data_ready;
-	wire [7:0] RxD_data;
-	always @(posedge clk) if(RxD_data_ready) debug <= RxD_data;
+//	wire RxD_data_ready;
+//	wire [7:0] RxD_data;
 
-	async_receiver deserializer(.CLK50MHZ(clk), .RxD(RxD), .RxD_data_ready(RxD_data_ready), .RxD_data(RxD_data));
-	async_transmitter serializer(.CLK50MHZ(clk), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(RxD_data));
-
+//	async_receiver deserializer(.CLK50MHZ(CLK50MHZ), .RxD(RxD), .RxD_data_ready(RxD_data_ready), .RxD_data(RxD_data));
+//	async_transmitter serializer(.CLK50MHZ(CLK50MHZ), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(RxD_data));
+	
+	wire ready;
+	Rs232Tx Rs232Tx_ (
+		.CLK50MHZ(CLK50MHZ),
+		.RST(RST),
+		.tx(TxD),
+		.trig(BTN),
+		.data("f"),
+		.ready(ready)
+	);
+	
 endmodule

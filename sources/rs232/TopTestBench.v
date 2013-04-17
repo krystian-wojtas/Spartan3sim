@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    14:35:44 10/23/2012 
+// Create Date:    14:11:15 04/17/2013 
 // Design Name: 
-// Module Name:    Top 
+// Module Name:    TopTestBench 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,23 +18,19 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module Top(
-	input CLK50MHZ,
-	input RST,
-	input BTN,
-	output [7:0] LED,
-	//
-	input RXD,
-	output TXD
+module TopTestBench(
+		input RST,
+		output reg BTN = 1'b0
     );
-	 	 
-	 serialfun serialfun_(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.BTN(btn_ee),
-		.RxD(RXD),
-		.TxD(TXD)
-	);
+
+
+	initial begin		
+		@(negedge RST);		
 		
+		#300;
+		BTN = 1'b1;
+		#110_250;
+		BTN = 1'b0;
+	end
 
 endmodule
