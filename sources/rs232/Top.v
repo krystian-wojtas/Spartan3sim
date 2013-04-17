@@ -24,9 +24,12 @@ module Top(
 	input BTN,
 	output [7:0] LED,
 	//
-	input RXD,
+//	input RXD,
 	output TXD
     );
+	 
+	wire RXD= 1'b0; // TODO del
+	 
 	 	 
 	 serialfun serialfun_(
 		.CLK50MHZ(CLK50MHZ),

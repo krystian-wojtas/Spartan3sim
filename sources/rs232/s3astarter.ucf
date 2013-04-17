@@ -291,7 +291,7 @@ NET "RST"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 ## Serial Ports (RS232)
 ###############################################################################
 #
-NET "RXD" LOC = "E16"  | IOSTANDARD = LVCMOS33 ;
+#NET "RXD" LOC = "E16"  | IOSTANDARD = LVCMOS33 ;
 NET "TXD" LOC = "F15"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #
 #NET "RS232_DTE_RXD" LOC = "F16"  | IOSTANDARD = LVCMOS33 ;

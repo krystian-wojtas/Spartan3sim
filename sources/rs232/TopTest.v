@@ -46,7 +46,7 @@ module TopTest(
 		.RST(RST),
 		.BTN(BTN),
 		.LED(LED),
-		.RXD(RXD),
+//		.RXD(RXD),
 		.TXD(TXD)
 	);
 
