@@ -13,3 +13,6 @@
 [submodule "projects/recorder"]
 	path = projects/recorder
 	url = https://github.com/krystian-wojtas/Spartan3Sim-recorder.git
+[submodule "projects/rotor"]
+	path = projects/rotor
+	url = https://github.com/krystian-wojtas/Spartan3Sim-rotor.git
