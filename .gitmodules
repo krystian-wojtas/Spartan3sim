@@ -10,3 +10,6 @@
 [submodule "projects/adc"]
 	path = projects/adc
 	url = https://github.com/krystian-wojtas/Spartan3Sim-adc.git
+[submodule "projects/recorder"]
+	path = projects/recorder
+	url = https://github.com/krystian-wojtas/Spartan3Sim-recorder.git
