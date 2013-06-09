@@ -4,3 +4,9 @@
 [submodule "projects/generic"]
 	path = projects/generic
 	url = https://github.com/krystian-wojtas/Spartan3Sim-generic.git
+[submodule "projects/dac"]
+	path = projects/dac
+	url = https://github.com/krystian-wojtas/Spartan3Sim-dac.git
+[submodule "projects/adc"]
+	path = projects/adc
+	url = https://github.com/krystian-wojtas/Spartan3Sim-adc.git
