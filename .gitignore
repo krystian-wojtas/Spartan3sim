@@ -1,0 +1,79 @@
+# Logs #
+########
+projects/*/project/*.log
+
+# Simulations #
+###############
+projects/*/project/*.wdb
+projects/*/project/*.exe
+projects/*/project/*.cmd
+projects/*/project/isim/*
+#top_usage.xml
+#top_summary.xml
+#test_summary.html
+#top_envsettings.html
+projects/*/project/*.html
+projects/*/project/*.xml
+projects/*/project/*.xst
+projects/*/project/*.cmd_log
+projects/*/project/*.ncd
+projects/*/project/*.ngd
+projects/*/project/*.par
+projects/*/project/*.pcf
+projects/*/project/*.map
+projects/*/project/*.mrp
+projects/*/project/*.ncd
+projects/*/project/*.ngm
+projects/*/project/*.xrpt
+projects/*/project/xlnx_auto_0_xdb/*
+
+# Project files #
+#################
+projects/*/project/*.prj
+
+# Compiled sources #
+####################
+projects/*/project/*.bld
+projects/*/project/*.cmd_log
+projects/*/project/*.lso
+projects/*/project/*.ngc
+projects/*/project/*.ngr
+projects/*/project/*.stx
+projects/*/project/*.syr
+projects/*/project/*.xst
+projects/*/project/top_*.xrpt
+projects/*/project/xst/*
+projects/*/project/_ngo/*
+projects/*/project/_xmsgs/*
+projects/*/project/netgen/*
+projects/*/project/*.pad
+projects/*/project/*.ptwx
+projects/*/project/*.twr
+projects/*/project/*.twx
+projects/*/project/*.unroutes
+projects/*/project/*.xpi
+projects/*/project/*.ncd
+projects/*/project/*.csv
+projects/*/project/*.txt
+projects/*/project/*.xrpt
+projects/*/project/*.gise
+projects/*/project/*.bgn
+projects/*/project/*.bit
+projects/*/project/*.drc
+projects/*/project/*.ut
+projects/*/project/*.xwbt
+
+
+# xilinx #
+###############
+projects/*/project/xilinxsim.ini
+projects/*/project/fuse.xmsgs
+projects/*/project/_xmsgs/pn_parser.xmsgs
+projects/*/project/iseconfig/*
+
+# impact #
+projects/*/project/*.xsl
+
+# git changes #
+###############
+changes
