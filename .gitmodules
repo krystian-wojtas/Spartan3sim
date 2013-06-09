@@ -1,3 +1,6 @@
 [submodule "doc"]
 	path = doc
 	url = https://github.com/krystian-wojtas/Spartan3Sim-doc.git
+[submodule "projects/generic"]
+	path = projects/generic
+	url = https://github.com/krystian-wojtas/Spartan3Sim-generic.git
