@@ -265,8 +265,8 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 # Directional Push-Buttons (BTN)
 ##############################################################################
 
-#NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "RST"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "BTN"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "RST"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_WEST"      LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_EAST"     LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 
@@ -291,7 +291,7 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 ## Serial Ports (RS232)
 ###############################################################################
 #
-NET "RXD" LOC = "E16"  | IOSTANDARD = LVCMOS33 ;
+#NET "RXD" LOC = "E16"  | IOSTANDARD = LVCMOS33 ;
 NET "TXD" LOC = "F15"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #
 #NET "RS232_DTE_RXD" LOC = "F16"  | IOSTANDARD = LVCMOS33 ;
