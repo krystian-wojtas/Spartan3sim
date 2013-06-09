@@ -16,3 +16,6 @@
 [submodule "projects/rotor"]
 	path = projects/rotor
 	url = https://github.com/krystian-wojtas/Spartan3Sim-rotor.git
+[submodule "projects/rs232"]
+	path = projects/rs232
+	url = https://github.com/krystian-wojtas/Spartan3Sim-rs232.git
