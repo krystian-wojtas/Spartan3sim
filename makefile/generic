@@ -1,0 +1,31 @@
+SHELL := /bin/bash -O extglob
+
+top=Top
+part=xc3s700an-fgg484-5
+
+# FIXME set to your value
+isedir  ?= /opt/Xilinx/14.3/ISE_DS
+xil_env ?= . $(isedir)/settings32.sh
+
+intstyle=-intstyle ise
+
+bit:
+	for src in $(synt); do echo "verilog work $$src"; done | sort -u > Top.prj
+	[ -d xst/projnav.tmp ] || mkdir -p xst/projnav.tmp
+	$(xil_env); xst $(intstyle) -ifn "../../generic/makefile/config.xst" -ofn "$(top).syr"
+	$(xil_env); ngdbuild $(intstyle) -dd _ngo -nt timestamp -uc "../$(top).ucf" -p $(part) $(top).ngc $(top).ngd
+	$(xil_env); map $(intstyle) -p $(part) -cm area -ir off -pr off -c 100 -o Top_map.ncd $(top).ngd $(top).pcf
+	$(xil_env); par -w $(intstyle) -ol high -t 1 Top_map.ncd $(top).ncd $(top).pcf
+	$(xil_env); trce $(intstyle) -v 3 -s 5 -n 3 -fastpaths -xml $(top).twx $(top).ncd -o $(top).twr $(top).pcf
+	$(xil_env); bitgen $(intstyle) -f "../../generic/makefile/config.ut" $(top).ncd
+
+configure:
+	$(xil_env); impact -batch <<< "` cat ../../generic/makefile/impact_batch.tpl | sed "s:BITSTREAM_FILE:$$PWD/$(top).bit:" `"
+
+sim:
+	for src in $(sim); do echo "verilog work $$src"; done | sort -u > TopTest_beh.prj
+	$(xil_env); fuse $(intstyle) -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -o TopTest_isim_beh.exe -prj TopTest_beh.prj TopTest
+	$(xil_env); "$$PWD/TopTest_isim_beh.exe" $(intstyle) -gui -tclbatch isim.cmd  -wdb "$$PWD/TopTest_isim_beh.wdb"
+
+distclean:
+	rm -rf !(*.xise|Makefile|isim.cmd)
