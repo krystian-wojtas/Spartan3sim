@@ -50,8 +50,11 @@ module Top (
 
 	wire more;
 	Counter #(
-//	  .MAX(10) // sim
+`ifdef SIM
+	  .MAX(10) // sim
+`else
 	  .MAX(10_000_000) // synth
+`endif
 	) Debouncer_more (
 	  .CLKB(CLK50MHZ),
 	  .en(1'b1),
