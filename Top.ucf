@@ -54,7 +54,7 @@
 CONFIG VCCAUX = "3.3" ;
 
 # Configure SUSPEND mode options.
- 
+
 #CONFIG ENABLE_SUSPEND = "FILTERED" ;
 
 # FILTERED is appropriate for use with the switch on this board. Other allowed

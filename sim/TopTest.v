@@ -1,32 +1,32 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    22:25:01 03/24/2012 
-// Design Name: 
-// Module Name:    TopTest 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    22:25:01 03/24/2012
+// Design Name:
+// Module Name:    TopTest
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module TopTest(
     );
-	 
+
 	wire CLK50MHZ;
    Clock Clock_(.clk(CLK50MHZ));
-    
+
    wire RST;
    Reset Reset_(.RST(RST));
-	
+
 	wire SPI_SCK;
 	wire DAC_CS;
 	wire DAC_CLR;
@@ -38,12 +38,12 @@ module TopTest(
 		.DAC_CLR(DAC_CLR),
 		.SPI_MOSI(SPI_MOSI),
 		.DAC_OUT(DAC_OUT)
-	);	
-	
+	);
+
 	wire BTN_WEST;
 	wire BTN_EAST;
 	wire [3:0] SW;
-	wire [7:0] LED;	
+	wire [7:0] LED;
 	Top Top_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
@@ -59,8 +59,8 @@ module TopTest(
 		.SW(SW),
 		.LED(LED)
 	);
-	
-	
+
+
 	TopTestBench TopTestBench_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),

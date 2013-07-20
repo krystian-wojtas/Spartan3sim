@@ -1,21 +1,21 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    19:53:34 03/24/2012 
-// Design Name: 
+// Company:
+// Engineer:
+//
+// Create Date:    19:53:34 03/24/2012
+// Design Name:
 // Module Name:    Controller
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Dependencies: 
+// Dependencies:
 //
-// Revision: 
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -25,10 +25,10 @@ module Controller(
 	input CLK50MHZ,
 	// verilog module interface
 	//input spi_sck_trig, //TODO ?
-	output reg [11:0] data,
+	output reg [11:0] data = 0,
 	output [3:0] address,
 	output [3:0] command,
-	output reg dactrig,
+	output reg dactrig = 0,
 	input dacdone,
 	input [31:0] dac_datareceived,
 	// control
@@ -38,22 +38,22 @@ module Controller(
 	// debug
 	output [7:0] LED
     );
-	 
+
 	assign address = 4'b1111;
 	assign command = 4'b0011;
 	reg [7:0] data_debug = 8'h55;
-	
+
 	reg [7:0] dac_datareceived_r = 0;
-	
-	
+
+
 	assign LED = (SW) ? dac_datareceived_r : data_debug;
 //	assign data = {4'h0, datareg}; //TODO 4'b1 ?
 //	assign data = 12'hffe;
 //	assign data = 12'h3ff;
-	
+
 	localparam STEP = 32;
 	localparam MAXV = {12{1'b1}};
-	
+
 	always @(posedge CLK50MHZ)
 		if(RST) begin
 			data <= 12'h000;
@@ -84,14 +84,14 @@ module Controller(
 					else if(more)
 						if(data+STEP<MAXV) begin
 							data <= data+STEP;
-							data_debug <= data_debug + 1;					
+							data_debug <= data_debug + 1;
 						end else begin
 							data <= MAXV;
 						end
 				end
 			endcase
-			
-				
+
+
 	always @(posedge CLK50MHZ)
 		if(RST) dactrig <= 1'b0;
 		else
@@ -99,5 +99,5 @@ module Controller(
 				dactrig <= 1'b1;
 			else
 				dactrig <= 1'b0;
-	
+
 endmodule

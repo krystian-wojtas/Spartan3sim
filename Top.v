@@ -1,21 +1,21 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    23:07:44 03/12/2012 
-// Design Name: 
-// Module Name:    Top 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    23:07:44 03/12/2012
+// Design Name:
+// Module Name:    Top
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -33,9 +33,9 @@ module Top (
 	input BTN_WEST,
 	input BTN_EAST,
 	output [7:0] LED
-   );	
-	
-	
+   );
+
+
 	wire less;
 	Counter #(
 //	  .MAX(10) // sim
@@ -47,7 +47,7 @@ module Top (
 	  .sig(BTN_WEST),
 	  .full(less)
 	);
-	
+
 	wire more;
 	Counter #(
 //	  .MAX(10) // sim
@@ -59,7 +59,7 @@ module Top (
 	  .sig(BTN_EAST),
 	  .full(more)
 	);
-	
+
 	wire [11:0] data;
 	wire [3:0] address;
 	wire [3:0] command;
@@ -83,7 +83,7 @@ module Top (
 		// debug
 		.LED(LED)
 	);
-	
+
 	DacSpi DacSpi_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
@@ -102,6 +102,6 @@ module Top (
 		.dacdone(dacdone)
 	);
 
-				
+
 
 endmodule

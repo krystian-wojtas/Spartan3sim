@@ -1,21 +1,21 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    00:07:49 03/13/2012 
-// Design Name: 
-// Module Name:    DacSpi 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    00:07:49 03/13/2012
+// Design Name:
+// Module Name:    DacSpi
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module DacSpi (
@@ -35,9 +35,9 @@ module DacSpi (
 	input dactrig,
 	output dacdone
 	);
-	
+
 	localparam WIDTH=32;
-	
+
 	wire tick_neg;
 	wire spi_sck;
 	ModClk #(
@@ -48,7 +48,9 @@ module DacSpi (
 		.clk_hf(spi_sck), //half filled 50%
 		.neg_trig(tick_neg)
 	);
-	
+
+
+
 	wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
 	Spi #(
 		.WIDTH(WIDTH)
@@ -67,9 +69,9 @@ module DacSpi (
 		.clk(CLK50MHZ),
 		.tick(tick_neg)
 	);
-			
-			
-	assign SPI_SCK = (~dacdone) ? spi_sck : 1'b0;	
+
+
+	assign SPI_SCK = (~dacdone) ? spi_sck : 1'b0;
 	assign DAC_CLR = ~RST;
-	
+
 endmodule
