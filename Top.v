@@ -66,7 +66,7 @@ module Top (
 	wire dactrig;
 	wire dacdone;
 	wire [31:0] dac_datareceived;
-	cntr cntr_(
+	Controller Controller_(
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
 		// verilog module interface

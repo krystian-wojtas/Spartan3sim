@@ -23,28 +23,10 @@
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="6"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="6"/>
     </file>
-    <file xil_pn:name="../Cntr.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="7"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="7"/>
-    </file>
-    <file xil_pn:name="../DacLTC2624-behav.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="12"/>
-      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="4"/>
-      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="5"/>
-      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="4"/>
-    </file>
-    <file xil_pn:name="../TopTest.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="13"/>
-      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="5"/>
-      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="6"/>
-      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="5"/>
-    </file>
-    <file xil_pn:name="../TopTestBench.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="10"/>
-      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="6"/>
-      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="3"/>
-      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="6"/>
-    </file>
+    <file xil_pn:name="../Cntr.v" xil_pn:type="FILE_VERILOG"/>
+    <file xil_pn:name="../DacLTC2624-behav.v" xil_pn:type="FILE_VERILOG"/>
+    <file xil_pn:name="../TopTest.v" xil_pn:type="FILE_VERILOG"/>
+    <file xil_pn:name="../TopTestBench.v" xil_pn:type="FILE_VERILOG"/>
     <file xil_pn:name="../../generic/Clock.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="9"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="7"/>
@@ -79,6 +61,28 @@
     <file xil_pn:name="../../generic/ModClk.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="5"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="5"/>
+    </file>
+    <file xil_pn:name="../Controller.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="82"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="7"/>
+    </file>
+    <file xil_pn:name="../sim/DacLTC2624-behav.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="83"/>
+      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="83"/>
+      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="83"/>
+      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="83"/>
+    </file>
+    <file xil_pn:name="../sim/TopTest.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="84"/>
+      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="84"/>
+      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="84"/>
+      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="84"/>
+    </file>
+    <file xil_pn:name="../sim/TopTestBench.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="85"/>
+      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="85"/>
+      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="85"/>
+      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="85"/>
     </file>
   </files>
 

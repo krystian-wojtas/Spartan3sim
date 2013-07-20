@@ -5,7 +5,7 @@
 // 
 // Create Date:    19:53:34 03/24/2012 
 // Design Name: 
-// Module Name:    Cntr 
+// Module Name:    Controller
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 //the most basic implementation
-module cntr(
+module Controller(
 	input RST,
 	input CLK50MHZ,
 	// verilog module interface
