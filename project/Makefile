@@ -1,21 +1,29 @@
-project = dac
-vendor = xilinx
-family = spartan3an
-part = xc3s700an-fgg484-5
-top_module = Top
+# project specific synt modules
 
-# project specific modules
+synt += ../Top.v
+synt += ../Controller.v
+synt += ../DacSpi.v
 
-vfiles += ../Top.v
-vfiles += ../Controller.v
-vfiles += ../DacSpi.v
+# generic synt modules
 
-# generic modules
+synt += ../../generic/Counter.v
+synt += ../../generic/ModClk.v
+synt += ../../generic/Spi.v
+synt += ../../generic/Serial.v
+synt += ../../generic/Shiftreg.v
 
-vfiles += ../../generic/Counter.v
-vfiles += ../../generic/ModClk.v
-vfiles += ../../generic/Spi.v
-vfiles += ../../generic/Serial.v
-vfiles += ../../generic/Shiftreg.v
+# project specific sim modules
 
-include ../../generic/makefile/xilinx.mk
+sim += $(synt)
+sim += ../sim/TopTest.v
+sim += ../sim/TopTestBench.v
+sim += ../sim/DacLTC2624-behav.v
+
+# generic sim modules
+
+sim += ../../generic/sim/Clock.v
+sim += ../../generic/sim/Reset.v
+
+# generic makefile
+
+include ../../generic/makefile/generic
