@@ -1,8 +1,0 @@
-#!/bin/bash
-xst -intstyle ise -ifn "/home/c/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3Sim/projects/rs232/project/Top.xst" -ofn "/home/c/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3Sim/projects/rs232/project/Top.syr"
-ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc "/home/c/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3Sim/projects/rs232/s3astarter.ucf" -p xc3s700an-fgg484-5 "Top.ngc" Top.ngd
-/opt/Xilinx/14.3/ISE_DS/ISE/bin/lin/unwrapped/ngdbuild -intstyle
-map -intstyle ise -p xc3s700an-fgg484-5 -cm area -ir off -pr off -c 100 -o Top_map.ncd Top.ngd Top.pcf
-par -w -intstyle ise -ol high -t 1 Top_map.ncd Top.ncd Top.pcf
-trce -intstyle ise -v 3 -s 5 -n 3 -fastpaths -xml Top.twx Top.ncd -o Top.twr Top.pcf
-bitgen -intstyle ise -f Top.ut Top.ncd
