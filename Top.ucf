@@ -54,7 +54,7 @@
 CONFIG VCCAUX = "3.3" ;
 
 # Configure SUSPEND mode options.
- 
+
 #CONFIG ENABLE_SUSPEND = "FILTERED" ;
 
 # FILTERED is appropriate for use with the switch on this board. Other allowed
@@ -266,7 +266,7 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 ##############################################################################
 
 #NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "RST"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "RST"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_WEST"      LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_EAST"     LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 
@@ -308,7 +308,7 @@ NET "TXD" LOC = "F15"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 ## Controls SDRAM, TERM, and VREF supply rails.
 #NET "REG2_SCL"      LOC = "D11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "REG2_SDA"      LOC = "F13"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-# 
+#
 ###############################################################################
 ## 10/100 Ethernet (E)
 ###############################################################################
@@ -401,7 +401,7 @@ NET "TXD" LOC = "F15"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_A<19>"      LOC = "F21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_A<20>"      LOC = "C22"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_A<21>"      LOC = "C21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
- 
+
 # Note: NF_D<0> pin is shared with SPI_MISO pin which was previously declared.
 #NET "NF_D<0>"   LOC = "AB20" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_D<1>"       LOC = "Y17"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
@@ -420,7 +420,7 @@ NET "TXD" LOC = "F15"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_D<14>"      LOC = "R21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_D<15>"      LOC = "T17"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 # Note: NF_D<15> becomes NF_A<0> when NF_BYTE is asserted (for 8-bit mode).
-# 
+#
 ###############################################################################
 ## DDR2 SDRAM Device (SD)
 ###############################################################################
