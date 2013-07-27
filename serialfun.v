@@ -1,9 +1,10 @@
 `timescale 1ns / 1ps
 
 module serialfun(
-	input clk,
-	input RxD,
-	output TxD,
+	input 		 clk,
+	input 		 RST,
+	input 		 RxD,
+	output 		 TxD,
 	output reg [7:0] debug = 8'haa
 );
 
