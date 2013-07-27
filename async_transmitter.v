@@ -30,7 +30,7 @@ module async_transmitter
     wire 	tx_neg;
     assign TxD = ~ tx_neg;
     // concatenate START BIT and sending data reg in reverse order
-    wire [0:8] 	rs_data = { 1'b1, ~TxD_data[7:0] };
+    wire [8:0] 	rs_data = { 1'b1, ~TxD_data[0], ~TxD_data[1], ~TxD_data[2], ~TxD_data[3], ~TxD_data[4], ~TxD_data[5], ~TxD_data[6], ~TxD_data[7]  };
     Serial #(
         .WIDTH(9)
     ) Serial_ (
