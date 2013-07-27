@@ -3,6 +3,9 @@ synt += ../serialfun.v
 synt += ../async_receiver.v
 synt += ../async_transmitter.v
 synt += ../../generic/BaudRateGenerator.v
+synt += ../../generic/Serial.v
+synt += ../../generic/Counter.v
+synt += ../../generic/Shiftreg.v
 
 sim += $(synt)
 sim += ../TopTest.v
