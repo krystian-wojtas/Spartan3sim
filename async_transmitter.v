@@ -6,8 +6,8 @@
 
 module async_transmitter
 #(
-	parameter ClkFrequency = 50000000,	// 50MHz
-	parameter Baud = 115200
+	parameter FREQ = 50000000,	// 50MHz
+	parameter BAUD = 115200
 ) (
 	input CLK50MHZ,
 	input TxD_start,
@@ -16,13 +16,21 @@ module async_transmitter
 	output TxD_busy
 );
 
-	// Baud generator
-	parameter BaudGeneratorAccWidth = 17;
-	reg [BaudGeneratorAccWidth:0] BaudGeneratorAcc = 0;
-	wire [BaudGeneratorAccWidth:0] BaudGeneratorInc = ((Baud<<(BaudGeneratorAccWidth-4))+(ClkFrequency>>5))/(ClkFrequency>>4);
 
-	wire BaudTick = BaudGeneratorAcc[BaudGeneratorAccWidth];
-	always @(posedge CLK50MHZ) if(TxD_busy) BaudGeneratorAcc <= BaudGeneratorAcc[BaudGeneratorAccWidth-1:0] + BaudGeneratorInc;
+
+
+    // Baud generator
+    wire        BaudTick;
+    BaudRateGenerator
+    #(
+        .FREQ(FREQ),
+        .BAUD(BAUD)
+    ) baud115200 (
+        .CLK50MHZ(CLK50MHZ),
+        .RST(RST),
+        .en(TxD_busy),
+        .tick(BaudTick)
+    );
 
 
 	localparam WIDTH = 8;
@@ -30,10 +38,9 @@ module async_transmitter
 	reg [3:0] shiftreg_idx = 4'd0;
 	wire shiftreg_empty = shiftreg_idx[3];
 
-
 	localparam [1:0] 	TRIG_WAITING = 2'd0,
 											START_BIT = 2'd1,
-											SENDING = 2'd2,	
+											SENDING = 2'd2,
 											STOP_BIT = 2'd3;
 
 	// Transmitter state machine
@@ -51,7 +58,7 @@ module async_transmitter
 				state <= SENDING;
 		SENDING:
 			if(shiftreg_empty)
-				state <= STOP_BIT; 
+				state <= STOP_BIT;
 		STOP_BIT:
 			state <= TRIG_WAITING;
 		default:
@@ -64,7 +71,7 @@ module async_transmitter
 			TRIG_WAITING: begin
 				shiftreg_idx <= 0;
 			end
-			SENDING: 
+			SENDING:
 				if(BaudTick)
 					if(shiftreg_idx <= WIDTH+1)
 						shiftreg_idx <= shiftreg_idx + 1;
@@ -72,20 +79,20 @@ module async_transmitter
 						shiftreg_idx <= 0;
 		endcase
 	end
-	
-	
+
+
 	always @(posedge CLK50MHZ) begin
 		case(state)
 			TRIG_WAITING:
 				if(TxD_ready & TxD_start)
 					shiftreg <= TxD_data;
-			SENDING: 
+			SENDING:
 				if(BaudTick)
 					shiftreg <= { 1'b0, shiftreg[WIDTH-1:1] };
 		endcase
 	end
-	
-	
+
+
 	always @* begin
 		case(state)
 			START_BIT:
@@ -93,9 +100,9 @@ module async_transmitter
 			SENDING:
 				TxD = shiftreg[0];
 			default:
-				TxD = 1'b1;				
+				TxD = 1'b1;
 		endcase
 	end
-	
+
 
 endmodule
