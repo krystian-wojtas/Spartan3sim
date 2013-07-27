@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/c/Dokumenty/projekty/jezyki opisu sprzetu/mgr/Spartan3Sim/projects/rs232/project/TopTest_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="TopTest" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="50" />
+   <wave_markers>
+      <marker time="181250000000" label="" />
+      <marker time="259450000000" label="" />
+   </wave_markers>
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RXD" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RXD</obj_property>
+      <obj_property name="ObjectShortName">RXD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/TXD" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">TXD</obj_property>
+      <obj_property name="ObjectShortName">TXD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LED[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider5" type="divider">
+      <obj_property name="label">top</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/LED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LED[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/RXD" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RXD</obj_property>
+      <obj_property name="ObjectShortName">RXD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/TXD" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">TXD</obj_property>
+      <obj_property name="ObjectShortName">TXD</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider10" type="divider">
+      <obj_property name="label">serialfun</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/RxD" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RxD</obj_property>
+      <obj_property name="ObjectShortName">RxD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/TxD" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">TxD</obj_property>
+      <obj_property name="ObjectShortName">TxD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/RxD_data_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RxD_data_ready</obj_property>
+      <obj_property name="ObjectShortName">RxD_data_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/RxD_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">RxD_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">RxD_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/debug" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">debug[7:0]</obj_property>
+      <obj_property name="ObjectShortName">debug[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider17" type="divider">
+      <obj_property name="label">serializer</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/TxD_start" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">TxD_start</obj_property>
+      <obj_property name="ObjectShortName">TxD_start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/TxD_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">TxD_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">TxD_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/TxD_busy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">TxD_busy</obj_property>
+      <obj_property name="ObjectShortName">TxD_busy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/BaudGeneratorInc" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">BaudGeneratorInc[17:0]</obj_property>
+      <obj_property name="ObjectShortName">BaudGeneratorInc[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/BaudTick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BaudTick</obj_property>
+      <obj_property name="ObjectShortName">BaudTick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/shiftreg_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">shiftreg_empty</obj_property>
+      <obj_property name="ObjectShortName">shiftreg_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/TxD_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">TxD_ready</obj_property>
+      <obj_property name="ObjectShortName">TxD_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/TxD" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">TxD</obj_property>
+      <obj_property name="ObjectShortName">TxD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/BaudGeneratorAcc" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">BaudGeneratorAcc[17:0]</obj_property>
+      <obj_property name="ObjectShortName">BaudGeneratorAcc[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/shiftreg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">shiftreg[7:0]</obj_property>
+      <obj_property name="ObjectShortName">shiftreg[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/shiftreg_idx" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">shiftreg_idx[3:0]</obj_property>
+      <obj_property name="ObjectShortName">shiftreg_idx[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/ClkFrequency" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ClkFrequency[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ClkFrequency[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/Baud" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">Baud[31:0]</obj_property>
+      <obj_property name="ObjectShortName">Baud[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/BaudGeneratorAccWidth" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">BaudGeneratorAccWidth[31:0]</obj_property>
+      <obj_property name="ObjectShortName">BaudGeneratorAccWidth[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/WIDTH" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/TRIG_WAITING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">TRIG_WAITING[1:0]</obj_property>
+      <obj_property name="ObjectShortName">TRIG_WAITING[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/START_BIT" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">START_BIT[1:0]</obj_property>
+      <obj_property name="ObjectShortName">START_BIT[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/SENDING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">SENDING[1:0]</obj_property>
+      <obj_property name="ObjectShortName">SENDING[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/serialfun_/serializer/STOP_BIT" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">STOP_BIT[1:0]</obj_property>
+      <obj_property name="ObjectShortName">STOP_BIT[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider39" type="divider">
+      <obj_property name="label">behav</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/rx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/tx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/mem" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">mem[10:0,7:0]</obj_property>
+      <obj_property name="ObjectShortName">mem[10:0,7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/j" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">j[31:0]</obj_property>
+      <obj_property name="ObjectShortName">j[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/k" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">k[31:0]</obj_property>
+      <obj_property name="ObjectShortName">k[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/byte_received" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">byte_received[7:0]</obj_property>
+      <obj_property name="ObjectShortName">byte_received[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/LOGLEVEL" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/BAUDRATE" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">BAUDRATE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">BAUDRATE[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/half_period" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">half_period[31:0]</obj_property>
+      <obj_property name="ObjectShortName">half_period[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/period" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">period[31:0]</obj_property>
+      <obj_property name="ObjectShortName">period[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Rs232_behav_/CHARS" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">CHARS[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CHARS[31:0]</obj_property>
+   </wvobject>
+</wave_config>

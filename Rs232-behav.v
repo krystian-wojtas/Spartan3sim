@@ -1,21 +1,21 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    14:15:21 10/25/2012 
-// Design Name: 
-// Module Name:    Rs232-behav 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    14:15:21 10/25/2012
+// Design Name:
+// Module Name:    Rs232-behav
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -58,27 +58,27 @@ module Rs232_behav
 		if(LOGLEVEL >= 5)
 			$display("%t\tINFO5 RS rozpoczecie transmisji, start bit 0", $time);
 		#period;
-		
+
 		//byte
 		for(i=0; i < 8; i=i+1) begin
 			tx = byte_tosend[i];
-			if(LOGLEVEL >= 4)		
+			if(LOGLEVEL >= 4)
 				$display("%t\tINFO3 RS wyslano bit nr %d o wartosci %b", $time, i, tx);
 			#period;
 		end
-		
+
 		//stop bit
 		tx = 1'b1;
 		if(LOGLEVEL >= 5)
 			$display("%t\tINFO5 RS zakonczenie transmisji, stop bit 1", $time);
 		#period;
-		
+
 		if(LOGLEVEL >= 3)
 			$display("%t\tINFO2 RS wyslano bajt %b 0x%h %d %s", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
 		end
 	endtask
-	 
-	 
+
+
 	task receive( output reg [7:0] byte_received );
 		integer i;
 		begin
@@ -87,7 +87,7 @@ module Rs232_behav
 			$display("%t\tINFO5 RS rozpoczecie odbioru, start bit 0", $time);
 		#period; // przeczekanie start bitu
 		#half_period; // opoznienie aby probkowac w polowie taktu
-		
+
 		//byte
 		for(i=0; i < 8; i=i+1) begin
 			byte_received[i] = rx;
@@ -95,7 +95,7 @@ module Rs232_behav
 				$display("%t\tINFO4 RS odebrano bit nr %d o wartosci %b", $time, i, rx);
 			#period;
 		end
-		
+
 		//stop bit
 		if(LOGLEVEL >= 5)
 			$display("%t\tINFO5 RS zakonczenie odbioru, stop bit %b", $time, rx);
@@ -105,12 +105,12 @@ module Rs232_behav
 		#half_period; // przeczekanie polowy stop bitu; nie czekam do konca bo przeocze zdarzenie negatywnego zbocza rx (start bit 0) co rozpoczynaloby odbior kolejnego pakietu
 		end
 	endtask
-	
+
 
 	localparam CHARS = 11;
-	reg [7:0] mem [CHARS-1:0];  
+	reg [7:0] mem [CHARS-1:0];
 	initial begin
-		 mem[0] = 8'he0; // "H";
+		 mem[0] = 8'b1000_0010;
 		 mem[1] = 8'hc2; //"e";
 		 mem[2] = "l";
 		 mem[3] = "l";
@@ -122,22 +122,22 @@ module Rs232_behav
 		 mem[9] = "3";
 		 mem[10]="2";
 	end
-	
-		 
+
+
 	integer j = 0;
 	initial begin
 		#10_000; // opoznienie
 		for(j=0; j<CHARS; j=j+1)
 			transmit( mem[j] );
 	end
-	
-	
+
+
 	integer k = 0;
 	reg [7:0] byte_received = 8'd0;
 	always @(negedge rx) begin
 		// odbior bajtu
 		receive( byte_received );
-		if(LOGLEVEL >= 3)		
+		if(LOGLEVEL >= 3)
 			$display("%t\tINFO3 RS odebrano bajt %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received);
 		// weryfikacja
 		if( byte_received != mem[k] )
