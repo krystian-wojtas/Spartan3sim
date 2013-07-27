@@ -16,9 +16,9 @@ module serialfun(
 	async_receiver deserializer(.CLK50MHZ(clk), .RxD(RxD), .RxD_data_ready(RxD_data_ready), .RxD_data(RxD_data));
 
 `ifdef SIM
-	async_transmitter serializer(.CLK50MHZ(clk), .RST(RST), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(8'b1000_0110));
+	Rs232Tx tx(.CLK50MHZ(clk), .RST(RST), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(8'b1000_0110));
 `else
-	async_transmitter serializer(.CLK50MHZ(clk), .RST(RST), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(RxD_data));
+	Rs232Tx tx(.CLK50MHZ(clk), .RST(RST), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(RxD_data));
 `endif
 
 endmodule

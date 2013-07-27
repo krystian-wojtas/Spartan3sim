@@ -1,7 +1,7 @@
 synt += ../Top.v
 synt += ../serialfun.v
 synt += ../async_receiver.v
-synt += ../async_transmitter.v
+synt += ../Rs232Tx.v
 synt += ../../generic/BaudRateGenerator.v
 synt += ../../generic/Serial.v
 synt += ../../generic/Counter.v

@@ -1,69 +1,48 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    11:39:16 04/17/2013 
-// Design Name: 
-// Module Name:    Rs232Tx 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module Rs232Tx
 #(
-	parameter ClkFrequency = 50000000,	// 50MHz
-	parameter Baud = 115200
+	parameter FREQ = 50000000,	// 50MHz
+	parameter BAUD = 115200		// 115 200 bounds/sec
 ) (
-	input CLK50MHZ,
-	input RST,
-	input trig, // TxD_start,
-	input [7:0] data, // TxD_data,
-	output tx, //TxD,
-	output ready // TxD_busy TODDO busy -> ready
+	input 	    CLK50MHZ,
+	input 	    RST,
+	input 	    TxD_start,
+	input [7:0] TxD_data,
+	output 	    TxD,
+	output 	    TxD_busy
 );
 
-	localparam WIDTH = 10;
-	
-	wire en;
-	wire tick;
-	BaudRateGenerator BaudRateGenerator(
-		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
-		.en(en),
-		.tick(tick)
-	);
+    wire 	    TxD_busy_neg;
+    assign TxD_busy = ~ TxD_busy_neg;
+    wire        BaudTick;
+    BaudRateGenerator #(
+        .FREQ(FREQ),
+        .BAUD(BAUD)
+    ) baud115200 (
+        .CLK50MHZ(CLK50MHZ),
+        .RST(RST),
+        .en(TxD_busy),
+        .tick(BaudTick)
+    );
 
-	wire ready_;
-	wire tx_;
-//	wire [WIDTH-1:0] data_in = {1'b1, ~data, 1'b0};
-//	wire [WIDTH-1:0] data_in = {10'b1__100_01110__1};
-	wire [WIDTH-1:0] data_in = 10'b1_1001_1001_0; // "f" 1111_0110 f6
-//	wire [WIDTH-1:0] data_in = 10'b1101_0110_00; // 1111_1001 f9
-//	wire [WIDTH-1:0] data_in = 10'b0000_0000_00; // 
-	Serial #(
-		.WIDTH(WIDTH)
-	) Serial_ (
-		.CLKB(CLK50MHZ),
-		.RST(RST),
-		.tx(tx_),
-		.rx(1'b0),
-		.data_in( data_in ),
-		.trig(trig),
-		.ready(ready_),
-		.tick(tick)
-	);
-	
-	assign en = ~ready_;
-	assign ready = ready_;
-	assign tx = ~tx_;
+    // output TxD line should be hight in idle
+    wire 	tx_neg;
+    assign TxD = ~ tx_neg;
+    // concatenate START BIT and sending data reg in reverse order
+    wire [8:0] 	rs_data = { 1'b1, ~TxD_data[0], ~TxD_data[1], ~TxD_data[2], ~TxD_data[3], ~TxD_data[4], ~TxD_data[5], ~TxD_data[6], ~TxD_data[7]  };
+    Serial #(
+        .WIDTH(9)
+    ) Serial_ (
+        .CLKB(CLK50MHZ),
+        .RST(RST),
+        // serial module interface
+        .rx(1'b0),
+        .tx(tx_neg),
+        .data_in(rs_data),
+        .trig(TxD_start),
+        .ready(TxD_busy_neg),
+        .tick(BaudTick)
+    );
 
 endmodule
