@@ -9,7 +9,7 @@ xil_env ?= . $(isedir)/settings32.sh
 
 intstyle=-intstyle ise
 
-bit:
+bit: $(synt)
 	for src in $(synt); do echo "verilog work $$src"; done | sort -u > Top.prj
 	[ -d xst/projnav.tmp ] || mkdir -p xst/projnav.tmp
 	$(xil_env); xst $(intstyle) -ifn "../../generic/makefile/config.xst" -ofn "$(top).syr"
@@ -19,10 +19,10 @@ bit:
 	$(xil_env); trce $(intstyle) -v 3 -s 5 -n 3 -fastpaths -xml $(top).twx $(top).ncd -o $(top).twr $(top).pcf
 	$(xil_env); bitgen $(intstyle) -f "../../generic/makefile/config.ut" $(top).ncd
 
-configure:
+configure: bit
 	$(xil_env); impact -batch <<< "` cat ../../generic/makefile/impact_batch.tpl | sed "s:BITSTREAM_FILE:$$PWD/$(top).bit:" `"
 
-sim:
+sim: $(sim)
 	for src in $(sim); do echo "verilog work $$src"; done | sort -u > TopTest_beh.prj
 	$(xil_env); fuse $(intstyle) -d SIM -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -o TopTest_isim_beh.exe -prj TopTest_beh.prj TopTest
 	$(xil_env); "$$PWD/TopTest_isim_beh.exe" $(intstyle) -gui -tclbatch isim.cmd  -wdb "$$PWD/TopTest_isim_beh.wdb"
