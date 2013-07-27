@@ -9,6 +9,10 @@ xil_env ?= . $(isedir)/settings32.sh
 
 intstyle=-intstyle ise
 
+ifneq ($(wildcard default_wcfg),)
+	wcfg_view=-view ../wcfg/`cat default_wcfg`
+endif
+
 bit: $(synt)
 	for src in $(synt); do echo "verilog work $$src"; done | sort -u > Top.prj
 	[ -d xst/projnav.tmp ] || mkdir -p xst/projnav.tmp
@@ -25,7 +29,7 @@ configure: bit
 sim: $(sim)
 	for src in $(sim); do echo "verilog work $$src"; done | sort -u > TopTest_beh.prj
 	$(xil_env); fuse $(intstyle) -d SIM -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -o TopTest_isim_beh.exe -prj TopTest_beh.prj TopTest
-	$(xil_env); "$$PWD/TopTest_isim_beh.exe" $(intstyle) -gui -tclbatch isim.cmd  -wdb "$$PWD/TopTest_isim_beh.wdb"
+	$(xil_env); "./TopTest_isim_beh.exe" $(intstyle) -gui -tclbatch isim.cmd  -wdb "TopTest_isim_beh.wdb" $(wcfg_view)
 
 distclean:
-	rm -rf !(*.xise|Makefile|isim.cmd)
+	rm -rf !(*.xise|Makefile|isim.cmd|default_wcfg)
