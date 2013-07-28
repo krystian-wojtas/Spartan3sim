@@ -45,7 +45,7 @@ module Rs232_behav
 );
 
 	// czas polowy okresu przy zakladanej szybkosci
-	parameter half_period = 1_000_000_000 / BAUDRATE;
+	parameter half_period = 1_000_000_000 / BAUDRATE / 2;
 	// czas jednego okresu
 	parameter period = half_period * 2;
 
@@ -53,6 +53,7 @@ module Rs232_behav
 	task transmit( input [7:0] byte_tosend);
 		integer i;
 		begin
+   $display("byte to send %b", byte_tosend);
 		//start bit
 		tx = 1'b0;
 		if(LOGLEVEL >= 5)
@@ -62,9 +63,9 @@ module Rs232_behav
 		//byte
 		for(i=0; i < 8; i=i+1) begin
 			tx = byte_tosend[i];
+			#period;
 			if(LOGLEVEL >= 4)
 				$display("%t\tINFO3 RS wyslano bit nr %d o wartosci %b", $time, i, tx);
-			#period;
 		end
 
 		//stop bit
@@ -91,8 +92,8 @@ module Rs232_behav
 		//byte
 		for(i=0; i < 8; i=i+1) begin
 			byte_received[i] = rx;
-			if(LOGLEVEL >= 4)
-				$display("%t\tINFO4 RS odebrano bit nr %d o wartosci %b", $time, i, rx);
+//			if(LOGLEVEL >= 4)
+//				$display("%t\tINFO4 RS odebrano bit nr %d o wartosci %b", $time, i, rx);
 			#period;
 		end
 
@@ -107,10 +108,12 @@ module Rs232_behav
 	endtask
 
 
-	localparam CHARS = 11;
-	reg [7:0] mem [CHARS-1:0];
+	localparam CHARS = 1;
+	reg [7:0] mem [CHARS:0];
 	initial begin
-		 mem[0] = 8'b1000_0010;
+		 mem[0] = 8'b1000_0000;
+//                 mem[0] = 8'hff;
+                 mem[0] = 8'h0a;
 		 mem[1] = 8'hc2; //"e";
 		 mem[2] = "l";
 		 mem[3] = "l";
@@ -127,8 +130,10 @@ module Rs232_behav
 	integer j = 0;
 	initial begin
 		#10_000; // opoznienie
-		for(j=0; j<CHARS; j=j+1)
-			transmit( mem[j] );
+//		for(j=0; j<CHARS; j=j+1)
+//			transmit( mem[j] );
+	   transmit( "?" );
+	   transmit( "\n" );
 	end
 
 
