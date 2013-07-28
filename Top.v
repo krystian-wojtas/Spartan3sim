@@ -19,21 +19,26 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Top(
-	input 	     CLK50MHZ,
-	input 	     RST,
-	output [7:0] LED,
-	//
-	input 	     RXD,
-	output 	     TXD
-    );
+	   input 	CLK50MHZ,
+	   input 	RST,
+	   output [7:0] LED,
+	   //
+	   input 	RXD,
+	   output 	TXD,
+	   //
+	   output 	DEBUG_TX,
+	   output 	DEBUG_RX
+	   );
 
-	 serialfun serialfun_(
-		.clk(CLK50MHZ),
-		.RST(RST),
-		.RxD(RXD),
-		.TxD(TXD),
-		.debug(LED)
-	);
+   serialfun serialfun_(
+			.clk(CLK50MHZ),
+			.RST(RST),
+			.RxD(RXD),
+			.TxD(TXD),
+			.debug(LED)
+			);
 
+   assign DEBUG_TX = TXD;
+   assign DEBUG_RX = RXD;
 
 endmodule
