@@ -39,8 +39,9 @@ fuseRelaunch.cmd
 *.ngr
 *.stx
 *.syr
-top_*.xrpt
 */xst/*
+*.xst
+top_*.xrpt
 */_ngo/*
 */_xmsgs/*
 */netgen/*
