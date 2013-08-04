@@ -36,11 +36,9 @@ module TopTest(
 		.tx(RXD)
 	);
 
-	wire [7:0] LED;
 	Top Top_ (
 		.CLK50MHZ(CLK50MHZ),
 		.RST(RST),
-		.LED(LED),
 		.RXD(RXD),
 		.TXD(TXD)
 	);

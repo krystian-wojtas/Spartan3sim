@@ -4,21 +4,12 @@ module serialfun(
 	input 		 clk,
 	input 		 RST,
 	input 		 RxD,
-	output 		 TxD,
-	output reg [7:0] debug = 8'haa
+	output 		 TxD
 );
-
 
 	wire RxD_data_ready;
 	wire [7:0] RxD_data;
-	always @(posedge clk) if(RxD_data_ready) debug <= RxD_data;
-
 	Rs232Rx rx(.CLK50MHZ(clk), .RST(RST), .RxD(RxD), .RxD_data_ready(RxD_data_ready), .RxD_data(RxD_data));
-
-`ifdef SIM_DISABLE
-	Rs232Tx tx(.CLK50MHZ(clk), .RST(RST), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(8'b1000_0110));
-`else
 	Rs232Tx tx(.CLK50MHZ(clk), .RST(RST), .TxD(TxD), .TxD_start(RxD_data_ready), .TxD_data(RxD_data));
-`endif
 
 endmodule

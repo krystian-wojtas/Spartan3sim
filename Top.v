@@ -21,7 +21,6 @@
 module Top(
 	   input 	CLK50MHZ,
 	   input 	RST,
-	   output [7:0] LED,
 	   //
 	   input 	RXD,
 	   output 	TXD,
@@ -34,8 +33,7 @@ module Top(
 			.clk(CLK50MHZ),
 			.RST(RST),
 			.RxD(RXD),
-			.TxD(TXD),
-			.debug(LED)
+			.TxD(TXD)
 			);
 
    assign DEBUG_TX = TXD;
