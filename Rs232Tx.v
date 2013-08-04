@@ -13,7 +13,7 @@ module Rs232Tx
    output      TxD_busy
 );
 
-`include "log2.v"
+`include "../../generic/log2.v"
 
    localparam N = log2(BAUD);
 
@@ -31,20 +31,10 @@ module Rs232Tx
 
     // output TxD line should be high at idle
     wire 	TxD_neg;
-    // concatenate START BIT and sending data reg in reverse order
-    wire [8:0] 	rs_data = {
-       1'b1,
-       ~TxD_data[0],
-       ~TxD_data[1],
-       ~TxD_data[2],
-       ~TxD_data[3],
-       ~TxD_data[4],
-       ~TxD_data[5],
-       ~TxD_data[6],
-       ~TxD_data[7]
-    };
+    // START BIT, data, STOP BIT
+    wire [9:0] 	rs_data = { 1'b1, ~TxD_data, 1'b0 };
     Serial #(
-        .WIDTH(9)
+        .WIDTH(10)
     ) Serial_ (
         .CLKB(CLK50MHZ),
         .RST(RST),
