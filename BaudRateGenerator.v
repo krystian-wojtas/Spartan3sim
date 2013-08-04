@@ -20,8 +20,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 module BaudRateGenerator
 #(
-	parameter FREQ = 50000000,	// 50MHz
-	parameter BAUD = 115200
+	parameter INC = 100,
+        parameter N = 10
 ) (
 	input CLK50MHZ,
 	input RST,
@@ -29,15 +29,10 @@ module BaudRateGenerator
 	output tick
 );
 
-`include "log2.v"
-
-	localparam N = log2(BAUD);
-
 	reg [N:0] acc = {N{1'b0}};
-	wire [N:0] inc = ((BAUD<<(N-4))+(FREQ>>5))/(FREQ>>4); // = 302
 	always @(posedge CLK50MHZ)
 		if(RST) acc <= {N{1'b0}};
-		else if(en) acc <= acc[N-1:0] + inc;
+		else if(en) acc <= acc[N-1:0] + INC;
 
 	assign tick = acc[N];
 
