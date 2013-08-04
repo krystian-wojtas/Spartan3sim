@@ -29,7 +29,7 @@ module Top(
 	   output 	DEBUG_RX
 	   );
 
-   serialfun serialfun_(
+   Rs232Echo Rs232Echo_(
 			.clk(CLK50MHZ),
 			.RST(RST),
 			.RxD(RXD),

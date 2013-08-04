@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module serialfun(
+module Rs232Echo(
 	input 		 clk,
 	input 		 RST,
 	input 		 RxD,

@@ -1,5 +1,5 @@
 synt += ../Top.v
-synt += ../serialfun.v
+synt += ../Rs232Echo.v
 synt += ../Rs232Tx.v
 synt += ../Rs232Rx.v
 synt += ../../generic/BaudRateGenerator.v
