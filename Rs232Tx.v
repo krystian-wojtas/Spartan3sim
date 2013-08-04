@@ -13,12 +13,16 @@ module Rs232Tx
    output      TxD_busy
 );
 
+`include "log2.v"
+
+   localparam N = log2(BAUD);
+
    wire        BaudTick;
    wire        TxD_ready;
    BaudRateGenerator #(
-        .FREQ(FREQ),
-        .BAUD(BAUD)
-    ) baud115200 (
+        .INC( ((BAUD<<(N-4))+(FREQ>>5))/(FREQ>>4) ), // = 302
+        .N(N)
+     ) baud115200 (
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
         .en(TxD_busy),
