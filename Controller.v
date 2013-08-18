@@ -1,21 +1,21 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    11:39:49 04/11/2013 
-// Design Name: 
-// Module Name:    Controller 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    11:39:49 04/11/2013
+// Design Name:
+// Module Name:    Controller
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Controller(
@@ -25,15 +25,14 @@ module Controller(
 	 input center,
 	 input left,
 	 input right,
-	 // debug leds
+	 //  leds
 	 output reg [7:0] leds = 8'b0001_0000
     );
-	 
-	 always @(posedge clk)
-//	   if(rst)             leds <= 8'b0001_0000;
-	   if(rst)             leds <= { leds[6:0], leds[7] };
-		else if(left)      leds <= { leds[6:0], leds[7] };
-		else if(right)    leds <= { leds[0], leds[7:1] };
-		else if(center) leds <= 8'b0011_1100;
-	 
+
+    always @(posedge clk)
+        if(rst)           leds <= 8'b0010_0000;
+        else if(center)   leds[0] <= ~leds[0];
+        else if(left)     leds <= { leds[6:0], leds[7] };
+        else if(right)    leds <= { leds[0], leds[7:1] };
+
 endmodule
