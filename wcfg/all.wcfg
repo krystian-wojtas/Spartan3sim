@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="TopTest_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="TopTest" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="25" />
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/ROT_CENTER" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ROT_CENTER</obj_property>
+      <obj_property name="ObjectShortName">ROT_CENTER</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/ROT_A" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ROT_A</obj_property>
+      <obj_property name="ObjectShortName">ROT_A</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/ROT_B" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ROT_B</obj_property>
+      <obj_property name="ObjectShortName">ROT_B</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LED[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider7" type="divider">
+      <obj_property name="label">rotor</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/rota" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rota</obj_property>
+      <obj_property name="ObjectShortName">rota</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/rotb" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rotb</obj_property>
+      <obj_property name="ObjectShortName">rotb</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/rotary_q1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rotary_q1</obj_property>
+      <obj_property name="ObjectShortName">rotary_q1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/rotary_q2" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rotary_q2</obj_property>
+      <obj_property name="ObjectShortName">rotary_q2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/delay_rotary_q1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">delay_rotary_q1</obj_property>
+      <obj_property name="ObjectShortName">delay_rotary_q1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/rotary_event" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rotary_event</obj_property>
+      <obj_property name="ObjectShortName">rotary_event</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/rotary_left" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rotary_left</obj_property>
+      <obj_property name="ObjectShortName">rotary_left</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/left" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">left</obj_property>
+      <obj_property name="ObjectShortName">left</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/right" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">right</obj_property>
+      <obj_property name="ObjectShortName">right</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider19" type="divider">
+      <obj_property name="label">controller</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/center" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">center</obj_property>
+      <obj_property name="ObjectShortName">center</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/left" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">left</obj_property>
+      <obj_property name="ObjectShortName">left</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/right" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">right</obj_property>
+      <obj_property name="ObjectShortName">right</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/leds" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">leds[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds[7:0]</obj_property>
+   </wvobject>
+</wave_config>
