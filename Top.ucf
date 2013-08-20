@@ -54,7 +54,7 @@
 CONFIG VCCAUX = "3.3" ;
 
 # Configure SUSPEND mode options.
- 
+
 #CONFIG ENABLE_SUSPEND = "FILTERED" ;
 
 # FILTERED is appropriate for use with the switch on this board. Other allowed
@@ -97,14 +97,14 @@ OFFSET = OUT 20.000 AFTER "CLK50MHZ" ;
 # Discrete Indicators (LED)
 ##############################################################################
 
-NET "LED<0>"        LOC = "R20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<1>"        LOC = "T19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<2>"        LOC = "U20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<3>"        LOC = "U19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<4>"        LOC = "V19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<5>"        LOC = "V20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<6>"        LOC = "Y22"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "LED<0>"        LOC = "R20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "LED<1>"        LOC = "T19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "LED<2>"        LOC = "U20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "LED<3>"        LOC = "U19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "LED<4>"        LOC = "V19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "LED<5>"        LOC = "V20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "LED<6>"        LOC = "Y22"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 
 ##############################################################################
 # Character Display (LCD)
@@ -133,20 +133,20 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 ## Video Output Port (VGA)
 ###############################################################################
 #
-#NET "VGA_B<0>"      LOC = "C7"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_B<1>"      LOC = "D7"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_B<2>"      LOC = "B9"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_B<3>"      LOC = "C9"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_G<0>"      LOC = "C5"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_G<1>"      LOC = "D5"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_G<2>"      LOC = "C6"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_G<3>"      LOC = "D6"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_R<0>"      LOC = "A3"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_R<1>"      LOC = "B3"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_R<2>"      LOC = "B8"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_R<3>"      LOC = "C8"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_HSYNC"     LOC = "C11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-#NET "VGA_VSYNC"     LOC = "B11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_B<0>"      LOC = "C7"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_B<1>"      LOC = "D7"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_B<2>"      LOC = "B9"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_B<3>"      LOC = "C9"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_G<0>"      LOC = "C5"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_G<1>"      LOC = "D5"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_G<2>"      LOC = "C6"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_G<3>"      LOC = "D6"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_R<0>"      LOC = "A3"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_R<1>"      LOC = "B3"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_R<2>"      LOC = "B8"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_R<3>"      LOC = "C8"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_HSYNC"     LOC = "C11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+NET "VGA_VSYNC"     LOC = "B11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
 #
 ###############################################################################
 ## Hirose Expansion Connector (FX2)
@@ -266,18 +266,18 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 ##############################################################################
 
 #NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "BTN_SOUTH"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-NET "RST"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "BTN_WEST"      LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "BTN_EAST"     LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+#NET "BTN_SOUTH"     LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "RST"	     LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "BTN_NEXT"       LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "BTN_PREV"       LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 
 ##############################################################################
 # Rotary Knob (ROT)
 ##############################################################################
 #
-NET "ROT_CENTER"    LOC = "R13"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-NET "ROT_A"         LOC = "T13"  | IOSTANDARD = LVCMOS33 | PULLUP ;
-NET "ROT_B"         LOC = "R14"  | IOSTANDARD = LVCMOS33 | PULLUP ;
+#NET "ROT_CENTER"    LOC = "R13"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+#NET "ROT_A"         LOC = "T13"  | IOSTANDARD = LVCMOS33 | PULLUP ;
+#NET "ROT_B"         LOC = "R14"  | IOSTANDARD = LVCMOS33 | PULLUP ;
 #
 ###############################################################################
 ## Mechanical Switches (SW)
@@ -309,7 +309,7 @@ NET "ROT_B"         LOC = "R14"  | IOSTANDARD = LVCMOS33 | PULLUP ;
 ## Controls SDRAM, TERM, and VREF supply rails.
 #NET "REG2_SCL"      LOC = "D11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "REG2_SDA"      LOC = "F13"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-# 
+#
 ###############################################################################
 ## 10/100 Ethernet (E)
 ###############################################################################
@@ -402,7 +402,7 @@ NET "ROT_B"         LOC = "R14"  | IOSTANDARD = LVCMOS33 | PULLUP ;
 #NET "NF_A<19>"      LOC = "F21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_A<20>"      LOC = "C22"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_A<21>"      LOC = "C21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
- 
+
 # Note: NF_D<0> pin is shared with SPI_MISO pin which was previously declared.
 #NET "NF_D<0>"   LOC = "AB20" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_D<1>"       LOC = "Y17"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
@@ -421,7 +421,7 @@ NET "ROT_B"         LOC = "R14"  | IOSTANDARD = LVCMOS33 | PULLUP ;
 #NET "NF_D<14>"      LOC = "R21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "NF_D<15>"      LOC = "T17"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 # Note: NF_D<15> becomes NF_A<0> when NF_BYTE is asserted (for 8-bit mode).
-# 
+#
 ###############################################################################
 ## DDR2 SDRAM Device (SD)
 ###############################################################################

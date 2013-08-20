@@ -4,8 +4,8 @@ synt += ../Sync.v
 synt += ../../generic/Counter.v
 
 sim += $(synt)
-sim += ../TopTest.v
-sim += ../TopTestBench.v
+sim += ../sim/TopTest.v
+sim += ../sim/TopTestBench.v
 sim += ../../generic/sim/Clock.v
 sim += ../../generic/sim/Reset.v
 
