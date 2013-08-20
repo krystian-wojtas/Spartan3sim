@@ -29,7 +29,7 @@ module Sync (
 	output next_px
 );
 
-`ifdef SIM
+`ifdef SIM_
 	localparam [10:0] H_TS  = 16;
 	localparam [ 7:0] H_TPW = 4;
 	localparam [ 6:0] H_TBP = 2;
@@ -73,8 +73,8 @@ module Sync (
 		.cnt(y)
 	);
 
-	wire 	   displaying = (y > V_TBP && y < V_TS - V_TFP - V_TPW);
+	wire 	   displaying = (y >= V_TBP && y <= V_TS - V_TFP - V_TPW);
 	assign VGA_HSYNC = ~displaying || (x < H_TS - H_TPW); // <= ?
-	assign VGA_VSYNC = (y < V_TS - V_TPW);
+	assign VGA_VSYNC = (y <= V_TS - V_TPW);
 
 endmodule

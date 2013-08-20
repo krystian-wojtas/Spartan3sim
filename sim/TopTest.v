@@ -27,12 +27,20 @@ module TopTest ();
     wire RST;
     Reset Reset_( .RST(RST) );
 
-    // // vga interface
-    // wire [3:0] VGA_R;
-    // wire [3:0] VGA_G;
-    // wire [3:0] VGA_B;
-    // wire       VGA_HSYNC;
-    // wire       VGA_VSYNC;
+    // vga interface
+    wire [3:0] VGA_R;
+    wire [3:0] VGA_G;
+    wire [3:0] VGA_B;
+    wire       VGA_HSYNC;
+    wire       VGA_VSYNC;
+	 Vga Vga_ (
+        .VGA_R(VGA_R),
+        .VGA_G(VGA_G),
+        .VGA_B(VGA_B),
+        .VGA_HSYNC(VGA_HSYNC),
+        .VGA_VSYNC(VGA_VSYNC)		  
+	 );
+	 
     // color control
     wire       BTN_NEXT;
     wire       BTN_PREV;
@@ -44,12 +52,12 @@ module TopTest ();
     Top Top_ (
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
-        // // vga interface
-        // .VGA_R(VGA_R),
-        // .VGA_G(VGA_G),
-        // .VGA_B(VGA_B),
-        // .VGA_HSYNC(VGA_HSYNC),
-        // .VGA_VSYNC(VGA_VSYNC)
+        // vga interface
+        .VGA_R(VGA_R),
+        .VGA_G(VGA_G),
+        .VGA_B(VGA_B),
+        .VGA_HSYNC(VGA_HSYNC),
+        .VGA_VSYNC(VGA_VSYNC),
         // color control
         .BTN_NEXT(BTN_NEXT),
         .BTN_PREV(BTN_PREV)
