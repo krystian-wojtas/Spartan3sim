@@ -26,55 +26,56 @@ module Sync (
 	output VGA_HSYNC,
 	output VGA_VSYNC,
 	// tick for next pixel
-	output next_px
+	output [10:0] x,
+        output [10:0] y,
+	output displaying
 );
 
-`ifdef SIM_
-	localparam [10:0] H_TS  = 16;
-	localparam [ 7:0] H_TPW = 4;
-	localparam [ 6:0] H_TBP = 2;
-	localparam [ 9:0] V_TS  = 20;
-	localparam [ 1:0] V_TPW = 2;
-	localparam [ 3:0] V_TFP = 4;
-	localparam [ 4:0] V_TBP = 3;
-`else
-	localparam [10:0] H_TS  = 1600;
-	localparam [ 7:0] H_TPW = 192;
-	localparam [ 6:0] H_TBP = 96;
-	localparam [ 9:0] V_TS  = 521;
-	localparam [ 1:0] V_TPW = 2;
-	localparam [ 3:0] V_TFP = 10;
-	localparam [ 4:0] V_TBP = 29;
-`endif
+	localparam [10:0] H_S  = 2*800;
+	localparam [ 1:0] H_FP = 2*16;
+	localparam [ 7:0] H_PW = 2*96;
+	localparam [ 6:0] H_BP = 2*48;
+	localparam [ 9:0] V_S  = 521;
+	localparam [ 1:0] V_PW = 2;
+	localparam [ 3:0] V_FP = 10;
+	localparam [ 4:0] V_BP = 29;
 
-	wire [10:0] x;
+	wire [10:0] i;
 	wire 	    h;
 	Counter #(
-		.MAX(H_TS)
+		.MAX(H_S)
 	) Counter_h (
 		.CLKB(CLK50MHZ),
 		// counter
 		.en(1'b1),
 		.rst(RST),
 		.sig(1'b1), // count all CLK50MHZ ticks
-		.cnt(x),
+		.cnt(i),
 		.full(h)
 	);
 
-	wire [9:0] y;
+	wire [9:0] j;
    	Counter #(
-		.MAX(V_TS)
+		.MAX(V_S)
 	) Counter_v (
 		.CLKB(CLK50MHZ),
 		// counter
 		.en(1'b1),
 		.rst(RST),
 		.sig(h), // count h sync
-		.cnt(y)
+		.cnt(j)
 	);
 
-	wire 	   displaying = (y >= V_TBP && y <= V_TS - V_TFP - V_TPW);
-	assign VGA_HSYNC = ~displaying || (x < H_TS - H_TPW); // <= ?
-	assign VGA_VSYNC = (y <= V_TS - V_TPW);
+        assign displaying = (
+            i >= H_PW + H_BP &&
+            i <  H_S - H_FP  &&
+            j >= V_BP + V_FP &&
+            j <  V_S - V_PW
+        );
+   	assign VGA_HSYNC = (i > 96);
+   	assign VGA_VSYNC = (j > 2);
+
+        assign x = i - 144;
+        assign y = j - 39;
 
 endmodule

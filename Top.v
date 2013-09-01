@@ -66,8 +66,11 @@ module Top (
         .full(prev)
     );
 
-    wire  hsync;
-    wire  vsync;
+    wire hsync;
+    wire vsync;
+    wire [10:0] x;
+    wire [10:0] y;
+    wire displaying;
     Sync Sync_(
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
@@ -75,7 +78,10 @@ module Top (
 //        .VGA_HSYNC(VGA_HSYNC),
 //        .VGA_VSYNC(VGA_VSYNC)
         .VGA_HSYNC(hsync),
-        .VGA_VSYNC(vsync)
+        .VGA_VSYNC(vsync),
+        .x(x),
+	.y(y),
+        .displaying(displaying)
     );
 
     Controller Controller_(
@@ -87,7 +93,10 @@ module Top (
         .VGA_B(VGA_B),
         // color control
         .next(next),
-        .prev(prev)
+        .prev(prev),
+        .x(x),
+        .y(y),
+        .displaying(displaying)
     );
 
     assign DEBUG_A = vsync;

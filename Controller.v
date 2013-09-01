@@ -28,12 +28,14 @@ module Controller (
     output [3:0] VGA_B,
     // color control
     input 	 next,
-    input 	 prev
-
+    input 	 prev,
+    input [10:0] x,
+    input [10:0] y,
+    input displaying
 );
 
-    assign VGA_R = 4'h0;
-    assign VGA_G = 4'hf;
-    assign VGA_B = 4'hf;
+    assign VGA_R = (displaying) ? 4'hf : 4'h0;
+    assign VGA_G = 4'h0;
+    assign VGA_B = (displaying) ? 4'hf : 4'h0;
 
 endmodule
