@@ -18,17 +18,20 @@
 // Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
+
 module Counter #(
 	parameter MAX=4,
 	parameter K=1,
 	parameter DELAY=0
 ) (
-	input CLKB,
+	input 	      CLKB,
 	// counter
-	input en, // if high counter is enabled and is counting
-	input rst, // set counter register to zero
-	input sig, // signal which is counted
-	output reg full // one pulse if counter is full
+	input 	      en, // if high counter is enabled and is counting
+	input 	      rst, // set counter register to zero
+	input 	      sig, // signal which is counted
+// TODO log2
+	output [10:0] cnt,
+	output reg    full // one pulse if counter is full
 );
 
 `include "log2.v"
@@ -46,5 +49,7 @@ module Counter #(
 	//assign full = (counter_reg == MAX-1);
 	always @*
 		full = (counter_reg == MAX);
+
+	assign cnt = counter_reg;
 
 endmodule
