@@ -25,7 +25,7 @@ language=Octave,                % choose the language of the code
 basicstyle=\footnotesize,       % the size of the fonts that are used for the code
 numbers=left,                   % where to put the line-numbers
 numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
-stepnumber=1,                   % the step between two line-numbers. If it's 1 each line 
+stepnumber=1,                   % the step between two line-numbers. If it's 1 each line
                                 % will be numbered
 numbersep=5pt,                  % how far the line-numbers are from the code
 backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
@@ -101,58 +101,6 @@ morekeywords={*,...}            % if you want to add more keywords to the set
 \end{tabular}
 \end{center}
 
-%% =====  TYL STRONY TYTULOWEJ PRACY MAGISTERSKIEJKIEJ ====
-
-\newpage
-\rightline{Kraków, czerwiec 2012}
-\begin{center}
-{\bf Tematyka pracy magisterskiej i praktyki dyplomowej
-Jana Nowaka,
-studenta V roku studiów kierunku fizyka techniczna, specjalności fizyka komputerowa}\\
-\end{center}
-
-Temat pracy magisterskiej:
-{\bf Tu wpisz temat pracy magisterskiej Temat pracy magisterskiej Temat pracy magisterskiej}\\
-
-\begin{tabular}{rl}
-
-Opiekun pracy:                  & prof. dr hab. Śmaki Owaki\\
-Recenzenci pracy:               & dr hab. inż. Owaki Śmaki\\
-Miejsce praktyki dyplomowej:    & WFiIS AGH, Kraków\\
-\end{tabular}
-
-\begin{center}
-{\bf Program pracy magisterskiej i praktyki dyplomowej}
-\end{center}
-
-\begin{enumerate}
-\item Omówienie realizacji pracy magisterskiej z opiekunem.
-\item Zebranie i opracowanie literatury dotyczącej tematu pracy.
-\item Praktyka dyplomowa:
-\begin{itemize}
-\item zapoznanie się z ideą...,
-\item uczestnictwo w eksperymentach/przygotwanie oprogramowania...,
-\item dyskusja i analiza wyników...
-\item sporządzenie sprawozdania z praktyki.
-\end{itemize}
-\item Kontynuacja obliczeń związanych z tematem pracy magisterskiej.
-\item Zebranie i opracowanie wyników obliczeń.
-\item Analiza wyników obliczeń numerycznych, ich omówienie i zatwierdzenie przez opiekuna.
-\item Opracowanie redakcyjne pracy.
-\end{enumerate}
-
-
-\noindent
-Termin oddania w dziekanacie: ?? czerwca 20??\\[1cm]
-
-\begin{center}
-\begin{tabular}{lcr}
-.............................................................. & ~~~ &
-.............................................................. \\
-(podpis kierownika katedry) & & (podpis opiekuna) \\
-\end{tabular}
-\end{center}
-
 \newpage
 \noindent
 Na kolejnych dwóch stronach proszę dołączyć kolejno recenzje pracy popełnione przez Opiekuna oraz Recenzenta (wydrukowane z systemu MISIO i podpisane przez odpowiednio Opiekuna i Recenzenta pracy). Papierową wersję pracy (zawierającą podpisane recenzje) proszę złożyć w dziekanacie celem rejestracji co najmniej na tydzień przed planowaną obroną.
@@ -160,6 +108,11 @@ Na kolejnych dwóch stronach proszę dołączyć kolejno recenzje pracy popełni
 \newpage
 \noindent
 Na kolejnych dwóch stronach proszę dołączyć kolejno recenzje pracy popełnione przez Opiekuna oraz Recenzenta (wydrukowane z systemu MISIO i podpisane przez odpowiednio Opiekuna i Recenzenta pracy). Papierową wersję pracy (zawierającą podpisane recenzje) proszę złożyć w dziekanacie celem rejestracji co najmniej na tydzień przed planowaną obroną.
+
+
+\vspace{85mm}
+\newpage
+\tableofcontents
 
 \newpage
 \section{Cel pracy}
@@ -170,12 +123,51 @@ Na kolejnych dwóch stronach proszę dołączyć kolejno recenzje pracy popełni
    \caption{Xilnix Spartan-3AN Starter Kit}
 \end{figure}
 
-Celem pracy jest oprogramowanie za pomocą języka opisu sprzętu (Verliog) układów używanych podczas zajęć laboratoryjnych z Projektowanie Systemów Cyfrowych. Praca polegałaby na przygotowaniu zestawu syntezowalnych bloków HDL do wszystkich elementów płytki „Xilnix Spartan-3AN Starter Kit” (www.xilinx.com/products/devkits/HW-SPAR3AN-SK-UNI-G.htm). Dodatkowo należy opracować modele behawioralne służące do testowania poprawności kodu (poszczególnych modułów sprzętu) tworzonego przez studentów podczas zajęć. Podsumowaniem całości ma być projekt kompleksowo demonstrujący możliwości wyżej wspomnianego sprzętu.  
+Celem pracy jest oprogramowanie za pomocą języka opisu sprzętu (Verliog) układów używanych podczas zajęć laboratoryjnych z Projektowanie Systemów Cyfrowych. Praca polegałaby na przygotowaniu zestawu syntezowalnych bloków HDL do wszystkich elementów płytki „Xilnix Spartan-3AN Starter Kit” (www.xilinx.com/products/devkits/HW-SPAR3AN-SK-UNI-G.htm). Dodatkowo należy opracować modele behawioralne służące do testowania poprawności kodu (poszczególnych modułów sprzętu) tworzonego przez studentów podczas zajęć. Podsumowaniem całości ma być projekt kompleksowo demonstrujący możliwości wyżej wspomnianego sprzętu.
 
 Utworzone moduły behawioralne muszą (wiernie) odzwierciedlać zachowania układów występujących na płytce.
-Znajdą wtedy zastosowanie w uruchamianych symulacjach przebiegów czasowych danej konfiguracji układu programowalnego FPGA. Dzięki nim możliwe będzie stwierdzenie czy dla zsyntetyzowanej konfiguracji stany linii FPGA prowadzące do konkretnego układu płytki przebiegają poprawnie i czy zachodzi pożądana komunikacja poprzez generowanie przez te moduły stosownych komunikatów. W ten sposób studenci będą mogli testować poprawność działania utworzonej przez siebie konfiguracji bez fizycznego dosępu do sprzętu.  
+Znajdą wtedy zastosowanie w uruchamianych symulacjach przebiegów czasowych danej konfiguracji układu programowalnego FPGA. Dzięki nim możliwe będzie stwierdzenie czy dla zsyntetyzowanej konfiguracji stany linii FPGA prowadzące do konkretnego układu płytki przebiegają poprawnie i czy zachodzi pożądana komunikacja poprzez generowanie przez te moduły stosownych komunikatów. W ten sposób studenci będą mogli testować poprawność działania utworzonej przez siebie konfiguracji bez fizycznego dosępu do sprzętu.
 %zsyntetysowanej/wysyntetyzowanej
 
+
+\newpage
+\section{Projekty}
+Każdy z symulowanych układów jest osobnym symulowalnym jak również syntezowalnym projektem środowiska Xilinx ISE. Projekty objęte są rozproszonym systemem kontroli wersji GIT, każdy jest jego osobnym podmodułem spajanym repozytorium superprojektu.
+
+\subsection{Moduły ogólnego zastosowania}
+Moduły ogólnego zastosowania, współdzielone pomiędzy projektami położone są w folderze nazwanym generic.
+
+\subsubsection{Zegar}
+Jest to moduł niezbędny do symulacji, wprowadza prostokątną linie zegarową.
+\lstinputlisting[label=Zegar,caption=Clock.v]{zrodla/generic/sim/Clock.v}
+
+\subsubsection{Reset}
+Moduł na chwilę podnosi linię resetu.
+\lstinputlisting[label=Reset,caption=Reset.v]{zrodla/generic/sim/Reset.v}
+
+\subsubsection{Funkcja logarytmiczna}
+Funkcja ta jest bardzo pomocna w ustaleniu szerokości deklarowanego rejestru na podstawie górnego zakresu liczb przez niego zapamietywanych. Wartość funkcji obliczana jest na etapie elaboracji.
+\lstinputlisting[label=log2,caption=log2.v]{zrodla/generic/log2.v}
+
+\subsubsection{Licznik}
+Zastosowanie licznika powtarza się bardzo często. Dlatego wydzilony on został do osobnego ogólnego modułu.
+\lstinputlisting[label=licznik,caption=Counter.v]{zrodla/generic/Counter.v}
+
+\subsubsection{Rejestr przesuwny}
+Rejestr przesuwny zapisuje daną wejsciową z interfejsu równoległego do swojego wewnętrznego rejestry w momencie, gdy zauważy podiesioną flagę 'set'. Jeśli flagi właczenia 'en' oraz działania 'tick' są ustawione, wtedy moduł rejest przesuwa, wstawiając dostarczony bit 'rx' w puste miejsce. Wyjściowy bit 'tx' zawsze wskazuje na bit z końca rejestru.
+\lstinputlisting[label=rejestr,caption=Shiftreg.v]{zrodla/generic/Shiftreg.v}
+
+\subsubsection{Serializacja}
+Zadaniem modułu jest serializacja tj. przesłanie danych dostarczonych naraz interfejsem równoległym po kolei bit po bicie w takt zegara lub operacja desarializaj tj. operacja odwrotna. Moduł wykorzystuje zaprezentowany rejestr przesuwny oraz licznik.
+\lstinputlisting[label=serial,caption=Serial.v]{zrodla/generic/Serial.v}
+
+\subsubsection{SPI}
+Serial Peripheral Interface jest popularnym sprzętowym interfejsem komunikacji. Jest on wyjaśniony w części poświęconej DAC-owi. Wykorzystuje moduł serializacji dodając jedynie funcjonalność lini Chip Select.
+\lstinputlisting[label=spi,caption=Spi.v]{zrodla/generic/Spi.v}
+
+\subsubsection{Generator impulsów}
+Zadaniem generatorota impulsów jest wytwarzanie impulsów jak najbliższe pożadanemu okresowi.
+\lstinputlisting[label=BaudRateGenerator,caption=BaudRateGenerator.v]{zrodla/generic/BaudRateGenerator.v}
 
 \newpage
 \section{DAC}
@@ -195,8 +187,8 @@ Układ LTC2624 zaimplementowaną ma logikę komunikacji w standardzie magistrali
    \caption{SPI}
 \end{figure}
 
-Na magistrali występuje jeden układ nadrzędny - Master oraz co najmniej jeden Slave. 
-Master generuje zegar na linii SCK. 
+Na magistrali występuje jeden układ nadrzędny - Master oraz co najmniej jeden Slave.
+Master generuje zegar na linii SCK.
 Master wysyła dane do Slavów szeregowo linią MOSI, Slavy odsyłają dane linią MISO. Transmisja jest fullduplexowana - przesył w obu kierunkach poszczególnych bitów następuje równocześnie w takt zegara.
 Między układami współdzielone są linie zegara oraz danych. Odseparowane natomiast są linie CS poszczególnych slavów - wywołanie niskiego potencjału przez mastera aktywuje danego slava do uczestnictwa w wymianie danych.
 
@@ -242,7 +234,7 @@ Dane przesyłane do układu LTC2624 są 32-bitową ramką uwidocznioną powyższ
   \centering
 	\begin{tabular}{|c|c|c|c|l|}
 	  \multicolumn{1}{r}{19}&\multicolumn{1}{r}{}&\multicolumn{1}{r}{}&\multicolumn{1}{r}{16}&\multicolumn{1}{l}{Adres}\\
-		\hline 
+		\hline
 		0&0&0&0 & DAC A\\
 		\hline
 		0&0&0&1 & DAC B\\
@@ -253,11 +245,17 @@ Dane przesyłane do układu LTC2624 są 32-bitową ramką uwidocznioną powyższ
 		\hline
 		1&1&1&1 & Wszystkie\\
 		\hline
-	\end{tabular} 
+	\end{tabular}
 \end{figure}
 
 Trzecie pole jest 12-bitową wartością binarną odpowiadającą wystawianemu napięciu. Ramka kończy się 4 nieistotnymi bitami. W przykładzie na wszystkich konwerterach pojawiłaby się połowa z ustawionych zakresów napięć.
 
+
+
+\subsection{HDL}
+\lstinputlisting[caption=Top.v]{../projects/dac/Top.v}
+\lstinputlisting[label=Controller,caption=Controller.v]{../projects/dac/Controller.v}
+\lstinputlisting[label=DacSpi,caption=DacSpi.v]{../projects/dac/DacSpi.v}
 
 %\newpage
 \subsection{Moduł behawioralny}
@@ -272,6 +270,95 @@ Wykonana została wzorcowa konfiguracja FPGA poprawnie ustawiająca DAC-i. Przed
 \includegraphics[width=15cm]{grafika/dac-uml.jpg}
 
 \lstinputlisting[label=dac,caption=dacLTC2624behav.v]{zrodla/dacLTC2624-behav.v}
+
+
+\newpage
+\section{Rotor}
+
+Płytka Spartan 3AN jest wyposażona w obrotowy przełącznik o dwóch wyprowadzeniach do FPGA. W stanie jałowym są one przyłączone do wysokiego potencjału. Mechaniczne obracanie pokrętła powoduje zwieranie styków na liniach i uziemienie napięcia. Kierunek obrotu wyznacza która linia wcześniej się zewrze do masy.
+
+\begin{figure}[htb]
+   \centering
+   \includegraphics[width=13cm]{grafika/dso/rotor-w-prawo-jeden.png}
+\end{figure}
+
+Obrót w kierunku zgodnym z ruchem wskazówek zegara. Fioletowa linia wykreśla sygnał 'rota'.
+
+\begin{figure}[htb]
+   \centering
+   \includegraphics[width=13cm]{grafika/dso/rotor-w-prawo-wiele.png}
+\end{figure}
+
+Kilka obrotów następujących po sobie.
+
+\subsection{HDL}
+\lstinputlisting[label=Toprotor,caption=Top.v]{../projects/rotor/Top.v}
+\lstinputlisting[label=Rotor,caption=Rotor.v]{../projects/rotor/Rotor.v}
+\lstinputlisting[label=Controller_rotor,caption=Controller.v]{../projects/rotor/Controller.v}
+
+
+\newpage
+\section{Rs232}
+
+Rs232 jest asynchronicznym, szeregowym standardem komunikacyjnym. Zdefiniowane są osobne linie do wysyłanych i odbieranych danych. Szybkość transmisji ustala się ręcznie w urządzeniach końcowych.
+
+Stanem wysokim określony jest stan bezczynności, Nadawanie danych rozpoczyna się od opuszczenia linii Tx na okres jednego bitu tzw. startowego. Natępnie przesyłane są kolejne bity danych i kończone są wysokim bitem stopu.
+
+\subsection{Synteza}
+
+\subsubsection{HDL}
+\lstinputlisting[caption=Top.v]{../projects/rs232/Top.v}
+\lstinputlisting[label=Rs232Tx,caption=Rs232Tx.v]{../projects/rs232/Rs232Tx.v}
+\lstinputlisting[label=Rs232Rx,caption=Rs232Rx.v]{../projects/rs232/Rs232Rx.v}
+
+\subsection{Symulacja}
+
+Moduł symulacyjny wysyła bajt wzorcowy, po czym oczekuje odesłania go z powrotem.
+
+\includegraphics[width=15cm]{grafika/rs232-waveform.jpg}
+
+\subsubsection{HDL}
+\lstinputlisting[caption=Top.v]{../projects/rs232/Rs232-behav.v}
+
+\newpage
+\section{VGA}
+Standard VGA odpowiada za przesłanie obrazu do wyświetlacza przy ustalonych rozmiarach oraz częstotliwości odświeżania. Obraz przesyłany jest punkt po punkcie zwanych pikselami w porządku od lewej do prawej krawędzi kolumny, zaczynając od górnego do dolnego wiersza.
+
+Po przesłaniu każdego wiersza, następuje chwilowo podniesienie linii synchronizacyjnej HSYNC. Natomiast po przesłaniu całej ramki, chwilowo podnoszona jest linia VSYNC.
+
+Kolor pikseli określa złożenie nasycenia trzech podstawowych barw: czerwonej, zielonej i niebieskiej. Ich stan podawany jest osobnymi liniami analogowo wartościami napięcia z zakresu 0.0V - 0.7V.
+
+Płytka Spartan wykorzystuje po 4 cyfrowe wyjścia FPGA dla każdej barwy łączone w drabinki rezystorowe tworząc proste ADC.
+
+\subsection{HDL}
+\lstinputlisting[label=Topvga,caption=Top.v]{../projects/vga/Top.v}
+\lstinputlisting[label=Controller_vga,caption=Controller.v]{../projects/vga/Controller.v}
+\lstinputlisting[label=Sync,caption=Sync.v]{../projects/vga/Sync.v}
+
+
+\section{Dodatki}
+
+\subsection{Makefile}
+
+Projekty można zsyntetyzować, przesymulować oraz przesłać na płytke z wykorzystaniem programu GNU make. Skrypt wykorzystuje narzędzia Xilinxa dostępne z linii poleceń. W repozytorium podmodułu generic dostępny jest katalog 'makefile' z szablonami dla wszystkich projektów. Makefile'e projektów wyszczególniają swoje zależne pliki po czym załączają ogólny plik Makefile nazwany 'generic'.
+
+\lstinputlisting[label=Makefile,caption=Makefile]{../projects/generic/makefile/generic}
+\lstinputlisting[label=config.ut,caption=config.ut]{../projects/generic/makefile/config.ut}
+\lstinputlisting[label=config.xst,caption=config.xst]{../projects/generic/makefile/config.xst}
+\lstinputlisting{../projects/generic/makefile/impact_batch.tpl}
+
+\subsubsection{DAC}
+\lstinputlisting{../projects/dac/project/Makefile}
+
+\subsubsection{Rotor}
+\lstinputlisting{../projects/rotor/project/Makefile}
+
+\subsubsection{Rs232}
+\lstinputlisting{../projects/rs232/project/Makefile}
+
+\subsubsection{VGA}
+\lstinputlisting{../projects/vga/project/Makefile}
+
 
 \linespread{1.3}
 \selectfont
