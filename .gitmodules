@@ -19,3 +19,6 @@
 [submodule "projects/rs232"]
 	path = projects/rs232
 	url = https://github.com/krystian-wojtas/Spartan3Sim-rs232.git
+[submodule "Spartan3Sim-keyboard"]
+	path = Spartan3Sim-keyboard
+	url = https://github.com/krystian-wojtas/Spartan3Sim-keyboard.git
