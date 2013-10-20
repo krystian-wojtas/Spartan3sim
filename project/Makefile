@@ -1,7 +1,8 @@
 synt += ../Top.v
 synt += ../Controller.v
-synt += ../PS2_Reader.v
 synt += ../PS2_Cmd.v
+synt += ../PS2_Reader.v
+synt += ../PS2_Writer.v
 synt += ../Edge_Detector.v
 synt += ../../generic/Serial.v
 synt += ../../generic/Shiftreg.v

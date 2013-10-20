@@ -21,34 +21,11 @@
 module PS2_Reader(
     input  CLK50MHZ,
     input  RST,
-    input  ps2_clk,
-    input  ps2_data,
-    input ps2_clk_negedge,
-    output [7:0] scancode,
+    input  ps2_clk_negedge,
+    input  ready,
+    output start_receiving,
     output scan_ready
     );
-
-   wire        trig;
-   wire        ready;
-   wire [9:0] data_out;
-    Serial #(
-        .WIDTH(11)
-    ) Serial_ (
-        .CLKB(CLK50MHZ),
-        .RST(RST),
-        // serial module interface
-        .rx(ps2_data),
-        .data_in(11'b0),
-        .data_out(data_out),
-        .trig(trig),
-        .ready(ready),
-        .tick(ps2_clk_negedge)
-    );
-
-   // Get rid of start, stop and odd bits
-// TODO verify odd
-// extra output err wire;
-   assign scancode = data_out[9:2];
 
    localparam [2:0]
     WAIT_STARTBIT = 3'd0,
@@ -74,7 +51,7 @@ module PS2_Reader(
              state <= WAIT_STARTBIT;
        endcase
 
-    assign       trig = (state == START_RECEVING);
+    assign       start_receiving = (state == START_RECEVING);
     assign       scan_ready = (state == RECEIVED);
 
 endmodule

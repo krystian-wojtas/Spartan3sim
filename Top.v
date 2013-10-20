@@ -31,22 +31,26 @@ module Top (
     output DEBUG_B
 );
 
-   wire    ps2_clk1_himp = 1'b1;
-   wire    ps2_data1_himp = 1'b1;
+   wire    ps2_clk_z = 1'b1;
+   wire    ps2_data_z = 1'b1;
 
-   wire    ps2_clk1_out = 1'b0;
-   wire    ps2_data1_out = 1'b0;
+   wire    ps2_clk_out = 1'b0;
+   wire    ps2_data_out = 1'b0;
 
-   assign PS2_CLK1 = (ps2_clk1_himp) ? 1'bz : ps2_clk1_out;
-   assign PS2_DATA1 = (ps2_data1_himp) ? 1'bz : ps2_data1_out;
+   assign PS2_CLK1 = (ps2_clk_z) ? 1'bz : ps2_clk_out;
+   assign PS2_DATA1 = (ps2_data_z) ? 1'bz : ps2_data_out;
 
     wire [7:0] scancode;
     wire scan_ready;
-    PS2_Cmd ps2_cmd (
+    PS2_Cmd ps2_cmd0 (
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
         .ps2_clk(PS2_CLK1),
         .ps2_data(PS2_DATA1),
+        .ps2_clk_out(ps2_clk_out),
+        .ps2_data_out(ps2_data_out),
+        .ps2_clk_z(ps2_clk_z),
+        .ps2_data_z(ps2_data_z),
         .scancode(scancode),
         .scan_ready(scan_ready)
     );
