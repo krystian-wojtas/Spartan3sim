@@ -1,0 +1,6 @@
+[submodule "projects/rotor"]
+	path = projects/rotor
+	url = https://github.com/krystian-wojtas/Spartan3Sim-rotor.git
+[submodule "projects/generic"]
+	path = projects/generic
+	url = https://github.com/krystian-wojtas/Spartan3Sim-generic.git
