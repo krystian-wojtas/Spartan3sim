@@ -23,10 +23,8 @@ module Top (
     input  CLK50MHZ,
     input  RST,
     // keyboard
-    // inout  PS2_CLK1,
-    // inout  PS2_DATA1,
-    input  PS2_CLK1,
-    input  PS2_DATA1,
+    inout  PS2_CLK1,
+    inout  PS2_DATA1,
     output [7:0] LED,
     // debug
     output DEBUG_A,
@@ -34,17 +32,17 @@ module Top (
 );
 
    wire    ps2_clk1_himp = 1'b1;
-   wire    ps2_data1_himp = 1'b0;
+   wire    ps2_data1_himp = 1'b1;
 
-   wire    ps2_clk1_out = 1'b1;
+   wire    ps2_clk1_out = 1'b0;
    wire    ps2_data1_out = 1'b0;
 
-   // assign PS2_CLK1 = (ps2_clk1_himp) ? 1'bz : ps2_clk1_out;
-   // assign PS2_DATA1 = (ps2_data1_himp) ? 1'bz : ps2_data1_out;
+   assign PS2_CLK1 = (ps2_clk1_himp) ? 1'bz : ps2_clk1_out;
+   assign PS2_DATA1 = (ps2_data1_himp) ? 1'bz : ps2_data1_out;
 
     wire [7:0] scancode;
     wire scan_ready;
-    PS2_Reader ps2_reader (
+    PS2_Cmd ps2_cmd (
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
         .ps2_clk(PS2_CLK1),

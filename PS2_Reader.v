@@ -23,19 +23,10 @@ module PS2_Reader(
     input  RST,
     input  ps2_clk,
     input  ps2_data,
+    input ps2_clk_negedge,
     output [7:0] scancode,
     output scan_ready
     );
-
-
-   // Detect negative edge on input ps2 clock line
-
-   wire ps2_clk_negedge;
-   Edge_Detector edge_detector_ps2clk (
-      .CLK50MHZ(CLK50MHZ),
-      .line(ps2_clk),
-      .neg(ps2_clk_negedge)
-   );
 
    wire        trig;
    wire        ready;
