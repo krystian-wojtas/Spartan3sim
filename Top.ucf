@@ -265,11 +265,11 @@ NET "PS2_DATA1"     LOC = "V11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 # Directional Push-Buttons (BTN)
 ##############################################################################
 
-#NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_SOUTH"     LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "RST"	     LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "RST"	     LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_NEXT"       LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-#NET "BTN_PREV"       LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "BTN_PREV"       LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 
 ##############################################################################
 # Rotary Knob (ROT)

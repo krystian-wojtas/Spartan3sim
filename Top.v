@@ -25,21 +25,19 @@ module Top (
     // keyboard
     inout  PS2_CLK1,
     inout  PS2_DATA1,
+    // user interface
+    input  BTN_NORH,
+    input  BTN_PREV,
     output [7:0] LED,
     // debug
     output DEBUG_A,
     output DEBUG_B
 );
 
-   wire    ps2_clk_z = 1'b1;
-   wire    ps2_data_z = 1'b1;
-
-   wire    ps2_clk_out = 1'b0;
-   wire    ps2_data_out = 1'b0;
-
-   assign PS2_CLK1 = (ps2_clk_z) ? 1'bz : ps2_clk_out;
-   assign PS2_DATA1 = (ps2_data_z) ? 1'bz : ps2_data_out;
-
+   wire    ps2_clk_z;
+   wire    ps2_data_z;
+   wire    ps2_clk_out;
+   wire    ps2_data_out;
     wire [7:0] scancode;
     wire scan_ready;
     PS2_Cmd ps2_cmd0 (
@@ -55,9 +53,18 @@ module Top (
         .scan_ready(scan_ready)
     );
 
+    assign PS2_CLK1 = (ps2_clk_z) ? 1'bz : ps2_clk_out;
+    assign PS2_DATA1 = (ps2_data_z) ? 1'bz : ps2_data_out;
+
+   // wire  btn_kbd_rst;
+   // // TODO debouncers
+   // wire  btn_kbd_echo;
+
     Controller controller_ (
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
+        .btn_kbd_rst(BTN_NORTH),
+        .btn_kbd_echo(BTN_PREV),
         .scancode(scancode),
         .scan_ready(scan_ready),
         .led(LED)

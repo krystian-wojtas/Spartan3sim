@@ -46,7 +46,6 @@ module PS2_Cmd(
     );
 
    // Get rid of start, stop and odd bits
-
    assign scancode = data_out[9:2];
 
    wire start_sending;
@@ -59,6 +58,7 @@ module PS2_Cmd(
         .start_sending(start_sending)
     );
 
+   // Writing has priority over reading
    wire reader_rst = RST | writer_busy;
    wire start_receiving;
    PS2_Reader ps2_reader (
