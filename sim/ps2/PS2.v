@@ -246,4 +246,97 @@ module PS2
    end
    endtask
 
+
+   // Zadanie transmituje bajt danych do FPGA
+
+   task transmit_data
+   (
+      input [7:0] data
+   );
+      reg [7:0]   data_reg;
+      reg         parity;
+      integer     i;
+      begin
+
+         // Przygotuj dane do wyslania
+
+         data_reg = data;
+
+         parity = ~(^data);
+
+         // Poinformuj o rozpoczeciu transmicji
+
+         if( INFO1 )
+            $display("%t\t INFO1 %s rozpoczynanie transmicji bajtu %b (hex %h)", $time, LABEL, data, data);
+
+         // Sprawdz czy linia danych jest w stanie wysokiej impedancji
+
+         if( INFO1 )
+            $display("%t\t INFO1 %s Sprawdzanie czy linia danych jest w stanie wysokiej impedancji", $time, LABEL);
+
+         monitor_ps2d.ensure_z();
+
+         // Sprawdz czy linia zegarowa rowniez jest wolna teraz i przez kolejne 50 mikrosekund
+
+         if( INFO1 )
+            $display("%t\t INFO1 %s Sprawdzanie czy linia zegarowa jest w stanie wysokiej impedancji teraz i przez kolejne 50 mikrosekund", $time, LABEL);
+
+         monitor_ps2c.ensure_z_during( 32'd50_000 );
+
+         // Wystaw pierwszy bit stopu
+
+         if( INFO1 )
+            $display("%t\t INFO1 %s Wystawianie pierwszego bitu stopu", $time, LABEL);
+
+         set_ps2d.low();
+
+         // Wlacz zegar zaczynajac stanem niskim
+
+         set_ps2c.low_during( half_period );
+
+         // Przeczekaj okres zegarowy wysylania pierwszego bitu stopu
+
+         set_ps2c.high_during( half_period );
+
+         set_ps2c.low_during( half_period );
+
+         // Wyslij bajt danych
+
+         for( i = 0; i < 8; i = i+1 ) begin
+
+            //
+
+            set_ps2d.state( data_reg[i] );
+
+            set_ps2c.high_during( half_period );
+
+            set_ps2c.low_during( half_period );
+
+         end
+
+         // Wyslij bit parzystosci
+
+         set_ps2d.state( parity );
+
+         set_ps2c.high_during( half_period );
+
+         set_ps2c.low_during( half_period );
+
+         // Wyslij bit stopu
+
+         set_ps2d.high();
+
+         set_ps2c.high_during( half_period );
+
+         set_ps2c.low_during( half_period );
+
+         // Zwolnij obie linie
+
+         set_ps2d.z();
+
+         set_ps2c.z();
+
+      end
+   endtask
+
 endmodule

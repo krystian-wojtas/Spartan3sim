@@ -34,7 +34,7 @@ module Set
          // Poinformuj o zmianie
 
          if( INFO1 )
-            $display("%t\t INFO1 %s Stan sygnalow zostal zmieniony. Poprzedni stan '%b' (0x %h), obecny stan '%b' (0x %h)", $time, LABEL, signals, signals, signals_to_set, signals_to_set);
+            $display("%t\t INFO1 %s Stan sygnalow zostal zmieniony. Obecny stan '%b' (0x %h)", $time, LABEL, signals, signals);
 
       end
    endtask
@@ -67,23 +67,23 @@ module Set
    endtask
 
 
+   // Zadanie ustawia zadany stan i przeczekuje zadany okres czasu
 
-   // Zadanie ustawia stan niski i przeczekuje zadany okres czasu
-
-   task low_during
+   task state_during
    (
-      input [31:0] period
+      input [31:0] period,
+      input [N-1:0] signals_to_set
    );
       begin
 
-         // Ustaw stan sygnalow na niski
+         // Ustaw stan sygnalow na zadany
 
-         low();
+         state( signals_to_set );
 
          // Opcjonalnie poinformuj o przeczekiwaniu
 
          if( INFO3 )
-            $display("%t\t INFO3 %s sygnal w stanie niskim zostaje zamrozony przez zadany okres czasu %d", $time, LABEL, period);
+            $display("%t\t INFO3 %s sygnal w stanie %b (hex %h) zostaje zamrozony przez zadany okres czasu %d", $time, LABEL, signals_to_set, signals_to_set, period);
 
          // Przeczekaj zadany czas
 
@@ -92,8 +92,21 @@ module Set
          // Opcjonalnie poinformuj o dalszym biegu
 
          if( INFO4 )
-            $display("%t\t INFO4 %s Przeczekiwanie stanu niskiego zostalo zakonczone %d", $time, LABEL, period);
+            $display("%t\t INFO4 %s Przeczekiwanie stanu %b (hex %h) zostalo zakonczone po %d", $time, LABEL, signals_to_set, signals_to_set, period);
 
+      end
+   endtask
+
+
+
+   // Zadanie ustawia stan niski i przeczekuje zadany okres czasu
+
+   task low_during
+   (
+      input [31:0] period
+   );
+      begin
+         state_during( period, {N{1'b0}} );
       end
    endtask
 
@@ -105,25 +118,19 @@ module Set
       input [31:0] period
    );
       begin
+         state_during( period, {N{1'b1}} );
+      end
+   endtask
 
-         // Ustaw stan sygnalow na wysoki
 
-         high();
+   // Zadanie ustawia stan wysokiej impedancji i przeczekuje zadany okres czasu
 
-         // Opcjonalnie poinformuj o przeczekiwaniu
-
-         if( INFO3 )
-            $display("%t\t INFO3 %s sygnal w stanie wysokim zostaje zamrozony przez zadany okres czasu %d", $time, LABEL, period);
-
-         // Przeczekaj zadany czas
-
-         #period;
-
-         // Opcjonalnie poinformuj o dalszym biegu
-
-         if( INFO4 )
-            $display("%t\t INFO4 %s Przeczekiwanie stanu wysokiego zostalo zakonczone %d", $time, LABEL, period);
-
+   task z_during
+   (
+      input [31:0] period
+   );
+      begin
+         state_during( period, {N{1'bz}} );
       end
    endtask
 
