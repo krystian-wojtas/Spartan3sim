@@ -1,6 +1,14 @@
 module Set
 #(
-   parameter LOGLEVEL = 1,
+   parameter LABEL = "",
+
+   parameter ERROR = 1,
+   parameter WARN  = 1,
+   parameter INFO1 = 0,
+   parameter INFO2 = 0,
+   parameter INFO3 = 0,
+   parameter INFO4 = 0,
+
    parameter N = 1
 ) (
    output reg [N-1:0] signals
@@ -13,7 +21,21 @@ module Set
       input [N-1:0] signals_to_set
    );
       begin
+
+         // Poinformuj o stanie poprzednim
+
+         if( INFO2 )
+            $display("%t\t INFO2 %s Stan sygnalow zostanie zmieniony. Obecny stan '%b' (0x %h), spodziewany stan '%b' (0x %h)", $time, LABEL, signals, signals, signals_to_set, signals_to_set);
+
+         // Zmien stan
+
          signals = signals_to_set;
+
+         // Poinformuj o zmianie
+
+         if( INFO1 )
+            $display("%t\t INFO1 %s Stan sygnalow zostal zmieniony. Poprzedni stan '%b' (0x %h), obecny stan '%b' (0x %h)", $time, LABEL, signals, signals, signals_to_set, signals_to_set);
+
       end
    endtask
 
@@ -36,6 +58,16 @@ module Set
    endtask
 
 
+   // Zadanie ustawia stan wysokiej impedancji na wszystkich liniach
+
+   task z ();
+      begin
+         state( {N{1'bz}} );
+      end
+   endtask
+
+
+
    // Zadanie ustawia stan niski i przeczekuje zadany okres czasu
 
    task low_during
@@ -43,8 +75,25 @@ module Set
       input [31:0] period
    );
       begin
+
+         // Ustaw stan sygnalow na niski
+
          low();
+
+         // Opcjonalnie poinformuj o przeczekiwaniu
+
+         if( INFO3 )
+            $display("%t\t INFO3 %s sygnal w stanie niskim zostaje zamrozony przez zadany okres czasu %d", $time, LABEL, period);
+
+         // Przeczekaj zadany czas
+
          #period;
+
+         // Opcjonalnie poinformuj o dalszym biegu
+
+         if( INFO4 )
+            $display("%t\t INFO4 %s Przeczekiwanie stanu niskiego zostalo zakonczone %d", $time, LABEL, period);
+
       end
    endtask
 
@@ -56,8 +105,25 @@ module Set
       input [31:0] period
    );
       begin
+
+         // Ustaw stan sygnalow na wysoki
+
          high();
+
+         // Opcjonalnie poinformuj o przeczekiwaniu
+
+         if( INFO3 )
+            $display("%t\t INFO3 %s sygnal w stanie wysokim zostaje zamrozony przez zadany okres czasu %d", $time, LABEL, period);
+
+         // Przeczekaj zadany czas
+
          #period;
+
+         // Opcjonalnie poinformuj o dalszym biegu
+
+         if( INFO4 )
+            $display("%t\t INFO4 %s Przeczekiwanie stanu wysokiego zostalo zakonczone %d", $time, LABEL, period);
+
       end
    endtask
 

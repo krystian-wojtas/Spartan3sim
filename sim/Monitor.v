@@ -5,41 +5,150 @@ module Monitor
    // LOGLEVEL = 0
    //      bez zadnych komunikatow
    // LOGLEVEL = 1
-   //      pokazuje bledy
+   //      bledy
    // LOGLEVEL = 2
-   //      pokazuje ostrzezenia
+   //      ostrzezenia
    //
    // LOGLEVEL = 3
-   //
+   //      informuje o stalosci przeczekanego sygnalu
    // LOGLEVEL = 4
-   //
+   //      informuj o oczekiwaniu na przyjecie przez sygnal zadanej wartosci
    // LOGLEVEL = 5
-   //      zrzuca stan monitorowanej linii z kazdej chwili czasu
+   //      informuj o zastaniu spodziewanego stanu sygnalow
    // LOGLEVEL = 6
-   //
+   //      zrzuca stan monitorowanej linii z kazdej chwili czasu
    parameter LOGLEVEL = 1,
+
+   // dopisuje przekazana nazwe w komunikatach
+   //
+   parameter LABEL = "",
 
    // Szerokosc badanej szyny sygnalowej
    //
-   parameter N=1
+   parameter N = 1
 ) (
-   input [N:1] signals
+   input [N-1:0] signals
 );
+
+   // Zadanie sprawdza, czy sygnaly sa w zadanym stanie
+
+   task ensure_state
+   (
+      input [N-1:0] expected_signals,
+      output ensurance
+   );
+      begin
+
+         // Jesli sygnaly sa zgodne z oczekiwaniami, wystawi jedynke
+
+         ensurance = 1'b1;
+
+         if( signals !== expected_signals ) begin
+
+            // Sygnaly sie roznia, wystaw zero
+
+            ensurance = 1'b0;
+
+            // Zglos blad
+
+            if( LOGLEVEL >= 1 )
+               $display("%t\t BLAD Sygnaly nie sa zgodne z oczekiwaniami. Stan obecny '%b' (0x %h), spodziewany '%b' (0x %h)", $time, signals, signals, expected_signals, expected_signals);
+
+         end
+
+         // Zakomunikuj o zastaniu spodziewanych stanow
+
+         if( LOGLEVEL >= 5 )
+            $display("%t\t INFO5 Sygnaly %s sa zgodne z oczekiwaniami. Stan oczekiwany '%b' (0x %h)", $time, LABEL, expected_signals, expected_signals);
+
+      end
+   endtask
+
+
+   // Zadanie sprawdza czy sygnaly sa w stanie niskim
+
+   task ensure_low
+   (
+      output ensurance
+   );
+      begin
+         ensure_state( {N{1'b0}}, ensurance );
+      end
+   endtask
+
+
+   // Zadanie sprawdza czy sygnaly sa w stanie wysokim
+
+   task ensure_high
+   (
+      output ensurance
+   );
+      begin
+         ensure_state( {N{1'b1}}, ensurance );
+      end
+   endtask
+
+
+   // Zadanie sprawdza czy sygnaly sa w stanie wysokiej impedancji
+
+   task ensure_z
+   (
+      output ensurance
+   );
+      begin
+         ensure_state( {N{1'bz}}, ensurance );
+      end
+   endtask
+
+
+//    // Zadanie sprawdza czy sygnaly NIE sa w stanie wysokiej impedancji
+
+//    task ensure_not_z
+//    (
+//       output ensurance
+//    );
+//       begin
+
+//          // Jesli sygnaly nie sa w wysokiej impedancji, wystawi jedynke
+
+//          ensurance = 1'b1;
+// // TODO sprawdzic dla calego rejestru
+//          if( signals === 1'bz ) begin
+
+//             // Sygnaly zawieraja stany wysokiej impedancji, wystaw zero
+
+//             ensurance = 1'b0;
+
+//             // Zglos blad
+
+//             if( LOGLEVEL >= 1 )
+//                $display("%t\t BLAD %s Sygnaly zawieraja niespodziewane stany wysokiej impedancji. Stan obecny '%b' (0x %h)", $time, LABEL, signals, signals);
+
+//          end
+
+//          // Zakomunikuj o zastaniu spodziewanych stanow
+
+//          if( LOGLEVEL >= 5 )
+//             $display("%t\t INFO5 %s Sygnaly spodziewanie nie zawieraja stanow wysokiej impedancji. Stan obecny '%b' (0x %h)", $time, LABEL, signals, signals);
+
+//       end
+//    endtask
+
 
    // Zadanie bada stalosc zadanych sygnalow w ustalonym przedziale czasu
 
-   task is_changed_during
+   task ensure_same_during
    (
       input [31:0] period,
-      output       changed
+      output       ensurance
    );
       integer         i;
       reg [N-1:0] saved_signals;
       begin
 
-         // Jesli stan linii pozostanie bez zmian, wystawi zero
+         // Jesli stan linii pozostanie bez zmian, wystawi jedynke
 
-         changed = 1'b0;
+         ensurance = 1'b1;
 
          // Zapisz stan linii z momentu rozpoczecia tego zadania
 
@@ -47,30 +156,38 @@ module Monitor
 
          // Monitoruj linie przez zadany czas lub do momentu pierwszej zmiany stanu
 
-         for(i=0; i<period && ~changed; i=i+1) begin
-            if(signals != saved_signals) begin
+         for(i=0; i<period && ensurance; i=i+1) begin
+            if(signals !== saved_signals) begin
 
-               // Sygnal sie zmienil podczas badania, zakoncz jedynka
+               // Sygnal sie zmienil podczas badania, zakoncz zerem
 
-               changed = 1'b1;
+               ensurance = 1'b0;
 
                // Zglos blad
 
                if( LOGLEVEL >= 1 )
-                  $display("%t\t BLAD Nastapila nieoczekiwana zmiana stanu monitorowanej linii po czasie %d. Stan obecny %b, spodziewany %b", $time, i, signals, saved_signals);
+                  $display("%t\t BLAD Nastapila nieoczekiwana zmiana stanu monitorowanej linii po czasie %d. Stan obecny '%b' (0x %h), spodziewany '%b' (0x %h)", $time, i, signals, signals, saved_signals, saved_signals);
 
             end
 
             // Wypisz wszystkie iteracje petli na zyczenie ostatniego poziomu logowania
 
-            if( LOGLEVEL >= 5 )
-               $display("%t\t INFO5 Stan linii %b zapisana %b czas %d", $time, signals, saved_signals, i);
+            if( LOGLEVEL >= 6 )
+               $display("%t\t INFO5 Stan linii '%b' (0x %h) zapisana '%b' (0x %h) czas %d", $time, signals, signals, saved_signals, saved_signals, i);
 
             // Poczekaj na nastepny krok czasowy
 
             #1;
 
          end
+
+         // Zakomunikuj o oczekiwanej stalosci sygnalu w zadanym czasie
+
+         if( ~ensurance )
+
+            if( LOGLEVEL >= 3 )
+               $display("%t\t INFO3 Stan '%b' (0x %h) linii zgodnie z oczekiwaniami nie zmienil sie po czasie %d", $time, signals, signals, i);
+
       end
    endtask
 
@@ -83,7 +200,7 @@ module Monitor
       input [N-1:0] expected_signals,
       output ensurance
     );
-      reg    changed;
+      reg    same;
       begin
 
          // Jesli linie pozostaly w zadanym stanie przez okres proby, potwierdzi jedynka
@@ -101,14 +218,14 @@ module Monitor
             // Zlos blad
 
             if( LOGLEVEL >= 1 )
-               $display("%t\tBLAD Wszystkie sygnaly juz od poczatku roznia sie od wzorca $b (%h), natomiast wystapily %b (%h)", $time, expected_signals, expected_signals, signals, signals);
+               $display("%t\t BLAD Wszystkie sygnaly juz od poczatku roznia sie od wzorca '%b' (0x %h), natomiast wystapily '%b' (0x %h)", $time, expected_signals, expected_signals, signals, signals);
 
          end
 
          // Jesli sygnaly zaczely jako zgodne ze wzorcem, dopilnuj ich niezmiennosci w badanym czasie
 
-         is_changed_during(period, changed);
-         if( ensurance && changed ) begin
+         ensure_same_during(period, same);
+         if( ensurance && ~same ) begin
 
             // Co najmniej jedna linia sie poroznila, zwroc zero
 
@@ -117,7 +234,7 @@ module Monitor
             // Zglos blad
 
             if( LOGLEVEL >= 1 )
-               $display("%t\t Sygnaly %b (%h) nieoczekiwanie rozminely sie ze wzorcem %b (%h)", $time, signals, signals, expected_signals, expected_signals);
+               $display("%t\t Blad Sygnaly '%b' (0x %h) nieoczekiwanie rozminely sie ze wzorcem '%b' (0x %h)", $time, signals, signals, expected_signals, expected_signals);
          end
 
       end
@@ -158,6 +275,84 @@ module Monitor
 
          ensure_state_during(period, {N{1'b1}}, ensurance);
 
+      end
+   endtask
+
+
+   // Zadanie oczekuje stanow wysokiej impedancji na badanych liniach w badanym okresie
+
+   task ensure_z_during
+   (
+      input [31:0] period,
+      output ensurance
+   );
+      begin
+
+         // Wynikiem badania oraz ewentualnymi komunikatami bledow zajmuje sie zadanie ogolne z wzorcem
+
+         // Jedynie doprecyzuj wzorzec jako wszystkie stany w wysokiej impedancji
+
+         ensure_state_during(period, {N{1'bz}}, ensurance);
+
+      end
+   endtask
+
+
+
+   // Zadanie czeka na zadany stan
+
+   task wait_for_state
+   (
+      input [N-1:0] expected_signals
+   );
+      integer       i;
+      begin
+         i = 0;
+
+         // Poinformuj o oczekiwaniu na zadany stan
+
+         if( LOGLEVEL >= 4 )
+            $display("%t\t INFO4 Oczekiwanie na przyjecie stanu '%b' (0x %h). Stan obecny '%b' (0x %h)", $time, expected_signals, expected_signals, signals, signals, i);
+
+         // Oczekuj zadanego stanu
+
+         while( signals !== expected_signals ) begin
+            i = i+1;
+            #1;
+         end
+
+         // Poinformuj o ustaleniu sie zadanego stanu
+
+         if( LOGLEVEL >= 4 )
+            $display("%t\t INFO4 Oczekiwany stan  '%b' (0x %h) ustalil sie po czasie %d", $time, expected_signals, expected_signals, i);
+
+      end
+   endtask
+
+
+   // Zadanie czeka na ustalenie sie stanu niskiego
+
+   task wait_for_low ();
+      begin
+         wait_for_state( {N{1'b0}} );
+      end
+   endtask
+
+
+   // Zadanie czeka na ustalenie sie stanu wysokiego
+
+   task wait_for_high ();
+      begin
+         wait_for_state( {N{1'b1}} );
+      end
+   endtask
+
+
+   // Zadanie czeka na ustalenie sie stanu wysokiej impedancji
+
+   task wait_for_z ();
+      begin
+         wait_for_state( {N{1'bz}} );
       end
    endtask
 
