@@ -1,6 +1,6 @@
 module Mouse_behav
 #(
-   parameter LABEL = "myszka",
+   parameter LABEL = "myszka_behav",
 
    parameter ERROR = 1,
    parameter WARN  = 1,
@@ -14,7 +14,7 @@ module Mouse_behav
 );
 
    PS2 #(
-      .LABEL(LABEL),
+      .LABEL({LABEL, " ps2"}),
       .INFO1(1),
       .INFO2(1),
       .INFO3(1),

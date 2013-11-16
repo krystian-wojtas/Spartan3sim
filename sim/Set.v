@@ -1,6 +1,6 @@
 module Set
 #(
-   parameter LABEL = "",
+   parameter LABEL = "set",
 
    parameter ERROR = 1,
    parameter WARN  = 1,
