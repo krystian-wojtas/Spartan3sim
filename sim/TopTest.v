@@ -30,21 +30,27 @@ module TopTest ();
    // keyboard interface
    wire  PS2_CLK1;
    wire  PS2_DATA1;
+   wire  btn_kbd_rst;
+   wire  btn_kbd_echo;
    TopTestBench TopTestBench_ (
       .RST(RST),
       .PS2_CLK1(PS2_CLK1),
-      .PS2_DATA1(PS2_DATA1)
+      .PS2_DATA1(PS2_DATA1),
+      .btn_kbd_rst(btn_kbd_rst),
+      .btn_kbd_echo(btn_kbd_echo)
    );
 
-   wire [7:0]  LED;
+   wire [7:0]  leds;
     Top Top_ (
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
         // keyboard
         .PS2_CLK1(PS2_CLK1),
         .PS2_DATA1(PS2_DATA1),
-        // leds
-        .LED(LED)
+        // user interface
+        .BTN_NORH(btn_kbd_rst),
+        .BTN_PREV(btn_kbd_echo),
+        .LED(leds)
     );
 
 endmodule

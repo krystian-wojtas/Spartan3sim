@@ -55,7 +55,9 @@ module PS2_Cmd(
         .RST(RST),
         .cmd_trig(cmd_trig),
         .ready(ready),
-        .start_sending(start_sending)
+        .start_sending(start_sending),
+        .ps2_clk_out(ps2_clk_out),
+        .busy(writer_busy)
     );
 
    // Writing has priority over reading

@@ -23,11 +23,13 @@ module TopTestBench (
     // keyboard
     input RST,
     output reg PS2_CLK1,
-    output reg PS2_DATA1
+    output reg PS2_DATA1,
+    output reg btn_kbd_rst,
+    output reg btn_kbd_echo
 );
 
     initial begin
-       // idle means higth
+       // idle means hight
        PS2_CLK1  = 1'b1;
        PS2_DATA1 = 1'b1;
 
@@ -112,6 +114,22 @@ module TopTestBench (
 
        #40000;
        PS2_CLK1 = 1'b1;
+
+     end
+
+
+     initial begin
+
+        btn_kbd_echo = 1'b0;
+        btn_kbd_rst = 1'b0;
+
+       #1000000;
+
+       btn_kbd_echo = 1'b1;
+
+       #5000;
+
+       btn_kbd_echo = 1'b0;
 
     end
 

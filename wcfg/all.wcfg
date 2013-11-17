@@ -9,7 +9,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="82" />
+   <WVObjectSize size="61" />
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
@@ -26,330 +26,238 @@
       <obj_property name="ElementShortName">PS2_DATA1</obj_property>
       <obj_property name="ObjectShortName">PS2_DATA1</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">LED[7:0]</obj_property>
-      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
+   <wvobject fp_name="/TopTest/btn_kbd_rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">btn_kbd_rst</obj_property>
+      <obj_property name="ObjectShortName">btn_kbd_rst</obj_property>
    </wvobject>
-   <wvobject fp_name="divider110" type="divider">
-      <obj_property name="label">top</obj_property>
+   <wvobject fp_name="/TopTest/btn_kbd_echo" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">btn_kbd_echo</obj_property>
+      <obj_property name="ObjectShortName">btn_kbd_echo</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/leds" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">leds[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider8" type="divider">
+      <obj_property name="label">ps2_cmd</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">128 128 255</obj_property>
       <obj_property name="TextColor">230 230 230</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/CLK50MHZ" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/RST" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/RST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">RST</obj_property>
       <obj_property name="ObjectShortName">RST</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/PS2_CLK1" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">PS2_CLK1</obj_property>
-      <obj_property name="ObjectShortName">PS2_CLK1</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/PS2_DATA1" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">PS2_DATA1</obj_property>
-      <obj_property name="ObjectShortName">PS2_DATA1</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/LED" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">LED[7:0]</obj_property>
-      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/DEBUG_A" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">DEBUG_A</obj_property>
-      <obj_property name="ObjectShortName">DEBUG_A</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/DEBUG_B" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">DEBUG_B</obj_property>
-      <obj_property name="ObjectShortName">DEBUG_B</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_clk1_himp" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">ps2_clk1_himp</obj_property>
-      <obj_property name="ObjectShortName">ps2_clk1_himp</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_data1_himp" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">ps2_data1_himp</obj_property>
-      <obj_property name="ObjectShortName">ps2_data1_himp</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_clk1_out" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">ps2_clk1_out</obj_property>
-      <obj_property name="ObjectShortName">ps2_clk1_out</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_data1_out" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">ps2_data1_out</obj_property>
-      <obj_property name="ObjectShortName">ps2_data1_out</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/scancode" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">scancode[7:0]</obj_property>
-      <obj_property name="ObjectShortName">scancode[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/scan_ready" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">scan_ready</obj_property>
-      <obj_property name="ObjectShortName">scan_ready</obj_property>
-   </wvobject>
-   <wvobject fp_name="divider6" type="divider">
-      <obj_property name="label">ps2_reader</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">128 128 255</obj_property>
-      <obj_property name="TextColor">230 230 230</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/CLK50MHZ" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
-      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/RST" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">RST</obj_property>
-      <obj_property name="ObjectShortName">RST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/ps2_clk" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">ps2_clk</obj_property>
       <obj_property name="ObjectShortName">ps2_clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/ps2_data" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_data" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">ps2_data</obj_property>
       <obj_property name="ObjectShortName">ps2_data</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/scancode" type="array" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_clk_out" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_clk_out</obj_property>
+      <obj_property name="ObjectShortName">ps2_clk_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_data_out" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_data_out</obj_property>
+      <obj_property name="ObjectShortName">ps2_data_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_clk_z" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_clk_z</obj_property>
+      <obj_property name="ObjectShortName">ps2_clk_z</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_data_z" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_data_z</obj_property>
+      <obj_property name="ObjectShortName">ps2_data_z</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/scancode" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">scancode[7:0]</obj_property>
       <obj_property name="ObjectShortName">scancode[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/scan_ready" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/scan_ready" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">scan_ready</obj_property>
       <obj_property name="ObjectShortName">scan_ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/ps2_clk_negedge" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/cmd_trig" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cmd_trig</obj_property>
+      <obj_property name="ObjectShortName">cmd_trig</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/cmd" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cmd[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cmd[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_clk_negedge" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">ps2_clk_negedge</obj_property>
       <obj_property name="ObjectShortName">ps2_clk_negedge</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/trig" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/trig" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">trig</obj_property>
       <obj_property name="ObjectShortName">trig</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/ready" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ready" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">ready</obj_property>
       <obj_property name="ObjectShortName">ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/data_out" type="array" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/cmd_parity" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cmd_parity</obj_property>
+      <obj_property name="ObjectShortName">cmd_parity</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/data_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_in[10:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[10:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/data_out" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">data_out[9:0]</obj_property>
       <obj_property name="ObjectShortName">data_out[9:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/state" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">state[1:0]</obj_property>
-      <obj_property name="ObjectShortName">state[1:0]</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/start_sending" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">start_sending</obj_property>
+      <obj_property name="ObjectShortName">start_sending</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/WAIT_STARTBIT" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">WAIT_STARTBIT[2:0]</obj_property>
-      <obj_property name="ObjectShortName">WAIT_STARTBIT[2:0]</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/writer_busy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">writer_busy</obj_property>
+      <obj_property name="ObjectShortName">writer_busy</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/START_RECEVING" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">START_RECEVING[2:0]</obj_property>
-      <obj_property name="ObjectShortName">START_RECEVING[2:0]</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/reader_rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reader_rst</obj_property>
+      <obj_property name="ObjectShortName">reader_rst</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/RECEIVING" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">RECEIVING[2:0]</obj_property>
-      <obj_property name="ObjectShortName">RECEIVING[2:0]</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/start_receiving" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">start_receiving</obj_property>
+      <obj_property name="ObjectShortName">start_receiving</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/RECEIVED" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">RECEIVED[2:0]</obj_property>
-      <obj_property name="ObjectShortName">RECEIVED[2:0]</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="divider23" type="divider">
-      <obj_property name="label">edge_detector</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/READING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">READING[2:0]</obj_property>
+      <obj_property name="ObjectShortName">READING[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/WRITE_CMD" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WRITE_CMD[2:0]</obj_property>
+      <obj_property name="ObjectShortName">WRITE_CMD[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/READ_CMD_ANSWER" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">READ_CMD_ANSWER[2:0]</obj_property>
+      <obj_property name="ObjectShortName">READ_CMD_ANSWER[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider35" type="divider">
+      <obj_property name="label">ps2 writer</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">128 128 255</obj_property>
       <obj_property name="TextColor">230 230 230</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/CLK50MHZ" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/line" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">line</obj_property>
-      <obj_property name="ObjectShortName">line</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/pos" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">pos</obj_property>
-      <obj_property name="ObjectShortName">pos</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/neg" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">neg</obj_property>
-      <obj_property name="ObjectShortName">neg</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/line_last2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">line_last2[1:0]</obj_property>
-      <obj_property name="ObjectShortName">line_last2[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/line_2bits" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">line_2bits</obj_property>
-      <obj_property name="ObjectShortName">line_2bits</obj_property>
-   </wvobject>
-   <wvobject fp_name="divider124" type="divider">
-      <obj_property name="label">ps2_clk_shiftreg</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">128 128 255</obj_property>
-      <obj_property name="TextColor">230 230 230</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/CLKB" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">CLKB</obj_property>
-      <obj_property name="ObjectShortName">CLKB</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">en</obj_property>
-      <obj_property name="ObjectShortName">en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/set" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">set</obj_property>
-      <obj_property name="ObjectShortName">set</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/tick" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">tick</obj_property>
-      <obj_property name="ObjectShortName">tick</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/rx" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">rx</obj_property>
-      <obj_property name="ObjectShortName">rx</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/data_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">data_in[1:0]</obj_property>
-      <obj_property name="ObjectShortName">data_in[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/data_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">data_out[1:0]</obj_property>
-      <obj_property name="ObjectShortName">data_out[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/tx" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">tx</obj_property>
-      <obj_property name="ObjectShortName">tx</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/shiftreg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">shiftreg[1:0]</obj_property>
-      <obj_property name="ObjectShortName">shiftreg[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/edge_detector_ps2clk/ps2_clk_shiftreg_/WIDTH" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="divider34" type="divider">
-      <obj_property name="label">serial</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">128 128 255</obj_property>
-      <obj_property name="TextColor">230 230 230</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/RST" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/RST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">RST</obj_property>
       <obj_property name="ObjectShortName">RST</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/CLKB" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">CLKB</obj_property>
-      <obj_property name="ObjectShortName">CLKB</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/cmd_trig" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cmd_trig</obj_property>
+      <obj_property name="ObjectShortName">cmd_trig</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/rx" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">rx</obj_property>
-      <obj_property name="ObjectShortName">rx</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/tx" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">tx</obj_property>
-      <obj_property name="ObjectShortName">tx</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/data_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">data_in[10:0]</obj_property>
-      <obj_property name="ObjectShortName">data_in[10:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/data_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">data_out[10:0]</obj_property>
-      <obj_property name="ObjectShortName">data_out[10:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/trig" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">trig</obj_property>
-      <obj_property name="ObjectShortName">trig</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/tick" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">tick</obj_property>
-      <obj_property name="ObjectShortName">tick</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/sent_all_bits" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">sent_all_bits</obj_property>
-      <obj_property name="ObjectShortName">sent_all_bits</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/ready" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/ready" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">ready</obj_property>
       <obj_property name="ObjectShortName">ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/WIDTH" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/start_sending" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">start_sending</obj_property>
+      <obj_property name="ObjectShortName">start_sending</obj_property>
    </wvobject>
-   <wvobject fp_name="divider57" type="divider">
-      <obj_property name="label">shiftreg</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/low_clock_timer_full" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">low_clock_timer_full</obj_property>
+      <obj_property name="ObjectShortName">low_clock_timer_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/low_clock_timer_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">low_clock_timer_en</obj_property>
+      <obj_property name="ObjectShortName">low_clock_timer_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/ps2_clk_out" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_clk_out</obj_property>
+      <obj_property name="ObjectShortName">ps2_clk_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/WAIT_CMD_TRIG" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WAIT_CMD_TRIG[2:0]</obj_property>
+      <obj_property name="ObjectShortName">WAIT_CMD_TRIG[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/WAIT_FORCE_LOW_CLOCK" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WAIT_FORCE_LOW_CLOCK[2:0]</obj_property>
+      <obj_property name="ObjectShortName">WAIT_FORCE_LOW_CLOCK[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/START_SENDING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">START_SENDING[2:0]</obj_property>
+      <obj_property name="ObjectShortName">START_SENDING[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/SENDING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">SENDING[2:0]</obj_property>
+      <obj_property name="ObjectShortName">SENDING[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_writer/SENDED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">SENDED[2:0]</obj_property>
+      <obj_property name="ObjectShortName">SENDED[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider62" type="divider">
+      <obj_property name="label">ps2 reader</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">128 128 255</obj_property>
       <obj_property name="TextColor">230 230 230</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/CLKB" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">CLKB</obj_property>
-      <obj_property name="ObjectShortName">CLKB</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">en</obj_property>
-      <obj_property name="ObjectShortName">en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/set" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">set</obj_property>
-      <obj_property name="ObjectShortName">set</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/tick" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">tick</obj_property>
-      <obj_property name="ObjectShortName">tick</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/rx" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">rx</obj_property>
-      <obj_property name="ObjectShortName">rx</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/data_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">data_in[10:0]</obj_property>
-      <obj_property name="ObjectShortName">data_in[10:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/data_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">data_out[10:0]</obj_property>
-      <obj_property name="ObjectShortName">data_out[10:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/tx" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">tx</obj_property>
-      <obj_property name="ObjectShortName">tx</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/shiftreg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">shiftreg[10:0]</obj_property>
-      <obj_property name="ObjectShortName">shiftreg[10:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/ps2_reader/Serial_/Shiftreg_/WIDTH" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="divider46" type="divider">
-      <obj_property name="label">controller</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">128 128 255</obj_property>
-      <obj_property name="TextColor">230 230 230</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Top_/controller_/CLK50MHZ" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/controller_/RST" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/RST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">RST</obj_property>
       <obj_property name="ObjectShortName">RST</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/controller_/scancode" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">scancode[7:0]</obj_property>
-      <obj_property name="ObjectShortName">scancode[7:0]</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/ps2_clk_negedge" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_clk_negedge</obj_property>
+      <obj_property name="ObjectShortName">ps2_clk_negedge</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/controller_/scan_ready" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/start_receiving" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">start_receiving</obj_property>
+      <obj_property name="ObjectShortName">start_receiving</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/scan_ready" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">scan_ready</obj_property>
       <obj_property name="ObjectShortName">scan_ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/controller_/led" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">led[7:0]</obj_property>
-      <obj_property name="ObjectShortName">led[7:0]</obj_property>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/WAIT_STARTBIT" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WAIT_STARTBIT[2:0]</obj_property>
+      <obj_property name="ObjectShortName">WAIT_STARTBIT[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/START_RECEVING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">START_RECEVING[2:0]</obj_property>
+      <obj_property name="ObjectShortName">START_RECEVING[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/RECEIVING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">RECEIVING[2:0]</obj_property>
+      <obj_property name="ObjectShortName">RECEIVING[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/ps2_cmd0/ps2_reader/RECEIVED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">RECEIVED[2:0]</obj_property>
+      <obj_property name="ObjectShortName">RECEIVED[2:0]</obj_property>
    </wvobject>
 </wave_config>

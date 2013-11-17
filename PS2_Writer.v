@@ -6,7 +6,9 @@ module PS2_Writer(
     input      RST,
     input      cmd_trig,
     input      ready,
-    output     start_sending
+    output     start_sending,
+    output     ps2_clk_out,
+    output     busy
     );
 
    wire        low_clock_timer_full;
@@ -50,6 +52,8 @@ module PS2_Writer(
        endcase
 
    assign low_clock_timer_en  = (state == WAIT_FORCE_LOW_CLOCK);
+   assign ps2_clk_out         = (state == WAIT_FORCE_LOW_CLOCK) ? 1'b0 : 1'bz;
    assign start_sending       = (state == START_SENDING);
+   assign busy                = (state != WAIT_CMD_TRIG);
 
 endmodule

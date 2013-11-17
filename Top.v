@@ -38,8 +38,10 @@ module Top (
    wire    ps2_data_z;
    wire    ps2_clk_out;
    wire    ps2_data_out;
-    wire [7:0] scancode;
-    wire scan_ready;
+   wire [7:0] scancode;
+   wire scan_ready;
+   wire  cmd_trig;
+   wire [7:0] cmd;
     PS2_Cmd ps2_cmd0 (
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
@@ -50,7 +52,9 @@ module Top (
         .ps2_clk_z(ps2_clk_z),
         .ps2_data_z(ps2_data_z),
         .scancode(scancode),
-        .scan_ready(scan_ready)
+        .scan_ready(scan_ready),
+        .cmd_trig(cmd_trig),
+        .cmd(cmd)
     );
 
     assign PS2_CLK1 = (ps2_clk_z) ? 1'bz : ps2_clk_out;
@@ -65,6 +69,8 @@ module Top (
         .RST(RST),
         .btn_kbd_rst(BTN_NORTH),
         .btn_kbd_echo(BTN_PREV),
+        .cmd_trig(cmd_trig),
+        .cmd(cmd),
         .scancode(scancode),
         .scan_ready(scan_ready),
         .led(LED)
