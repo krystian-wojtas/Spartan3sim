@@ -1,57 +1,57 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    18:19:35 09/01/2013
-// Design Name:
-// Module Name:    PS2_reader
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-module PS2_Reader(
-    input  CLK50MHZ,
-    input  RST,
-    input  ps2_clk_negedge,
-    input  ready,
-    output start_receiving,
-    output scan_ready
+module PS2_Reader (
+    input             clk,
+    input             rst,
+    inout             ps2d,
+    inout             ps2c,
+    input             ps2c_neg,
+    input             en,
+    output            received,
+    output [7:0]      data_out
+);
+
+   wire        ps2d_out;
+   wire [10:0] packet;
+   wire        start_receiving;
+   wire        receiving;
+   Serial #(
+      .WIDTH(11)
+   ) Serial_ (
+      .CLKB(clk),
+      .RST(rst),
+      // serial module interface
+      .rx(ps2d),
+      .data_out(packet),
+      .trig(start_receiving),
+      .ready(sended),
+      .tick(ps2c_neg)
     );
 
    localparam [2:0]
-    WAIT_STARTBIT = 3'd0,
-    START_RECEVING = 3'd1,
+    IDLE = 3'd0,
+    START_RECEIVING = 1'd1,
     RECEIVING = 3'd2,
     RECEIVED = 3'd3;
 
-   reg [1:0]  state = WAIT_STARTBIT;
-   always @(posedge CLK50MHZ)
-     if(RST)
-       state <= WAIT_STARTBIT;
+   reg [1:0]  state = IDLE;
+   always @(posedge clk)
+     if(rst)
+       state <= IDLE;
      else
        case(state)
-         WAIT_STARTBIT:
-           if(ps2_clk_negedge)
-             state <= START_RECEVING;
-         START_RECEVING:
-             state <= RECEIVING;
+         IDLE:
+           if(en & ps2c_neg)
+             state <= START_RECEIVING;
+         START_RECEIVING:
+           state <= RECEIVING;
          RECEIVING:
-           if(ready)
+           if(sended)
              state <= RECEIVED;
          RECEIVED:
-             state <= WAIT_STARTBIT;
+             state <= IDLE;
        endcase
 
-    assign       start_receiving = (state == START_RECEVING);
-    assign       scan_ready = (state == RECEIVED);
+    assign       received = (state == RECEIVED);
+    assign       start_receiving = (state == START_RECEIVING);
+   assign       data = packet[8:1];
 
 endmodule

@@ -1,59 +1,78 @@
-`timescale 1ns / 1ps
+module PS2_Writer (
+    input       clk,
+    input       rst,
+    input       wr_ps2,
+    inout       ps2d,
+    inout       ps2c,
+    input       ps2c_neg,
+    input [7:0] cmd,
+    input       tx_idle,
+    output      sended
+);
 
+   // Timer request to send
 
-module PS2_Writer(
-    input      CLK50MHZ,
-    input      RST,
-    input      cmd_trig,
-    input      ready,
-    output     start_sending,
-    output     ps2_clk_out,
-    output     busy
-    );
-
-   wire        low_clock_timer_full;
-   wire        low_clock_timer_en;
+   wire        rts_timer_rst;
+   wire        rts_timer_full;
    Counter #(
      .MAX(2600)
-   ) counter_force_low_clock_timer (
-     .CLKB(CLK50MHZ),
-     .rst(RST),
-     .en(low_clock_timer_en),
+   ) Counter_rts_ (
+     .CLKB(clk),
+     .rst(rts_timer_rst),
+     .en(1'b1),
      .sig(1'b1),
-     .full(low_clock_timer_full)
+     .full(rts_timer_full)
    );
 
-   localparam [2:0]
-    WAIT_CMD_TRIG = 3'd0,
-    WAIT_FORCE_LOW_CLOCK = 3'd1,
-    START_SENDING = 3'd2,
-    SENDING = 3'd3,
-    SENDED = 3'd4;
+   wire        ps2d_out;
+   wire        cmd_parity = ~(^cmd);
+   wire [10:0] packet = { 1'b0, cmd, cmd_parity, 1'b1 };
+   wire        start_sending;
+   Serial #(
+      .WIDTH(11)
+   ) Serial_ (
+      .CLKB(clk),
+      .RST(rst),
+      // serial module interface
+      .tx(ps2d_out),
+      .data_in(packet),
+      .trig(start_sending),
+      .ready(sended),
+      .tick(ps2c_neg)
+    );
 
-   reg [2:0] state = WAIT_CMD_TRIG;
-   always @(posedge CLK50MHZ)
-     if(RST)
-       state <= WAIT_CMD_TRIG;
+   localparam [2:0]
+   IDLE = 3'd0,
+   WAIT_RTS = 3'd1,
+   START_SENDING = 3'd2,
+   SENDING = 3'd3,
+   SENDED = 3'd4;
+
+   reg [2:0] state = IDLE;
+   always @(posedge clk)
+     if(rst)
+       state <= IDLE;
      else
        case(state)
-         WAIT_CMD_TRIG:
-           if(cmd_trig)
-             state <= WAIT_FORCE_LOW_CLOCK;
-         WAIT_FORCE_LOW_CLOCK:
-           if(low_clock_timer_full)
+         IDLE:
+           if(wr_ps2)
+             state <= WAIT_RTS;
+         WAIT_RTS:
+           if(rts_timer_full)
              state <= START_SENDING;
          START_SENDING:
            state <= SENDING;
          SENDING:
-           if(ready)
+           if(sended)
              state <= SENDED;
          SENDED:
-             state <= WAIT_CMD_TRIG;
+             state <= IDLE;
        endcase
 
-   assign low_clock_timer_en  = (state == WAIT_FORCE_LOW_CLOCK);
-   assign ps2_clk_out         = (state == WAIT_FORCE_LOW_CLOCK) ? 1'b0 : 1'bz;
+   assign rts_timer_rst       = (state != WAIT_RTS);
    assign start_sending       = (state == START_SENDING);
-   assign busy                = (state != WAIT_CMD_TRIG);
+   assign tx_idle             = (state == IDLE);
+   assign ps2c                = (state == WAIT_RTS) ? 1'b0 : 1'bz;
+   assign ps2d                = (state == SENDING) ? ps2d_out : 1'bz;
 
 endmodule
