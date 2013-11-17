@@ -1,6 +1,7 @@
 module Set
 #(
-   parameter LABEL = "set",
+   parameter LABEL = " set",
+   parameter PARENT_LABEL = "",
 
    parameter ERROR = 1,
    parameter WARN  = 1,
@@ -13,6 +14,7 @@ module Set
 ) (
    output reg [N-1:0] signals
 );
+   localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
 
    // Zadanie ustawia okreslony stan
 
@@ -25,7 +27,7 @@ module Set
          // Poinformuj o stanie poprzednim
 
          if( INFO2 )
-            $display("%t\t INFO2 %s Stan sygnalow zostanie zmieniony. Obecny stan '%b' (0x %h), spodziewany stan '%b' (0x %h)", $time, LABEL, signals, signals, signals_to_set, signals_to_set);
+            $display("%t\t INFO2 %s Stan sygnalow zostanie zmieniony. Obecny stan '%b' (0x %h), spodziewany stan '%b' (0x %h)", $time, MODULE_LABEL, signals, signals, signals_to_set, signals_to_set);
 
          // Zmien stan
 
@@ -34,7 +36,7 @@ module Set
          // Poinformuj o zmianie
 
          if( INFO1 )
-            $display("%t\t INFO1 %s Stan sygnalow zostal zmieniony. Obecny stan '%b' (0x %h)", $time, LABEL, signals, signals);
+            $display("%t\t INFO1 %s Stan sygnalow zostal zmieniony. Obecny stan '%b' (0x %h)", $time, MODULE_LABEL, signals, signals);
 
       end
    endtask
@@ -83,7 +85,7 @@ module Set
          // Opcjonalnie poinformuj o przeczekiwaniu
 
          if( INFO3 )
-            $display("%t\t INFO3 %s sygnal w stanie %b (hex %h) zostaje zamrozony przez zadany okres czasu %d", $time, LABEL, signals_to_set, signals_to_set, period);
+            $display("%t\t INFO3 %s sygnal w stanie %b (hex %h) zostaje zamrozony przez zadany okres czasu %d", $time, MODULE_LABEL, signals_to_set, signals_to_set, period);
 
          // Przeczekaj zadany czas
 
@@ -92,7 +94,7 @@ module Set
          // Opcjonalnie poinformuj o dalszym biegu
 
          if( INFO4 )
-            $display("%t\t INFO4 %s Przeczekiwanie stanu %b (hex %h) zostalo zakonczone po %d", $time, LABEL, signals_to_set, signals_to_set, period);
+            $display("%t\t INFO4 %s Przeczekiwanie stanu %b (hex %h) zostalo zakonczone po %d", $time, MODULE_LABEL, signals_to_set, signals_to_set, period);
 
       end
    endtask

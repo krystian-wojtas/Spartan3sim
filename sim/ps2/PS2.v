@@ -1,6 +1,7 @@
 module PS2
 #(
-   parameter LABEL = "ps2",
+   parameter LABEL = " ps2",
+   parameter PARENT_LABEL = "",
 
    parameter ERROR = 1,
    parameter WARN  = 1,
@@ -12,20 +13,23 @@ module PS2
    inout ps2c,
    inout ps2d
 );
+   localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
 
    Set #(
-      .LABEL({LABEL, " zegar"}),
-      // .INFO1(1),
-      // .INFO2(1),
-      // .INFO3(1),
-      // .INFO4(1),
+      .PARENT_LABEL(MODULE_LABEL),
+      .LABEL(" ustaw zegar"),
+      .INFO1(1),
+      .INFO2(1),
+      .INFO3(1),
+      .INFO4(1),
       .N(1)
    ) set_ps2c (
       .signals( ps2c )
    );
 
    Set #(
-      .LABEL({LABEL, " dane"}),
+      .PARENT_LABEL(MODULE_LABEL),
+      .LABEL(" ustaw dane"),
       // .INFO1(1),
       // .INFO2(1),
       // .INFO3(1),
@@ -36,18 +40,19 @@ module PS2
    );
 
    Monitor #(
+      .PARENT_LABEL(MODULE_LABEL),
+      .LABEL(" monitor zegara"),
       .LOGLEVEL(5),
       // .LOGLEVEL(9),
-      .LABEL({LABEL, " zegar"}),
       .N(1)
    ) monitor_ps2c (
       .signals( ps2c )
    );
 
    Monitor #(
-      .LOGLEVEL(5),
+      .PARENT_LABEL(MODULE_LABEL),
+      .LABEL(" monitor danych"),
       // .LOGLEVEL(9),
-      .LABEL({LABEL, " dane"}),
       .N(1)
    ) monitor_ps2d (
       .signals( ps2d )
@@ -80,7 +85,7 @@ module PS2
       #1;
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy FPGA zaczelo prace z liniami zegara i danych w stanach wysokich impedancji", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy FPGA zaczelo prace z liniami zegara i danych w stanach wysokich impedancji", $time, MODULE_LABEL);
 
       monitor_ps2c.ensure_z();
 
@@ -93,20 +98,20 @@ module PS2
       // Aby rozpoczac transmisje do myszki, nalezy przetrzymac linie zegarowa nisko przez co najmniej 100 mikro sekund
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Oczekiwanie na rozpoczecie transmisji przez FPGA", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Oczekiwanie na rozpoczecie transmisji przez FPGA", $time, MODULE_LABEL);
 
       monitor_ps2c.wait_for_low();
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t FPGA rozpoczyna transmisje komendy do myszki", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t FPGA rozpoczyna transmisje komendy do myszki", $time, MODULE_LABEL);
 
       monitor_ps2c.ensure_low_during( 32'd100000 );
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t FPGA wlasciwie zazadalo wytaktowania zegara w celu wyslania swojej komendy", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t FPGA wlasciwie zazadalo wytaktowania zegara w celu wyslania swojej komendy", $time, MODULE_LABEL);
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t FPGA powinno zwolnic zegar i reagowac na jego zmiane przez myszke", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t FPGA powinno zwolnic zegar i reagowac na jego zmiane przez myszke", $time, MODULE_LABEL);
 
       // Po tym FPGA musi zwolnic linie zegarowa aby umozliwic wytaktowanie jej przez myszke
 
@@ -115,7 +120,7 @@ module PS2
       // Upewnij sie, ze rownoczesnie linia danych zostala wysterowana nisko dla pierwszego przesylanego bitu 'zero' rozpoczynajacego transmisje
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t W momencie zwalniania zegara linia danych powinno byc wysterowana nisko jako piereszy przesylany bit stopu", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t W momencie zwalniania zegara linia danych powinno byc wysterowana nisko jako piereszy przesylany bit stopu", $time, MODULE_LABEL);
 
       monitor_ps2d.ensure_low();
 
@@ -133,42 +138,42 @@ module PS2
          // Przeczekaj prawie pol okresu zegara 16.7 kHz, zatrzymaj sie 5 mikrosekund wczesniej, przesylany bit powinnien  byc juz gotowy do zebrania
 
          if( INFO2 )
-             $display("%t\t INFO2 \t[ %s ] \t Myszka obniza zegar", $time, LABEL);
+             $display("%t\t INFO2 \t[ %s ] \t Myszka obniza zegar", $time, MODULE_LABEL);
 
          set_ps2c.low_during( half_period - 32'd5000 );
 
          // Odbierz kolejny bit
 
          if( INFO1 )
-             $display("%t\t INFO1 \t [ %s ] \tOdbieranie bitu nr %d w stanie %b (0x%h) na 5 us przed wystawieniem zbocza narastajacego", $time, LABEL, i, ps2d, ps2d);
+             $display("%t\t INFO1 \t [ %s ] \tOdbieranie bitu nr %d w stanie %b (0x%h) na 5 us przed wystawieniem zbocza narastajacego", $time, MODULE_LABEL, i, ps2d, ps2d);
 
          received_data[i] = ps2d;
 
          // Upewnij sie, ze 5 mikro sekund przed narastajacym zboczem linia danych jest ustabilizowana i nie zmienia swojej wartosci
 
          if( INFO1 )
-             $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia danych jest stabilna 5 mikrosekund przed narastajacym zboczem", $time, LABEL);
+             $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia danych jest stabilna 5 mikrosekund przed narastajacym zboczem", $time, MODULE_LABEL);
 
          monitor_ps2d.ensure_same_during( 32'd5000 );
 
          // Podnies zegar
 
          if( INFO2 )
-             $display("%t\t INFO2\t [ %s ] \t Myszka podnosi zegar", $time, LABEL);
+             $display("%t\t INFO2\t [ %s ] \t Myszka podnosi zegar", $time, MODULE_LABEL);
 
          set_ps2c.high();
 
          // Upewnij sie, ze 5 mikro sekund po narastajacym zboczu linia danych wciaz jest stabilna trzymajac ta sama wartosc
 
          if( INFO1 )
-             $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia danych jest wciaz stabilna 5 mikrosekund po narastajacym zboczu", $time, LABEL);
+             $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia danych jest wciaz stabilna 5 mikrosekund po narastajacym zboczu", $time, MODULE_LABEL);
 
          monitor_ps2d.ensure_same_during( 32'd5000 );
 
          // Przeczekaj druga prawie cala polowke okresu zegara wysoko co konczcy cykl odbioru bitu
 
          if( INFO2 )
-             $display("%t\t INFO2\t [ %s ] \t Konczenie cyklu wysokiego stanu zegara", $time, LABEL);
+             $display("%t\t INFO2\t [ %s ] \t Konczenie cyklu wysokiego stanu zegara", $time, MODULE_LABEL);
 
          set_ps2c.high_during( half_period - 32'd5000 );
 
@@ -177,28 +182,28 @@ module PS2
       // Upewnij sie, ze ostatni przeslany bit stopu jest jedynka
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy ostatni bit stopu jest wysoki", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy ostatni bit stopu jest wysoki", $time, MODULE_LABEL);
 
       monitor_ps2d.ensure_high();
 
       // Podaj ostatnie zbocze opadajace modulowi komunikacyjnemu aby zwolnil linie danych
 
       if( INFO2 )
-          $display("%t\t INFO2\t [ %s ] \t Wystawienie zbocza opadajacego zegara, aby FPGA zwolnilo linie danych", $time, LABEL);
+          $display("%t\t INFO2\t [ %s ] \t Wystawienie zbocza opadajacego zegara, aby FPGA zwolnilo linie danych", $time, MODULE_LABEL);
 
       set_ps2c.low_during( half_period );
 
       // Upewnij sie, ze faktycznie linia danych zostala zwolniona
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie, czy linia danych zostala zwolniona", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie, czy linia danych zostala zwolniona", $time, MODULE_LABEL);
 
       monitor_ps2d.ensure_z();
 
       // W ostatnim cyklu urzadzenie wysterowuje linie danych do zera potwierdzajac poprawny odbior danych
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Ostatni cykl dla potwierdzenia odbioru", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Ostatni cykl dla potwierdzenia odbioru", $time, MODULE_LABEL);
 
       // set_ps2d.low();
 
@@ -209,7 +214,7 @@ module PS2
       // Zwolnij linie
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Zwalnianie linii sygnalowej i danych", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Zwalnianie linii sygnalowej i danych", $time, MODULE_LABEL);
 
       set_ps2c.high();
 
@@ -218,7 +223,7 @@ module PS2
       // Cykl odbioru komendy zostal zakonczony
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Pomyslnie zakonczono odbior danych", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Pomyslnie zakonczono odbior danych", $time, MODULE_LABEL);
 
       // Przepisz dane
 
@@ -229,18 +234,18 @@ module PS2
       // Sprawdz poprawnosc danych
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie poprawnosci odebranych danych", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie poprawnosci odebranych danych", $time, MODULE_LABEL);
 
       // Policz parzystosc
 
       if( INFO1 )
-          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie poprawnosci bitu parzystosci", $time, LABEL);
+          $display("%t\t INFO1\t [ %s ] \t Sprawdzanie poprawnosci bitu parzystosci", $time, MODULE_LABEL);
 
       expected_parity = ~(^cmd);
 
       if( parity != expected_parity ) begin
          if( ERROR )
-             $display("%t\t BLAD\t [ %s ] \t Przeslany bit parzystosci nie zgadza sie z otrzymanymi danymi", $time, LABEL);
+             $display("%t\t BLAD\t [ %s ] \t Przeslany bit parzystosci nie zgadza sie z otrzymanymi danymi", $time, MODULE_LABEL);
       end
 
    end
@@ -267,26 +272,26 @@ module PS2
          // Poinformuj o rozpoczeciu transmicji
 
          if( INFO1 )
-            $display("%t\t INFO1\t [ %s ] \t rozpoczynanie transmicji bajtu %b (hex %h)", $time, LABEL, data, data);
+            $display("%t\t INFO1\t [ %s ] \t rozpoczynanie transmicji bajtu %b (hex %h)", $time, MODULE_LABEL, data, data);
 
          // Sprawdz czy linia danych jest w stanie wysokiej impedancji
 
          if( INFO1 )
-            $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia danych jest w stanie wysokiej impedancji", $time, LABEL);
+            $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia danych jest w stanie wysokiej impedancji", $time, MODULE_LABEL);
 
          monitor_ps2d.ensure_z();
 
          // Sprawdz czy linia zegarowa rowniez jest wolna teraz i przez kolejne 50 mikrosekund
 
          if( INFO1 )
-            $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia zegarowa jest w stanie wysokiej impedancji teraz i przez kolejne 50 mikrosekund", $time, LABEL);
+            $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia zegarowa jest w stanie wysokiej impedancji teraz i przez kolejne 50 mikrosekund", $time, MODULE_LABEL);
 
          monitor_ps2c.ensure_z_during( 32'd50_000 );
 
          // Wystaw pierwszy bit stopu
 
          if( INFO1 )
-            $display("%t\t INFO1\t [ %s ] \t Wystawianie pierwszego bitu stopu", $time, LABEL);
+            $display("%t\t INFO1\t [ %s ] \t Wystawianie pierwszego bitu stopu", $time, MODULE_LABEL);
 
          set_ps2d.low();
 
