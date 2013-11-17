@@ -274,19 +274,33 @@ module PS2
          if( INFO1 )
             $display("%t\t INFO1\t [ %s ] \t rozpoczynanie transmicji bajtu %b (hex %h)", $time, MODULE_LABEL, data, data);
 
-         // Sprawdz czy linia danych jest w stanie wysokiej impedancji
+         // Domyslnym stanem sa wysokie impedancje, ktore poprzez podciagniete otwarte kolektory przekladaja sie na wartosci wysokie na wyjsciach linii
+
+         // Sa to stany slabe, latwe do wytracenia przez dowolne wysterowanie linii po stronie tego modulu symulacyjnego
+
+         // Modul komunikacyjny powinien zaczac stanami wysokich impedancji
+
+         // Sprawdzane jest to poprzez wysterowanie obu linii wysoko i sprawdzenie ich stanu w nastepnej chwili czasu
+
+         set_ps2c.high();
+         set_ps2d.high();
+
+         #1;
 
          if( INFO1 )
-            $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia danych jest w stanie wysokiej impedancji", $time, MODULE_LABEL);
+             $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy FPGA nie uzywa linii danych i zegara", $time, MODULE_LABEL);
+         // Jesli w nastepnej chwili czasu stan linii jest nieokreslony x, oznacza to ze FPGA uzywa linii zamiast nadac im stany latwo wytracalnych wysokich impedancji
 
-         monitor_ps2d.ensure_z();
+         monitor_ps2c.ensure_high();
+
+         monitor_ps2d.ensure_high();
 
          // Sprawdz czy linia zegarowa rowniez jest wolna teraz i przez kolejne 50 mikrosekund
 
          if( INFO1 )
             $display("%t\t INFO1\t [ %s ] \t Sprawdzanie czy linia zegarowa jest w stanie wysokiej impedancji teraz i przez kolejne 50 mikrosekund", $time, MODULE_LABEL);
 
-         monitor_ps2c.ensure_z_during( 32'd50_000 );
+         monitor_ps2c.ensure_high_during( 32'd50_000 );
 
          // Wystaw pierwszy bit stopu
 
