@@ -14,7 +14,7 @@ module Mouse_behav
    inout ps2d
 );
 
-   PS2 #(
+   PS2_behav #(
       .PARENT_LABEL({PARENT_LABEL, LABEL}),
       .INFO1(1),
       .INFO2(1),

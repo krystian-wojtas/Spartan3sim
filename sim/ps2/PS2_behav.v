@@ -1,4 +1,4 @@
-module PS2
+module PS2_behav
 #(
    parameter LABEL = " ps2",
    parameter PARENT_LABEL = "",
