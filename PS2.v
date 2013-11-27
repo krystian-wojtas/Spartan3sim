@@ -38,7 +38,6 @@ module PS2 (
       .clk(clk),
       .rst(rst),
       .ps2d(ps2d),
-      .ps2c(ps2c),
       .ps2c_neg(ps2c_neg),
       .en(tx_idle),
       .received(received),

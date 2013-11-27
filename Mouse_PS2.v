@@ -7,7 +7,7 @@ module Mouse_PS2 (
 );
 
    // constant declaration
-   localparam STRM=8'hf4; // stream command F4
+   localparam STRM=8'h2f; // stream command F4 in reverse
 
    // symbolic state declaration
    localparam [2:0]

@@ -8,7 +8,7 @@ module MouseTestBench
 );
 
    Mouse_behav #(
-      .TOPLABEL({PARENT_LABEL, LABEL}),
+      .PARENTLABEL({PARENT_LABEL, LABEL}),
       .INFO1(1),
       .INFO2(1),
       .INFO3(1),

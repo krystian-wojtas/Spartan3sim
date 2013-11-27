@@ -1,18 +1,16 @@
 module PS2_Reader (
     input             clk,
     input             rst,
-    inout             ps2d,
-    inout             ps2c,
+    input             ps2d,
     input             ps2c_neg,
     input             en,
     output            received,
     output [7:0]      data_out
 );
 
-   wire        ps2d_out;
    wire [10:0] packet;
    wire        start_receiving;
-   wire        receiving;
+	wire received_;
    Serial #(
       .WIDTH(11)
    ) Serial_ (
@@ -22,7 +20,7 @@ module PS2_Reader (
       .rx(ps2d),
       .data_out(packet),
       .trig(start_receiving),
-      .ready(sended),
+      .ready(received_),
       .tick(ps2c_neg)
     );
 
@@ -44,14 +42,17 @@ module PS2_Reader (
          START_RECEIVING:
            state <= RECEIVING;
          RECEIVING:
-           if(sended)
-             state <= RECEIVED;
-         RECEIVED:
-             state <= IDLE;
+           if(received_)
+			    state <= IDLE;
+//           if(sended)
+//             state <= RECEIVED;
+//         RECEIVED:
+//             state <= IDLE;
        endcase
 
-    assign       received = (state == RECEIVED);
     assign       start_receiving = (state == START_RECEIVING);
-   assign       data = packet[8:1];
+    //assign       received = (state == RECEIVED);
+	 assign       received = received_;
+    assign       data_out = packet[8:1];
 
 endmodule

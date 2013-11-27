@@ -6,7 +6,7 @@ module PS2_Writer (
     inout       ps2c,
     input       ps2c_neg,
     input [7:0] cmd,
-    input       tx_idle,
+    output      tx_idle,
     output      sended
 );
 
@@ -15,7 +15,7 @@ module PS2_Writer (
    wire        rts_timer_rst;
    wire        rts_timer_full;
    Counter #(
-     .MAX(2600)
+     .MAX(10000)
    ) Counter_rts_ (
      .CLKB(clk),
      .rst(rts_timer_rst),
@@ -73,6 +73,6 @@ module PS2_Writer (
    assign start_sending       = (state == START_SENDING);
    assign tx_idle             = (state == IDLE);
    assign ps2c                = (state == WAIT_RTS) ? 1'b0 : 1'bz;
-   assign ps2d                = (state == SENDING) ? ps2d_out : 1'bz;
+   assign ps2d                = (state == START_SENDING || state == SENDING) ? ps2d_out : 1'bz;
 
 endmodule

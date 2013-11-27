@@ -5,8 +5,6 @@ module Top (
     inout  PS2_CLK1,
     inout  PS2_DATA1,
     // user interface
-    input  BTN_NORH,
-    input  BTN_PREV,
     output reg [7:0] LED,
     // debug
     output DEBUG_A,
