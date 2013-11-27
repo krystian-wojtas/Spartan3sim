@@ -30,10 +30,10 @@ module PS2_behav
    Set #(
       .PARENT_LABEL(MODULE_LABEL),
       .LABEL(" ustaw dane"),
-      // .INFO1(1),
-      // .INFO2(1),
-      // .INFO3(1),
-      // .INFO4(1),
+      .INFO1(1),
+      .INFO2(1),
+      .INFO3(1),
+      .INFO4(1),
       .N(1)
    ) set_ps2d (
       .signals( ps2d )
@@ -52,6 +52,7 @@ module PS2_behav
    Monitor #(
       .PARENT_LABEL(MODULE_LABEL),
       .LABEL(" monitor danych"),
+      .LOGLEVEL(5),
       // .LOGLEVEL(9),
       .N(1)
    ) monitor_ps2d (
