@@ -46,8 +46,8 @@ module TopTest ();
         .PS2_CLK1(PS2C),
         .PS2_DATA1(PS2D),
         // user interface
-        .BTN_NORTH(btn_kbd_rst),
-        .BTN_PREV(btn_kbd_echo),
+        // .BTN_NORTH(btn_kbd_rst),
+        // .BTN_PREV(btn_kbd_echo),
         .LED(leds)
     );
 

@@ -33,8 +33,10 @@ module Mouse_PS2 (
    PS2 PS2_
       (.clk(clk), .rst(rst), .wr_ps2(wr_ps2),
        .cmd(STRM), .data_out(rx_data), .ps2d(ps2d), .ps2c(ps2c),
-       .received(rx_done_tick),
-       .sended(tx_done_tick));
+       // .received(rx_done_tick),
+       // .sended(tx_done_tick));
+       .sended(rx_done_tick),
+       .received(tx_done_tick));
 
    // body
    // FSMD state and data registers
