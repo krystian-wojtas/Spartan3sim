@@ -31,5 +31,10 @@ sim: $(sim)
 	$(xil_env); fuse $(intstyle) -d SIM -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -o TopTest_isim_beh.exe -prj TopTest_beh.prj TopTest
 	$(xil_env); "./TopTest_isim_beh.exe" $(intstyle) -gui -tclbatch isim.cmd  -wdb "TopTest_isim_beh.wdb" $(wcfg_view)
 
+simr: $(sim)
+	for src in $(sim); do echo "verilog work $$src"; done | sort -u > TopTest_beh.prj
+	$(xil_env); fuse $(intstyle) -d SIM -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -o TopTest_isim_beh.exe -prj TopTest_beh.prj TopTest
+	$(xil_env); "./TopTest_isim_beh.exe" $(intstyle) -tclbatch isim.cmd  -wdb "TopTest_isim_beh.wdb" $(wcfg_view)
+
 distclean:
 	rm -rf !(*.xise|Makefile|isim.cmd|default_wcfg)
