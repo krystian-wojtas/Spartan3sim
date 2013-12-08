@@ -38,17 +38,7 @@ module TopTest ();
             .ps2d(PS2D)
         );
 
-   wire [7:0]  leds;
-    Top Top_ (
-        .CLK50MHZ(CLK50MHZ),
-        .RST(RST),
-        // keyboard
-        .PS2_CLK1(PS2C),
-        .PS2_DATA1(PS2D),
-        // user interface
-        // .BTN_NORTH(btn_kbd_rst),
-        // .BTN_PREV(btn_kbd_echo),
-        .LED(leds)
-    );
+        wire [7:0] LED;
+        Top Top_( .clk(CLK50MHZ), .reset(RST), .ps2c(PS2C), .ps2d(PS2D), .led(LED) );
 
 endmodule

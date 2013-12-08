@@ -1,10 +1,11 @@
+synt += ../mouse.v
 synt += ../Top.v
-synt += ../Controller.v
-synt += ../Mouse_PS2.v
+synt += ../ps2_rxtx.v
+synt += ../ps2_rx.v
+synt += ../ps2_tx.v
 synt += ../PS2.v
 synt += ../PS2_Reader.v
 synt += ../PS2_Writer.v
-synt += ../Edge_Detector.v
 synt += ../../generic/Serial.v
 synt += ../../generic/Shiftreg.v
 synt += ../../generic/Counter.v

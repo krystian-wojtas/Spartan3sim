@@ -1,13 +1,16 @@
-module Mouse_PS2 (
-   input wire clk, rst,
-   inout wire ps2d, ps2c,
-   output wire [8:0] xm,
-   output wire [2:0] btnm,
-   output reg  m_done_tick
-);
+//Listing 10.4
+module mouse
+   (
+    input wire clk, reset,
+    inout wire ps2d, ps2c,
+    output wire [8:0] xm,
+    output wire [2:0] btnm,
+    output reg  m_done_tick
+   );
 
    // constant declaration
-   localparam STRM=8'h2f; // stream command F4 in reverse
+   localparam STRM=8'hf4; // stream command F4
+   // localparam STRM=8'h2f; // stream command F4
 
    // symbolic state declaration
    localparam [2:0]
@@ -30,18 +33,16 @@ module Mouse_PS2 (
 
    // body
    // instantiation
-   PS2 PS2_
-      (.clk(clk), .rst(rst), .wr_ps2(wr_ps2),
-       .cmd(STRM), .data_out(rx_data), .ps2d(ps2d), .ps2c(ps2c),
-       // .received(rx_done_tick),
-       // .sended(tx_done_tick));
-       .sended(rx_done_tick),
-       .received(tx_done_tick));
+   ps2_rxtx ps2_unit
+      (.clk(clk), .reset(reset), .wr_ps2(wr_ps2),
+       .din(STRM), .dout(rx_data), .ps2d(ps2d), .ps2c(ps2c),
+       .rx_done_tick(rx_done_tick),
+       .tx_done_tick(tx_done_tick));
 
    // body
    // FSMD state and data registers
-   always @(posedge clk, posedge rst)
-      if (rst)
+   always @(posedge clk, posedge reset)
+      if (reset)
          begin
             state_reg <= init1;
             x_reg <= 0;

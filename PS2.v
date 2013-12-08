@@ -14,35 +14,83 @@ module PS2 (
 
    // Detect negative edge on input ps2 clock line
 
-   wire ps2c_neg;
-   Edge_Detector edge_detector_ps2clk (
-      .CLK50MHZ(clk),
-      .line(ps2c),
-      .neg(ps2c_neg)
-   );
+   // wire ps2c_neg;
+   // Edge_Detector edge_detector_ps2clk (
+   //    .CLK50MHZ(clk),
+   //    .line(ps2c),
+   //    .neg(ps2c_neg)
+   // );
 
+
+   // body
+   //=================================================
+   // filter and falling-edge tick generation for ps2c
+   //=================================================
+   reg [7:0] filter_reg;
+   wire [7:0] filter_next;
+   reg f_ps2c_reg;
+   wire f_ps2c_next;
+   wire fall_edge;
+   always @(posedge clk, posedge rst)
+   if (rst)
+      begin
+         filter_reg <= 0;
+         f_ps2c_reg <= 0;
+      end
+   else
+      begin
+         filter_reg <= filter_next;
+         f_ps2c_reg <= f_ps2c_next;
+      end
+
+   assign filter_next = {ps2c, filter_reg[7:1]};
+   assign f_ps2c_next = (filter_reg==8'b11111111) ? 1'b1 :
+                        (filter_reg==8'b00000000) ? 1'b0 :
+                         f_ps2c_reg;
+   assign fall_edge = f_ps2c_reg & ~f_ps2c_next;
+   assign ps2c_neg = fall_edge;
+
+
+   // signal declaration
    wire tx_idle;
-   PS2_Writer PS2_Writer_ (
-      .clk(clk),
-      .rst(rst),
-      .wr_ps2(wr_ps2),
-      .ps2d(ps2d),
-      .ps2c(ps2c),
-      .ps2c_neg(ps2c_neg),
-      .cmd(cmd),
-      .tx_idle(tx_idle),
-      .sended(sended)
-   );
 
-   PS2_Reader PS2_Reader_ (
-      .clk(clk),
-      .rst(rst),
-      .ps2d(ps2d),
-      .ps2c_neg(ps2c_neg),
-      .en(tx_idle),
-      .received(received),
-      .data_out(data_out)
-   );
+
+   // instantiate ps2 transmitter
+   ps2_tx ps2_tx_unit
+      (.clk(clk), .reset(rst), .wr_ps2(wr_ps2),
+       .din(din), .ps2d(ps2d), .ps2c(ps2c),
+       .tx_idle(tx_idle), .tx_done_tick(tx_done_tick));
+
+   // wire tx_idle;
+   // PS2_Writer PS2_Writer_ (
+   //    .clk(clk),
+   //    .rst(rst),
+   //    .wr_ps2(wr_ps2),
+   //    .ps2d(ps2d),
+   //    .ps2c(ps2c),
+   //    .ps2c_neg(ps2c_neg),
+   //    .cmd(cmd),
+   //    .tx_idle(tx_idle),
+   //    .sended(sended)
+   // );
+
+   ps2_rx ps2_rx_unit
+      (.clk(clk), .reset(rst), .rx_en(tx_idle),
+       .ps2d(ps2d), .ps2c(ps2c),
+       .rx_done_tick(rx_done_tick), .dout(dout));
+
+
+   // PS2_Reader PS2_Reader_ (
+   //    .clk(clk),
+   //    .rst(rst),
+   //    .ps2d(ps2d),
+   //    .ps2c_neg(ps2c_neg),
+   //    .en(tx_idle),
+   //    .received(received),
+   //    .data_out(data_out)
+   // );
+
+//
 
    // // Detect negative edge on input ps2 clock line
 

@@ -15,7 +15,7 @@ module PS2_Writer (
    wire        rts_timer_rst;
    wire        rts_timer_full;
    Counter #(
-     .MAX(10000)
+     .MAX(13'h1fff) // 2^13-1
    ) Counter_rts_ (
      .CLKB(clk),
      .rst(rts_timer_rst),
@@ -28,8 +28,11 @@ module PS2_Writer (
    wire        cmd_parity = ~(^cmd);
    wire [10:0] packet = { 1'b0, cmd, cmd_parity, 1'b1 };
    wire        start_sending;
+   // 10 nie dzial
+   // 11,12 ten sam efekt w jedna strone
+   // 13 nie dziala
    Serial #(
-      .WIDTH(11)
+      .WIDTH(12)
    ) Serial_ (
       .CLKB(clk),
       .RST(rst),
@@ -74,5 +77,6 @@ module PS2_Writer (
    assign tx_idle             = (state == IDLE);
    assign ps2c                = (state == WAIT_RTS) ? 1'b0 : 1'bz;
    assign ps2d                = (state == START_SENDING || state == SENDING) ? ps2d_out : 1'bz;
+   // assign ps2d                = (state == SENDING) ? ps2d_out : 1'bz;
 
 endmodule

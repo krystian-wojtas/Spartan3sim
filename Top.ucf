@@ -78,12 +78,12 @@ CONFIG POST_CRC = "DISABLE" ;
 ##############################################################################
 
 #NET "CLK50MHZ"       LOC = "E12"  | IOSTANDARD = LVCMOS33 | PERIOD = 20.000 ;
-#OFFSET = IN  10.000 VALID 20.000 BEFORE "CLK_50M" ;
-#OFFSET = OUT 20.000 AFTER "CLK_50M" ;
+#OFFSET = IN  10.000 VALID 20.000 BEFORE "clk" ;
+#OFFSET = OUT 20.000 AFTER "clk" ;
 
-NET "CLK50MHZ"       LOC = "E12"  | IOSTANDARD = LVCMOS33 | PERIOD = 20.000 ;
-OFFSET = IN  10.000 VALID 20.000 BEFORE "CLK50MHZ" ;
-OFFSET = OUT 20.000 AFTER "CLK50MHZ" ;
+NET "clk"       LOC = "E12"  | IOSTANDARD = LVCMOS33 | PERIOD = 20.000 ;
+OFFSET = IN  10.000 VALID 20.000 BEFORE "clk" ;
+OFFSET = OUT 20.000 AFTER "clk" ;
 #
 #NET "CLK_AUX"       LOC = "V12"  | IOSTANDARD = LVCMOS33 | PERIOD = 20.000 ;
 #OFFSET = IN  10.000 VALID 20.000 BEFORE "CLK_AUX" ;
@@ -97,14 +97,14 @@ OFFSET = OUT 20.000 AFTER "CLK50MHZ" ;
 # Discrete Indicators (LED)
 ##############################################################################
 
-NET "LED<0>"        LOC = "R20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<1>"        LOC = "T19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<2>"        LOC = "U20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<3>"        LOC = "U19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<4>"        LOC = "V19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<5>"        LOC = "V20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<6>"        LOC = "Y22"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led<0>"        LOC = "R20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led<1>"        LOC = "T19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led<2>"        LOC = "U20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led<3>"        LOC = "U19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led<4>"        LOC = "V19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led<5>"        LOC = "V20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led<6>"        LOC = "Y22"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 
 ##############################################################################
 # Character Display (LCD)
@@ -200,9 +200,9 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 ## Accessory Headers (J18, J19, J20)
 ###############################################################################
 #
-NET "DEBUG_A"        LOC = "AA21" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "DEBUG_A"        LOC = "AA21" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "J18_IO<2>"     LOC = "AB21" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "DEBUG_B"        LOC = "AA19" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "DEBUG_B"        LOC = "AA19" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #NET "J18_IO<4>"     LOC = "AB19" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #
 #NET "J19_IO<1>"     LOC = "Y18"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
@@ -220,8 +220,8 @@ NET "DEBUG_B"        LOC = "AA19" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = S
 ###############################################################################
 #
 ## Primary connection, simply plug device into connector.
-NET "PS2_CLK1"      LOC = "W12"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
-NET "PS2_DATA1"     LOC = "V11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "ps2c"      LOC = "W12"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "ps2d"     LOC = "V11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
 #
 ## Secondary connection, use requires a splitter cable.
 #NET "PS2_CLK2"      LOC = "U11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
@@ -267,7 +267,7 @@ NET "PS2_DATA1"     LOC = "V11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 
 #NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_SOUTH"     LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-NET "RST"	     LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "reset"	     LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_NEXT"       LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 #NET "BTN_PREV"       LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 

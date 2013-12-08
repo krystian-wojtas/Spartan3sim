@@ -1,15 +1,10 @@
-module Top (
-    input  CLK50MHZ,
-    input  RST,
-    // mouse
-    inout  PS2_CLK1,
-    inout  PS2_DATA1,
-    // user interface
-    output reg [7:0] LED,
-    // debug
-    output DEBUG_A,
-    output DEBUG_B
-);
+//Listing 10.5
+module Top
+   (
+    input wire clk, reset,
+    inout wire ps2d, ps2c,
+    output reg [7:0] led
+   );
 
    // signal declaration
    reg [9:0] p_reg;
@@ -20,91 +15,81 @@ module Top (
 
    // body
    // instantiation
-   Mouse_PS2 Mouse_PS2_
-      (.clk(CLK50MHZ), .rst(RST), .ps2d(PS2_DATA1), .ps2c(PS2_CLK1),
+   mouse mouse_unit
+      (.clk(clk), .reset(reset), .ps2d(ps2d), .ps2c(ps2c),
        .xm(xm), .btnm(btnm),
        .m_done_tick(m_done_tick));
 
    // counter
-   always @(posedge CLK50MHZ, posedge RST)
-      if (RST)
-         p_reg <= 0;
-      else
-         p_reg <= p_next;
+  always @(posedge clk, posedge reset)
+     if (reset)
+        p_reg <= 8'h3;
+     else
+        p_reg <= p_next;
 
-   assign p_next = (~m_done_tick) ? p_reg  : // no activity
-                   (btnm[0])      ? 10'b0  : // left button
-                   (btnm[1])     ? 10'h3ff : // right button
-                   p_reg + {xm[8], xm};      // x movement
+  assign p_next = (~m_done_tick) ? p_reg  : // no activity
+                  (btnm[0])      ? 10'b0  : // left button
+                  (btnm[1])     ? 10'h3ff : // right button
+                  p_reg + {xm[8], xm};      // x movement
 
-   always @*
-      case (p_reg[9:7])
-         3'b000: LED = 8'b10000000;
-         3'b001: LED = 8'b01000000;
-         3'b010: LED = 8'b00100000;
-         3'b011: LED = 8'b00010000;
-         3'b100: LED = 8'b00001000;
-         3'b101: LED = 8'b00000100;
-         3'b110: LED = 8'b00000010;
-         default: LED = 8'b00000001;
-      endcase
+  always @*
+     case (p_reg[9:7])
+        3'b000: led = 8'b10000000;
+        3'b001: led = 8'b01000000;
+        3'b010: led = 8'b00100000;
+        3'b011: led = 8'b00010000;
+        3'b100: led = 8'b00001000;
+        3'b101: led = 8'b00000100;
+        3'b110: led = 8'b00000010;
+        default: led = 8'b00000001;
+     endcase
 
 
-    assign DEBUG_A = PS2_CLK1;
-    assign DEBUG_B = PS2_DATA1;
+   // reg [7:0] cnt = 8'd0;
+   // reg            xm_cnt = 1'b0;
+
+// always @(posedge clk)
+// begin
+//    if(m_done_tick) begin
+//       if(xm[7:0]) begin
+//         if(xm[8] && xm[7:0] > 8'd100)
+//           led <= { led[0], led[7:1] };
+//         else if(xm[7:0] < 8'd100)
+//           led <= { led[6:0], led[7] };
+//         // led[4:1] <= xm[4:0];
+//          end
+//       else if(btnm) begin
+//          if(btnm[2]) begin
+//           led <= { led[6:0], led[7] };
+//            // led <= ~led;
+//             end
+//         else
+//         led <= { btnm, 5'd0 };
+//          end
+//   end
+// end
+
+
+// always @(posedge clk)
+// begin
+//    if(m_done_tick) begin
+//       if(xm[7:0]) begin
+//         if(xm[8] && xm[7:0] > 8'd100)
+//           led <= { led[0], led[7:1] };
+//         else if(xm[7:0] < 8'd100)
+//           led <= { led[6:0], led[7] };
+//         // led[4:1] <= xm[4:0];
+//          end
+//       else if(btnm) begin
+//          if(btnm[2]) begin
+//           led <= { led[6:0], led[7] };
+//            // led <= ~led;
+//             end
+//         else
+//         led <= { btnm, 5'd0 };
+//          end
+//   end
+// end
+
 
 endmodule
-
-
-// module Top (
-//     input  CLK50MHZ,
-//     input  RST,
-//     // keyboard
-//     inout  PS2_CLK1,
-//     inout  PS2_DATA1,
-//     // user interface
-//     input  BTN_NORH,
-//     input  BTN_PREV,
-//     output [7:0] LED,
-//     // debug
-//     output DEBUG_A,
-//     output DEBUG_B
-// );
-
-//    wire    ps2_clk_out;
-//    wire    ps2_data_out;
-//    wire [7:0] scancode;
-//    wire scan_ready;
-//    wire  cmd_trig;
-//    wire [7:0] cmd;
-//    PS2 ps2_ (
-//         .clk(CLK50MHZ),
-//         .rst(RST),
-//         .ps2c(PS2_CLK1),
-//         .ps2d(PS2_DATA1),
-//         .scancode(scancode),
-//         .scan_ready(scan_ready),
-//         .cmd_trig(cmd_trig),
-//         .cmd(cmd)
-//     );
-
-//    // wire  btn_kbd_rst;
-//    // // TODO debouncers
-//    // wire  btn_kbd_echo;
-
-//     Controller controller_ (
-//         .CLK50MHZ(CLK50MHZ),
-//         .RST(RST),
-//         .btn_kbd_rst(BTN_NORTH),
-//         .btn_kbd_echo(BTN_PREV),
-//         .cmd_trig(cmd_trig),
-//         .cmd(cmd),
-//         .scancode(scancode),
-//         .scan_ready(scan_ready),
-//         .led(LED)
-//     );
-
-//     assign DEBUG_A = PS2_CLK1;
-//     assign DEBUG_B = PS2_DATA1;
-
-// endmodule
