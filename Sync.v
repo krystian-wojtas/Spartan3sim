@@ -20,15 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module Sync (
-	input  CLK50MHZ,
-	input  RST,
-	// vga interface
-	output VGA_HSYNC,
-	output VGA_VSYNC,
-	// tick for next pixel
-	output [10:0] x,
+        input  CLK50MHZ,
+        input  RST,
+        // vga interface
+        output VGA_HSYNC,
+        output VGA_VSYNC,
+        // tick for next pixel
+        output [10:0] x,
         output [10:0] y,
-	output displaying
+        output displaying
 );
 
 	localparam [10:0] H_S  = 2*800;
@@ -40,40 +40,41 @@ module Sync (
 	localparam [ 3:0] V_FP = 10;
 	localparam [ 4:0] V_BP = 29;
 
-	wire [10:0] i;
-	wire 	    h;
-	Counter #(
-		.MAX(H_S)
-	) Counter_h (
-		.CLKB(CLK50MHZ),
-		// counter
-		.en(1'b1),
-		.rst(RST),
-		.sig(1'b1), // count all CLK50MHZ ticks
-		.cnt(i),
-		.full(h)
-	);
+        wire [10:0] i;
+        wire        h;
+        Counter #(
+                .MAX(H_S)
+        ) Counter_h (
+                .CLKB(CLK50MHZ),
+                // counter
+                .en(1'b1),
+                .rst(RST),
+                .sig(1'b1), // count all CLK50MHZ ticks
+                .cnt(i),
+                .full(h)
+        );
 
-	wire [9:0] j;
-   	Counter #(
-		.MAX(V_S)
-	) Counter_v (
-		.CLKB(CLK50MHZ),
-		// counter
-		.en(1'b1),
-		.rst(RST),
-		.sig(h), // count h sync
-		.cnt(j)
-	);
+        wire [9:0] j;
+        Counter #(
+                .MAX(V_S)
+        ) Counter_v (
+                .CLKB(CLK50MHZ),
+                // counter
+                .en(1'b1),
+                .rst(RST),
+                .sig(h), // count h sync
+                .cnt(j)
+        );
 
         assign displaying = (
             i >= H_PW + H_BP &&
-            i <  H_S - H_FP  &&
+            i <  H_S  - H_FP &&
             j >= V_BP + V_FP &&
-            j <  V_S - V_PW
+            j <  V_S  - V_PW
         );
-   	assign VGA_HSYNC = (i > 96);
-   	assign VGA_VSYNC = (j > 2);
+
+        assign VGA_HSYNC = (i > 96);
+        assign VGA_VSYNC = (j > 2);
 
         assign x = i - 144;
         assign y = j - 39;

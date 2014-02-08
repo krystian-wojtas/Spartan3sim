@@ -39,7 +39,7 @@ module Controller (
       if(RST)
         i <= 1;
       else if(next)
-          i <= i + 1;
+        i <= i + 1;
       else if(prev)
         i <= i - 1;
 
