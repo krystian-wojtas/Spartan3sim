@@ -33,12 +33,12 @@ module TopTest ();
     wire [3:0] VGA_B;
     wire       VGA_HSYNC;
     wire       VGA_VSYNC;
-    Vga Vga_ (
-        .VGA_R(VGA_R),
-        .VGA_G(VGA_G),
-        .VGA_B(VGA_B),
-        .VGA_HSYNC(VGA_HSYNC),
-        .VGA_VSYNC(VGA_VSYNC)
+    Vga_behav Vga_behav_ (
+        .vga_r(VGA_R),
+        .vga_g(VGA_G),
+        .vga_b(VGA_B),
+        .vga_hsync(VGA_HSYNC),
+        .vga_vsync(VGA_VSYNC)
          );
 
     // color control

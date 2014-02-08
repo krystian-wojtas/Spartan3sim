@@ -9,7 +9,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="51" />
+   <WVObjectSize size="82" />
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
@@ -106,27 +106,83 @@
       <obj_property name="ElementShortName">VGA_VSYNC</obj_property>
       <obj_property name="ObjectShortName">VGA_VSYNC</obj_property>
    </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/displaying" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">displaying</obj_property>
+      <obj_property name="ObjectShortName">displaying</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/i" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">i[10:0]</obj_property>
+      <obj_property name="ObjectShortName">i[10:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/j" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">j[9:0]</obj_property>
+      <obj_property name="ObjectShortName">j[9:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/x" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">x[10:0]</obj_property>
       <obj_property name="ObjectShortName">x[10:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/y" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">y[9:0]</obj_property>
-      <obj_property name="ObjectShortName">y[9:0]</obj_property>
+      <obj_property name="ElementShortName">y[10:0]</obj_property>
+      <obj_property name="ObjectShortName">y[10:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/h" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">h</obj_property>
       <obj_property name="ObjectShortName">h</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/Sync_/v" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">v</obj_property>
-      <obj_property name="ObjectShortName">v</obj_property>
-   </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/displaying" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">displaying</obj_property>
       <obj_property name="ObjectShortName">displaying</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider83" type="divider">
+      <obj_property name="label">counter h</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/CLKB" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLKB</obj_property>
+      <obj_property name="ObjectShortName">CLKB</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/sig" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sig</obj_property>
+      <obj_property name="ObjectShortName">sig</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cnt[9:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/full" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/counter_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">counter_reg[11:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_reg[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/MAX" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">MAX[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MAX[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/K" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">K[31:0]</obj_property>
+      <obj_property name="ObjectShortName">K[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/DELAY" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">DELAY[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DELAY[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="divider41" type="divider">
       <obj_property name="label">counter v</obj_property>
@@ -151,8 +207,8 @@
       <obj_property name="ObjectShortName">sig</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/Counter_v/cnt" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">cnt[10:0]</obj_property>
-      <obj_property name="ObjectShortName">cnt[10:0]</obj_property>
+      <obj_property name="ElementShortName">cnt[9:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt[9:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/Counter_v/full" type="logic" db_ref_id="1">
@@ -167,14 +223,17 @@
    <wvobject fp_name="/TopTest/Top_/Sync_/Counter_v/MAX" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">MAX[31:0]</obj_property>
       <obj_property name="ObjectShortName">MAX[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/Counter_v/K" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">K[31:0]</obj_property>
       <obj_property name="ObjectShortName">K[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/Counter_v/DELAY" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">DELAY[31:0]</obj_property>
       <obj_property name="ObjectShortName">DELAY[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="divider24" type="divider">
       <obj_property name="label">controller</obj_property>
@@ -217,6 +276,78 @@
    <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">RST</obj_property>
       <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_NEXT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_NEXT</obj_property>
+      <obj_property name="ObjectShortName">BTN_NEXT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_PREV" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_PREV</obj_property>
+      <obj_property name="ObjectShortName">BTN_PREV</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_R" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_R[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_R[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_G" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_G[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_G[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_B" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_B[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_B[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_HSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_HSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_HSYNC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_VSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_VSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_VSYNC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_NEXT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_NEXT</obj_property>
+      <obj_property name="ObjectShortName">BTN_NEXT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_PREV" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_PREV</obj_property>
+      <obj_property name="ObjectShortName">BTN_PREV</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_R" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_R[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_R[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_G" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_G[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_G[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_B" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_B[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_B[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_HSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_HSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_HSYNC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_VSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_VSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_VSYNC</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/BTN_NEXT" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">BTN_NEXT</obj_property>
