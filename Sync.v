@@ -31,14 +31,14 @@ module Sync (
         output displaying
 );
 
-	localparam [10:0] H_S  = 2*800;
-	localparam [ 1:0] H_FP = 2*16;
-	localparam [ 7:0] H_PW = 2*96;
-	localparam [ 6:0] H_BP = 2*48;
-	localparam [ 9:0] V_S  = 521;
-	localparam [ 1:0] V_PW = 2;
-	localparam [ 3:0] V_FP = 10;
-	localparam [ 4:0] V_BP = 29;
+        localparam H_S  = 2*800;
+        localparam H_FP = 2*16;
+        localparam H_PW = 2*96;
+        localparam H_BP = 2*48;
+        localparam V_S  = 521;
+        localparam V_PW = 2;
+        localparam V_FP = 10;
+        localparam V_BP = 29;
 
         wire [10:0] i;
         wire        h;
@@ -73,10 +73,10 @@ module Sync (
             j <  V_S  - V_PW
         );
 
-        assign VGA_HSYNC = (i > 96);
-        assign VGA_VSYNC = (j > 2);
+        assign VGA_HSYNC = (i > H_PW);
+        assign VGA_VSYNC = (j > V_PW);
 
-        assign x = i - 144;
-        assign y = j - 39;
+        assign x = i - H_PW - H_BP;
+        assign y = j - V_PW - V_BP;
 
 endmodule
