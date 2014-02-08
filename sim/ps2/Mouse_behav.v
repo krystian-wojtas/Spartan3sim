@@ -25,7 +25,7 @@ module Mouse_behav
       .ps2d(ps2d)
    );
 
-   // Zadanie czeka na nowiazanie komunikacji ze strony FPGA, odbiera komende i sprawdza czy dotyczy ona zmiany trybu pracy na strumieniowy
+   // Zadanie czeka na nawiazanie komunikacji ze strony FPGA, odbiera komende i sprawdza czy dotyczy ona zmiany trybu pracy na strumieniowy
 
    task receive_streaming_cmd ();
       reg [7:0] cmd;
