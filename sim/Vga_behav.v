@@ -31,7 +31,7 @@ module Vga_behav
    Monitor #(
       .PARENT_LABEL(MODULE_LABEL),
       .LABEL(" monitor vga kolory"),
-      .LOGLEVEL(5),
+      .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(12)
    ) monitor_vga_colours (
@@ -126,7 +126,6 @@ module Vga_behav
 
             // Czas wyswietlania wszystkich kolejnych pikseli w wierszu
             #(H_S - H_FP - H_PW - H_BP);
-
 
             // Czas do nastepnej synchronizacji wierszy
             monitor_vga_colours.ensure_low_during( H_S - H_FP );
