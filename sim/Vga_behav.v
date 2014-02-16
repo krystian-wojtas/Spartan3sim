@@ -79,7 +79,7 @@ module Vga_behav
             if( INFO1 )
                $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru ramek.", $time, MODULE_LABEL);
 
-            // Zacznij odbierac kolory
+            // Zacznij odbierac ramki
             synchronized=1'b1;
          end
 
@@ -105,7 +105,7 @@ module Vga_behav
   //           #(V_S - V_FP - V_PW - V_BP);
 
   //           // Czas do nastepnej synchronizacji wierszy
-  //           monitor_vga_colours.ensure_low_during( V_S - V_FP );
+  //           monitor_vga_colours.ensure_low_during( V_FP );
   //        end
 
 
@@ -118,7 +118,7 @@ module Vga_behav
             monitor_vga_hsync.ensure_high_during( H_S - H_PW );
          end
 
-      // end begin
+      end begin
 
          if(synchronized) begin
             // Dlugosc pulsu synchronizacji wierszy
@@ -128,7 +128,7 @@ module Vga_behav
             #(H_S - H_FP - H_PW - H_BP);
 
             // Czas do nastepnej synchronizacji wierszy
-            monitor_vga_colours.ensure_low_during( H_S - H_FP );
+            monitor_vga_colours.ensure_low_during( H_FP );
          end
 
 
