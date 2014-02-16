@@ -58,12 +58,12 @@ module Vga_behav
       .signals( vga_hsync )
    );
 
-   reg   inited=1'b0;
+   reg   synchronized=1'b0;
    integer i = 0;
    always begin
 
       fork begin
-         if(~inited) begin
+         if(~synchronized) begin
 
             if( INFO1 )
                $display("%t\t INFO1\t [ %s ] \t Oczekiwanie na poczatek nowej ramki.", $time, MODULE_LABEL);
@@ -80,12 +80,12 @@ module Vga_behav
                $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru ramek.", $time, MODULE_LABEL);
 
             // Zacznij odbierac kolory
-            inited=1'b1;
+            synchronized=1'b1;
          end
 
       end begin
 
-  //        if(inited) begin
+  //        if(synchronized) begin
   //           // Dlugosc pulsu synchronizacji kolumn
   // // $display("%t\t DEBUG\t [ %s ] \t AAA.", $time, MODULE_LABEL);
   //           monitor_vga_vsync.ensure_low_during( V_PW );
@@ -97,7 +97,7 @@ module Vga_behav
 
   //     end begin
 
-  //        if(inited) begin
+  //        if(synchronized) begin
   //           // Dlugosc pulsu synchronizacji wierszy
   //           monitor_vga_colours.ensure_low_during( V_PW + V_BP );
 
@@ -111,39 +111,31 @@ module Vga_behav
 
       end begin
 
-         if(inited) begin
+         if(synchronized) begin
             // Dlugosc pulsu synchronizacji wierszy
             monitor_vga_hsync.ensure_low_during( H_PW );
             // Czas do nastepnej synchronizacji wierszy
             monitor_vga_hsync.ensure_high_during( H_S - H_PW );
-
-            // $display("%t\t DEBUG\t [ %s ] \t AAA.", $time, MODULE_LABEL);
-            // Dlugosc pulsu synchronizacji wierszy
-            // monitor_vga_hsync.ensure_low_during( H_PW );
-  // $display("%t\t DEBUG\t [ %s ] \t BBB.", $time, MODULE_LABEL);
-            // Czas do nastepnej synchronizacji wierszy
-            // monitor_vga_hsync.ensure_high_during( H_S - H_PW );
-  // $display("%t\t DEBUG\t [ %s ] \t CCC.", $time, MODULE_LABEL);
          end
 
       // end begin
 
-      //    if(inited) begin
-      //       // Dlugosc pulsu synchronizacji wierszy
-      //       monitor_vga_colours.ensure_low_during( H_PW + H_BP );
+         if(synchronized) begin
+            // Dlugosc pulsu synchronizacji wierszy
+            monitor_vga_colours.ensure_low_during( H_PW + H_BP );
 
-      //       // Czas wyswietlania wszystkich kolejnych pikseli w wierszu
-      //       #(H_S - H_FP - H_PW - H_BP);
+            // Czas wyswietlania wszystkich kolejnych pikseli w wierszu
+            #(H_S - H_FP - H_PW - H_BP);
 
 
-      //       // Czas do nastepnej synchronizacji wierszy
-      //       monitor_vga_colours.ensure_low_during( H_S - H_FP );
-      //    end
+            // Czas do nastepnej synchronizacji wierszy
+            monitor_vga_colours.ensure_low_during( H_S - H_FP );
+         end
 
 
       // end begin
 
-      //    if(inited) begin
+      //    if(synchronized) begin
       //       monitor_vga_vsync.wait_for_low();
       //       i = i + 1;
       //       if(i > 480)
@@ -153,7 +145,7 @@ module Vga_behav
 
       // end begin
 
-      //    if(inited) begin
+      //    if(synchronized) begin
       //       monitor_vga_hsync.wait_for_low();
       //       i = 0;
       //    end
