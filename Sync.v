@@ -74,7 +74,7 @@ module Sync (
         );
 
         assign VGA_HSYNC = (i > H_PW);
-        assign VGA_VSYNC = (j > V_PW);
+        assign VGA_VSYNC = (j >= V_PW);
 
         assign x = i - H_PW - H_BP;
         assign y = j - V_PW - V_BP;
