@@ -11,14 +11,16 @@ module Vga_behav
    parameter INFO4 = 0,
 
    // Domyslnie 640x480
-   parameter V_S  = 16_700_000,
-   parameter V_FP =    320_000,
-   parameter V_PW =     64_000,
-   parameter V_BP =    928_000,
-   parameter H_S  =     32_000,
-   parameter H_PW =      3_840,
-   parameter H_FP =        640,
-   parameter H_BP =      1_920
+   parameter V_S   = 16_700_000,
+   parameter V_FP  =    320_000,
+   parameter V_PW  =     64_040,
+   parameter V_BP  =    928_000,
+   parameter H_S   =     32_020,
+   parameter H_PW  =      3_860,
+   parameter H_FP  =        640,
+   parameter H_BP  =      1_900,
+
+   parameter LINES = 521
 ) (
    input [3:0] vga_r,
    input [3:0] vga_g,
@@ -27,6 +29,8 @@ module Vga_behav
    input vga_vsync
 );
    localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
+
+   // Instancje monitorow
 
    Monitor #(
       .PARENT_LABEL(MODULE_LABEL),
@@ -58,69 +62,66 @@ module Vga_behav
       .signals( vga_hsync )
    );
 
+   // Synchronizacja pierwszej ramki
+
    reg   synchronized=1'b0;
-   integer i = 0;
-   always begin
+   initial begin
+      if( INFO1 )
+         $display("%t\t INFO1\t [ %s ] \t Oczekiwanie na poczatek nowej ramki.", $time, MODULE_LABEL);
 
-      fork begin
-         if(~synchronized) begin
+      // Poczekaj na pierwszy puls synchronizacji ramki
+      // Nie sprawdza jednak dlugosci jego trwania, pomiar pulsu synchronizacji nastapi od drugiej ramki
+      monitor_vga_vsync.wait_for_low();
+      monitor_vga_vsync.wait_for_high();
 
-            if( INFO1 )
-               $display("%t\t INFO1\t [ %s ] \t Oczekiwanie na poczatek nowej ramki.", $time, MODULE_LABEL);
+      // Zsynchronizowano, zacznij odbierac ramki
+      synchronized=1'b1;
 
-            // Wartosci w zerowej chwili nie sa okreslone
-            #1;
+      if( INFO1 )
+         $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru ramek.", $time, MODULE_LABEL);
+   end
 
-            // Poczekaj na pierwszy puls synchronizacji ramki
-            // Nie sprawdza jednak dlugosci jego trwania, pomiar pulsu synchronizacji nastapi od drugiej ramki
-            monitor_vga_vsync.wait_for_low();
-            monitor_vga_vsync.wait_for_high();
+   // Sprawdzanie synchronizacji ramek
 
-            if( INFO1 )
-               $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru ramek.", $time, MODULE_LABEL);
-
-            // Zacznij odbierac ramki
-            synchronized=1'b1;
-         end
-
-      end begin
-
-  //        if(synchronized) begin
-  //           // Dlugosc pulsu synchronizacji kolumn
-  // // $display("%t\t DEBUG\t [ %s ] \t AAA.", $time, MODULE_LABEL);
-  //           monitor_vga_vsync.ensure_low_during( V_PW );
-  // // $display("%t\t DEBUG\t [ %s ] \t BBB.", $time, MODULE_LABEL);
-  //           // Czas do nastepnej synchronizacji kolumn
-  //           monitor_vga_vsync.ensure_high_during( V_S - V_PW );
-  // // $display("%t\t DEBUG\t [ %s ] \t CCC.", $time, MODULE_LABEL);
-  //        end
-
-  //     end begin
-
-  //        if(synchronized) begin
-  //           // Dlugosc pulsu synchronizacji wierszy
-  //           monitor_vga_colours.ensure_low_during( V_PW + V_BP );
-
-  //           // Czas wyswietlania wszystkich kolejnych wierszy w ramce
-  //           #(V_S - V_FP - V_PW - V_BP);
-
-  //           // Czas do nastepnej synchronizacji wierszy
-  //           monitor_vga_colours.ensure_low_during( V_FP );
-  //        end
-
-
-      end begin
-
-         if(synchronized) begin
+   always @(negedge vga_vsync) begin
+      if(synchronized) begin
+            // Dlugosc pulsu synchronizacji kolumn
+            // +1: wymaga symulacja
+            monitor_vga_vsync.ensure_low_during( V_PW +1 );
+            // Czas do nastepnej synchronizacji kolumn
+            // -1: kompensacja +1 z poprzedniego; nastepne -1 aby skonczyl chwile przed nastepnym cyklem i zlapal liste wrazliwosci
+            monitor_vga_vsync.ensure_high_during( V_S - V_PW -1 -1 );
+      end;
+   end
+   always @(negedge vga_vsync) begin
+      if(synchronized) begin
             // Dlugosc pulsu synchronizacji wierszy
-            monitor_vga_hsync.ensure_low_during( H_PW );
+            monitor_vga_colours.ensure_low_during( V_PW + V_BP );
+
+            // Czas wyswietlania wszystkich kolejnych wierszy w ramce
+            #(V_S - V_FP - V_PW - V_BP);
+
             // Czas do nastepnej synchronizacji wierszy
-            monitor_vga_hsync.ensure_high_during( H_S - H_PW );
-         end
+            monitor_vga_colours.ensure_low_during( V_FP );
+      end;
+   end
 
-      end begin
+   // Sprawdzanie synchronizacji wierszy
 
-         if(synchronized) begin
+   always @(negedge vga_hsync) begin
+      if(synchronized) begin
+            // Dlugosc pulsu synchronizacji wierszy
+            // +1: wymaga symulacja
+            monitor_vga_hsync.ensure_low_during( H_PW +1 );
+            // Czas do nastepnej synchronizacji wierszy
+            // -1: kompensacja +1 z poprzedniego; nastepne -1 aby skonczyl chwile przed nastepnym cyklem i zlapal liste wrazliwosci
+            monitor_vga_hsync.ensure_high_during( H_S - H_PW -1 -1 );
+
+      end
+   end
+   always @(negedge vga_hsync) begin
+      if(synchronized) begin
+
             // Dlugosc pulsu synchronizacji wierszy
             monitor_vga_colours.ensure_low_during( H_PW + H_BP );
 
@@ -129,28 +130,39 @@ module Vga_behav
 
             // Czas do nastepnej synchronizacji wierszy
             monitor_vga_colours.ensure_low_during( H_FP );
-         end
-
-
-      // end begin
-
-      //    if(synchronized) begin
-      //       monitor_vga_vsync.wait_for_low();
-      //       i = i + 1;
-      //       if(i > 480)
-      //          if(ERROR)
-      //            display("Za duzo linii");
-      //    end
-
-      // end begin
-
-      //    if(synchronized) begin
-      //       monitor_vga_hsync.wait_for_low();
-      //       i = 0;
-      //    end
-
-      end join;
-
+      end
    end
+
+   // Zlicza ilosc odebranych wierszy w ramce i sprawdza czy jest wlasciwa
+
+   integer i=0;
+   always @(negedge vga_vsync, posedge synchronized)
+      if(synchronized) begin
+         i = 0;
+
+         // Przeczekaj okres ramki
+
+         monitor_vga_vsync.wait_for_high();
+         monitor_vga_vsync.wait_for_low();
+
+         // Sprawdz ilosc odebranych linii, zakomunikuj warunkowo
+
+         if(i != LINES) begin
+            if(ERROR)
+               $display("%t\t BLAD\t [ %s ] \t Pomiedzy synchronizacjami kolumn wyslano %d linii. W cyklu powinno ich nastapic %d.", $time, MODULE_LABEL, i, LINES);
+         end else
+           if(INFO2)
+              $display("%t\t INFO2\t [ %s ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, MODULE_LABEL, i);
+
+      end
+   always @(negedge vga_hsync, posedge synchronized)
+      if(synchronized) begin
+         i = i + 1;
+
+         // Przeczekaj okres linii
+
+         monitor_vga_hsync.wait_for_low();
+         monitor_vga_hsync.wait_for_high();
+      end
 
 endmodule
