@@ -85,16 +85,16 @@ module Vga_behav
 
    always @(negedge vga_vsync) begin
       if(synchronized) begin
+         fork begin
             // Dlugosc pulsu synchronizacji kolumn
             // +1: wymaga symulacja
             monitor_vga_vsync.ensure_low_during( V_PW +1 );
             // Czas do nastepnej synchronizacji kolumn
             // -1: kompensacja +1 z poprzedniego; nastepne -1 aby skonczyl chwile przed nastepnym cyklem i zlapal liste wrazliwosci
             monitor_vga_vsync.ensure_high_during( V_S - V_PW -1 -1 );
-      end;
-   end
-   always @(negedge vga_vsync) begin
-      if(synchronized) begin
+
+         end begin
+
             // Dlugosc pulsu synchronizacji wierszy
             monitor_vga_colours.ensure_low_during( V_PW + V_BP );
 
@@ -103,13 +103,17 @@ module Vga_behav
 
             // Czas do nastepnej synchronizacji wierszy
             monitor_vga_colours.ensure_low_during( V_FP );
+         end join;
+
+         $display();
       end;
    end
 
-   // Sprawdzanie synchronizacji wierszy
+   // Sprawdzanie synchronizacji wiersze
 
    always @(negedge vga_hsync) begin
       if(synchronized) begin
+         fork begin
             // Dlugosc pulsu synchronizacji wierszy
             // +1: wymaga symulacja
             monitor_vga_hsync.ensure_low_during( H_PW +1 );
@@ -117,10 +121,7 @@ module Vga_behav
             // -1: kompensacja +1 z poprzedniego; nastepne -1 aby skonczyl chwile przed nastepnym cyklem i zlapal liste wrazliwosci
             monitor_vga_hsync.ensure_high_during( H_S - H_PW -1 -1 );
 
-      end
-   end
-   always @(negedge vga_hsync) begin
-      if(synchronized) begin
+         end begin
 
             // Dlugosc pulsu synchronizacji wierszy
             monitor_vga_colours.ensure_low_during( H_PW + H_BP );
@@ -130,7 +131,12 @@ module Vga_behav
 
             // Czas do nastepnej synchronizacji wierszy
             monitor_vga_colours.ensure_low_during( H_FP );
+
+         end join;
+
+         $display();
       end
+
    end
 
    // Zlicza ilosc odebranych wierszy w ramce i sprawdza czy jest wlasciwa
