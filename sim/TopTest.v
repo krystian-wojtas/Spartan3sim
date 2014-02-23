@@ -37,10 +37,7 @@ module TopTest ();
        .INFO1(1),
        .INFO2(1),
        .INFO3(1),
-       .INFO4(1),
-       .V_PW( 64_070 ),
-       .H_PW(  3_860 ),
-       .H_S(  32_020 )
+       .INFO4(1)
     ) Vga_behav_ (
         .vga_r(VGA_R),
         .vga_g(VGA_G),
