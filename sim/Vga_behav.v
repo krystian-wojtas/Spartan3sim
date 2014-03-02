@@ -34,7 +34,7 @@ module Vga_behav
 
    Monitor #(
       .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga kolory v"),
+      .LABEL(" monitor vga kolory vertical"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(12)
@@ -44,7 +44,7 @@ module Vga_behav
 
    Monitor #(
       .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga kolory h"),
+      .LABEL(" monitor vga kolory horizontal"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(12)
@@ -54,7 +54,7 @@ module Vga_behav
 
    Monitor #(
       .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga vsync"),
+      .LABEL(" monitor vga sync vertical"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(1)
@@ -64,7 +64,7 @@ module Vga_behav
 
    Monitor #(
       .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga hsync"),
+      .LABEL(" monitor vga sync horizontal"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(1)
@@ -95,6 +95,9 @@ module Vga_behav
 
    always @(negedge vga_vsync) begin
       if(synchronized) begin
+         if( INFO1 )
+            $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru nowej ramki.", $time, MODULE_LABEL);
+
          fork begin
             // Dlugosc pulsu synchronizacji ramki
             // +1: wymaga symulacja
@@ -120,10 +123,13 @@ module Vga_behav
       end;
    end
 
-   // Sprawdzanie synchronizacji wiersze
+   // Sprawdzanie synchronizacji wierszy
 
    always @(negedge vga_hsync) begin
       if(synchronized) begin
+         if( INFO1 )
+            $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru nowego wiersza.", $time, MODULE_LABEL);
+
          fork begin
             // Dlugosc pulsu synchronizacji wierszy
             // +1: wymaga symulacja
@@ -151,34 +157,31 @@ module Vga_behav
 
    // Zlicza ilosc odebranych wierszy w ramce i sprawdza czy jest wlasciwa
 
-   // integer i=0;
-   // always @(negedge vga_vsync, posedge synchronized)
-   //    if(synchronized) begin
-   //       i = 0;
+   integer i=0;
+   always @(negedge vga_vsync, posedge synchronized)
+      if(synchronized) begin
+         i = 0;
 
-   //       // Przeczekaj okres ramki
+         // Przeczekaj okres ramki
+         monitor_vga_vsync.wait_for_high();
+         monitor_vga_vsync.wait_for_low();
 
-   //       monitor_vga_vsync.wait_for_high();
-   //       monitor_vga_vsync.wait_for_low();
+         // Sprawdz ilosc odebranych linii, zakomunikuj warunkowo
+         if(i != LINES) begin
+            if(ERROR)
+               $display("%t\t BLAD\t [ %s ] \t Pomiedzy synchronizacjami kolumn wyslano %d linii. W cyklu powinno ich nastapic %d.", $time, MODULE_LABEL, i, LINES);
+         end else
+           if(INFO2)
+              $display("%t\t INFO2\t [ %s ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, MODULE_LABEL, i);
 
-   //       // Sprawdz ilosc odebranych linii, zakomunikuj warunkowo
+      end
+   always @(negedge vga_hsync, posedge synchronized)
+      if(synchronized) begin
+         i = i + 1;
 
-   //       if(i != LINES) begin
-   //          if(ERROR)
-   //             $display("%t\t BLAD\t [ %s ] \t Pomiedzy synchronizacjami kolumn wyslano %d linii. W cyklu powinno ich nastapic %d.", $time, MODULE_LABEL, i, LINES);
-   //       end else
-   //         if(INFO2)
-   //            $display("%t\t INFO2\t [ %s ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, MODULE_LABEL, i);
-
-   //    end
-   // always @(negedge vga_hsync, posedge synchronized)
-   //    if(synchronized) begin
-   //       i = i + 1;
-
-   //       // Przeczekaj okres linii
-
-   //       monitor_vga_hsync.wait_for_low();
-   //       monitor_vga_hsync.wait_for_high();
-   //    end
+         // Przeczekaj okres linii
+         monitor_vga_hsync.wait_for_low();
+         monitor_vga_hsync.wait_for_high();
+      end
 
 endmodule
