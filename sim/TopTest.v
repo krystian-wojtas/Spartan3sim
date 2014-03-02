@@ -33,18 +33,18 @@ module TopTest ();
     wire [3:0] VGA_B;
     wire       VGA_HSYNC;
     wire       VGA_VSYNC;
-    Vga_behav #(
+    Vga_Behav #(
        .INFO1(1),
        .INFO2(1),
        .INFO3(1),
        .INFO4(1)
-    ) Vga_behav_ (
+    ) vga_behav_ (
         .vga_r(VGA_R),
         .vga_g(VGA_G),
         .vga_b(VGA_B),
         .vga_hsync(VGA_HSYNC),
         .vga_vsync(VGA_VSYNC)
-         );
+    );
 
     // color control
     wire       BTN_NEXT;

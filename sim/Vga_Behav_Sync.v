@@ -1,6 +1,6 @@
-module Vga_behav
+module Vga_Behav_Sync
 #(
-   parameter LABEL = " vga_behav",
+   parameter LABEL = " vga_behav_sync",
    parameter PARENT_LABEL = "",
 
    parameter ERROR = 1,
@@ -18,15 +18,14 @@ module Vga_behav
    parameter H_S   =     32_020,
    parameter H_PW  =      3_860,
    parameter H_FP  =        640,
-   parameter H_BP  =      1_900,
-
-   parameter LINES = 521
+   parameter H_BP  =      1_900
 ) (
    input [3:0] vga_r,
    input [3:0] vga_g,
    input [3:0] vga_b,
    input vga_hsync,
-   input vga_vsync
+   input vga_vsync,
+   input synchronized
 );
    localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
 
@@ -71,25 +70,6 @@ module Vga_behav
    ) monitor_vga_hsync (
       .signals( vga_hsync )
    );
-
-   // Synchronizacja pierwszej ramki
-
-   reg   synchronized=1'b0;
-   initial begin
-      if( INFO1 )
-         $display("%t\t INFO1\t [ %s ] \t Oczekiwanie na poczatek nowej ramki.", $time, MODULE_LABEL);
-
-      // Poczekaj na pierwszy puls synchronizacji ramki
-      // Nie sprawdza jednak dlugosci jego trwania, pomiar pulsu synchronizacji nastapi od drugiej ramki
-      monitor_vga_vsync.wait_for_low();
-      monitor_vga_vsync.wait_for_high();
-
-      // Zsynchronizowano, zacznij odbierac ramki
-      synchronized=1'b1;
-
-      if( INFO1 )
-         $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru ramek.", $time, MODULE_LABEL);
-   end
 
    // Sprawdzanie synchronizacji ramek
 
@@ -154,34 +134,5 @@ module Vga_behav
          $display();
       end
    end
-
-   // Zlicza ilosc odebranych wierszy w ramce i sprawdza czy jest wlasciwa
-
-   integer i=0;
-   always @(negedge vga_vsync, posedge synchronized)
-      if(synchronized) begin
-         i = 0;
-
-         // Przeczekaj okres ramki
-         monitor_vga_vsync.wait_for_high();
-         monitor_vga_vsync.wait_for_low();
-
-         // Sprawdz ilosc odebranych linii, zakomunikuj warunkowo
-         if(i != LINES) begin
-            if(ERROR)
-               $display("%t\t BLAD\t [ %s ] \t Pomiedzy synchronizacjami kolumn wyslano %d linii. W cyklu powinno ich nastapic %d.", $time, MODULE_LABEL, i, LINES);
-         end else
-           if(INFO2)
-              $display("%t\t INFO2\t [ %s ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, MODULE_LABEL, i);
-
-      end
-   always @(negedge vga_hsync, posedge synchronized)
-      if(synchronized) begin
-         i = i + 1;
-
-         // Przeczekaj okres linii
-         monitor_vga_hsync.wait_for_low();
-         monitor_vga_hsync.wait_for_high();
-      end
 
 endmodule
