@@ -30,7 +30,6 @@ module Monitor
 ) (
    input [N-1:0] signals
 );
-   localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
 
    // Zadanie sprawdza, czy sygnaly sa w zadanym stanie
 
@@ -60,8 +59,9 @@ module Monitor
 
          // Zakomunikuj o zastaniu spodziewanych stanow
 
-         if( LOGLEVEL >= 5 )
-            $display("%t\t INFO5\t [ %s ] \t Sygnaly sa zgodne z oczekiwaniami. Stan oczekiwany '%b' (0x %h)", $time, MODULE_LABEL, expected_signals, expected_signals);
+         if( ensurance )
+            if( LOGLEVEL >= 5 )
+               $display("%t\t INFO5\t [ %s ] \t Sygnaly sa zgodne z oczekiwaniami. Stan oczekiwany '%b' (0x %h)", $time, MODULE_LABEL, expected_signals, expected_signals);
 
       end
    endtask
@@ -174,10 +174,10 @@ module Monitor
 
             // Wypisz wszystkie iteracje petli na zyczenie ostatniego poziomu logowania
 
-            if( LOGLEVEL >= 6 )
-               $display("%t\t INFO5\t [ %s ] \t Stan linii '%b' (0x %h) zapisana '%b' (0x %h) czas %d", $time, MODULE_LABEL, signals, signals, saved_signals, saved_signals, i);
+            if( LOGLEVEL >= 9 )
+               $display("%t\t INFO9\t [ %s ] \t Stan linii '%b' (0x %h) zapisana '%b' (0x %h) czas %d", $time, MODULE_LABEL, signals, signals, saved_signals, saved_signals, i);
 
-            // Poczekaj na nastepny krok czasowy
+            // Przejdz do nastepnego kroku czasowego
 
             #1;
 
@@ -204,6 +204,9 @@ module Monitor
     );
       reg    same;
       begin
+
+         if( LOGLEVEL >= 7 )
+               $display("%t\t INFO7\t [ %s ] \t Sprawdzanie czy obecny stan sygnalow '%b' (0x %h) bedzie niezmienny i zgodny z oczekiwanym wzorcem '%b' (0x %h) przez zadany czas '%d'", $time, MODULE_LABEL, signals, signals, expected_signals, expected_signals, period);
 
          // Jesli linie pozostaly w zadanym stanie przez okres proby, potwierdzi jedynka
 
@@ -299,20 +302,57 @@ module Monitor
       end
    endtask
 
+   // // Zadanie oczekuje na jakakolwiek zmiane stanu obserwowanych linii
+
+   // task wait_for_change
+   // ();
+   //    reg     [N-1:0] saved_signals;
+   //    integer         i;
+   //    begin
+
+   //       // Zapisz stan linii z momentu rozpoczecia tego zadania
+
+   //       saved_signals = signals;
+
+   //       // Poinformuj o oczekiwaniu na zmiane stanu
+
+   //       if( LOGLEVEL >= 4 )
+   //          $display("%t\t INFO4 \t [ %s ] \t Oczekiwanie na zmiane stanu sygnalow. Stan obecny '%b' (0x %h)", $time, MODULE_LABEL, signals, signals, i);
+
+   //       // Oczekuj zadanego stanu
+
+   //       while( signals === saved_signals ) begin
+   //          i = i+1;
+   //          #1;
+   //       end
+
+   //       // Poinformuj o nowym stanie
+
+   //       if( LOGLEVEL >= 4 )
+   //          $display("%t\t INFO4\t [ %s ] \t Nastapila zmiana stanu monitorowanych sygnalow. Stan poprzedni '%b' (0x %h). Nowy stan '%b' (0x %h) ustalil sie po czasie %d", $time, MODULE_LABEL, saved_signals, saved_signals, signals, signals, i);
+
+   //    end
+   // endtask
 
 
    // Zadanie czeka na zadany stan
 
+         // reg a [1023:0] = $sformatf("Oczekiwanie na przyjecie stanu %d dd", 10);
    task wait_for_state
    (
       input [N-1:0] expected_signals
    );
       integer       i;
+      reg           a [1023:0];
       begin
          i = 0;
 
          // Poinformuj o oczekiwaniu na zadany stan
 
+         $sformat(a, "Oczekiwanie na przyjecie stanu %d dd", 10);
+         // a = $sformatf("Oczekiwanie na przyjecie stanu %d dd", 10);
+         // logs.info4( a );
+         // logs.info4( $sformat("Oczekiwanie na przyjecie stanu %d dd", 10) );
          if( LOGLEVEL >= 4 )
             $display("%t\t INFO4 \t [ %s ] \t Oczekiwanie na przyjecie stanu '%b' (0x %h). Stan obecny '%b' (0x %h)", $time, MODULE_LABEL, expected_signals, expected_signals, signals, signals, i);
 
