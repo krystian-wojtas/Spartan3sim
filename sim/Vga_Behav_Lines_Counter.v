@@ -35,7 +35,7 @@ module Vga_Behav_Lines_Counter
    // Zlicza ilosc odebranych wierszy w ramce i sprawdza czy jest wlasciwa
 
    integer i=0;
-   always @(negedge vga_vsync, posedge synchronized)
+   always @(negedge vga_vsync)
       if(synchronized) begin
          i = 0;
 
@@ -44,7 +44,7 @@ module Vga_Behav_Lines_Counter
          monitor_vga_vsync.wait_for_low();
 
          // Sprawdz ilosc odebranych linii, zakomunikuj warunkowo o rezultacie
-         if(i != LINES) begin
+         if(i != LINES+1) begin
             if(ERROR)
                $display("%t\t BLAD\t [ %m ] \t Pomiedzy synchronizacjami kolumn wyslano %d linii. W cyklu powinno ich nastapic %d.", $time, i, LINES);
          end else
@@ -52,7 +52,7 @@ module Vga_Behav_Lines_Counter
                $display("%t\t INFO2\t [ %m ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, i);
 
       end
-   always @(negedge vga_hsync, posedge synchronized)
+   always @(negedge vga_hsync)
       if(synchronized) begin
          i = i + 1;
 
