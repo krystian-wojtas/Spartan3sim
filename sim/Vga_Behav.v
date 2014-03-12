@@ -1,8 +1,5 @@
 module Vga_Behav
 #(
-   parameter LABEL = " vga_behav",
-   parameter PARENT_LABEL = "",
-
    parameter ERROR = 1,
    parameter WARN  = 1,
    parameter INFO1 = 0,
@@ -28,13 +25,9 @@ module Vga_Behav
    input vga_hsync,
    input vga_vsync
 );
-   localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
-
    // Instancje monitorow
 
    Monitor #(
-      .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga sync vertical"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(1)
@@ -47,7 +40,7 @@ module Vga_Behav
    reg   synchronized=1'b0;
    initial begin
       if( INFO1 )
-         $display("%t\t INFO1\t [ %s ] \t Oczekiwanie na poczatek nowej ramki.", $time, MODULE_LABEL);
+         $display("%t\t INFO1\t [ %m ] \t Oczekiwanie na poczatek nowej ramki.", $time);
 
       // Poczekaj na pierwszy puls synchronizacji ramki
       // Nie sprawdza jednak dlugosci jego trwania, pomiar pulsu synchronizacji nastapi od drugiej ramki
@@ -58,7 +51,7 @@ module Vga_Behav
       synchronized=1'b1;
 
       if( INFO1 )
-         $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru ramek.", $time, MODULE_LABEL);
+         $display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru ramek.", $time);
    end
 
    Vga_Behav_Sync #(

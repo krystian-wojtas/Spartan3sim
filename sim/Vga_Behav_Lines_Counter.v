@@ -1,8 +1,5 @@
 module Vga_Behav_Lines_Counter
 #(
-   parameter LABEL = " vga_behav_lines_counter",
-   parameter PARENT_LABEL = "",
-
    parameter ERROR = 1,
    parameter WARN  = 1,
    parameter INFO1 = 0,
@@ -16,13 +13,10 @@ module Vga_Behav_Lines_Counter
    input vga_vsync,
    input synchronized
 );
-   localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
 
    // Instancje monitorow
 
    Monitor #(
-      .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga sync vertical"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(1)
@@ -31,8 +25,6 @@ module Vga_Behav_Lines_Counter
    );
 
    Monitor #(
-      .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga sync horizontal"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(1)
@@ -54,10 +46,10 @@ module Vga_Behav_Lines_Counter
          // Sprawdz ilosc odebranych linii, zakomunikuj warunkowo o rezultacie
          if(i != LINES) begin
             if(ERROR)
-               $display("%t\t BLAD\t [ %s ] \t Pomiedzy synchronizacjami kolumn wyslano %d linii. W cyklu powinno ich nastapic %d.", $time, MODULE_LABEL, i, LINES);
+               $display("%t\t BLAD\t [ %m ] \t Pomiedzy synchronizacjami kolumn wyslano %d linii. W cyklu powinno ich nastapic %d.", $time, i, LINES);
          end else
             if(INFO2)
-               $display("%t\t INFO2\t [ %s ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, MODULE_LABEL, i);
+               $display("%t\t INFO2\t [ %m ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, i);
 
       end
    always @(negedge vga_hsync, posedge synchronized)

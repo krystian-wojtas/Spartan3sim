@@ -1,8 +1,5 @@
 module Vga_Behav_Sync
 #(
-   parameter LABEL = " vga_behav_sync",
-   parameter PARENT_LABEL = "",
-
    parameter ERROR = 1,
    parameter WARN  = 1,
    parameter INFO1 = 0,
@@ -27,13 +24,9 @@ module Vga_Behav_Sync
    input vga_vsync,
    input synchronized
 );
-   localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
-
    // Instancje monitorow
 
    Monitor #(
-      .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga kolory vertical"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(12)
@@ -42,8 +35,6 @@ module Vga_Behav_Sync
    );
 
    Monitor #(
-      .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga kolory horizontal"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(12)
@@ -52,8 +43,6 @@ module Vga_Behav_Sync
    );
 
    Monitor #(
-      .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga sync vertical"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(1)
@@ -62,8 +51,6 @@ module Vga_Behav_Sync
    );
 
    Monitor #(
-      .PARENT_LABEL(MODULE_LABEL),
-      .LABEL(" monitor vga sync horizontal"),
       .LOGLEVEL(7),
       // .LOGLEVEL(9),
       .N(1)
@@ -76,7 +63,7 @@ module Vga_Behav_Sync
    always @(negedge vga_vsync) begin
       if(synchronized) begin
          if( INFO1 )
-            $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru nowej ramki.", $time, MODULE_LABEL);
+            $display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru nowej ramki.", $time);
 
          fork begin
             // Dlugosc pulsu synchronizacji ramki
@@ -93,7 +80,11 @@ module Vga_Behav_Sync
             monitor_vga_colours_v.ensure_low_during( V_PW + V_BP );
 
             // Czas wyswietlania wszystkich kolejnych wierszy w ramce
+            if( INFO3 )
+               $display("%t\t INFO3\t [ %m ] \t Nadawanie wierszy", $time);
             #(V_S - V_FP - V_PW - V_BP);
+            if( INFO3 )
+               $display("%t\t INFO3\t [ %m ] \t Nadano wiersze", $time);
 
             // Czas do nastepnej synchronizacji ramki
             monitor_vga_colours_v.ensure_low_during( V_FP -1 );
@@ -107,8 +98,9 @@ module Vga_Behav_Sync
 
    always @(negedge vga_hsync) begin
       if(synchronized) begin
+         // logs.info1("Rozpoczecie odbioru nowego wiersza");
          if( INFO1 )
-            $display("%t\t INFO1\t [ %s ] \t Rozpoczecie odbioru nowego wiersza.", $time, MODULE_LABEL);
+            $display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru nowego wiersza.", $time);
 
          fork begin
             // Dlugosc pulsu synchronizacji wierszy
@@ -124,7 +116,11 @@ module Vga_Behav_Sync
             monitor_vga_colours_h.ensure_low_during( H_PW + H_BP );
 
             // Czas wyswietlania wszystkich kolejnych pikseli w wierszu
+            if( INFO3 )
+               $display("%t\t INFO3\t [ %m ] \t Nadawanie kolorow w wierszu", $time);
             #(H_S - H_FP - H_PW - H_BP);
+            if( INFO3 )
+               $display("%t\t INFO3\t [ %m ] \t Nadano kolory w wierszu", $time);
 
             // Czas do nastepnej synchronizacji wierszy
             monitor_vga_colours_h.ensure_low_during( H_FP -1 );
