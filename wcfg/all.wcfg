@@ -9,7 +9,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="71" />
+   <WVObjectSize size="82" />
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
@@ -171,6 +171,7 @@
    <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/counter_reg" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">counter_reg[11:0]</obj_property>
       <obj_property name="ObjectShortName">counter_reg[11:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Sync_/Counter_h/MAX" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">MAX[31:0]</obj_property>
@@ -261,6 +262,20 @@
       <obj_property name="ElementShortName">VGA_B[3:0]</obj_property>
       <obj_property name="ObjectShortName">VGA_B[3:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x[10:0]</obj_property>
+      <obj_property name="ObjectShortName">x[10:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y[10:0]</obj_property>
+      <obj_property name="ObjectShortName">y[10:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Controller_/displaying" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">displaying</obj_property>
+      <obj_property name="ObjectShortName">displaying</obj_property>
+   </wvobject>
    <wvobject fp_name="/TopTest/Top_/Controller_/next" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">next</obj_property>
       <obj_property name="ObjectShortName">next</obj_property>
@@ -275,48 +290,76 @@
       <obj_property name="BkColor">128 128 255</obj_property>
       <obj_property name="TextColor">230 230 230</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/vga_r" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vga_r[3:0]</obj_property>
-      <obj_property name="ObjectShortName">vga_r[3:0]</obj_property>
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/vga_g" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vga_g[3:0]</obj_property>
-      <obj_property name="ObjectShortName">vga_g[3:0]</obj_property>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/vga_b" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vga_b[3:0]</obj_property>
-      <obj_property name="ObjectShortName">vga_b[3:0]</obj_property>
+   <wvobject fp_name="/TopTest/VGA_R" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_R[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_R[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/vga_hsync" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">vga_hsync</obj_property>
-      <obj_property name="ObjectShortName">vga_hsync</obj_property>
+   <wvobject fp_name="/TopTest/VGA_G" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_G[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_G[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/vga_vsync" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">vga_vsync</obj_property>
-      <obj_property name="ObjectShortName">vga_vsync</obj_property>
+   <wvobject fp_name="/TopTest/VGA_B" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_B[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_B[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/inited" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">inited</obj_property>
-      <obj_property name="ObjectShortName">inited</obj_property>
+   <wvobject fp_name="/TopTest/VGA_HSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_HSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_HSYNC</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/i" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <wvobject fp_name="/TopTest/VGA_VSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_VSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_VSYNC</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/LABEL" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">LABEL[79:0]</obj_property>
-      <obj_property name="ObjectShortName">LABEL[79:0]</obj_property>
-      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   <wvobject fp_name="/TopTest/BTN_NEXT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_NEXT</obj_property>
+      <obj_property name="ObjectShortName">BTN_NEXT</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/PARENT_LABEL" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">PARENT_LABEL[7:0]</obj_property>
-      <obj_property name="ObjectShortName">PARENT_LABEL[7:0]</obj_property>
-      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   <wvobject fp_name="/TopTest/BTN_PREV" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_PREV</obj_property>
+      <obj_property name="ObjectShortName">BTN_PREV</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Vga_behav_/MODULE_LABEL" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">MODULE_LABEL[87:0]</obj_property>
-      <obj_property name="ObjectShortName">MODULE_LABEL[87:0]</obj_property>
-      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_R" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_R[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_R[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_G" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_G[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_G[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_B" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_B[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_B[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_HSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_HSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_HSYNC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_VSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_VSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_VSYNC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_NEXT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_NEXT</obj_property>
+      <obj_property name="ObjectShortName">BTN_NEXT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_PREV" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_PREV</obj_property>
+      <obj_property name="ObjectShortName">BTN_PREV</obj_property>
    </wvobject>
 </wave_config>
