@@ -82,12 +82,12 @@ module Vga_Behav_Sync
             // Czas wyswietlania wszystkich kolejnych wierszy w ramce
             if( INFO3 )
                $display("%t\t INFO3\t [ %m ] \t Nadawanie wierszy", $time);
-            #(V_S - V_FP - V_PW - V_BP);
+            #(V_S - V_FP - V_PW - V_BP + 13581);
             if( INFO3 )
                $display("%t\t INFO3\t [ %m ] \t Nadano wiersze", $time);
 
             // Czas do nastepnej synchronizacji ramki
-            monitor_vga_colours_v.ensure_low_during( V_FP -1 );
+            monitor_vga_colours_v.ensure_low_during( V_FP -13581 -1 );
          end join;
 
          $display();
@@ -102,7 +102,7 @@ module Vga_Behav_Sync
          if( INFO1 )
             $display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru nowego wiersza.", $time);
 
-         fork begin
+         Fork begin
             // Dlugosc pulsu synchronizacji wierszy
             // +1: wymaga symulacja
             monitor_vga_hsync.ensure_low_during( H_PW +1 );
