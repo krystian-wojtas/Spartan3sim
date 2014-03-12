@@ -70,11 +70,11 @@ module Sync
         assign displaying = (
             i >= H_PW + H_BP &&
             i <  H_S  - H_FP &&
-            j >= V_BP + V_FP &&
-            j <  V_S  - V_PW
+            j >= V_PW + V_BP &&
+            j <= V_S  - V_FP
         );
 
-        assign VGA_HSYNC = (i > H_PW);
+        assign VGA_HSYNC = (i >  H_PW);
         assign VGA_VSYNC = (j >= V_PW);
 
         assign x = i - H_PW - H_BP;
