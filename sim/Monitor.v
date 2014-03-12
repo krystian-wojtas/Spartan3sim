@@ -19,11 +19,6 @@ module Monitor
    //      zrzuca stan monitorowanej linii z kazdej chwili czasu
    parameter LOGLEVEL = 1,
 
-   // dopisuje przekazana nazwe w komunikatach
-   //
-   parameter LABEL = " monitor",
-   parameter PARENT_LABEL = "",
-
    // Szerokosc badanej szyny sygnalowej
    //
    parameter N = 1
@@ -53,7 +48,7 @@ module Monitor
             // Zglos blad
 
             if( LOGLEVEL >= 1 )
-               $display("%t\t BLAD\t [ %s ] \t Sygnaly nie sa zgodne z oczekiwaniami. Stan obecny '%b' (0x %h), spodziewany '%b' (0x %h)", $time, MODULE_LABEL, signals, signals, expected_signals, expected_signals);
+               $display("%t\t ERROR\t [ %m ] \t Sygnaly nie sa zgodne z oczekiwaniami. Stan obecny '%b' (0x %h), spodziewany '%b' (0x %h)", $time, signals, signals, expected_signals, expected_signals);
 
          end
 
@@ -61,7 +56,7 @@ module Monitor
 
          if( ensurance )
             if( LOGLEVEL >= 5 )
-               $display("%t\t INFO5\t [ %s ] \t Sygnaly sa zgodne z oczekiwaniami. Stan oczekiwany '%b' (0x %h)", $time, MODULE_LABEL, expected_signals, expected_signals);
+               $display("%t\t INFO5\t [ %m ] \t Sygnaly sa zgodne z oczekiwaniami. Stan oczekiwany '%b' (0x %h)", $time, expected_signals, expected_signals);
 
       end
    endtask
@@ -102,41 +97,6 @@ module Monitor
       end
    endtask
 
-
-//    // Zadanie sprawdza czy sygnaly NIE sa w stanie wysokiej impedancji
-
-//    task ensure_not_z
-//    (
-//       output ensurance
-//    );
-//       begin
-
-//          // Jesli sygnaly nie sa w wysokiej impedancji, wystawi jedynke
-
-//          ensurance = 1'b1;
-// // TODO sprawdzic dla calego rejestru
-//          if( signals === 1'bz ) begin
-
-//             // Sygnaly zawieraja stany wysokiej impedancji, wystaw zero
-
-//             ensurance = 1'b0;
-
-//             // Zglos blad
-
-//             if( LOGLEVEL >= 1 )
-//                $display("%t\t BLAD\t [ %s ] \t Sygnaly zawieraja niespodziewane stany wysokiej impedancji. Stan obecny '%b' (0x %h)", $time, MODULE_LABEL, signals, signals);
-
-//          end
-
-//          // Zakomunikuj o zastaniu spodziewanych stanow
-
-//          if( LOGLEVEL >= 5 )
-//             $display("%t\t INFO5\t [ %s ] \t Sygnaly spodziewanie nie zawieraja stanow wysokiej impedancji. Stan obecny '%b' (0x %h)", $time, MODULE_LABEL, signals, signals);
-
-//       end
-//    endtask
-
-
    // Zadanie bada stalosc zadanych sygnalow w ustalonym przedziale czasu
 
    task ensure_same_during
@@ -168,14 +128,14 @@ module Monitor
                // Zglos blad
 
                if( LOGLEVEL >= 1 )
-                  $display("%t\t BLAD\t [ %s ] \t Nastapila nieoczekiwana zmiana stanu monitorowanej linii po czasie %d. Stan obecny '%b' (0x %h), spodziewany '%b' (0x %h)", $time, MODULE_LABEL, i, signals, signals, saved_signals, saved_signals);
+                  $display("%t\t ERROR\t [ %m ] \t Nastapila nieoczekiwana zmiana stanu monitorowanej linii po czasie %d. Stan obecny '%b' (0x %h), spodziewany '%b' (0x %h)", $time, i, signals, signals, saved_signals, saved_signals);
 
             end
 
             // Wypisz wszystkie iteracje petli na zyczenie ostatniego poziomu logowania
 
             if( LOGLEVEL >= 9 )
-               $display("%t\t INFO9\t [ %s ] \t Stan linii '%b' (0x %h) zapisana '%b' (0x %h) czas %d", $time, MODULE_LABEL, signals, signals, saved_signals, saved_signals, i);
+               $display("%t\t INFO9\t [ %m ] \t Stan linii '%b' (0x %h) zapisana '%b' (0x %h) czas %d", $time, signals, signals, saved_signals, saved_signals, i);
 
             // Przejdz do nastepnego kroku czasowego
 
@@ -188,7 +148,7 @@ module Monitor
          if( ~ensurance )
 
             if( LOGLEVEL >= 3 )
-               $display("%t\t INFO3\t [ %s ] \t Stan '%b' (0x %h) linii zgodnie z oczekiwaniami nie zmienil sie po czasie %d", $time, MODULE_LABEL, signals, signals, i);
+               $display("%t\t INFO3\t [ %m ] \t Stan '%b' (0x %h) linii zgodnie z oczekiwaniami nie zmienil sie po czasie %d", $time, signals, signals, i);
 
       end
    endtask
@@ -206,7 +166,7 @@ module Monitor
       begin
 
          if( LOGLEVEL >= 7 )
-               $display("%t\t INFO7\t [ %s ] \t Sprawdzanie czy obecny stan sygnalow '%b' (0x %h) bedzie niezmienny i zgodny z oczekiwanym wzorcem '%b' (0x %h) przez zadany czas '%d'", $time, MODULE_LABEL, signals, signals, expected_signals, expected_signals, period);
+            $display("%t\t INFO7\t [ %m ] \t Sprawdzanie czy obecny stan sygnalow '%b' (0x %h) bedzie niezmienny i zgodny z oczekiwanym wzorcem '%b' (0x %h) przez zadany czas '%d'", $time, signals, signals, expected_signals, expected_signals, period);
 
          // Jesli linie pozostaly w zadanym stanie przez okres proby, potwierdzi jedynka
 
@@ -223,7 +183,7 @@ module Monitor
             // Zlos blad
 
             if( LOGLEVEL >= 1 )
-               $display("%t\t BLAD\t [ %s ] \t Wszystkie sygnaly juz od poczatku roznia sie od wzorca '%b' (0x %h), natomiast wystapily '%b' (0x %h)", $time, MODULE_LABEL, expected_signals, expected_signals, signals, signals);
+               $display("%t\t ERROR\t [ %m ] \t Wszystkie sygnaly juz od poczatku roznia sie od wzorca '%b' (0x %h), natomiast wystapily '%b' (0x %h)", $time, expected_signals, expected_signals, signals, signals);
 
          end
 
@@ -239,7 +199,7 @@ module Monitor
             // Zglos blad
 
             if( LOGLEVEL >= 1 )
-               $display("%t\t BLAD\t [ %s ] \t Sygnaly '%b' (0x %h) nieoczekiwanie rozminely sie ze wzorcem '%b' (0x %h)", $time, MODULE_LABEL, signals, signals, expected_signals, expected_signals);
+               $display("%t\t ERROR\t [ %m ] \t Sygnaly '%b' (0x %h) nieoczekiwanie rozminely sie ze wzorcem '%b' (0x %h)", $time, signals, signals, expected_signals, expected_signals);
          end
 
       end
@@ -316,8 +276,8 @@ module Monitor
 
    //       // Poinformuj o oczekiwaniu na zmiane stanu
 
-   //       if( LOGLEVEL >= 4 )
-   //          $display("%t\t INFO4 \t [ %s ] \t Oczekiwanie na zmiane stanu sygnalow. Stan obecny '%b' (0x %h)", $time, MODULE_LABEL, signals, signals, i);
+   //       if( INFO4 )
+   //          $display("%t\t INFO4 \t [ %m ] \t Oczekiwanie na zmiane stanu sygnalow. Stan obecny '%b' (0x %h)", $time, signals, signals, i);
 
    //       // Oczekuj zadanego stanu
 
@@ -328,8 +288,8 @@ module Monitor
 
    //       // Poinformuj o nowym stanie
 
-   //       if( LOGLEVEL >= 4 )
-   //          $display("%t\t INFO4\t [ %s ] \t Nastapila zmiana stanu monitorowanych sygnalow. Stan poprzedni '%b' (0x %h). Nowy stan '%b' (0x %h) ustalil sie po czasie %d", $time, MODULE_LABEL, saved_signals, saved_signals, signals, signals, i);
+   //       if( INFO4 )
+   //          $display("%t\t INFO4\t [ %m ] \t Nastapila zmiana stanu monitorowanych sygnalow. Stan poprzedni '%b' (0x %h). Nowy stan '%b' (0x %h) ustalil sie po czasie %d", $time, saved_signals, saved_signals, signals, signals, i);
 
    //    end
    // endtask
@@ -343,18 +303,20 @@ module Monitor
       input [N-1:0] expected_signals
    );
       integer       i;
-      reg           a [1023:0];
+      // reg     [1023:0]      a;
       begin
          i = 0;
 
          // Poinformuj o oczekiwaniu na zadany stan
 
-         $sformat(a, "Oczekiwanie na przyjecie stanu %d dd", 10);
+         // $sformat(a, "Oczekiwanie na przyjecie stanu %d dd", 10);
+         // $display("aa %s", a);
          // a = $sformatf("Oczekiwanie na przyjecie stanu %d dd", 10);
+         // a = $psprintf("Oczekiwanie na przyjecie stanu %d dd", 10);
          // logs.info4( a );
-         // logs.info4( $sformat("Oczekiwanie na przyjecie stanu %d dd", 10) );
+         // logs.info4( sprintf("Oczekiwanie na przyjecie stanu %d dd", 10) );
          if( LOGLEVEL >= 4 )
-            $display("%t\t INFO4 \t [ %s ] \t Oczekiwanie na przyjecie stanu '%b' (0x %h). Stan obecny '%b' (0x %h)", $time, MODULE_LABEL, expected_signals, expected_signals, signals, signals, i);
+            $display("%t\t INFO4 \t [ %m ] \t Oczekiwanie na przyjecie stanu '%b' (0x %h). Stan obecny '%b' (0x %h)", $time, expected_signals, expected_signals, signals, signals, i);
 
          // Oczekuj zadanego stanu
 
@@ -366,7 +328,7 @@ module Monitor
          // Poinformuj o ustaleniu sie zadanego stanu
 
          if( LOGLEVEL >= 4 )
-            $display("%t\t INFO4\t [ %s ] \t Oczekiwany stan  '%b' (0x %h) ustalil sie po czasie %d", $time, MODULE_LABEL, expected_signals, expected_signals, i);
+            $display("%t\t INFO4\t [ %m ] \t Oczekiwany stan  '%b' (0x %h) ustalil sie po czasie %d", $time, expected_signals, expected_signals, i);
 
       end
    endtask
