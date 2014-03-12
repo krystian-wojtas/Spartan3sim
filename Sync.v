@@ -19,26 +19,27 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-module Sync (
-        input  CLK50MHZ,
-        input  RST,
-        // vga interface
-        output VGA_HSYNC,
-        output VGA_VSYNC,
-        // tick for next pixel
-        output [10:0] x,
-        output [10:0] y,
-        output displaying
+module Sync
+#(
+   parameter H_S  = 2*800,
+   parameter H_FP = 2*16,
+   parameter H_PW = 2*96,
+   parameter H_BP = 2*48,
+   parameter V_S  = 521,
+   parameter V_PW = 2,
+   parameter V_FP = 10,
+   parameter V_BP = 29
+) (
+   input         CLK50MHZ,
+   input         RST,
+   // vga interface
+   output        VGA_HSYNC,
+   output        VGA_VSYNC,
+   // tick for next pixel
+   output [10:0] x,
+   output [10:0] y,
+   output        displaying
 );
-
-        localparam H_S  = 2*800;
-        localparam H_FP = 2*16;
-        localparam H_PW = 2*96;
-        localparam H_BP = 2*48;
-        localparam V_S  = 521;
-        localparam V_PW = 2;
-        localparam V_FP = 10;
-        localparam V_BP = 29;
 
         wire [10:0] i;
         wire        h;
