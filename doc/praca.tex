@@ -21,7 +21,7 @@
 \DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
 \lstset{ %
-language=Octave,                % choose the language of the code
+language=Verilog,               % choose the language of the code
 basicstyle=\footnotesize,       % the size of the fonts that are used for the code
 numbers=left,                   % where to put the line-numbers
 numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
@@ -324,17 +324,200 @@ Moduł symulacyjny wysyła bajt wzorcowy, po czym oczekuje odesłania go z powro
 \section{VGA}
 Standard VGA odpowiada za przesłanie obrazu do wyświetlacza przy ustalonych rozmiarach oraz częstotliwości odświeżania. Obraz przesyłany jest punkt po punkcie zwanych pikselami w porządku od lewej do prawej krawędzi kolumny, zaczynając od górnego do dolnego wiersza.
 
-Po przesłaniu każdego wiersza, następuje chwilowo podniesienie linii synchronizacyjnej HSYNC. Natomiast po przesłaniu całej ramki, chwilowo podnoszona jest linia VSYNC.
+Po przesłaniu każdego wiersza, następuje chwilowe obniżenie linii synchronizacyjnej HSYNC. Natomiast po przesłaniu całej ramki, chwilowo opuszczana jest linia VSYNC. W punktach tych i ich pewnym otoczeniu należy uzniemić linie kolorów.
 
 Kolor pikseli określa złożenie nasycenia trzech podstawowych barw: czerwonej, zielonej i niebieskiej. Ich stan podawany jest osobnymi liniami analogowo wartościami napięcia z zakresu 0.0V - 0.7V.
 
 Płytka Spartan wykorzystuje po 4 cyfrowe wyjścia FPGA dla każdej barwy łączone w drabinki rezystorowe tworząc proste ADC.
 
-\subsection{HDL}
-\lstinputlisting[label=Topvga,caption=Top.v]{../projects/vga/Top.v}
-\lstinputlisting[label=Controller_vga,caption=Controller.v]{../projects/vga/Controller.v}
-\lstinputlisting[label=Sync,caption=Sync.v]{../projects/vga/Sync.v}
+\subsection{Synteza}
 
+\subsubsection{Top}
+Moduł najwyższy przyjmuje sygnały zegarowy, resetu oraz dwóch przycisków służacych zmianie koloru wyświetlanego tła. Moduł wyprowadza sygnały synchronizacji ramek i kolumn oraz pożądany kolor podany poprzez trzy czterobitowe rejestry nasycenia czerwieni, błękitu i zieleni.
+\begin{lstlisting}[label=Topvga,caption=Top.v]
+module Top (
+    input        CLK50MHZ,
+    input        RST,
+    // vga interface
+    output [3:0] VGA_R,
+    output [3:0] VGA_G,
+    output [3:0] VGA_B,
+    output       VGA_HSYNC,
+    output       VGA_VSYNC,
+    // color control
+    input        BTN_NEXT,
+    input        BTN_PREV,
+);
+\end{lstlisting}
+
+Sygnały przycisków przewijania należy pozbawić drgań styków.
+\begin{lstlisting}[label=Topvga,caption=Top.v,firstnumber=15]
+    wire next;
+    Debouncer debouncer_next (
+        .clk(CLK50MHZ),
+        .rst(RST),
+        .sig(BTN_NEXT),
+        .full(next)
+    );
+
+    wire prev;
+    Debouncer debouncer_prev (
+        .clk(CLK50MHZ),
+        .rst(RST),
+        .sig(BTN_PREV),
+        .full(prev)
+    );
+\end{lstlisting}
+
+Instancje modułów służących sychronizacji oraz podawaniu kolorów.
+\begin{lstlisting}[label=Topvga,caption=Top.v,firstnumber=31]
+    wire [10:0] x;
+    wire [10:0] y;
+    wire displaying;
+    Sync Sync_(
+        .CLK50MHZ(CLK50MHZ),
+        .RST(RST),
+        // vga interface
+        .VGA_HSYNC(VGA_HSYNC),
+        .VGA_VSYNC(VGA_VSYNC),
+        .x(x),
+        .y(y),
+        .displaying(displaying)
+    );
+
+    Controller Controller_(
+        .CLK50MHZ(CLK50MHZ),
+        .RST(RST),
+        // vga interface
+        .VGA_R(VGA_R),
+        .VGA_G(VGA_G),
+        .VGA_B(VGA_B),
+        // color control
+        .next(next),
+        .prev(prev),
+        .x(x),
+        .y(y),
+        .displaying(displaying)
+    );
+
+endmodule
+\end{lstlisting}
+
+\subsubsection{Sync}
+Zadaniem modułu synchronizacyjnego jest właściwe wytaktowanie linii zawiadamiających o początku nowej ramki lub nowej kolumny. Są to sygnały cyfrowe utrzymywane w stanie wysokim, w chwilach synchronizacji zostają obniżane. Domyślne parametry dostosowane są do przesyłania obrazu rozmiaru 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Odmierzanie czasu przesyłu kolum  bazuje na podstawowym zegarze występującym na płytce o częstotliwości 50 mHz. Natomiast przesłanie ramki sygnalizowane jest po zliczeniu wysłania odpowiedniej liczby kolumn.
+
+Standard VGA powstał w czasach monitorów kineskopowych. Technologia ta ukierunkowywuje elektromagnesami naładowaną wiązkę o wybranej energii w punkt na ekranie, czym wyzwala fotony światła. Momenty gdy wiązka powraca na początek kolejnej linii lub całej ramki są punktami synchronizacji. Wtedy musi być ona wygaszona obniżając wartość składowych kolorów, a także chwilę przed i po synchronizacjach. Sygnał dispalying określa czy kolory mogą być podawane, sygnały współrzędnych x i y podają bieżącą lokalizuję wiązki.
+
+TODO sprawdzic jak to dziala
+\begin{lstlisting}[label=Syncvga,caption=Sync.v]
+module Sync
+#(
+   parameter H_S  = 2*800,
+   parameter H_FP = 2*16,
+   parameter H_PW = 2*96,
+   parameter H_BP = 2*48,
+   parameter V_S  = 521,
+   parameter V_PW = 2,
+   parameter V_FP = 10,
+   parameter V_BP = 29
+) (
+   input         CLK50MHZ,
+   input         RST,
+   // vga interface
+   output        VGA_HSYNC,
+   output        VGA_VSYNC,
+   // tick for next pixel
+   output [10:0] x,
+   output [10:0] y,
+   output        displaying
+);
+\end{lstlisting}
+
+Synchronizacja opiera się na dwóch licznikach. Pierwszy zlicza zegar podstawowy 50 mHz, drugi zlicza przepełnienia pierwszego śledząc bieżącą linie w ramce. Połączenia i oraz j są aktualnymi stanami liczników.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=23]
+        wire [10:0] i;
+        wire        h;
+        Counter #(
+                .MAX(H_S)
+        ) Counter_h (
+                .CLKB(CLK50MHZ),
+                // counter
+                .en(1'b1),
+                .rst(RST),
+                .sig(1'b1), // count all CLK50MHZ ticks
+                .cnt(i),
+                .full(h)
+        );
+
+        wire [9:0] j;
+        Counter #(
+                .MAX(V_S)
+        ) Counter_v (
+                .CLKB(CLK50MHZ),
+                // counter
+                .en(1'b1),
+                .rst(RST),
+                .sig(h), // count h sync
+                .cnt(j)
+        );
+\end{lstlisting}
+
+Liczniki w stanach od 0 do długosći trwania pulsu wywołują efekt synchronizacji. Natomiast połączenie dispalying obejmuje również chwile zakazu wyświetlania wokół tych punktów.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=49]
+        assign displaying = (
+            i >= H_PW + H_BP &&
+            i <  H_S  - H_FP &&
+            j >= V_PW + V_BP &&
+            j <= V_S  - V_FP
+        );
+
+        assign VGA_HSYNC = (i >  H_PW);
+        assign VGA_VSYNC = (j >= V_PW);
+
+        assign x = i - H_PW - H_BP;
+        assign y = j - V_PW - V_BP;
+
+endmodule
+\end{lstlisting}
+
+\subsubsection{Controller}
+
+Moduł kontrolera odpowiada za kolory poszczególnych pikseli. Dostaje on informacje czy może podawać kolor oraz obecne położenie wiązki. Jednakże jest on uproszczony i wypełnia cały obszar jednym jedynie kolorem, a więc  położenie wiązki jest mu zupełnie zbędne. Dostępnych jest jedynie 8 kolorów. Kolory przełączane są dwoma przyciskami na następny lub poprzedni.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=49]
+module Controller (
+    input      CLK50MHZ,
+    input      RST,
+    // vga interface
+    output [3:0] VGA_R,
+    output [3:0] VGA_G,
+    output [3:0] VGA_B,
+    // color control
+    input        next,
+    input        prev,
+    input [10:0] x,
+    input [10:0] y,
+    input displaying
+);
+\end{lstlisting}
+
+Kolor bieżący zapisany jest w trzybitowym rejestrze. Zmieniany jest poprzez zewnętrzne przyciski. Przepełnianie licznika zachowuje się jak wybieranie od początku.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=16]
+   reg [2:0]      i = 1;
+   always @(posedge CLK50MHZ)
+      if(RST)
+        i <= 1;
+      else if(next)
+        i <= i + 1;
+      else if(prev)
+        i <= i - 1;
+\end{lstlisting}
+
+Każdy z bitów bieżącego koloru odpowiada jednej ze składowych podstawowych. Wartości pośrednie nie są wykorzystywane.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=25]
+    assign VGA_R = (displaying && i[0]) ? 4'hf : 4'h0;
+    assign VGA_G = (displaying && i[1]) ? 4'hf : 4'h0;
+    assign VGA_B = (displaying && i[2]) ? 4'hf : 4'h0;
+\end{lstlisting}
 
 \section{Dodatki}
 
