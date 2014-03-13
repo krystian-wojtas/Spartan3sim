@@ -20,20 +20,17 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module Top (
-    input 	 CLK50MHZ,
-    input 	 RST,
+    input        CLK50MHZ,
+    input        RST,
     // vga interface
     output [3:0] VGA_R,
     output [3:0] VGA_G,
     output [3:0] VGA_B,
-    output 	 VGA_HSYNC,
-    output 	 VGA_VSYNC,
+    output       VGA_HSYNC,
+    output       VGA_VSYNC,
     // color control
-    input 	 BTN_NEXT,
-    input 	 BTN_PREV,
-    // debug
-    output 	 DEBUG_A,
-    output 	 DEBUG_B
+    input        BTN_NEXT,
+    input        BTN_PREV,
 );
 
     wire next;
@@ -52,8 +49,6 @@ module Top (
         .full(prev)
     );
 
-    wire hsync;
-    wire vsync;
     wire [10:0] x;
     wire [10:0] y;
     wire displaying;
@@ -61,12 +56,10 @@ module Top (
         .CLK50MHZ(CLK50MHZ),
         .RST(RST),
         // vga interface
-//        .VGA_HSYNC(VGA_HSYNC),
-//        .VGA_VSYNC(VGA_VSYNC)
-        .VGA_HSYNC(hsync),
-        .VGA_VSYNC(vsync),
+        .VGA_HSYNC(VGA_HSYNC),
+        .VGA_VSYNC(VGA_VSYNC),
         .x(x),
-	.y(y),
+        .y(y),
         .displaying(displaying)
     );
 
@@ -84,12 +77,5 @@ module Top (
         .y(y),
         .displaying(displaying)
     );
-
-    assign DEBUG_A = vsync;
-    assign DEBUG_B = hsync;
-
-    assign VGA_VSYNC = vsync;
-    assign VGA_HSYNC = hsync;
-
 
 endmodule
