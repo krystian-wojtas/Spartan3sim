@@ -37,30 +37,16 @@ module Top (
 );
 
     wire next;
-    Counter #(
-`ifdef SIM
-        .MAX(10)
-`else
-        .MAX(10_000_000)
-`endif
-        ) Debouncer_next (
-        .CLKB(CLK50MHZ),
-        .en(1'b1),
+    Debouncer debouncer_next (
+        .clk(CLK50MHZ),
         .rst(RST),
         .sig(BTN_NEXT),
         .full(next)
     );
 
     wire prev;
-    Counter #(
-`ifdef SIM
-        .MAX(10)
-`else
-        .MAX(10_000_000)
-`endif
-        ) Debouncer_prev (
-        .CLKB(CLK50MHZ),
-        .en(1'b1),
+    Debouncer debouncer_prev (
+        .clk(CLK50MHZ),
         .rst(RST),
         .sig(BTN_PREV),
         .full(prev)
