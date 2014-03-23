@@ -13,32 +13,28 @@ module Rs232
       .tx(tx)
    );
 
-    localparam CHARS = 1;
-        reg [7:0] mem [CHARS:0];
-        initial begin
-                 mem[0] = 8'b1000_0000;
-//                 mem[0] = 8'hff;
-                 mem[0] = 8'h0a;
-                 mem[1] = 8'hc2; //"e";
-                 mem[2] = "l";
-                 mem[3] = "l";
-                 mem[4] = "o";
-                 mem[5] = " ";
-                 mem[6] = "R";
-                 mem[7] = "S";
-                 mem[8] = "2";
-                 mem[9] = "3";
-                 mem[10]="2";
-        end
+   localparam CHARS = 10;
+   reg [7:0] mem [CHARS:0];
+   initial begin
+      mem[0] = "H";
+      mem[1] = "E";
+      mem[2] = "L";
+      mem[3] = "L";
+      mem[4] = "O";
+      mem[5] = " ";
+      mem[6] = "R";
+      mem[7] = "S";
+      mem[8] = "2";
+      mem[9] = "3";
+      mem[10]= "2";
+   end
 
-        integer j = 0;
-        initial begin
-            #10_000; // opoznienie
-//              for(j=0; j<CHARS; j=j+1)
-//                      rs232.transmit( mem[j] );
-           rs232.transmit( "?" );
-           // rs232.transmit( "\n" );
-        end
+   integer j = 0;
+   initial begin
+      #10_000; // opoznienie
+      for(j=0; j<CHARS; j=j+1)
+         rs232.transmit( mem[j] );
+      end
 
    // W chwili przed symulacja stany linii sa nieustalone a wszelkie zbocza na nich zostaja wykryte
    // Rejestr init zapobiega probie odbioru pakietu w chwili zero czasu symulacji
