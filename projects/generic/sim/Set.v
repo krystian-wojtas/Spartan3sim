@@ -20,18 +20,18 @@ module Set
 
    task state
    (
-      input [N-1:0] signals_to_set
+      input [N-1:0] new_signals
    );
       begin
 
          // Poinformuj o stanie poprzednim
 
          if( INFO2 )
-            $display("%t\t INFO2 %s Stan sygnalow zostanie zmieniony. Obecny stan '%b' (0x %h), spodziewany stan '%b' (0x %h)", $time, MODULE_LABEL, signals, signals, signals_to_set, signals_to_set);
+            $display("%t\t INFO2 %s Stan sygnalow zostanie zmieniony. Obecny stan '%b' (0x %h), spodziewany stan '%b' (0x %h)", $time, MODULE_LABEL, signals, signals, new_signals, new_signals);
 
          // Zmien stan
 
-         signals = signals_to_set;
+         signals = new_signals;
 
          // Poinformuj o zmianie
 
@@ -74,18 +74,18 @@ module Set
    task state_during
    (
       input [31:0] period,
-      input [N-1:0] signals_to_set
+      input [N-1:0] new_signals
    );
       begin
 
          // Ustaw stan sygnalow na zadany
 
-         state( signals_to_set );
+         state( new_signals );
 
          // Opcjonalnie poinformuj o przeczekiwaniu
 
          if( INFO3 )
-            $display("%t\t INFO3 %s sygnal w stanie %b (hex %h) zostaje zamrozony przez zadany okres czasu %d", $time, MODULE_LABEL, signals_to_set, signals_to_set, period);
+            $display("%t\t INFO3 %s sygnal w stanie %b (hex %h) zostaje zamrozony przez zadany okres czasu %d", $time, MODULE_LABEL, new_signals, new_signals, period);
 
          // Przeczekaj zadany czas
 
@@ -94,7 +94,7 @@ module Set
          // Opcjonalnie poinformuj o dalszym biegu
 
          if( INFO4 )
-            $display("%t\t INFO4 %s Przeczekiwanie stanu %b (hex %h) zostalo zakonczone po %d", $time, MODULE_LABEL, signals_to_set, signals_to_set, period);
+            $display("%t\t INFO4 %s Przeczekiwanie stanu %b (hex %h) zostalo zakonczone po %d", $time, MODULE_LABEL, new_signals, new_signals, period);
 
       end
    endtask
@@ -142,12 +142,12 @@ module Set
    task state_during_and_restore
    (
       input [31:0]  period,
-      input [N-1:0] signals_to_set
+      input [N-1:0] new_signals
    );
       reg [N-1:0]   saved_signals;
       begin
          saved_signals = signals;
-         state( signals_to_set );
+         state( new_signals );
          #period;
          state( saved_signals );
       end
