@@ -330,14 +330,17 @@ Kolor pikseli określa złożenie nasycenia trzech podstawowych barw: czerwonej,
 
 Płytka Spartan wykorzystuje po 4 cyfrowe wyjścia FPGA dla każdej z barw łączone w drabinki rezystorowe tworząc proste ADC.
 
+\subsection{Aplikacja}
+Zaprojektowana aplikacja pokazuje na ekranie przyłączonego wyświetlacza jeden z ośmiu kolorów. Użytkownik wybiera ulubiony kolor posługując się dwoma przyciskami. Jeden z nich przełącza kolor tła na następną dostępną barwe, drugi wraca do poprzedeniej. Końce listy dostępnych barw są połączone, próba wykroczenia poza nią powoduje płynne przejście na jej przeciwny koniec.
+
 \subsection{Synteza}
 
-\subsubsection{Top}
+\subsubsection{Połączenia}
 \iffalse
-\subsection{Połączenia}
+\subsubsection{Top}
 \fi
-
 Moduł najwyższy przyjmuje sygnały zegarowy, resetu oraz dwóch przycisków służacych zmianie koloru wyświetlanego tła. Moduł wyprowadza sygnały synchronizacji ramek i kolumn oraz pożądany kolor podany poprzez trzy czterobitowe rejestry nasycenia czerwieni, błękitu i zieleni.
+
 \begin{lstlisting}[label=Topvga,caption=Top.v]
 module Top (
     input        CLK50MHZ,
@@ -354,65 +357,16 @@ module Top (
 );
 \end{lstlisting}
 
-Sygnały przycisków przewijania należy pozbawić drgań styków.
-\begin{lstlisting}[label=Topvga,caption=Top.v,firstnumber=15]
-    wire next;
-    Debouncer debouncer_next (
-        .clk(CLK50MHZ),
-        .rst(RST),
-        .sig(BTN_NEXT),
-        .full(next)
-    );
+Sygnały przycisków przewijania należy pozbawić drgań styków wykorzystując poznany moduł $Debouncer$. Następnie zostają zainstancjonowane moduły $Sync$ służący sychronizacji oraz $Controller$, który obsługuje przyciski i podaje wybrany kolor.
 
-    wire prev;
-    Debouncer debouncer_prev (
-        .clk(CLK50MHZ),
-        .rst(RST),
-        .sig(BTN_PREV),
-        .full(prev)
-    );
-\end{lstlisting}
-
-Instancje modułów służących sychronizacji oraz podawaniu kolorów.
-\begin{lstlisting}[label=Topvga,caption=Top.v,firstnumber=31]
-    wire [10:0] x;
-    wire [10:0] y;
-    wire displaying;
-    Sync Sync_(
-        .CLK50MHZ(CLK50MHZ),
-        .RST(RST),
-        // vga interface
-        .VGA_HSYNC(VGA_HSYNC),
-        .VGA_VSYNC(VGA_VSYNC),
-        .x(x),
-        .y(y),
-        .displaying(displaying)
-    );
-
-    Controller Controller_(
-        .CLK50MHZ(CLK50MHZ),
-        .RST(RST),
-        // vga interface
-        .VGA_R(VGA_R),
-        .VGA_G(VGA_G),
-        .VGA_B(VGA_B),
-        // color control
-        .next(next),
-        .prev(prev),
-        .x(x),
-        .y(y),
-        .displaying(displaying)
-    );
-
-endmodule
-\end{lstlisting}
-
-\subsubsection{Sync}
+\subsubsection{Synchronizacja}
 Zadaniem modułu synchronizacyjnego jest właściwe wytaktowanie linii zawiadamiających o początku nowej ramki lub nowej kolumny. Są to sygnały cyfrowe utrzymywane w stanie wysokim, w chwilach synchronizacji zostają obniżane. Domyślne parametry dostosowane są do przesyłania obrazu rozmiaru 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Odmierzanie czasu przesyłu kolum  bazuje na podstawowym zegarze występującym na płytce o częstotliwości 50 mHz. Natomiast przesłanie ramki sygnalizowane jest po zliczeniu wysłania odpowiedniej liczby kolumn.
 
-Standard VGA powstał w czasach monitorów kineskopowych. Technologia ta ukierunkowywuje elektromagnesami naładowaną wiązkę o wybranej energii w punkt na ekranie, czym wyzwala fotony światła. Momenty gdy wiązka powraca na początek kolejnej linii lub całej ramki są punktami synchronizacji. Wtedy musi być ona wygaszona obniżając wartość składowych kolorów, a także chwilę przed i po synchronizacjach. Sygnał dispalying określa czy kolory mogą być podawane, sygnały współrzędnych x i y podają bieżącą lokalizuję wiązki.
+Standard VGA powstał w czasach monitorów kineskopowych. Technologia ta ukierunkowywuje elektromagnesami naładowaną wiązkę o wybranej energii w punkt na ekranie, czym wyzwala fotony światła. Momenty gdy wiązka powraca na początek kolejnej linii lub całej ramki są punktami synchronizacji. Wtedy, a także chwilę przed i po synchronizacjach, musi być ona wygaszona obniżając wartość składowych kolorów w celu zachowania już nadanych kolorów pikselom. Sygnał $dispalying$ określa czy kolory mogą być podawane, sygnały współrzędnych x i y podają bieżącą lokalizuję wiązki.
 
 TODO sprawdzic jak to dziala
+
+TODO moze zamienic kolejnosc akapitow
 \begin{lstlisting}[label=Syncvga,caption=Sync.v]
 module Sync
 #(
@@ -466,7 +420,7 @@ Synchronizacja opiera się na dwóch licznikach. Pierwszy zlicza zegar podstawow
         );
 \end{lstlisting}
 
-Liczniki w stanach od 0 do długosći trwania pulsu wywołują efekt synchronizacji. Natomiast połączenie dispalying obejmuje również chwile zakazu wyświetlania wokół tych punktów.
+Dzięki przypisaniu ciągłemu do warunku logicznego, liczniki w stanach od 0 do długosći trwania pulsu wywołują efekt synchronizacji. Natomiast połączenie $dispalying$ obejmuje również chwile zakazu wyświetlania wokół tych punktów.
 \begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=49]
         assign displaying = (
             i >= H_PW + H_BP &&
