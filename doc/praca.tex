@@ -322,17 +322,21 @@ Moduł symulacyjny wysyła bajt wzorcowy, po czym oczekuje odesłania go z powro
 
 \newpage
 \section{VGA}
-Standard VGA odpowiada za przesłanie obrazu do wyświetlacza przy ustalonych rozmiarach oraz częstotliwości odświeżania. Obraz przesyłany jest punkt po punkcie zwanych pikselami w porządku od lewej do prawej krawędzi kolumny, zaczynając od górnego do dolnego wiersza.
+Standard VGA odpowiada za przesłanie obrazu do wyświetlacza przy ustalonych rozmiarach oraz częstotliwości odświeżania. Obraz przesyłany jest punkt po punkcie zwanych pikselami w porządku od lewej do prawej kolumny, zaczynając od górnego do dolnego wiersza.
 
-Po przesłaniu każdego wiersza, następuje chwilowe obniżenie linii synchronizacyjnej HSYNC. Natomiast po przesłaniu całej ramki, chwilowo opuszczana jest linia VSYNC. W punktach tych i ich pewnym otoczeniu należy uzniemić linie kolorów.
+Po przesłaniu każdego wiersza, następuje chwilowe obniżenie linii synchronizacyjnej $HSYNC$. Natomiast po przesłaniu całej ramki, chwilowo opuszczana jest linia $VSYNC$. W punktach tych i ich pewnym otoczeniu należy uzniemić linie kolorów.
 
-Kolor pikseli określa złożenie nasycenia trzech podstawowych barw: czerwonej, zielonej i niebieskiej. Ich stan podawany jest osobnymi liniami analogowo wartościami napięcia z zakresu 0.0V - 0.7V.
+Kolor pikseli określa złożenie nasycenia trzech podstawowych barw: czerwonej, zielonej i niebieskiej. Ich stan podawany jest osobnymi liniami analogowo wartościami napięcia z zakresu $0.0V - 0.7V$.
 
-Płytka Spartan wykorzystuje po 4 cyfrowe wyjścia FPGA dla każdej barwy łączone w drabinki rezystorowe tworząc proste ADC.
+Płytka Spartan wykorzystuje po 4 cyfrowe wyjścia FPGA dla każdej z barw łączone w drabinki rezystorowe tworząc proste ADC.
 
 \subsection{Synteza}
 
 \subsubsection{Top}
+\iffalse
+\subsection{Połączenia}
+\fi
+
 Moduł najwyższy przyjmuje sygnały zegarowy, resetu oraz dwóch przycisków służacych zmianie koloru wyświetlanego tła. Moduł wyprowadza sygnały synchronizacji ramek i kolumn oraz pożądany kolor podany poprzez trzy czterobitowe rejestry nasycenia czerwieni, błękitu i zieleni.
 \begin{lstlisting}[label=Topvga,caption=Top.v]
 module Top (
@@ -517,6 +521,327 @@ Każdy z bitów bieżącego koloru odpowiada jednej ze składowych podstawowych.
     assign VGA_R = (displaying && i[0]) ? 4'hf : 4'h0;
     assign VGA_G = (displaying && i[1]) ? 4'hf : 4'h0;
     assign VGA_B = (displaying && i[2]) ? 4'hf : 4'h0;
+\end{lstlisting}
+
+\subsection{Symulacja}
+Symulacja musi zweryfikować, czy sygnały synchronizacyjne pojawiają się w spodziewanych okresach oraz czy wtedy oraz w w ich otoczeniu wiązka jest wygaszona. Do tego zliczane są linie w ramce.
+
+Moduł topowy zaczyna się od inicjalizacji sygnału zegarowego i resetu potrzebnych modułom syntezowalnym.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=3]
+module TopTest ();
+
+    wire CLK50MHZ;
+    Clock Clock_( .clk(CLK50MHZ) );
+
+    wire RST;
+    Reset Reset_( .RST(RST) );
+\end{lstlisting}
+
+Za odbiór nadawanych sygnałów wtyczki VGA odpowiada moduł Vga\_Behav. Został zainicjowany z czterama poziomami logowania.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=11]
+    // vga interface
+    wire [3:0] VGA_R;
+    wire [3:0] VGA_G;
+    wire [3:0] VGA_B;
+    wire       VGA_HSYNC;
+    wire       VGA_VSYNC;
+    Vga_Behav #(
+       .INFO1(1),
+       .INFO2(1),
+       .INFO3(1),
+       .INFO4(1)
+    ) vga_behav_ (
+        .vga_r(VGA_R),
+        .vga_g(VGA_G),
+        .vga_b(VGA_B),
+        .vga_hsync(VGA_HSYNC),
+        .vga_vsync(VGA_VSYNC)
+    );
+\end{lstlisting}
+
+Zaimplementowana jest symulacja wciśnięć przycisków zmian kolorów.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=30]
+    // color control
+    wire       BTN_NEXT;
+    wire       BTN_PREV;
+    TopTestBench TopTestBench_ (
+        .BTN_NEXT(BTN_NEXT),
+        .BTN_PREV(BTN_PREV)
+    );
+\end{lstlisting}
+
+Wszelkie połączenia utworzone do tej pory przekazane zostają do najwyższego modułu syntezowalnego.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=38]
+    Top Top_ (
+        .CLK50MHZ(CLK50MHZ),
+        .RST(RST),
+        // vga interface
+        .VGA_R(VGA_R),
+        .VGA_G(VGA_G),
+        .VGA_B(VGA_B),
+        .VGA_HSYNC(VGA_HSYNC),
+        .VGA_VSYNC(VGA_VSYNC),
+        // color control
+        .BTN_NEXT(BTN_NEXT),
+        .BTN_PREV(BTN_PREV)
+    );
+
+endmodule
+\end{lstlisting}
+
+Vga\_Behav przyjmuje szereg parametrów. Domyślne wartości odpowiadają odbiorowi obrazu o rozmiarach 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Czasy niewiele różnią się od tych podanych w dokumentacji do płytki, dobrane są dla zegara 50 mHz. Domyślnie pokazywane są jedynie wiadomości o błędach i ostrzeżeniach.
+
+Moduł jedynie przyjmuje sygnały, nie generuje żadnych zwrotnych. Przyjmuje trzy czterobitowe sygnały kolorów oraz dwie synchronizajce linii i ramek dokładnie to co moduł topowy generuje.
+\subsubsection{Vga\_Behav}
+\begin{lstlisting}[label=Syncvga,caption=Sync.v]
+module Vga_Behav
+#(
+   parameter ERROR = 1,
+   parameter WARN  = 1,
+   parameter INFO1 = 0,
+   parameter INFO2 = 0,
+   parameter INFO3 = 0,
+   parameter INFO4 = 0,
+
+   // Domyslnie 640x480
+   parameter V_S   = 16_700_000,
+   parameter V_FP  =    320_000,
+   parameter V_PW  =     64_040,
+   parameter V_BP  =    928_000,
+   parameter H_S   =     32_020,
+   parameter H_PW  =      3_860,
+   parameter H_FP  =        640,
+   parameter H_BP  =      1_900,
+
+   parameter LINES = 521
+) (
+   input [3:0] vga_r,
+   input [3:0] vga_g,
+   input [3:0] vga_b,
+   input vga_hsync,
+   input vga_vsync
+);
+\end{lstlisting}
+
+Wyczekiwana jest synchronizacja nowej ramki. Po niej rejestr $synchronized$ się podnosi i pozostałe dwa moduły zaczynają swoje sprawdzania.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=29]
+   Monitor #(
+      .LOGLEVEL(7),
+      // .LOGLEVEL(9),
+      .N(1)
+   ) monitor_vga_vsync (
+      .signals( vga_vsync )
+   );
+
+   // Synchronizacja pierwszej ramki
+
+   reg   synchronized=1'b0;
+   initial begin
+      if( INFO1 )
+         $display("%t\t INFO1\t [ %m ] \t Oczekiwanie na poczatek nowej ramki.", $time);
+
+      // Poczekaj na pierwszy puls synchronizacji ramki
+      // Nie sprawdza jednak dlugosci jego trwania, pomiar pulsu synchronizacji nastapi od drugiej ramki
+      monitor_vga_vsync.wait_for_low();
+      monitor_vga_vsync.wait_for_high();
+
+      // Zsynchronizowano, zacznij odbierac ramki
+      synchronized=1'b1;
+
+      if( INFO1 )
+         $display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru ramek.", $time);
+   end
+\end{lstlisting}
+
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=56]
+   Vga_Behav_Sync #(
+      .ERROR(ERROR),
+      .INFO1(INFO1),
+      .INFO2(INFO2),
+      .INFO3(INFO3),
+      .INFO4(INFO4),
+      .V_S(V_S),
+      .V_FP(V_FP),
+      .V_PW(V_PW),
+      .V_BP(V_BP),
+      .H_S(H_S),
+      .H_PW(H_PW),
+      .H_FP(H_FP),
+      .H_BP(H_BP)
+   ) vga_behav_sync_ (
+      .vga_r(vga_r),
+      .vga_g(vga_g),
+      .vga_b(vga_b),
+      .vga_hsync(vga_hsync),
+      .vga_vsync(vga_vsync),
+      .synchronized(synchronized)
+   );
+
+   Vga_Behav_Lines_Counter #(
+      .ERROR(ERROR),
+      .INFO1(INFO1),
+      .INFO2(INFO2),
+      .INFO3(INFO3),
+      .INFO4(INFO4),
+      .LINES(LINES)p
+   ) vga_behav_lines_counter_ (
+      .vga_hsync(vga_hsync),
+      .vga_vsync(vga_vsync),
+      .synchronized(synchronized)
+   );
+
+endmodule
+\end{lstlisting}
+
+\subsubsection{Vga\_Behav\_Sync}
+
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=56]
+module Vga_Behav_Sync
+#(
+   parameter ERROR = 1,
+   parameter WARN  = 1,
+   parameter INFO1 = 0,
+   parameter INFO2 = 0,
+   parameter INFO3 = 0,
+   parameter INFO4 = 0,
+
+   // Domyslnie 640x480
+   parameter V_S   = 16_700_000,
+   parameter V_FP  =    320_000,
+   parameter V_PW  =     64_040,
+   parameter V_BP  =    928_000,
+   parameter H_S   =     32_020,
+   parameter H_PW  =      3_860,
+   parameter H_FP  =        640,
+   parameter H_BP  =      1_900
+) (
+   input [3:0] vga_r,
+   input [3:0] vga_g,
+   input [3:0] vga_b,
+   input vga_hsync,
+   input vga_vsync,
+   input synchronized
+);
+\end{lstlisting}
+
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=56]
+   // Instancje monitorow
+
+   Monitor #(
+      .LOGLEVEL(7),
+      // .LOGLEVEL(9),
+      .N(12)
+   ) monitor_vga_colours_v (
+      .signals( { vga_r, vga_g, vga_b } )
+   );
+
+   Monitor #(
+      .LOGLEVEL(7),
+      // .LOGLEVEL(9),
+      .N(12)
+   ) monitor_vga_colours_h (
+      .signals( { vga_r, vga_g, vga_b } )
+   );
+
+   Monitor #(
+      .LOGLEVEL(7),
+      // .LOGLEVEL(9),
+      .N(1)
+   ) monitor_vga_vsync (
+      .signals( vga_vsync )
+   );
+
+   Monitor #(
+      .LOGLEVEL(7),
+      // .LOGLEVEL(9),
+      .N(1)
+   ) monitor_vga_hsync (
+      .signals( vga_hsync )
+   );
+\end{lstlisting}
+
+
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=56]
+   // Sprawdzanie synchronizacji ramek
+
+   always @(negedge vga_vsync) begin
+      if(synchronized) begin
+         if( INFO1 )
+            DOLAR_display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru nowej ramki.", DOLAR_time);
+
+         fork begin
+            // Dlugosc pulsu synchronizacji ramki
+            // +1: wymaga symulacja
+            monitor_vga_vsync.ensure_low_during( V_PW +1 );
+            // monitor_vga_vsync.ensure_low_during( 64_040 +1 );
+            // Czas do nastepnej synchronizacji ramki
+            // -1: kompensacja +1 z poprzedniego; nastepne -1 aby skonczyl chwile przed nastepnym cyklem i zlapal liste wrazliwosci
+            monitor_vga_vsync.ensure_high_during( V_S - V_PW -1 -1 );
+
+         end begin
+
+            // Dlugosc pulsu synchronizacji ramki
+            monitor_vga_colours_v.ensure_low_during( V_PW + V_BP );
+
+            // Czas wyswietlania wszystkich kolejnych wierszy w ramce
+            if( INFO3 )
+               DOLAR_display("%t\t INFO3\t [ %m ] \t Nadawanie wierszy", DOLAR_time);
+            #(V_S - V_FP - V_PW - V_BP + 13581);
+            if( INFO3 )
+               DOLAR_display("%t\t INFO3\t [ %m ] \t Nadano wiersze", DOLAR_time);
+
+            // Czas do nastepnej synchronizacji ramki
+            monitor_vga_colours_v.ensure_low_during( V_FP -13581 -1 );
+         end join;
+
+         DOLAR_display();
+      end;
+   end
+\end{lstlisting}
+
+
+
+
+\subsubsection{Vga\_Behav\_Lines\_Counter}
+
+\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=56]
+
+\end{lstlisting}
+
+
+\subsubsection{TopTestBench}
+
+TopTestBench symuluje wciskanie przycisków przez użytkownika płytki, co ma wywołać zmianę koloru wyświetlanego tła.
+\begin{lstlisting}[label=Syncvga,caption=Sync.v]
+module TopTestBench (
+    // color control
+    output reg BTN_NEXT = 1'b0,
+    output reg BTN_PREV = 1'b0
+);
+
+    initial begin
+
+       // nastepny kolor
+        #300;
+        BTN_NEXT = 1'b1;
+        #250;
+        BTN_NEXT = 1'b0;
+
+       // nastepny kolor
+        #500;
+        BTN_NEXT = 1'b1;
+        #250;
+        BTN_NEXT = 1'b0;
+
+       // poprzedni kolor
+        #300;
+        BTN_PREV = 1'b1;
+        #250;
+        BTN_PREV = 1'b0;
+
+    end
+
+endmodule
 \end{lstlisting}
 
 \section{Dodatki}
