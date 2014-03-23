@@ -9,7 +9,7 @@ module Top (
     output       VGA_VSYNC,
     // color control
     input        BTN_NEXT,
-    input        BTN_PREV,
+    input        BTN_PREV
 );
 
     wire next;
