@@ -59,7 +59,7 @@ module Rs232_behav
 
          // Start bit
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] \t RS rozpoczecie transmisji, start bit 0", $time);
+            $display("%t\t INFO5 [ %m ] \t Rozpoczecie transmisji, start bit 0", $time);
          set_tx.low_during( period );
 
          // Przekazany bajt
@@ -67,23 +67,22 @@ module Rs232_behav
             set_tx.state_during( period, byte_tosend[i] );
 
             if(LOGLEVEL >= 4)
-               $display("%t\t INFO4 [ %m ] RS wyslano bit nr %d o wartosci %b", $time, i, tx);
+               $display("%t\t INFO4 [ %m ] \t Wyslano bit nr %d o wartosci %b", $time, i, tx);
          end
 
          // Stop bit
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] RS zakonczenie transmisji, stop bit 1", $time);
+            $display("%t\t INFO5 [ %m ] \t Zakonczenie transmisji, stop bit 1", $time);
          set_tx.high_during( period );
 
          // Zalogowanie konca transmisji
          if(LOGLEVEL >= 3)
-            $display("%t\t INFO3 [ %m ] RS wyslano bajt %b (0x %h) (dec %d)  (ascii %s)", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
+            $display("%t\t INFO3 [ %m ] \t Wyslano bajt %b (0x %h) (dec %d)  (ascii %s)", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
 
       end
    endtask
 
-      reg    ensurance;
-
+   reg    ensurance;
    task receive
    (
       output reg [7:0] byte_received
@@ -93,12 +92,12 @@ module Rs232_behav
 
          // Zaczekaj na start bit
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] RS Oczekiwanie na bit startu nowego pakietu", $time);
+            $display("%t\t INFO5 [ %m ] \t Oczekiwanie na bit startu nowego pakietu", $time);
          monitor_rx.wait_for_low();
 
          // Przeczekaj czas trwania start bitu
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] RS Rozpoczecie odbioru", $time);
+            $display("%t\t INFO5 [ %m ] \t Rozpoczecie odbioru", $time);
          monitor_rx.ensure_low_during( period );
 
          // Odbierz bajt danych
@@ -108,21 +107,21 @@ module Rs232_behav
             monitor_rx.ensure_state_during( period/2 );
             byte_received[i] = rx;
             if(LOGLEVEL >= 4)
-               $display("%t\t INFO4 [ %m ] RS odebrano bit nr %d o wartosci %b", $time, i, rx);
+               $display("%t\t INFO4 [ %m ] \t Odebrano bit nr %d o wartosci %b", $time, i, rx);
             monitor_rx.ensure_state_during( period/2 );
          end
 
          // Odbierz oczekiwany stop bit
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] RS zakonczenie odbioru danych, nastepuje odbior spodziewanego stop bitu", $time);
+            $display("%t\t INFO5 [ %m ] \t Zakonczenie odbioru danych, nastepuje odbior spodziewanego stop bitu", $time);
          monitor_rx.ensure_low_during( period, ensurance );
          if(~ensurance)
             if(LOGLEVEL >= 1)
-               $display("%t\t ERROR [ %m ] RS Oczekiwany bit stopu nie zostal poprawnie nadany", $time);
+               $display("%t\t ERROR [ %m ] \t Oczekiwany bit stopu nie zostal poprawnie nadany", $time);
 
          // Zalogowanie zakonczenia odbioru
          if(LOGLEVEL >= 3)
-            $display("%t\t INFO5 [ %m ] RS zakonczenie odbioru pakietu", $time);
+            $display("%t\t INFO5 [ %m ] \t Zakonczenie odbioru pakietu", $time);
 
       end
    endtask
@@ -161,10 +160,10 @@ module Rs232_behav
    // Rejestr init zapobiega probie odbioru pakietu w chwili zero czasu symulacji
 
    reg inited = 1'b0;
-   initial begin
-      #1;
-      inited = 1'b1;
-   end
+   // initial begin
+   //    #1;
+   //    inited = 1'b1;
+   // end
 
         integer k = 0;
         reg [7:0] byte_received = 8'd0;
@@ -173,11 +172,11 @@ module Rs232_behav
                 // odbior bajtu
                 receive( byte_received );
                 if(LOGLEVEL >= 3)
-                        $display("%t\t INFO3 [ %m ] RS odebrano bajt %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received);
+                        $display("%t\t INFO3 [ %m ] \t Odebrano bajt %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received);
                 // weryfikacja
                 if( byte_received != mem[k] )
                         if(LOGLEVEL >= 1)
-                                $display("%t\t ERROR [ %m ] RS odebrany bajt %b 0x%h %d %s rozni sie od wyslanego wzorca %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received, mem[k], mem[k], mem[k], mem[k]);
+                                $display("%t\t ERROR [ %m ] \t Odebrany bajt %b 0x%h %d %s rozni sie od wyslanego wzorca %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received, mem[k], mem[k], mem[k], mem[k]);
                 k = k + 1;
            end
         end
