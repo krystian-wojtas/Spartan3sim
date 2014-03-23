@@ -25,7 +25,6 @@ module Vga_Behav
    input vga_hsync,
    input vga_vsync
 );
-   // Instancje monitorow
 
    Monitor #(
       .LOGLEVEL(7),
@@ -59,7 +58,15 @@ module Vga_Behav
       .INFO1(INFO1),
       .INFO2(INFO2),
       .INFO3(INFO3),
-      .INFO4(INFO4)
+      .INFO4(INFO4),
+      .V_S(V_S),
+      .V_FP(V_FP),
+      .V_PW(V_PW),
+      .V_BP(V_BP),
+      .H_S(H_S),
+      .H_PW(H_PW),
+      .H_FP(H_FP),
+      .H_BP(H_BP)
    ) vga_behav_sync_ (
       .vga_r(vga_r),
       .vga_g(vga_g),
@@ -74,7 +81,8 @@ module Vga_Behav
       .INFO1(INFO1),
       .INFO2(INFO2),
       .INFO3(INFO3),
-      .INFO4(INFO4)
+      .INFO4(INFO4),
+      .LINES(LINES)
    ) vga_behav_lines_counter_ (
       .vga_hsync(vga_hsync),
       .vga_vsync(vga_vsync),
