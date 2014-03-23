@@ -12,5 +12,7 @@ sim += ../TopTest.v
 sim += ../Rs232-behav.v
 sim += ../../generic/sim/Clock.v
 sim += ../../generic/sim/Reset.v
+sim += ../../generic/sim/Monitor.v
+sim += ../../generic/sim/Set.v
 
 include ../../generic/makefile/generic
