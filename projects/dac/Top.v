@@ -47,7 +47,7 @@ module Top (
         Debouncer debouncer_more (
            .clk(CLK50MHZ),
            .rst(RST),
-           .sig(BTN_WEST),
+           .sig(BTN_EAST),
            .full(more)
         );
 
