@@ -28,7 +28,7 @@ module Rs232_behav
    // czas polowy okresu
    parameter half_period = period / 2;
 
-   // Instancje ustawiacza i monitora linii tx i rx
+   // Instancje ustawiacza i obserwatora linii tx i rx
 
    Set #(
       .LOGLEVEL(5),
@@ -82,12 +82,44 @@ module Rs232_behav
       end
    endtask
 
-   reg    ensurance;
+
+   // Zadanie odbiera bit probkujac go 3 krotnie
+
+   task receive_bit3x
+   (
+      output reg received
+   );
+      begin
+
+         // Pierwsze probkowanie zapisuje stan linii rx
+         #(period / 6);
+         received = rx;
+
+         // Drugie probkowanie porownuje zapisany stan z obecnym, powinny sie zgadzac
+         #(period / 3);
+         if(received != rx)
+            if(LOGLEVEL >= 1)
+               $display("%t\t ERROR [ %m ] \t Druga proba odbieranego bitu %b rozni sie od pierwszej %b", $time, rx, received);
+
+         // Trzecie probkowanie jak wyzej
+         #(period / 3);
+         if(received != rx)
+            if(LOGLEVEL >= 1)
+               $display("%t\t ERROR [ %m ] \t Trzecia proba odbieranego bitu %b rozni sie od pierwszej %b", $time, rx, received);
+
+         // Konczenie okresu
+         #(period / 6);
+
+      end
+   endtask
+
    task receive
    (
       output reg [7:0] byte_received
    );
       integer i;
+      reg startbit;
+      reg stopbit;
       begin
 
          // Zaczekaj na start bit
@@ -95,29 +127,32 @@ module Rs232_behav
             $display("%t\t INFO5 [ %m ] \t Oczekiwanie na bit startu nowego pakietu", $time);
          monitor_rx.wait_for_low();
 
-         // Przeczekaj czas trwania start bitu
+         // Zaloguj poczatek odbioru pakietu
+         if(LOGLEVEL >= 3)
+            $display("%t\t INFO3 [ %m ] \t Odbieranie nowego pakietu", $time);
+
+         // Odbierz bit startu
+         receive_bit3x( startbit );
+         if(startbit != 1'b0)
+            if(LOGLEVEL >= 1)
+               $display("%t\t ERROR [ %m ] \t Bit startu powinien byc niski", $time);
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] \t Rozpoczecie odbioru", $time);
-         monitor_rx.ensure_low_during( period );
+            $display("%t\t INFO5 [ %m ] \t Bit startu zostal odebrany", $time);
 
          // Odbierz bajt danych
          for(i=0; i < 8; i=i+1) begin
-
-            // Sprobkuj w polowie czasu trwania kolejnego bitu
-            monitor_rx.ensure_state_during( period/2 );
-            byte_received[i] = rx;
+            receive_bit3x( byte_received[i] );
             if(LOGLEVEL >= 4)
-               $display("%t\t INFO4 [ %m ] \t Odebrano bit nr %d o wartosci %b", $time, i, rx);
-            monitor_rx.ensure_state_during( period/2 );
+               $display("%t\t INFO4 [ %m ] \t Odebrano bit nr %d o wartosci %b", $time, i, byte_received[i]);
          end
 
          // Odbierz oczekiwany stop bit
          if(LOGLEVEL >= 5)
             $display("%t\t INFO5 [ %m ] \t Zakonczenie odbioru danych, nastepuje odbior spodziewanego stop bitu", $time);
-         monitor_rx.ensure_low_during( period, ensurance );
-         if(~ensurance)
+         receive_bit3x( stopbit );
+         if(stopbit != 1'b1)
             if(LOGLEVEL >= 1)
-               $display("%t\t ERROR [ %m ] \t Oczekiwany bit stopu nie zostal poprawnie nadany", $time);
+               $display("%t\t ERROR [ %m ] \t Oczekiwany bit stopu powinien byc wysoki", $time);
 
          // Zalogowanie zakonczenia odbioru
          if(LOGLEVEL >= 3)
@@ -153,17 +188,17 @@ module Rs232_behav
 //              for(j=0; j<CHARS; j=j+1)
 //                      transmit( mem[j] );
            transmit( "?" );
-           transmit( "\n" );
+           // transmit( "\n" );
         end
 
    // W chwili przed symulacja stany linii sa nieustalone a wszelkie zbocza na nich zostaja wykryte
    // Rejestr init zapobiega probie odbioru pakietu w chwili zero czasu symulacji
 
    reg inited = 1'b0;
-   // initial begin
-   //    #1;
-   //    inited = 1'b1;
-   // end
+   initial begin
+      #1;
+      inited = 1'b1;
+   end
 
         integer k = 0;
         reg [7:0] byte_received = 8'd0;
