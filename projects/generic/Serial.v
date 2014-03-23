@@ -64,7 +64,7 @@ module Serial  #(
         always @(posedge CLKB)
                 if(RST)
                         ready <= 1'b1;
-                else if(sent_all_bits)
+                else if(sent_all_bits && tick)
                         ready <= 1'b1;
                 else if(trig)
                         ready <= 1'b0;
