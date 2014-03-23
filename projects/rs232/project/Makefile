@@ -8,8 +8,9 @@ synt += ../../generic/Counter.v
 synt += ../../generic/Shiftreg.v
 
 sim += $(synt)
-sim += ../TopTest.v
-sim += ../Rs232-behav.v
+sim += ../sim/TopTest.v
+sim += ../sim/Rs232.v
+sim += ../sim/Rs232_behav.v
 sim += ../../generic/sim/Clock.v
 sim += ../../generic/sim/Reset.v
 sim += ../../generic/sim/Monitor.v

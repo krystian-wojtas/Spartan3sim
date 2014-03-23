@@ -11,9 +11,9 @@ module TopTest(
 
         wire RXD;
         wire TXD;
-        Rs232_behav #(
+        Rs232 #(
                 .LOGLEVEL(5)
-        ) Rs232_behav_(
+        ) rs232 (
                 .rx(TXD),
                 .tx(RXD)
         );
