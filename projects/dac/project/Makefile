@@ -3,6 +3,7 @@
 synt += ../Top.v
 synt += ../Controller.v
 synt += ../DacSpi.v
+synt += ../../generic/Debouncer.v
 
 # generic synt modules
 
