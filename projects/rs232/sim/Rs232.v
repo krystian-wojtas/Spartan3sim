@@ -25,20 +25,18 @@ module Rs232
       .tx(tx)
    );
 
-   localparam CHARS = 10;
+   localparam CHARS = 8;
    reg [7:0] mem [CHARS:0];
    initial begin
-      mem[0] = "H";
-      mem[1] = "E";
-      mem[2] = "L";
-      mem[3] = "L";
-      mem[4] = "O";
-      mem[5] = " ";
-      mem[6] = "R";
-      mem[7] = "S";
-      mem[8] = "2";
-      mem[9] = "3";
-      mem[10]= "2";
+      mem[0] = "A";
+      mem[1] = "G";
+      mem[2] = "H";
+      mem[3] = " ";
+      mem[4] = "W";
+      mem[5] = "F";
+      mem[6] = "i";
+      mem[7] = "I";
+      mem[8] = "S";
    end
 
    integer j = 0;
