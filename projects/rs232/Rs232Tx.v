@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
 module Rs232Tx
 #(
    parameter FREQ = 50000000,	// 50MHz
