@@ -1,35 +1,14 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    11:34:11 04/11/2013
-// Design Name:
-// Module Name:    Top
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-
 module Top (
-    input 	 CLK50MHZ,
-    input 	 RST,
+    input        CLK50MHZ,
+    input        RST,
     // rotor control
-    input 	 ROT_CENTER,
-    input 	 ROT_A,
-    input 	 ROT_B,
+    input        ROT_CENTER,
+    input        ROT_A,
+    input        ROT_B,
     // leds
     output [7:0] LED,
-    output 	 DEBUG_A,
-    output 	 DEBUG_B
+    output       DEBUG_A,
+    output       DEBUG_B
     );
 
 
