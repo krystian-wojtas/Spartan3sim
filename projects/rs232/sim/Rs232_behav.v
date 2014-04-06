@@ -111,7 +111,7 @@ module Rs232_behav
          #(BITTOL);
 
          if(LOGLEVEL >= 6)
-            $display("%t\t INFO6 [ %m ] \t Zakończono odbior bitu", $time);
+            $display("%t\t INFO6 [ %m ] \t Zakonczono odbior bitu", $time);
       end
    endtask
 
