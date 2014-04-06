@@ -26,7 +26,7 @@ module Rs232_behav
    // czas jednego okresu przy zakladanej szybkosci
    localparam PERIOD = 1_000_000_000 / BAUDRATE;
    // tolerancja zegara
-   localparam TOL    = 0.05;
+   localparam BITTOL = 0.05 * PERIOD;
 
    // Instancje obserwatora i ustawiacza linii tx i rx
 
@@ -90,37 +90,28 @@ module Rs232_behav
 
    task receive_bit3x
    (
-      // input [3:0] i,
-      input integer i,
       output reg received
    );
-      integer      bit_tol_before;
-      integer      bit_tol_after;
-      integer      bit_tol;
       begin
 
-         bit_tol_before = PERIOD * i     * TOL;
-         bit_tol_after  = PERIOD * (i+1) * TOL;
-         bit_tol        = bit_tol_before + bit_tol_after;
-
          if(LOGLEVEL >= 6)
-            $display("%t\t INFO6 [ %m ] \t Czas %d na tolerancje przesuniecia zegara przed bitem nr %d", $time, bit_tol_before, i);
-         #(bit_tol_before);
+            $display("%t\t INFO6 [ %m ] \t Czas %d na tolerancje przesuniecia zegara przed odbieranym bitem", $time, BITTOL);
+         #(BITTOL);
 
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] \t Linia rx powinna byc stabilna przez %d podczas odbioru bitu %d ", $time, (PERIOD-bit_tol), i);
-         monitor_rx.ensure_same_during( (PERIOD-bit_tol) );
+            $display("%t\t INFO5 [ %m ] \t Linia rx powinna byc stabilna przez %d podczas odbioru bitu", $time, (PERIOD-2*BITTOL));
+         monitor_rx.ensure_same_during( (PERIOD-2*BITTOL) );
 
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] \t Obebrano bit %d o wartosci %b", $time, i, rx);
+            $display("%t\t INFO5 [ %m ] \t Obebrano bit o wartosci %b", $time, rx);
          received = rx;
 
          if(LOGLEVEL >= 6)
-            $display("%t\t INFO6 [ %m ] \t Czas %d na tolerancje przesuniecia zegara po bicie nr %d", $time, bit_tol_after, i);
-         #(bit_tol_after);
+            $display("%t\t INFO6 [ %m ] \t Czas %d na tolerancje przesuniecia zegara po obebranym bicie", $time, BITTOL);
+         #(BITTOL);
 
          if(LOGLEVEL >= 6)
-            $display("%t\t INFO6 [ %m ] \t Zakończono odbioru bitu nr %d", $time, i);
+            $display("%t\t INFO6 [ %m ] \t Zakończono odbior bitu", $time);
 
          // // Pierwsze probkowanie zapisuje stan linii rx
          // #(PERIOD / 6);
@@ -163,7 +154,7 @@ module Rs232_behav
             $display("%t\t INFO3 [ %m ] \t Odbieranie nowego pakietu", $time);
 
          // Odbierz bit startu
-         receive_bit3x( 0, startbit );
+         receive_bit3x( startbit );
          if(startbit != 1'b0)
             if(LOGLEVEL >= 1)
                $display("%t\t ERROR [ %m ] \t Bit startu powinien byc niski", $time);
@@ -171,8 +162,8 @@ module Rs232_behav
             $display("%t\t INFO5 [ %m ] \t Bit startu zostal odebrany", $time);
 
          // Odbierz bajt danych
-         for(i=1; i < 9; i=i+1) begin
-            receive_bit3x( i, byte_received[i] );
+         for(i=0; i < 8; i=i+1) begin
+            receive_bit3x( byte_received[i] );
             if(LOGLEVEL >= 4)
                $display("%t\t INFO4 [ %m ] \t Odebrano bit nr %d o wartosci %b", $time, i, byte_received[i]);
          end
@@ -180,7 +171,7 @@ module Rs232_behav
          // Odbierz oczekiwany stop bit
          if(LOGLEVEL >= 5)
             $display("%t\t INFO5 [ %m ] \t Zakonczenie odbioru danych, nastepuje odbior spodziewanego stop bitu", $time);
-         receive_bit3x( 10, stopbit );
+         receive_bit3x( stopbit );
          if(stopbit != 1'b1)
             if(LOGLEVEL >= 1)
                $display("%t\t ERROR [ %m ] \t Oczekiwany bit stopu powinien byc wysoki", $time);
