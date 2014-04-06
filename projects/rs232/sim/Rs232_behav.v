@@ -94,24 +94,33 @@ module Rs232_behav
       input integer i,
       output reg received
    );
-      integer      bittol;
+      integer      bit_tol_before;
+      integer      bit_tol_after;
+      integer      bit_tol;
       begin
 
-         bittol = PERIOD * (2*i+1) * TOL;
+         bit_tol_before = PERIOD * i     * TOL;
+         bit_tol_after  = PERIOD * (i+1) * TOL;
+         bit_tol        = bit_tol_before + bit_tol_after;
+
+         if(LOGLEVEL >= 6)
+            $display("%t\t INFO6 [ %m ] \t Czas %d na tolerancje przesuniecia zegara przed bitem nr %d", $time, bit_tol_before, i);
+         #(bit_tol_before);
 
          if(LOGLEVEL >= 5)
-            $display("%t\t INFO5 [ %m ] \t Linia rx powinna byc stabilna przez %d podczas odbioru bitu %d ", $time, (PERIOD-bittol), i);
-         monitor_rx.ensure_same_during( (PERIOD-bittol) );
+            $display("%t\t INFO5 [ %m ] \t Linia rx powinna byc stabilna przez %d podczas odbioru bitu %d ", $time, (PERIOD-bit_tol), i);
+         monitor_rx.ensure_same_during( (PERIOD-bit_tol) );
 
          if(LOGLEVEL >= 5)
             $display("%t\t INFO5 [ %m ] \t Obebrano bit %d o wartosci %b", $time, i, rx);
          received = rx;
 
          if(LOGLEVEL >= 6)
-            $display("%t\t INFO6 [ %m ] \t Czas %d na tolerancje przesuniecia zegara", $time, bittol);
-         #(bittol);
+            $display("%t\t INFO6 [ %m ] \t Czas %d na tolerancje przesuniecia zegara po bicie nr %d", $time, bit_tol_after, i);
+         #(bit_tol_after);
+
          if(LOGLEVEL >= 6)
-            $display("%t\t INFO6 [ %m ] \t Odebrano bit %d", $time, i);
+            $display("%t\t INFO6 [ %m ] \t Zakończono odbioru bitu nr %d", $time, i);
 
          // // Pierwsze probkowanie zapisuje stan linii rx
          // #(PERIOD / 6);

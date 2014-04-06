@@ -7,7 +7,7 @@ module Rs232
 );
 
    Rs232_behav #(
-      .LOGLEVEL(5)
+      .LOGLEVEL(LOGLEVEL)
    ) rs232 (
       .rx(rx),
       .tx(tx)
