@@ -6,7 +6,7 @@ synt += ../../generic/Debouncer.v
 sim += ../../generic/sim/Set.v
 
 sim += $(synt)
-sim += ../TopTest.v
+sim += ../sim/TopTest.v
 sim += ../sim/TopTestBench.v
 sim += ../sim/Rotor_behav.v
 sim += ../../generic/sim/Clock.v
