@@ -302,7 +302,7 @@ Kilka obrotów następujących po sobie.
 
 Rs232 jest asynchronicznym, szeregowym standardem komunikacyjnym. Zdefiniowane są osobne linie do wysyłanych i odbieranych danych. Szybkość transmisji ustala się ręcznie w urządzeniach końcowych.
 
-Stanem wysokim określony jest stan bezczynności, Nadawanie danych rozpoczyna się od opuszczenia linii $tx$ na okres jednego bitu tzw. startowego. Natępnie przesyłane są kolejne bity danych i kończone są wysokim bitem stopu. Standard przewiduje możliwy bit parzystości poprzedzający stop.
+Stanem wysokim określony jest stan bezczynności. Nadawanie danych rozpoczyna się od opuszczenia linii $tx$ na okres jednego bitu tzw. startowego. Natępnie przesyłane są kolejne bity danych i kończone są wysokim bitem stopu. Standard przewiduje możliwy bit parzystości poprzedzający stop.
 
 \subsection{Aplikacja}
 Zaimplementowana aplikacja oczekuje wysłania bajtu danych przez urządzenie po drugiej stronie kabla, po czym mu go odsyła w niezmienionej postaci. Działa jak zwykłe echo. Pracuje z prędkością 115200 bitów na sekundę. Nie implementuje bitu parzystości.
@@ -334,8 +334,7 @@ module Rs232Tx
 );
 \end{lstlisting}
 
-Do wyznaczenia momentu nadania kolejnego bitu służy dedykowany moduł $BaudRateGenerator$.
-TODO błąd
+Zalecany standard 232 przewiduje tolerancję niedokładności zegara nie przekraczającą $5\%$ w dowolnym kierunku. Przy przesyłanych łącznie 10 bitach w pakiecie oznacza to rozjechanie się zegarów odbiornika i nadajnika maksymalnie o pół bitu. Prosty licznik oparty na zegarze podstawowym $50Mhz$ nie spełnia wymagań. Należy zachowywać resztę z dodawań po każdym przepełnieniu. Dlatego do wyznaczenia momentu nadania kolejnego bitu służy dedykowany moduł $BaudRateGenerator$ z wykalkulowaną inkrementacją.
 \begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v,firstnumber=14]
    `include "../../generic/log2.v"
    localparam N = log2(BAUD);
@@ -505,19 +504,213 @@ Konieczna jest maszyna stanów. Najpierw wyczekuje niskiego bitu startu, po czym
 endmodule
 \end{lstlisting}
 
-\subsubsection{HDL}
-\lstinputlisting[caption=Top.v]{../projects/rs232/Top.v}
-\lstinputlisting[label=Rs232Tx,caption=Rs232Tx.v]{../projects/rs232/Rs232Tx.v}
-\lstinputlisting[label=Rs232Rx,caption=Rs232Rx.v]{../projects/rs232/Rs232Rx.v}
-
 \subsection{Symulacja}
 
-Moduł symulacyjny wysyła bajt wzorcowy, po czym oczekuje odesłania go z powrotem.
+Moduł symulacyjny wysyła serię bajtów wzorcowych, po czym oczekuje odesłania ich z powrotem.
 
-\includegraphics[width=15cm]{grafika/rs232-waveform.jpg}
+Moduł najwyższy $TopTest$ kreuje instancje zegara, resetu, $Rs232$ i wierzchni moduł syntezowalny oraz zapewnia między nimi połączenia.
 
-\subsubsection{HDL}
-\lstinputlisting[caption=Top.v]{../projects/rs232/sim/Rs232_behav.v}
+
+\subsubsection{Rs232}
+
+
+$Rs232$ zawiera pamięć z napisem, który zamierza nadać, po czym odebrać.
+\begin{lstlisting}[label=sim/Rs232,caption=sim/Rs232.v,firstnumber=28]
+   localparam CHARS = 8;
+   reg [7:0] mem [CHARS:0];
+   initial begin
+      mem[0] = "A";
+      mem[1] = "G";
+      mem[2] = "H";
+      mem[3] = " ";
+      mem[4] = "W";
+      mem[5] = "F";
+      mem[6] = "i";
+      mem[7] = "I";
+      mem[8] = "S";
+   end
+\end{lstlisting}
+
+Nadawane są kolejno litery korzystając z zadania modułu zachowawczego.
+\begin{lstlisting}[label=sim/Rs232,caption=sim/Rs232.v,firstnumber=42]
+   integer j = 0;
+   initial begin
+      ..
+      // wyslanie kolejnych liter napisu powitalnego
+      for(j=0; j<CHARS; j=j+1) begin
+         rs232_behav.transmit( mem[j] );
+         ..
+      end
+   end
+\end{lstlisting}
+
+Śledzona jest linia $rx$, która to powinny wysłane dane otrzymać z powrotem w tej samej formie i porządku, co zostaje poddane weryfikacji.
+\begin{lstlisting}[label=sim/Rs232,caption=sim/Rs232.v,firstnumber=64]
+   integer k = 0;
+   reg [7:0] byte_received = 8'd0;
+   always @(negedge rx) begin
+      if(inited) begin
+
+         // odbior bajtu
+         rs232_behav.receive( byte_received );
+         ..
+
+         // weryfikacja
+         if( byte_received != mem[k] )
+            if(LOGLEVEL >= 1)
+               $display("%t\t ERROR [ %m ] \t Odebrany bajt %b 0x%h %d %s rozni sie od wyslanego wzorca %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received, mem[k], mem[k], mem[k], mem[k]);
+
+         // inkrementuj numer biezacego bajtu
+         k = k + 1;
+     end
+  end
+\end{lstlisting}
+
+
+\subsubsection{Rs232 zachowawczo}
+
+Moduł udostępnia zadania do wysyłania oraz odbierania danych. Zajmuje się formowanie ich w pakiety z doklejonymi bitami startu i stopu lub wyłuskiwaniem jego zawartości. Informuje o przebiegu swojej pracy z wybraną sześciostopniową dokładnością poziomu logowania.
+\begin{lstlisting}[label=sim/Rs232 behav,caption=sim/Rs232 behav.v]
+module Rs232_behav
+#(
+   // LOGLEVEL = 0
+   //      bez zadnych komunikatow
+   // LOGLEVEL = 1
+   //      pokazuje bledy
+   // LOGLEVEL = 2
+   //      pokazuje ostrzezenia
+   //
+   // LOGLEVEL = 3
+   //      informuje o wyslaniu/otrzymaniu pelnego bajtu
+   // LOGLEVEL = 4
+   //      informuje o wysylaniu/otrzymywaniu poszczegolnych bitow
+   // LOGLEVEL = 5
+   //      informuje o wyslaniu/otrzymywaniue start i stop bitow
+   // LOGLEVEL = 6
+   //      informuje o przeczekiwaniu tolerowanego przesuniecia zegara
+   parameter LOGLEVEL=3,
+   parameter LOGLEVEL_RX=3,
+   parameter LOGLEVEL_TX=3,
+
+   parameter BAUDRATE = 115_200
+) (
+   input rx,
+   output tx
+);
+\end{lstlisting}
+
+Wyliczone są czasy trwania pojedynczego bitu na podstawie żądanej prędkości transmisji oraz tolerancji na błąd przesunięcia zegara.
+\begin{lstlisting}[label=sim/Rs232 behav,caption=sim/Rs232 behav.v,firstnumber=64]
+   // czas jednego okresu przy zakladanej szybkosci
+   localparam PERIOD = 1_000_000_000 / BAUDRATE;
+   // tolerancja zegara
+   localparam BITTOL = 0.05 * PERIOD;
+\end{lstlisting}
+
+Zadanie wysyłające przyjmuje bajt danych. Wysyła go w pętli poprzedzając bitem startu i zakańczając stopem.
+\begin{lstlisting}[label=sim/Rs232 behav,caption=sim/Rs232 behav.v,firstnumber=64]
+   // Zadanie wysyla przekazany bajt wraz z poprzedajacym bitem startu i nastepujacym stopu
+   task transmit
+   (
+      input [7:0] byte_tosend
+   );
+      integer     i;
+      begin
+         ..
+         set_tx.low_during( PERIOD );
+
+         // Przekazany bajt
+         for(i=0; i < 8; i=i+1) begin
+            set_tx.state_during( PERIOD, byte_tosend[i] );
+            ..
+         end
+
+         // Stop bit
+         ..
+         set_tx.high_during( PERIOD );
+         ..
+      end
+   endtask
+\end{lstlisting}
+
+Zadanie odbierające dane symetrycznie do nadającego spodziewa się bitu startu, bajtu danych i stop bitu.
+\begin{lstlisting}[label=sim/Rs232 behav,caption=sim/Rs232 behav.v,firstnumber=118]
+   task receive
+   (
+      output reg [7:0] byte_received
+   );
+      integer i;
+      reg startbit;
+      reg stopbit;
+      begin
+         // Zaczekaj na start bit
+         ..
+         monitor_rx.wait_for_low();
+         ..
+         // Odbierz bit startu
+         receive_bit( startbit );
+         if(startbit != 1'b0)
+            if(LOGLEVEL >= 1)
+               $display("%t\t ERROR [ %m ] \t Bit startu powinien byc niski", $time);
+         ..
+         // Odbierz bajt danych
+         for(i=0; i < 8; i=i+1) begin
+            receive_bit( byte_received[i] );
+            ..
+         end
+
+         // Odbierz oczekiwany stop bit
+         ..
+         receive_bit( stopbit );
+         if(stopbit != 1'b1)
+            if(LOGLEVEL >= 1)
+               $display("%t\t ERROR [ %m ] \t Oczekiwany bit stopu powinien byc wysoki", $time);
+         ..
+      end
+   endtask
+\end{lstlisting}
+
+Odbiór bitu realizowany jest w kolejnym dedykowanym zadaniu. Sprawdzane jest, czy linia $rx$ jest stabilna przez dlugość trwania okresu z wyłączeniem początkowego i końcowego możliwego błędu synchronizacji zegarów.
+\begin{lstlisting}[label=sim/Rs232 behav,caption=sim/Rs232 behav.v,firstnumber=89]
+   // Zadanie odbiera bit probkujac go 3 krotnie
+   task receive_bit
+   (
+      output reg received
+   );
+      begin
+         ..
+         #(BITTOL);
+         ..
+         monitor_rx.ensure_same_during( (PERIOD-2*BITTOL) );
+         ..
+         received = rx;
+         ..
+         #(BITTOL);
+         ..
+      end
+   endtask
+\end{lstlisting}
+
+
+\subsubsection{Wyjście}
+
+\begin{verbatim}
+96800000 INFO3 [ TopTest.rs232 ]  Wyslano bajt '01001000' (0x 48) (dec  72) (ascii H)
+183600000 INFO3 [ TopTest.rs232 ]  Wyslano bajt '01000101' (0x 45) (dec  69) (ascii E)
+183710000 INFO3 [ TopTest.rs232 ]  Odebrano bajt '01001000' (0x 48) (dec  72) (ascii H)
+270400000 INFO3 [ TopTest.rs232 ]  Wyslano bajt '01001100' (0x 4c) (dec  76) (ascii L)
+270570000 INFO3 [ TopTest.rs232 ]  Odebrano bajt '01000101' (0x 45) (dec  69) (ascii E)
+\end{verbatim}
+
+%% \subsubsection{HDL}
+%% \lstinputlisting[caption=Top.v]{../projects/rs232/Top.v}
+%% \lstinputlisting[label=Rs232Tx,caption=Rs232Tx.v]{../projects/rs232/Rs232Tx.v}
+%% \lstinputlisting[label=Rs232Rx,caption=Rs232Rx.v]{../projects/rs232/Rs232Rx.v}
+
+%% \includegraphics[width=15cm]{grafika/rs232-waveform.jpg}
+
+%% \subsubsection{HDL}
+%% \lstinputlisting[caption=Top.v]{../projects/rs232/sim/Rs232_behav.v}
 
 \newpage
 \section{VGA}
@@ -1025,4 +1218,3 @@ Projekty można zsyntetyzować, przesymulować oraz przesłać na płytke z wyko
 \selectfont
 
 \end{document}
-
