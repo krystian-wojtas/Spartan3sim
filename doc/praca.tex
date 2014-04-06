@@ -302,9 +302,208 @@ Kilka obrotów następujących po sobie.
 
 Rs232 jest asynchronicznym, szeregowym standardem komunikacyjnym. Zdefiniowane są osobne linie do wysyłanych i odbieranych danych. Szybkość transmisji ustala się ręcznie w urządzeniach końcowych.
 
-Stanem wysokim określony jest stan bezczynności, Nadawanie danych rozpoczyna się od opuszczenia linii Tx na okres jednego bitu tzw. startowego. Natępnie przesyłane są kolejne bity danych i kończone są wysokim bitem stopu.
+Stanem wysokim określony jest stan bezczynności, Nadawanie danych rozpoczyna się od opuszczenia linii $tx$ na okres jednego bitu tzw. startowego. Natępnie przesyłane są kolejne bity danych i kończone są wysokim bitem stopu. Standard przewiduje możliwy bit parzystości poprzedzający stop.
+
+\subsection{Aplikacja}
+Zaimplementowana aplikacja oczekuje wysłania bajtu danych przez urządzenie po drugiej stronie kabla, po czym mu go odsyła w niezmienionej postaci. Działa jak zwykłe echo. Pracuje z prędkością 115200 bitów na sekundę. Nie implementuje bitu parzystości.
 
 \subsection{Synteza}
+
+\subsubsection{Warstwa wierzchnia}
+\iffalse
+\subsubsection{Powierzchnia}
+\fi
+Moduł najwyższy w zasadzie przepuszcza wszystkie połączenia do właściwego modułu echa. Jedynie wyprowadza dodatkowo stan linii komunikacyjnych na złącze oscyloskopu do łatwej analizy. Natomiast moduł echa instancjuje część odbierającą i transmitującą dane oraz je łączy.
+\lstinputlisting[caption=Rs232Echo.v]{../projects/rs232/Rs232Echo.v}
+
+
+\subsubsection{Transmisja}
+Transmiter jest prostszy, zatem od niego warto zacząć. Należy przekazać mu w parametrach taktowanie zegara podstawowego płytki oraz zakładaną prędkość pracy. Aby z modułu skorzystać wystarczy podsunąć wysyłany bajt połączeniem $TxD\_data$, po czym podnieść na jeden cykl $TxD\_start$. Wtedy zacznie formować stan linii wyjściowej $TxD$ poprzez serializacje dostarczonego bajtu wraz z dodatkowymi skrajnymi bitami startu i stopu. Swoją zajętość sygnalizuje flagą $TxD\_busy$.
+\begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v]
+module Rs232Tx
+#(
+   parameter FREQ = 50000000,   // 50MHz
+   parameter BAUD = 115200      // 115 200 bounds/sec
+) (
+   input       CLK50MHZ,
+   input       RST,
+   input       TxD_start,
+   input [7:0] TxD_data,
+   output      TxD,
+   output      TxD_busy
+);
+\end{lstlisting}
+
+Do wyznaczenia momentu nadania kolejnego bitu służy dedykowany moduł $BaudRateGenerator$.
+TODO błąd
+\begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v,firstnumber=14]
+   `include "../../generic/log2.v"
+   localparam N = log2(BAUD);
+
+   wire        BaudTick;
+   wire        TxD_ready;
+   BaudRateGenerator #(
+        .INC( ((BAUD<<(N-4))+(FREQ>>5))/(FREQ>>4) ), // = 302
+        .N(N)
+     ) baud115200 (
+        .CLK50MHZ(CLK50MHZ),
+        .RST(RST),
+        .en(TxD_busy),
+        .tick(BaudTick)
+    );
+\end{lstlisting}
+
+Znany moduł do serializacji zajmuje sie wysyłaniem danych w takt sygnału generowanego przez $BaudRateGenerator$. Dane te należy otoczyć bitem startu i stopu oraz w całości zanegować dla spójności z jałową jedynką.
+\begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v,firstnumber=29]
+    // START BIT, data, STOP BIT
+    wire [9:0]  rs_data = { 1'b1, ~TxD_data, 1'b0 };
+   // output TxD line should be high at idle
+    wire        TxD_neg;
+    Serial #(
+        .WIDTH(10)
+    ) Serial_ (
+        .CLKB(CLK50MHZ),
+        .RST(RST),
+        // serial module interface
+        .rx(1'b0),
+        .tx(TxD_neg),
+        .data_in(rs_data),
+        .trig(TxD_start),
+        .ready(TxD_ready),
+        .tick(BaudTick)
+    );
+
+   assign TxD      = ~ TxD_neg;
+   assign TxD_busy = ~ TxD_ready;
+
+endmodule
+\end{lstlisting}
+
+
+\subsubsection{Odbiór}
+Moduł odbiorczy podobnie ma parametryzowane zegar podstawowy płytki oraz szybkość pracy. Gdy odbierze nowe dane, wystawia je na wyjścia $RxD\_data$ oraz informuje o zdarzeniu flagą $RxD\_data\_ready$ przez jeden cykl.
+\begin{lstlisting}[label=Rs232Rx,caption=Rs232Rx.v]
+module Rs232Rx
+#(
+        parameter FREQ = 50000000,      // 50MHz
+        parameter BAUD = 115200         // 115 200 bounds/sec
+) (
+        input        CLK50MHZ,
+        input        RST,
+        input        RxD,
+        output [7:0] RxD_data,
+        output       RxD_data_ready
+);
+\end{lstlisting}
+
+Protokół jest asynchroniczny, więc sygnał zegarowy nie jest przekazywany, co utrudnia nieco odbiór. Linia $RxD$ jest próbkowana z trzykrotnie większą częstotliwością, a przyjęty odebrany bit jest wynikiem głosowania próbek. Podejście wymusza powołanie również szybszego modułu $BaudRateGenerator$-a.
+\begin{lstlisting}[label=Rs232Rx,caption=Rs232Rx.v,firstnumber=13]
+   `include "../../generic/log2.v"
+   localparam N = log2(BAUD);
+
+   wire              receving;
+   wire              BaudTick3;
+   BaudRateGenerator #(
+        // 3 times oversampling
+        .INC( ((BAUD*3<<(N-7))+(FREQ>>8))/(FREQ>>7) ), // = 2416
+        .N(N)
+    ) baud_115200x3 (
+        .CLK50MHZ(CLK50MHZ),
+        .RST(RST),
+        .en(receving),
+        .tick(BaudTick3)
+    );
+
+    wire        BaudTick;
+    BaudRateGenerator #(
+        .INC( ((BAUD<<(N-4))+(FREQ>>5))/(FREQ>>4) ), // = 302
+        .N(N)
+    ) baud_115200 (
+        .CLK50MHZ(CLK50MHZ),
+        .RST(RST),
+        .en(receving),
+        .tick(BaudTick)
+    );
+\end{lstlisting}
+
+Tutaj instancjalizowany jest rejestr przesuwny dla próbek oraz kreowany układ głosujacy przypisaniem ciągłym.
+\begin{lstlisting}[label=Rs232Rx,caption=Rs232Rx.v,firstnumber=40]
+   wire [2:0]   rx3;
+   Shiftreg #(
+      .WIDTH(3)
+   ) rx3_shitftreg (
+           .CLKB(CLK50MHZ),
+           .en(1'b1),
+           .set(1'b0),
+           .tick(BaudTick3),
+           .rx(RxD),
+           .data_in(3'b000),
+           .data_out(rx3)
+           );
+
+   // Vote for rx value
+   wire                    rx =
+                           rx3 != 3'b000 &&
+                           rx3 != 3'b001 &&
+                           rx3 != 3'b010 &&
+                           rx3 != 3'b100;
+\end{lstlisting}
+
+Serializer zajmuje się deserializacją napływających bitów pakietu. Bity początkowy startu i końcowy stopu zostają obcięte.
+\begin{lstlisting}[label=Rs232Rx,caption=Rs232Rx.v,firstnumber=59]
+   wire                    trig;
+   wire                    ready;
+   wire [9:0]              data_out;
+   Serial #(
+        .WIDTH(10)
+    ) Serial_ (
+        .CLKB(CLK50MHZ),
+        .RST(RST),
+        // serial module interface
+        .rx(rx),
+        .data_in(10'b0),
+        .data_out(data_out),
+        .trig(trig),
+        .ready(ready),
+        .tick(BaudTick)
+    );
+
+   // get rid of START and STOP bits
+   assign RxD_data = data_out[8:1];
+\end{lstlisting}
+
+Konieczna jest maszyna stanów. Najpierw wyczekuje niskiego bitu startu, po czym odbiera pakiet i zgłasza jego przyjęcie. Cykl się powtarza.
+\begin{lstlisting}[label=Rs232Rx,caption=Rs232Rx.v,firstnumber=79]
+   localparam [1:0]
+     WAIT_STARTBIT = 3'd0,
+     START_RECEVING = 3'd1,
+     RECEVING = 3'd2,
+     RECEIVED = 3'd3;
+
+   reg [2:0]               state = WAIT_STARTBIT;
+   always @(posedge CLK50MHZ)
+     if(RST)
+       state <= WAIT_STARTBIT;
+     else
+       case(state)
+         WAIT_STARTBIT:
+           if(~RxD)
+             state <= START_RECEVING;
+         START_RECEVING:
+             state <= RECEVING;
+         RECEVING:
+           if(ready)
+             state <= RECEIVED;
+         RECEIVED:
+             state <= WAIT_STARTBIT;
+       endcase
+
+   assign       trig = (state == START_RECEVING);
+   assign       RxD_data_ready = (state == RECEIVED);
+   assign       receving = (state == RECEVING);
+
+endmodule
+\end{lstlisting}
 
 \subsubsection{HDL}
 \lstinputlisting[caption=Top.v]{../projects/rs232/Top.v}
@@ -318,7 +517,7 @@ Moduł symulacyjny wysyła bajt wzorcowy, po czym oczekuje odesłania go z powro
 \includegraphics[width=15cm]{grafika/rs232-waveform.jpg}
 
 \subsubsection{HDL}
-\lstinputlisting[caption=Top.v]{../projects/rs232/Rs232-behav.v}
+\lstinputlisting[caption=Top.v]{../projects/rs232/sim/Rs232_behav.v}
 
 \newpage
 \section{VGA}
@@ -543,10 +742,10 @@ Wszelkie połączenia utworzone do tej pory przekazane zostają do najwyższego 
 endmodule
 \end{lstlisting}
 
-Vga\_Behav przyjmuje szereg parametrów. Domyślne wartości odpowiadają odbiorowi obrazu o rozmiarach 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Czasy niewiele różnią się od tych podanych w dokumentacji do płytki, dobrane są dla zegara 50 mHz. Domyślnie pokazywane są jedynie wiadomości o błędach i ostrzeżeniach.
+Vga\_Behav przyjmuje szereg parametrów. Domyślne wartości odpowiadają odbiorowi obrazu o rozmiarach 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Czasy niewiele różnią się od tych podanych w dokumentacji do płytki, dostosowane są dla zegara 50 mHz. Domyślnie pokazywane są jedynie wiadomości o błędach i ostrzeżeniach.
 
 Moduł jedynie przyjmuje sygnały, nie generuje żadnych zwrotnych. Przyjmuje trzy czterobitowe sygnały kolorów oraz dwie synchronizajce linii i ramek dokładnie to co moduł topowy generuje.
-\subsubsection{Vga\_Behav}
+\subsubsection{Moduł behawioralny}
 \begin{lstlisting}[label=Syncvga,caption=Sync.v]
 module Vga_Behav
 #(
