@@ -7,10 +7,10 @@ module Top (
     input        ROT_B,
     // leds
     output [7:0] LED,
+    // debug
     output       DEBUG_A,
     output       DEBUG_B
     );
-
 
     wire center;
     Debouncer debouncer_next (
