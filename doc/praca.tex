@@ -275,26 +275,168 @@ Wykonana została wzorcowa konfiguracja FPGA poprawnie ustawiająca DAC-i. Przed
 \newpage
 \section{Rotor}
 
-Płytka Spartan 3AN jest wyposażona w obrotowy przełącznik o dwóch wyprowadzeniach do FPGA. W stanie jałowym są one przyłączone do wysokiego potencjału. Mechaniczne obracanie pokrętła powoduje zwieranie styków na liniach i uziemienie napięcia. Kierunek obrotu wyznacza która linia wcześniej się zewrze do masy.
+Płytka Spartan 3AN jest wyposażona w obrotowy przełącznik o dwóch wyprowadzeniach do FPGA. W stanie jałowym są one przyłączone do wysokiego potencjału. Mechaniczne obracanie pokrętła powoduje zwieranie styków na liniach i uziemienie napięcia. Kierunek obrotu wyznacza linia, która wcześniej się zewrze do masy lub, co jest ekwiwalentne, wcześniej wróci do stanu jałowego.
 
 \begin{figure}[htb]
    \centering
    \includegraphics[width=13cm]{grafika/dso/rotor-w-prawo-jeden.png}
+   \caption{Obrót w kierunku zgodnym z ruchem wskazówek zegara. Fioletowa linia wykreśla sygnał $rota$.}
 \end{figure}
-
-Obrót w kierunku zgodnym z ruchem wskazówek zegara. Fioletowa linia wykreśla sygnał 'rota'.
 
 \begin{figure}[htb]
    \centering
    \includegraphics[width=13cm]{grafika/dso/rotor-w-prawo-wiele.png}
+   \caption{Kilka obrotów następujących po sobie}
 \end{figure}
 
-Kilka obrotów następujących po sobie.
+\subsection{Aplikacja}
 
-\subsection{HDL}
-\lstinputlisting[label=Toprotor,caption=Top.v]{../projects/rotor/Top.v}
-\lstinputlisting[label=Rotor,caption=Rotor.v]{../projects/rotor/Rotor.v}
-\lstinputlisting[label=Controller_rotor,caption=Controller.v]{../projects/rotor/Controller.v}
+FPGA po skonfigurowaniu lub zresetowaniu zapala jedną diode, piątą lub szóstą w szeregu. Obrót rotora powoduje przesunięcie stanu wszystkich diód o jedną pozycję w lewo lub w prawo w zależności od kierunku obrotu. Pozycje skrajne się cyklicznie uzupełniają. Rotor można także nacisnąć, co spowoduje zmiane stanu pierwszej diody na przeciwny.
+
+\subsection{Synteza}
+
+\subsubsection{Warstwa wierzchnia}
+
+FPGA korzysta z wyprowadzeń zegara, dolnego przycisku resetu, $ROT\_CENTER$ jest do obsługi wciśnięć. $ROT\_A$ oraz $ROT\_B$ są połączeniami do pokrętła. Są też wyprowadzenia dla diód i dodatkowe połączenia pokrętła na oscyloskop.
+\begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v,firstnumber=14]
+module Top (
+    input        CLK50MHZ,
+    input        RST,
+    // rotor control
+    input        ROT_CENTER,
+    input        ROT_A,
+    input        ROT_B,
+    // leds
+    output [7:0] LED,
+    // debug
+    output       DEBUG_A,
+    output       DEBUG_B
+    );
+\end{lstlisting}
+Przycisk $ROT\_CENTER$ jest pozbawiany drgań styków dzięki przeprowadzeniu przez $Debouncer$-a. Zainstancjonowane są tu także moduły $Rotor$-a oraz $Controller$-a. Wyprowadzenia debugera to przypisania ciągłe na odpowiadające połączenia obrotu.
+
+\subsubsection{Test}
+Moduł testowy jedynie symuluje obracanie pokrętła przez użytkownika.
+\begin{lstlisting}[label=TopTestBench,caption=TopTestBench.v]
+module TopTestBench(
+    input RST,
+    // rotor control
+    output reg ROT_CENTER = 1'b0,
+    output reg ROT_A = 1'b1,
+    output reg ROT_B = 1'b1
+);
+
+    initial begin
+
+       // rozpoczecie skretu w lewo
+        #300;
+        ROT_A = 1'b0;
+        #250;
+        ROT_B = 1'b0;
+
+        // konczenie skretu w lewo
+        #300;
+        ROT_A = 1'b1;
+        #50;
+        ROT_B = 1'b1;
+
+        // rozpoczenie skretu w prawo
+        #500;
+        ROT_B = 1'b0;
+        #250;
+        ROT_A = 1'b0;
+
+        // konczenie skretu w prawo
+        #300;
+        ROT_B = 1'b1;
+        #50;
+        ROT_A = 1'b1;
+
+    end
+
+endmodule
+\end{lstlisting}
+
+\subsubsection{Rotor}
+$Rotor$ otrzymuje bezpośrednio sygnały o mechanicznych obrotach pokrętła i je interpretuje, w wyniku czego sygnalizuje wykryte obroty wraz z ich rozpoznanym kierunkiem.
+\begin{lstlisting}[label=Rotor,caption=Rotor.v]
+module Rotor(
+    input clk,
+    input rst,
+    // inputs
+    input rota,
+    input rotb,
+    // one pulse output direction signals
+    output left,
+    output right
+);
+\end{lstlisting}
+
+Dla zobrazowanie dalszych zależności między sygnałami, zamieszczony jest zrzut z symulacji.
+\begin{figure}[htb]
+   \centering
+   \includegraphics[width=15cm]{grafika/rotor.png}
+   \caption{Symulacja sygnałów rotora}
+\end{figure}
+
+Rejestry pomocnicze zatrzaskują stan linii $rotb$. $rotary\_q1$ gdy wyprowadzenia pokrętła są zgodne, natomiast $rotary\_q2$ gdy są przeciwne.
+\begin{lstlisting}[label=Rotor,caption=Rotor.v,firstnumber=12]
+    reg rotary_q1 = 1'b0;
+    always @(posedge clk)
+        if(rota ~^ rotb)
+            rotary_q1 <= rotb;
+
+    reg rotary_q2 = 1'b0;
+    always @(posedge clk)
+        if(rota ^ rotb)
+             rotary_q2 <= rotb;
+\end{lstlisting}
+
+Dodatkowy rejestr $prev\_rotary\_q1$ przechowuje wartość $rotary\_q1$ z poprzedniej chwili. To umożliwia wykrycie zbocza narastającego $rotary\_q1$, czyli momentu gdy obrót się skończył i oba wyprowadzenia pokrętła są ponownie wysokie w stanie jałowym.
+
+Pogląd na kierunek obrotu daje drugi rejestr pomocniczy $rotary\_q2$. Linie pokrętłą nie kończą wysterowywania obrotu jednocześnie. Kolejność powrotów mówi o kierunku obrotu. $rotary\_q2$ zachowa stan $rotb$ w chwili pierwszego powrotu. Wystarczy teraz sprawdzić zachowany stan $rotary\_q2$, by odpowiedzieć czy ona wróciła pierwsza, co implikowałoby obrót w prawo - zgodny z ruchem wskazówek zegara.
+\begin{lstlisting}[label=Rotor,caption=Rotor.v,firstnumber=22]
+    reg prev_rotary_q1 = 1'b0;
+    reg rotary_event = 1'b0;
+    reg rotary_left = 1'b0;
+    always @(posedge clk) begin
+        prev_rotary_q1 <= rotary_q1;
+        if(~prev_rotary_q1 && rotary_q1) begin
+            rotary_event <= 1'b1;
+            rotary_left <= rotary_q2;
+        end else
+            rotary_event <= 1'b0;
+    end
+
+    assign left = rotary_event & ~rotary_left;
+    assign right = rotary_event & rotary_left;
+
+endmodule
+\end{lstlisting}
+
+\subsubsection{Kontroler}
+
+Kontroler operuje na rejestrze, który powiązany jest z diodami led na płytce. Po świeżej konfiguracji płytki świeci się dioda piąta. Przycisk resetu ustawia jedynie szóstą. Przycisk centralny pokrętła zmieni stan diody pierwszej na przeciwny. Kontroler dostaje też impulsy $left$ oraz $right$ informujący o zajściu obrotu i jego kierunku. Wtedy przesuwa bity rejestru w wyznaczonym kursie.
+\begin{lstlisting}[label=Controller,caption=Controller.v]
+module Controller(
+         input clk,
+         input rst,
+         // tick inputs
+         input center,
+         input left,
+         input right,
+         //  leds
+         output reg [7:0] leds = 8'b0001_0000
+    );
+
+    always @(posedge clk)
+        if(rst)           leds <= 8'b0010_0000;
+        else if(center)   leds[0] <= ~leds[0];
+        else if(left)     leds <= { leds[6:0], leds[7] };
+        else if(right)    leds <= { leds[0], leds[7:1] };
+
+endmodule
+\end{lstlisting}
 
 
 \newpage
