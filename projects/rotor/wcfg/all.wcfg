@@ -9,7 +9,13 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="25" />
+   <WVObjectSize size="31" />
+   <wave_markers>
+      <marker time="300000000" label="" />
+      <marker time="900000000" label="" />
+      <marker time="1400000000" label="" />
+      <marker time="2000000000" label="" />
+   </wave_markers>
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
@@ -56,17 +62,17 @@
       <obj_property name="ElementShortName">rotb</obj_property>
       <obj_property name="ObjectShortName">rotb</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/Rotor_/rotary_q1" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">rotary_q1</obj_property>
-      <obj_property name="ObjectShortName">rotary_q1</obj_property>
-   </wvobject>
    <wvobject fp_name="/TopTest/Top_/Rotor_/rotary_q2" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">rotary_q2</obj_property>
       <obj_property name="ObjectShortName">rotary_q2</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Top_/Rotor_/delay_rotary_q1" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">delay_rotary_q1</obj_property>
-      <obj_property name="ObjectShortName">delay_rotary_q1</obj_property>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/rotary_q1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rotary_q1</obj_property>
+      <obj_property name="ObjectShortName">rotary_q1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/Rotor_/prev_rotary_q1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">prev_rotary_q1</obj_property>
+      <obj_property name="ObjectShortName">prev_rotary_q1</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Rotor_/rotary_event" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">rotary_event</obj_property>
@@ -113,5 +119,29 @@
    <wvobject fp_name="/TopTest/Top_/Controller_/leds" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">leds[7:0]</obj_property>
       <obj_property name="ObjectShortName">leds[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/ROT_CENTER" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ROT_CENTER</obj_property>
+      <obj_property name="ObjectShortName">ROT_CENTER</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/ROT_A" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ROT_A</obj_property>
+      <obj_property name="ObjectShortName">ROT_A</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/ROT_B" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ROT_B</obj_property>
+      <obj_property name="ObjectShortName">ROT_B</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LED[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
    </wvobject>
 </wave_config>
