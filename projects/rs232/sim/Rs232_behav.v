@@ -88,7 +88,7 @@ module Rs232_behav
 
    // Zadanie odbiera bit probkujac go 3 krotnie
 
-   task receive_bit3x
+   task receive_bit
    (
       output reg received
    );
@@ -112,26 +112,6 @@ module Rs232_behav
 
          if(LOGLEVEL >= 6)
             $display("%t\t INFO6 [ %m ] \t Zakończono odbior bitu", $time);
-
-         // // Pierwsze probkowanie zapisuje stan linii rx
-         // #(PERIOD / 6);
-         // received = rx;
-
-         // // Drugie probkowanie porownuje zapisany stan z obecnym, powinny sie zgadzac
-         // #(PERIOD / 3);
-         // if(received != rx)
-         //    if(LOGLEVEL >= 1)
-         //       $display("%t\t ERROR [ %m ] \t Druga proba odbieranego bitu %b rozni sie od pierwszej %b", $time, rx, received);
-
-         // // Trzecie probkowanie jak wyzej
-         // #(PERIOD / 3);
-         // if(received != rx)
-         //    if(LOGLEVEL >= 1)
-         //       $display("%t\t ERROR [ %m ] \t Trzecia proba odbieranego bitu %b rozni sie od pierwszej %b", $time, rx, received);
-
-         // // Konczenie okresu
-         // #(PERIOD / 6);
-
       end
    endtask
 
@@ -154,7 +134,7 @@ module Rs232_behav
             $display("%t\t INFO3 [ %m ] \t Odbieranie nowego pakietu", $time);
 
          // Odbierz bit startu
-         receive_bit3x( startbit );
+         receive_bit( startbit );
          if(startbit != 1'b0)
             if(LOGLEVEL >= 1)
                $display("%t\t ERROR [ %m ] \t Bit startu powinien byc niski", $time);
@@ -163,7 +143,7 @@ module Rs232_behav
 
          // Odbierz bajt danych
          for(i=0; i < 8; i=i+1) begin
-            receive_bit3x( byte_received[i] );
+            receive_bit( byte_received[i] );
             if(LOGLEVEL >= 4)
                $display("%t\t INFO4 [ %m ] \t Odebrano bit nr %d o wartosci %b", $time, i, byte_received[i]);
          end
@@ -171,7 +151,7 @@ module Rs232_behav
          // Odbierz oczekiwany stop bit
          if(LOGLEVEL >= 5)
             $display("%t\t INFO5 [ %m ] \t Zakonczenie odbioru danych, nastepuje odbior spodziewanego stop bitu", $time);
-         receive_bit3x( stopbit );
+         receive_bit( stopbit );
          if(stopbit != 1'b1)
             if(LOGLEVEL >= 1)
                $display("%t\t ERROR [ %m ] \t Oczekiwany bit stopu powinien byc wysoki", $time);
