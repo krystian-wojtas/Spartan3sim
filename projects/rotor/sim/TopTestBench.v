@@ -32,13 +32,17 @@ module TopTestBench #(
       // poczatkowe opoznienie
       #300;
 
+      if(LOGLEVEL >= 3)
+         $display("%t\t INFO3 [ %m ] \t Poczatek symulacji", $time);
+
       // kilka ruchow
       rotor_behav.turn_left();
       rotor_behav.turn_left();
-
       rotor_behav.press_center();
-
       rotor_behav.turn_right();
+
+      if(LOGLEVEL >= 4)
+         $display("%t\t INFO3 [ %m ] \t Koniec symulacji", $time);
     end
 
 endmodule
