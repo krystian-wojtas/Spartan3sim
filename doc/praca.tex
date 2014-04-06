@@ -1255,7 +1255,7 @@ module Vga_Behav_Sync
    always @(negedge vga_vsync) begin
       if(synchronized) begin
          if( INFO1 )
-            DOLAR_display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru nowej ramki.", DOLAR_time);
+            $display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru nowej ramki.", $time);
 
          fork begin
             // Dlugosc pulsu synchronizacji ramki
@@ -1273,16 +1273,16 @@ module Vga_Behav_Sync
 
             // Czas wyswietlania wszystkich kolejnych wierszy w ramce
             if( INFO3 )
-               DOLAR_display("%t\t INFO3\t [ %m ] \t Nadawanie wierszy", DOLAR_time);
+               $display("%t\t INFO3\t [ %m ] \t Nadawanie wierszy", $time);
             #(V_S - V_FP - V_PW - V_BP + 13581);
             if( INFO3 )
-               DOLAR_display("%t\t INFO3\t [ %m ] \t Nadano wiersze", DOLAR_time);
+               $display("%t\t INFO3\t [ %m ] \t Nadano wiersze", $time);
 
             // Czas do nastepnej synchronizacji ramki
             monitor_vga_colours_v.ensure_low_during( V_FP -13581 -1 );
          end join;
 
-         DOLAR_display();
+         $display();
       end;
    end
 \end{lstlisting}
