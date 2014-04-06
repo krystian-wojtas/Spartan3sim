@@ -13,15 +13,8 @@ module Top (
 
 
     wire center;
-    Counter #(
-`ifdef SIM
-        .MAX(10)
-`else
-        .MAX(10_000_000)
-`endif
-        ) Debouncer_center (
-        .CLKB(CLK50MHZ),
-        .en(1'b1),
+    Debouncer debouncer_next (
+        .clk(CLK50MHZ),
         .rst(RST),
         .sig(ROT_CENTER),
         .full(center)

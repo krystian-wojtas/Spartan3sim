@@ -2,6 +2,7 @@ synt += ../Top.v
 synt += ../Controller.v
 synt += ../Rotor.v
 synt += ../../generic/Counter.v
+synt += ../../generic/Debouncer.v
 
 sim += $(synt)
 sim += ../TopTest.v
