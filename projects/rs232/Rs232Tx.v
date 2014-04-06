@@ -1,7 +1,7 @@
 module Rs232Tx
 #(
-   parameter FREQ = 50000000,	// 50MHz
-   parameter BAUD = 115200	// 115 200 bounds/sec
+   parameter FREQ = 50000000,   // 50MHz
+   parameter BAUD = 115200      // 115 200 bounds/sec
 ) (
    input       CLK50MHZ,
    input       RST,
@@ -11,8 +11,7 @@ module Rs232Tx
    output      TxD_busy
 );
 
-`include "../../generic/log2.v"
-
+   `include "../../generic/log2.v"
    localparam N = log2(BAUD);
 
    wire        BaudTick;
@@ -27,10 +26,10 @@ module Rs232Tx
         .tick(BaudTick)
     );
 
-    // output TxD line should be high at idle
-    wire 	TxD_neg;
     // START BIT, data, STOP BIT
-    wire [9:0] 	rs_data = { 1'b1, ~TxD_data, 1'b0 };
+    wire [9:0]  rs_data = { 1'b1, ~TxD_data, 1'b0 };
+    // output TxD line should be high at idle
+    wire        TxD_neg;
     Serial #(
         .WIDTH(10)
     ) Serial_ (

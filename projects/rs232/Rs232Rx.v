@@ -10,8 +10,7 @@ module Rs232Rx
         output       RxD_data_ready
 );
 
-`include "../../generic/log2.v"
-
+   `include "../../generic/log2.v"
    localparam N = log2(BAUD);
 
    wire              receving;
