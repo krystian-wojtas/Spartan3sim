@@ -9,7 +9,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="31" />
+   <WVObjectSize size="25" />
    <wave_markers>
       <marker time="300000000" label="" />
       <marker time="900000000" label="" />
@@ -119,29 +119,5 @@
    <wvobject fp_name="/TopTest/Top_/Controller_/leds" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">leds[7:0]</obj_property>
       <obj_property name="ObjectShortName">leds[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
-      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">RST</obj_property>
-      <obj_property name="ObjectShortName">RST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/ROT_CENTER" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">ROT_CENTER</obj_property>
-      <obj_property name="ObjectShortName">ROT_CENTER</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/ROT_A" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">ROT_A</obj_property>
-      <obj_property name="ObjectShortName">ROT_A</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/ROT_B" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">ROT_B</obj_property>
-      <obj_property name="ObjectShortName">ROT_B</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">LED[7:0]</obj_property>
-      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
    </wvobject>
 </wave_config>

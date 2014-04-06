@@ -1,37 +1,78 @@
 module TopTestBench(
     input RST,
     // rotor control
-    output reg ROT_CENTER = 1'b0,
-    output reg ROT_A = 1'b1,
-    output reg ROT_B = 1'b1
+    output ROT_CENTER,
+    output ROT_A,
+    output ROT_B
 );
 
-    initial begin
+   // Instancje ustawiaczy pokrętłą
+   Set #(
+      .LOGLEVEL(5),
+      .N(1)
+   ) set_center (
+      .signals( ROT_CENTER )
+   );
+   Set #(
+      .LOGLEVEL(5),
+      .N(1)
+   ) set_rota (
+      .signals( ROT_A )
+   );
+   Set #(
+      .LOGLEVEL(5),
+      .N(1)
+   ) set_rotb (
+      .signals( ROT_B )
+   );
 
-       // rozpoczecie skretu w lewo
-        #300;
-        ROT_A = 1'b0;
-        #250;
-        ROT_B = 1'b0;
+   task turn_left();
+      begin
+          // rozpoczecie skretu w lewo
+         set_rota.low_during( 250 );
+         set_rotb.low_during( 300 );
 
-        // konczenie skretu w lewo
-        #300;
-        ROT_A = 1'b1;
-        #50;
-        ROT_B = 1'b1;
+         // konczenie skretu w lewo
+         set_rota.high_during( 50 );
+         set_rotb.high_during( 500 );
+      end
+   endtask
 
-        // rozpoczenie skretu w prawo
-        #500;
-        ROT_B = 1'b0;
-        #250;
-        ROT_A = 1'b0;
+   task turn_right();
+      begin
+          // rozpoczecie skretu w prawo
+         set_rotb.low_during( 250 );
+         set_rota.low_during( 300 );
 
-        // konczenie skretu w prawo
-        #300;
-        ROT_B = 1'b1;
-        #50;
-        ROT_A = 1'b1;
+         // konczenie skretu w prawo
+         set_rotb.high_during( 50 );
+         set_rota.high_during( 500 );
+      end
+   endtask
 
+   task press_center();
+      begin
+         set_center.high_during( 400 );
+         set_center.low_during( 200 );
+      end
+   endtask
+
+   initial begin
+      // jalowe stany poczatkowe
+      set_center.low();
+      set_rota.high();
+      set_rotb.high();
+
+      // poczatkowe opoznienie
+      #300;
+
+      // kilka ruchow
+      turn_left();
+      turn_left();
+
+      press_center();
+
+      turn_right();
     end
 
 endmodule
