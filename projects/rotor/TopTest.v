@@ -24,7 +24,6 @@ module TopTest();
     );
 
     TopTestBench TopTestBench_(
-        .RST(RST),
         // rotor control
         .ROT_CENTER(ROT_CENTER),
         .ROT_A(ROT_A),
