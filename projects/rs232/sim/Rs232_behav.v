@@ -87,7 +87,6 @@ module Rs232_behav
 
 
    // Zadanie odbiera bit probkujac go 3 krotnie
-
    task receive_bit
    (
       output reg received
