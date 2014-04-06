@@ -9,11 +9,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="172" />
-   <wave_markers>
-      <marker time="10010000000" label="" />
-      <marker time="96870000000" label="" />
-   </wave_markers>
+   <WVObjectSize size="164" />
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
@@ -381,23 +377,23 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Rs232Echo_/rx/WAIT_STARTBIT" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">WAIT_STARTBIT[2:0]</obj_property>
-      <obj_property name="ObjectShortName">WAIT_STARTBIT[2:0]</obj_property>
+      <obj_property name="ElementShortName">WAIT_STARTBIT[1:0]</obj_property>
+      <obj_property name="ObjectShortName">WAIT_STARTBIT[1:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Rs232Echo_/rx/START_RECEVING" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">START_RECEVING[2:0]</obj_property>
-      <obj_property name="ObjectShortName">START_RECEVING[2:0]</obj_property>
+      <obj_property name="ElementShortName">START_RECEVING[1:0]</obj_property>
+      <obj_property name="ObjectShortName">START_RECEVING[1:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Rs232Echo_/rx/RECEVING" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">RECEVING[2:0]</obj_property>
-      <obj_property name="ObjectShortName">RECEVING[2:0]</obj_property>
+      <obj_property name="ElementShortName">RECEVING[1:0]</obj_property>
+      <obj_property name="ObjectShortName">RECEVING[1:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/Rs232Echo_/rx/RECEIVED" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">RECEIVED[2:0]</obj_property>
-      <obj_property name="ObjectShortName">RECEIVED[2:0]</obj_property>
+      <obj_property name="ElementShortName">RECEIVED[1:0]</obj_property>
+      <obj_property name="ObjectShortName">RECEIVED[1:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="divider125" type="divider">
@@ -666,106 +662,72 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="divider159" type="divider">
+      <obj_property name="label">sim</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/rx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/tx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/mem" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">mem[10:0,7:0]</obj_property>
+      <obj_property name="ObjectShortName">mem[10:0,7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/j" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">j[31:0]</obj_property>
+      <obj_property name="ObjectShortName">j[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/inited" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">inited</obj_property>
+      <obj_property name="ObjectShortName">inited</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/k" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">k[31:0]</obj_property>
+      <obj_property name="ObjectShortName">k[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/byte_received" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">byte_received[7:0]</obj_property>
+      <obj_property name="ObjectShortName">byte_received[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/LOGLEVEL" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/rs232/CHARS" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">CHARS[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CHARS[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider171" type="divider">
       <obj_property name="label">behav</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">128 128 255</obj_property>
       <obj_property name="TextColor">230 230 230</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/rx" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/rs232/rs232/rx" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">rx</obj_property>
       <obj_property name="ObjectShortName">rx</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/tx" type="logic" db_ref_id="1">
+   <wvobject fp_name="/TopTest/rs232/rs232/tx" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">tx</obj_property>
       <obj_property name="ObjectShortName">tx</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/mem" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mem[1:0,7:0]</obj_property>
-      <obj_property name="ObjectShortName">mem[1:0,7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/j" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">j[31:0]</obj_property>
-      <obj_property name="ObjectShortName">j[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/k" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">k[31:0]</obj_property>
-      <obj_property name="ObjectShortName">k[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/byte_received" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">byte_received[7:0]</obj_property>
-      <obj_property name="ObjectShortName">byte_received[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/LOGLEVEL" type="array" db_ref_id="1">
+   <wvobject fp_name="/TopTest/rs232/rs232/LOGLEVEL" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">LOGLEVEL[31:0]</obj_property>
       <obj_property name="ObjectShortName">LOGLEVEL[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/BAUDRATE" type="array" db_ref_id="1">
+   <wvobject fp_name="/TopTest/rs232/rs232/BAUDRATE" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">BAUDRATE[31:0]</obj_property>
       <obj_property name="ObjectShortName">BAUDRATE[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/half_period" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">half_period[31:0]</obj_property>
-      <obj_property name="ObjectShortName">half_period[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/period" type="array" db_ref_id="1">
+   <wvobject fp_name="/TopTest/rs232/rs232/period" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">period[31:0]</obj_property>
       <obj_property name="ObjectShortName">period[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/Rs232_behav_/CHARS" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">CHARS[31:0]</obj_property>
-      <obj_property name="ObjectShortName">CHARS[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
-      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">RST</obj_property>
-      <obj_property name="ObjectShortName">RST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/RXD" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">RXD</obj_property>
-      <obj_property name="ObjectShortName">RXD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/TXD" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">TXD</obj_property>
-      <obj_property name="ObjectShortName">TXD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
-      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">RST</obj_property>
-      <obj_property name="ObjectShortName">RST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/RXD" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">RXD</obj_property>
-      <obj_property name="ObjectShortName">RXD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/TXD" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">TXD</obj_property>
-      <obj_property name="ObjectShortName">TXD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
-      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">RST</obj_property>
-      <obj_property name="ObjectShortName">RST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/RXD" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">RXD</obj_property>
-      <obj_property name="ObjectShortName">RXD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TopTest/TXD" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">TXD</obj_property>
-      <obj_property name="ObjectShortName">TXD</obj_property>
    </wvobject>
 </wave_config>
