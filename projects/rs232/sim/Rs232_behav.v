@@ -13,9 +13,11 @@ module Rs232_behav
    //      informuje o wysylaniu/otrzymywaniu poszczegolnych bitow
    // LOGLEVEL = 5
    //      informuje o wyslaniu/otrzymywaniue start i stop bitow
-   // LOGLEVEL = 6 //TODO del
-   //      debug
+   // LOGLEVEL = 6
+   //      informuje o przeczekiwaniu tolerowanego przesuniecia zegara
    parameter LOGLEVEL=3,
+   parameter LOGLEVEL_RX=3,
+   parameter LOGLEVEL_TX=3,
 
    parameter BAUDRATE = 115_200
 ) (
@@ -29,16 +31,14 @@ module Rs232_behav
    localparam BITTOL = 0.05 * PERIOD;
 
    // Instancje obserwatora i ustawiacza linii tx i rx
-
    Monitor #(
-      .LOGLEVEL(5),
+      .LOGLEVEL(LOGLEVEL_RX),
       .N(1)
    ) monitor_rx (
       .signals( rx )
    );
-
    Set #(
-      .LOGLEVEL(5),
+      .LOGLEVEL(LOGLEVEL_TX),
       .N(1)
    ) set_tx (
       .signals( tx )
@@ -58,7 +58,7 @@ module Rs232_behav
 
          // Zalogowanie poczatku transmisji
          if(LOGLEVEL >= 3)
-            $display("%t\t INFO3 [ %m ] \t Wysylany bajt '%b' (0x %h) (dec %d)  (ascii %s)", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
+            $display("%t\t INFO3 [ %m ] \t Wysylanie bajtu '%b' (0x %h) (dec %d) (ascii %s)", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
 
          // Start bit
          if(LOGLEVEL >= 5)
@@ -80,7 +80,7 @@ module Rs232_behav
 
          // Zalogowanie konca transmisji
          if(LOGLEVEL >= 3)
-            $display("%t\t INFO3 [ %m ] \t Wyslano bajt %b (0x %h) (dec %d)  (ascii %s)", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
+            $display("%t\t INFO3 [ %m ] \t Wyslano bajt %b (0x %h) (dec %d) (ascii %s)", $time, byte_tosend, byte_tosend, byte_tosend, byte_tosend);
 
       end
    endtask
@@ -98,7 +98,7 @@ module Rs232_behav
             $display("%t\t INFO6 [ %m ] \t Czas %d na tolerancje przesuniecia zegara przed odbieranym bitem", $time, BITTOL);
          #(BITTOL);
 
-         if(LOGLEVEL >= 5)
+         if(LOGLEVEL >= 6)
             $display("%t\t INFO5 [ %m ] \t Linia rx powinna byc stabilna przez %d podczas odbioru bitu", $time, (PERIOD-2*BITTOL));
          monitor_rx.ensure_same_during( (PERIOD-2*BITTOL) );
 
@@ -178,7 +178,7 @@ module Rs232_behav
 
          // Zalogowanie zakonczenia odbioru
          if(LOGLEVEL >= 3)
-            $display("%t\t INFO5 [ %m ] \t Zakonczenie odbioru pakietu", $time);
+            $display("%t\t INFO5 [ %m ] \t Odebrano pakiet z danymi '%b' (0x %h) (dec %d) (ascii %s)", $time, byte_received, byte_received, byte_received, byte_received);
 
       end
    endtask

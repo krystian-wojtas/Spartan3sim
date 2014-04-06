@@ -1,14 +1,26 @@
 module Rs232
 #(
-   parameter LOGLEVEL = 3
+   // LOGLEVEL = 0
+   //      bez zadnych komunikatow
+   // LOGLEVEL = 1
+   //      pokazuje bledy
+   //
+   // LOGLEVEL = 3
+   //      informuje o wyslaniu/otrzymaniu danych
+   parameter LOGLEVEL = 3,
+   parameter LOGLEVEL_BEHAV=3,
+   parameter LOGLEVEL_BEHAV_RX=3,
+   parameter LOGLEVEL_BEHAV_TX=3
 ) (
    input rx,
    output tx
 );
 
    Rs232_behav #(
-      .LOGLEVEL(LOGLEVEL)
-   ) rs232 (
+      .LOGLEVEL(LOGLEVEL_BEHAV),
+      .LOGLEVEL_RX(LOGLEVEL_BEHAV_RX),
+      .LOGLEVEL_TX(LOGLEVEL_BEHAV_TX)
+   ) rs232_behav (
       .rx(rx),
       .tx(tx)
    );
@@ -31,10 +43,17 @@ module Rs232
 
    integer j = 0;
    initial begin
-      #10_000; // opoznienie
-      for(j=0; j<CHARS; j=j+1)
-         rs232.transmit( mem[j] );
+
+      // poczatkowe opoznienie
+      #10_000;
+
+      // wyslanie kolejnych liter napisu powitalnego
+      for(j=0; j<CHARS; j=j+1) begin
+         rs232_behav.transmit( mem[j] );
+         if(LOGLEVEL >= 3)
+            $display("%t\t INFO3 [ %m ] \t Wyslano bajt '%b' (0x %h) (dec %d) (ascii %s)", $time, mem[j], mem[j], mem[j], mem[j]);
       end
+   end
 
    // W chwili przed symulacja stany linii sa nieustalone a wszelkie zbocza na nich zostaja wykryte
    // Rejestr init zapobiega probie odbioru pakietu w chwili zero czasu symulacji
@@ -50,16 +69,18 @@ module Rs232
       if(inited) begin
 
          // odbior bajtu
-         rs232.receive( byte_received );
+         rs232_behav.receive( byte_received );
          if(LOGLEVEL >= 3)
-            $display("%t\t INFO3 [ %m ] \t Odebrano bajt %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received);
+            $display("%t\t INFO3 [ %m ] \t Odebrano bajt '%b' (0x %h) (dec %d) (ascii %s)", $time, byte_received, byte_received, byte_received, byte_received);
 
-            // weryfikacja
-            if( byte_received != mem[k] )
-               if(LOGLEVEL >= 1)
-                  $display("%t\t ERROR [ %m ] \t Odebrany bajt %b 0x%h %d %s rozni sie od wyslanego wzorca %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received, mem[k], mem[k], mem[k], mem[k]);
-                k = k + 1;
-           end
-        end
+         // weryfikacja
+         if( byte_received != mem[k] )
+            if(LOGLEVEL >= 1)
+               $display("%t\t ERROR [ %m ] \t Odebrany bajt %b 0x%h %d %s rozni sie od wyslanego wzorca %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received, mem[k], mem[k], mem[k], mem[k]);
+
+         // inkrementuj numer biezacego bajtu
+         k = k + 1;
+     end
+  end
 
 endmodule

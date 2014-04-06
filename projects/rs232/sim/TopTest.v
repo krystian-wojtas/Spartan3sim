@@ -12,8 +12,12 @@ module TopTest(
         wire RXD;
         wire TXD;
         Rs232 #(
-                .LOGLEVEL(6)
+                .LOGLEVEL(3),
+                .LOGLEVEL_BEHAV(3),
+                .LOGLEVEL_BEHAV_RX(3),
+                .LOGLEVEL_BEHAV_TX(3)
         ) rs232 (
+                // polaczenie skrosne
                 .rx(TXD),
                 .tx(RXD)
         );
