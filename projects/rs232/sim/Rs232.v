@@ -48,10 +48,12 @@ module Rs232
    reg [7:0] byte_received = 8'd0;
    always @(negedge rx) begin
       if(inited) begin
+
          // odbior bajtu
          rs232.receive( byte_received );
          if(LOGLEVEL >= 3)
             $display("%t\t INFO3 [ %m ] \t Odebrano bajt %b 0x%h %d %s", $time, byte_received, byte_received, byte_received, byte_received);
+
             // weryfikacja
             if( byte_received != mem[k] )
                if(LOGLEVEL >= 1)

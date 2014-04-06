@@ -12,7 +12,7 @@ module TopTest(
         wire RXD;
         wire TXD;
         Rs232 #(
-                .LOGLEVEL(5)
+                .LOGLEVEL(6)
         ) rs232 (
                 .rx(TXD),
                 .tx(RXD)
