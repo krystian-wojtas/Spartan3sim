@@ -1,48 +1,27 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    09:48:08 03/13/2012
-// Design Name:
-// Module Name:    DacLTC2624Behav
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-
-// LOGLEVEL = 0
-// 	bez zadnych komunikatow
-// LOGLEVEL = 1
-// 	pokazuje bledy
-// LOGLEVEL = 2
-// 	pokazuje ostrzezenia
-//
-// LOGLEVEL = 3
-// 	informuje o pomyslnych ustawieniach daca
-// LOGLEVEL = 4
-// 	informuje o stanach linii DAC_CLR i DAC_CS
-// LOGLEVEL = 5
-// 	informuje o adresie daca
-// LOGLEVEL = 6 //TODO del
-// 	debug
 module DacLTC2624Behav
 #(
-	parameter LOGLEVEL=5
+   // LOGLEVEL = 0
+   // 	bez zadnych komunikatow
+   // LOGLEVEL = 1
+   // 	pokazuje bledy
+   // LOGLEVEL = 2
+   // 	pokazuje ostrzezenia
+   //
+   // LOGLEVEL = 3
+   // 	informuje o pomyslnych ustawieniach daca
+   // LOGLEVEL = 4
+   // 	informuje o stanach linii DAC_CLR i DAC_CS
+   // LOGLEVEL = 5
+   // 	informuje o adresie daca
+   // LOGLEVEL = 6 //TODO del
+   // 	debug
+   parameter LOGLEVEL=5
 ) (
-	input SPI_SCK,
-	input DAC_CS,
-	input DAC_CLR,
-	input SPI_MOSI,
-	output DAC_OUT
+   input SPI_SCK,
+   input DAC_CS,
+   input DAC_CLR,
+   input SPI_MOSI,
+   output DAC_OUT
 );
 
 	//TODO musi byc jeden pusty cykl pomiedzy obnizeniem cs a poczatkiem taktowania sck bo czasami nie dziala inaczej

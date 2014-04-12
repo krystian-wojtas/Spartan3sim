@@ -1,24 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    23:07:44 03/12/2012
-// Design Name:
-// Module Name:    Top
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-
 module Top (
         input CLK50MHZ,
         input RST,
@@ -92,7 +71,5 @@ module Top (
                 .dactrig(dactrig),
                 .dacdone(dacdone)
         );
-
-
 
 endmodule
