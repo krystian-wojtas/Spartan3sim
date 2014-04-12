@@ -26,9 +26,9 @@ module TopTest();
    TopTestBench #(
       .LOGLEVEL(3),
       .LOGLEVEL_BEHAV(4),
-      .LOGLEVEL_BEHAV_CENTER(3),
-      .LOGLEVEL_BEHAV_ROTA(5),
-      .LOGLEVEL_BEHAV_ROTB(5)
+      .LOGLEVEL_BEHAV_CENTER(6),
+      .LOGLEVEL_BEHAV_ROTA(6),
+      .LOGLEVEL_BEHAV_ROTB(6)
    ) TopTestBench_ (
         // rotor control
         .ROT_CENTER(ROT_CENTER),
