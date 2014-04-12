@@ -22,7 +22,6 @@ module TopTestBench #(
       .ROT_B(ROT_B)
    );
 
-
    initial begin
       // jalowe stany poczatkowe
       rotor_behav.set_center.low();

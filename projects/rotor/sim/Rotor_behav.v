@@ -3,6 +3,7 @@ module Rotor_behav #(
    LOGLEVEL_CENTER = 3,
    LOGLEVEL_ROTA = 3,
    LOGLEVEL_ROTB = 3
+
 ) (
     // rotor control
     output ROT_CENTER,
