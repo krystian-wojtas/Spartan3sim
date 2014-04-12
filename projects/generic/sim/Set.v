@@ -1,20 +1,26 @@
 module Set
 #(
-   parameter LABEL = " set",
-   parameter PARENT_LABEL = "",
-
-   parameter ERROR = 1,
-   parameter WARN  = 1,
-   parameter INFO1 = 0,
-   parameter INFO2 = 0,
-   parameter INFO3 = 0,
-   parameter INFO4 = 0,
+   // LOGLEVEL = 0
+   //      bez zadnych komunikatow
+   // LOGLEVEL = 1
+   //      bledy
+   // LOGLEVEL = 2
+   //      ostrzezenia
+   //
+   // LOGLEVEL = 3
+   //      informuje o zamiarze zmiany sygnalu
+   // LOGLEVEL = 4
+   //      informuje o zmianie sygnalu
+   // LOGLEVEL = 5
+   //      informuje o zamiarze przeczekiwania
+   // LOGLEVEL = 6
+   //      informuje o przeczekaniu
+   parameter LOGLEVEL = 1,
 
    parameter N = 1
 ) (
    output reg [N-1:0] signals
 );
-   localparam MODULE_LABEL = {PARENT_LABEL, LABEL};
 
    // Zadanie ustawia okreslony stan
 
@@ -26,8 +32,8 @@ module Set
 
          // Poinformuj o stanie poprzednim
 
-         if( INFO2 )
-            $display("%t\t INFO2 %s Stan sygnalow zostanie zmieniony. Obecny stan '%b' (0x %h), spodziewany stan '%b' (0x %h)", $time, MODULE_LABEL, signals, signals, new_signals, new_signals);
+         if( LOGLEVEL >= 3 )
+            $display("%t\t INFO3\t [ %m ] \t Stan sygnalow zostanie zmieniony. Obecny stan '%b' (0x %h), spodziewany stan '%b' (0x %h)", $time, signals, signals, new_signals, new_signals);
 
          // Zmien stan
 
@@ -35,8 +41,8 @@ module Set
 
          // Poinformuj o zmianie
 
-         if( INFO1 )
-            $display("%t\t INFO1 %s Stan sygnalow zostal zmieniony. Obecny stan '%b' (0x %h)", $time, MODULE_LABEL, signals, signals);
+         if( LOGLEVEL >= 4 )
+            $display("%t\t INFO4\t [ %m ] \t Stan sygnalow zostal zmieniony. Obecny stan '%b' (0x %h)", $time, signals, signals);
 
       end
    endtask
@@ -84,8 +90,8 @@ module Set
 
          // Opcjonalnie poinformuj o przeczekiwaniu
 
-         if( INFO3 )
-            $display("%t\t INFO3 %s sygnal w stanie %b (hex %h) zostaje zamrozony przez zadany okres czasu %d", $time, MODULE_LABEL, new_signals, new_signals, period);
+         if( LOGLEVEL >= 5 )
+            $display("%t\t INFO5\t [ %m ] \t Sygnal w stanie %b (hex %h) zostaje zamrozony przez zadany okres czasu %d", $time, new_signals, new_signals, period);
 
          // Przeczekaj zadany czas
 
@@ -93,8 +99,8 @@ module Set
 
          // Opcjonalnie poinformuj o dalszym biegu
 
-         if( INFO4 )
-            $display("%t\t INFO4 %s Przeczekiwanie stanu %b (hex %h) zostalo zakonczone po %d", $time, MODULE_LABEL, new_signals, new_signals, period);
+         if( LOGLEVEL >= 6)
+            $display("%t\t INFO6\t [ %m ] \t Przeczekiwanie stanu %b (hex %h) zostalo zakonczone po %d", $time, new_signals, new_signals, period);
 
       end
    endtask
