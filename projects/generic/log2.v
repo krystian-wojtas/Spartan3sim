@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
 //constant function calculetes value at collaboration time
 //source http://www.beyond-circuits.com/wordpress/2008/11/constant-functions/
 function integer log2;
@@ -7,6 +5,6 @@ function integer log2;
    begin
       value = value-1;
       for (log2=0; value>0; log2=log2+1)
-	value = value>>1;
+        value = value>>1;
    end
 endfunction
