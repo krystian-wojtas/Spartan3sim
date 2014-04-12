@@ -139,35 +139,35 @@ Moduły ogólnego zastosowania, współdzielone pomiędzy projektami położone 
 
 \subsubsection{Zegar}
 Jest to moduł niezbędny do symulacji, wprowadza prostokątną linie zegarową.
-\lstinputlisting[label=Zegar,caption=Clock.v]{zrodla/generic/sim/Clock.v}
+\lstinputlisting[label=Zegar,caption=Clock.v]{../projects/generic/sim/Clock.v}
 
 \subsubsection{Reset}
 Moduł na chwilę podnosi linię resetu.
-\lstinputlisting[label=Reset,caption=Reset.v]{zrodla/generic/sim/Reset.v}
+\lstinputlisting[label=Reset,caption=Reset.v]{../projects/generic/sim/Reset.v}
 
 \subsubsection{Funkcja logarytmiczna}
 Funkcja ta jest bardzo pomocna w ustaleniu szerokości deklarowanego rejestru na podstawie górnego zakresu liczb przez niego zapamietywanych. Wartość funkcji obliczana jest na etapie elaboracji.
-\lstinputlisting[label=log2,caption=log2.v]{zrodla/generic/log2.v}
+\lstinputlisting[label=log2,caption=log2.v]{../projects/generic/log2.v}
 
 \subsubsection{Licznik}
 Zastosowanie licznika powtarza się bardzo często. Dlatego wydzilony on został do osobnego ogólnego modułu.
-\lstinputlisting[label=licznik,caption=Counter.v]{zrodla/generic/Counter.v}
+\lstinputlisting[label=Licznik,caption=Licznik.v]{../projects/generic/Counter.v}
 
 \subsubsection{Rejestr przesuwny}
 Rejestr przesuwny zapisuje daną wejsciową z interfejsu równoległego do swojego wewnętrznego rejestry w momencie, gdy zauważy podiesioną flagę 'set'. Jeśli flagi właczenia 'en' oraz działania 'tick' są ustawione, wtedy moduł rejest przesuwa, wstawiając dostarczony bit 'rx' w puste miejsce. Wyjściowy bit 'tx' zawsze wskazuje na bit z końca rejestru.
-\lstinputlisting[label=rejestr,caption=Shiftreg.v]{zrodla/generic/Shiftreg.v}
+\lstinputlisting[label=Rejestr,caption=Shiftreg.v]{../projects/generic/Shiftreg.v}
 
 \subsubsection{Serializacja}
 Zadaniem modułu jest serializacja tj. przesłanie danych dostarczonych naraz interfejsem równoległym po kolei bit po bicie w takt zegara lub operacja desarializaj tj. operacja odwrotna. Moduł wykorzystuje zaprezentowany rejestr przesuwny oraz licznik.
-\lstinputlisting[label=serial,caption=Serial.v]{zrodla/generic/Serial.v}
+\lstinputlisting[label=Serial,caption=Serial.v]{../projects/generic/Serial.v}
 
 \subsubsection{SPI}
 Serial Peripheral Interface jest popularnym sprzętowym interfejsem komunikacji. Jest on wyjaśniony w części poświęconej DAC-owi. Wykorzystuje moduł serializacji dodając jedynie funcjonalność lini Chip Select.
-\lstinputlisting[label=spi,caption=Spi.v]{zrodla/generic/Spi.v}
+\lstinputlisting[label=SPI,caption=Spi.v]{../projects/generic/Spi.v}
 
 \subsubsection{Generator impulsów}
 Zadaniem generatorota impulsów jest wytwarzanie impulsów jak najbliższe pożadanemu okresowi.
-\lstinputlisting[label=BaudRateGenerator,caption=BaudRateGenerator.v]{zrodla/generic/BaudRateGenerator.v}
+\lstinputlisting[label=BaudRateGenerator,caption=BaudRateGenerator.v]{../projects/generic/BaudRateGenerator.v}
 
 \newpage
 \section{DAC}
