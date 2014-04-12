@@ -291,7 +291,7 @@ Płytka Spartan 3AN jest wyposażona w obrotowy przełącznik o dwóch wyprowadz
 
 \subsection{Aplikacja}
 
-FPGA po skonfigurowaniu lub zresetowaniu zapala jedną diode, piątą lub szóstą w szeregu. Obrót rotora powoduje przesunięcie stanu wszystkich diód o jedną pozycję w lewo lub w prawo w zależności od kierunku obrotu. Pozycje skrajne się cyklicznie uzupełniają. Rotor można także nacisnąć, co spowoduje zmiane stanu pierwszej diody na przeciwny.
+FPGA po skonfigurowaniu lub zresetowaniu zapala jedną diode, piątą lub szóstą w szeregu. Obrót rotora powoduje przesunięcie stanu wszystkich diód o jedną pozycję w lewo lub w prawo w zależności od kierunku obrotu. Pozycje skrajne się cyklicznie uzupełniają. Rotor można także nacisnąć, co spowoduje zmiane stanu pierwszej diody na przeciwny. Nacisk ma własną linię sygnałową nie powiązaną z obrotowymi.
 
 \subsection{Synteza}
 
@@ -425,6 +425,9 @@ On z kolei instancjuje $Rotor\_behav$ i operuje pokrętłem poprzez jego zestaw 
       rotor_behav.turn_right();
 \end{lstlisting}
 
+\subsubsection{Rotor zachowawczo}
+
+Rotor dysponuje garstką prostych zadań.
 \begin{lstlisting}[label=Rotor_behav,caption=Rotor\_behav.v]
    task turn_left();
       begin
@@ -441,7 +444,7 @@ On z kolei instancjuje $Rotor\_behav$ i operuje pokrętłem poprzez jego zestaw 
    endtask
 \end{lstlisting}
 
-
+Obrót w prawo jest analogiczny do lewego.
 \begin{lstlisting}[label=Rotor_behav,caption=Rotor\_behav.v]
    task turn_right();
       begin
@@ -459,7 +462,7 @@ On z kolei instancjuje $Rotor\_behav$ i operuje pokrętłem poprzez jego zestaw 
 \end{lstlisting}
 
 
-
+Po zwolnieniu wciśniętoego przycisku, dołożona jest chwila przerwy.
 \begin{lstlisting}[label=Rotor_behav,caption=Rotor\_behav.v]
    task press_center();
       begin
@@ -469,6 +472,34 @@ On z kolei instancjuje $Rotor\_behav$ i operuje pokrętłem poprzez jego zestaw 
          ..
       end
    endtask
+\end{lstlisting}
+
+\subsubsection{Komunikaty}
+
+Przedstawione jest pełne wyjście z pierwszego zadania obrotu w lewo przy maksymalnym stopniu logowania.
+
+\begin{lstlisting}
+Time resolution is 1 ps
+Simulator is doing circuit initialization process.
+     0 INFO3 [ TopTest.TopTestBench_.rotor_behav.set_center.state ]  Stan sygnalow zostanie zmieniony. Obecny stan 'x' (0x x), spodziewany stan '0' (0x 0)
+     0 INFO4 [ TopTest.TopTestBench_.rotor_behav.set_center.state ]  Stan sygnalow zostal zmieniony. Obecny stan '0' (0x 0)
+     0 INFO3 [ TopTest.TopTestBench_.rotor_behav.set_rota.state ]  Stan sygnalow zostanie zmieniony. Obecny stan 'x' (0x x), spodziewany stan '1' (0x 1)
+     0 INFO4 [ TopTest.TopTestBench_.rotor_behav.set_rota.state ]  Stan sygnalow zostal zmieniony. Obecny stan '1' (0x 1)
+     0 INFO3 [ TopTest.TopTestBench_.rotor_behav.set_rotb.state ]  Stan sygnalow zostanie zmieniony. Obecny stan 'x' (0x x), spodziewany stan '1' (0x 1)
+Finished circuit initialization process.
+300000 INFO3 [ TopTest.TopTestBench_ ]  Poczatek symulacji
+300000 INFO3 [ TopTest.TopTestBench_.rotor_behav.turn_left ]  Obracanie pokretla w lewo
+300000 INFO3 [ TopTest.TopTestBench_.rotor_behav.set_rota.state ]  Stan sygnalow zostanie zmieniony. Obecny stan '1' (0x 1), spodziewany stan '0' (0x 0)
+300000 INFO4 [ TopTest.TopTestBench_.rotor_behav.set_rota.state ]  Stan sygnalow zostal zmieniony. Obecny stan '0' (0x 0)
+300000 INFO5 [ TopTest.TopTestBench_.rotor_behav.set_rota.state_during ]  Sygnal w stanie 0 (hex 0) zostaje zamrozony przez zadany okres czasu        250
+550000 INFO6 [ TopTest.TopTestBench_.rotor_behav.set_rota.state_during ]  Przeczekiwanie stanu 0 (hex 0) zostalo zakonczone po        250
+550000 INFO3 [ TopTest.TopTestBench_.rotor_behav.set_rotb.state ]  Stan sygnalow zostanie zmieniony. Obecny stan '1' (0x 1), spodziewany stan '0' (0x 0)
+850000 INFO3 [ TopTest.TopTestBench_.rotor_behav.set_rota.state ]  Stan sygnalow zostanie zmieniony. Obecny stan '0' (0x 0), spodziewany stan '1' (0x 1)
+850000 INFO4 [ TopTest.TopTestBench_.rotor_behav.set_rota.state ]  Stan sygnalow zostal zmieniony. Obecny stan '1' (0x 1)
+850000 INFO5 [ TopTest.TopTestBench_.rotor_behav.set_rota.state_during ]  Sygnal w stanie 1 (hex 1) zostaje zamrozony przez zadany okres czasu         50
+900000 INFO6 [ TopTest.TopTestBench_.rotor_behav.set_rota.state_during ]  Przeczekiwanie stanu 1 (hex 1) zostalo zakonczone po         50
+900000 INFO3 [ TopTest.TopTestBench_.rotor_behav.set_rotb.state ]  Stan sygnalow zostanie zmieniony. Obecny stan '0' (0x 0), spodziewany stan '1' (0x 1)
+400000 INFO4 [ TopTest.TopTestBench_.rotor_behav.turn_left ]  Obrocono pokretlo w lewo
 \end{lstlisting}
 
 
