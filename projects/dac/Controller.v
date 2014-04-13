@@ -21,10 +21,7 @@ module Controller(
 	assign command = 4'b0011;
 	reg [7:0] data_debug = 8'h55;
 
-	reg [7:0] dac_datareceived_r = 0;
-
-
-	assign LED = (SW) ? dac_datareceived_r : data_debug;
+        assign LED = data_debug;
 //	assign data = {4'h0, datareg}; //TODO 4'b1 ?
 //	assign data = 12'hffe;
 //	assign data = 12'h3ff;
@@ -36,20 +33,19 @@ module Controller(
 		if(RST) begin
 			data <= 12'h000;
 			data_debug <= 8'h00;
-			dac_datareceived_r <= 0;
 		end else
 			case(SW)
 				4'h8: begin
-					dac_datareceived_r <= dac_datareceived[31:24];
+					data <= 12'hffe;
 				end
 				4'h4: begin
-					dac_datareceived_r <= dac_datareceived[23:16];
+					data <= 12'hf00;
 				end
 				4'h2: begin
-					dac_datareceived_r <= dac_datareceived[15:8];
+					data <= 12'h100;
 				end
 				4'h1: begin
-					dac_datareceived_r <= dac_datareceived[7:0];
+					data <= 12'h001;
 				end
 				default: begin
 					if(less)
