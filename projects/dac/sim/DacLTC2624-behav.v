@@ -8,14 +8,18 @@ module DacLTC2624Behav
    // 	pokazuje ostrzezenia
    //
    // LOGLEVEL = 3
-   // 	informuje o odbieraniu danych i ich interpretacji
+   // 	informuje o odbieraniu danych, odebraniu i ich interpretacji
    // LOGLEVEL = 4
    // 	informuje o wlasciwej liczbie bitow w pakiecie
    // LOGLEVEL = 5
    // 	informuje o adresie daca
    // LOGLEVEL = 6
-   // 	informuje o odbiorze danych (moment podniesienia flagi DAC_CS)
+   // 	informuje o zakonczeniu odbioru danych (moment podniesienia flagi DAC_CS)
    // LOGLEVEL = 7
+   // 	informuje o odbieraniu poszczegolnych pol pakietu
+   // LOGLEVEL = 8
+   // 	informuje o odbiorze poszczegolnych bitow pakietu
+   // LOGLEVEL = 9
    // 	informuje o przebiegu resetowania daca
    parameter LOGLEVEL      = 5,
    parameter LOGLEVEL_SCK  = 3,
@@ -60,14 +64,14 @@ module DacLTC2624Behav
    reg 	  inited = 1'b0;
    initial begin
 
-      if(LOGLEVEL >= 7)
-         $display("%t\t INFO7\t [ %m ] \t Oczekiwanie na zresetowanie daca", $time);
+      if(LOGLEVEL >= 9)
+         $display("%t\t INFO9\t [ %m ] \t Oczekiwanie na zresetowanie daca", $time);
       monitor_clr.wait_for_low();
       monitor_clr.ensure_low_during( 40 );
       monitor_clr.wait_for_high();
 
-      if(LOGLEVEL >= 7)
-         $display("%t\t INFO7\t [ %m ] \t Zresetowano daca", $time);
+      if(LOGLEVEL >= 9)
+         $display("%t\t INFO9\t [ %m ] \t Zresetowano daca", $time);
       inited = 1'b1;
    end
 
@@ -87,8 +91,8 @@ module DacLTC2624Behav
       output received_bit
    );
       begin
-         // if(LOGLEVEL >= 7)
-         //    $display("%t\t INFO7\t [ %m ] \t Odbieranie kolejnego bitu", $time);
+         if(LOGLEVEL >= 8)
+            $display("%t\t INFO8\t [ %m ] \t Odbieranie kolejnego bitu", $time);
 
 	 // Po wlaczeniu daca do szyny spi zegar powinien zaczac nisko
          monitor_sck.ensure_low_during( 40 );
@@ -102,8 +106,8 @@ module DacLTC2624Behav
 	 monitor_sck.ensure_high_during( 40 - 4 );
 	 monitor_sck.wait_for_low();
 
-         // if(LOGLEVEL >= 8)
-         //    $display("%t\t INFO8\t [ %m ] \t Odebrano bit %b", $time, received_bit);
+         if(LOGLEVEL >= 8)
+            $display("%t\t INFO8\t [ %m ] \t Odebrano bit %b", $time, received_bit);
       end
    endtask
 
@@ -119,46 +123,46 @@ module DacLTC2624Behav
    ();
       integer i;
       begin
-         if(LOGLEVEL >= 8)
-            $display("%t\t INFO8\t [ %m ] \t Odbieranie pakietu", $time);
+         if(LOGLEVEL >= 3)
+            $display("%t\t INFO3\t [ %m ] \t Odbieranie pakietu", $time);
 
 	 // Receive 8 dont care bits
-         if(LOGLEVEL >= 8)
-            $display("%t\t INFO8\t [ %m ] \t Odbieranie 8 pierwszych nie znaczacych bitow", $time);
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie 8 pierwszych nie znaczacych bitow", $time);
 	 for(i = 0; i < 8; i=i+1) begin
             receive_bit( dontcare8[i] );
 	 end
 
 	 // Receive command
-         if(LOGLEVEL >= 8)
-            $display("%t\t INFO8\t [ %m ] \t Odbieranie komendy", $time);
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie komendy", $time);
 	 for(i = 0; i < 4; i=i+1) begin
             receive_bit( command[i] );
 	 end
 
 	 // Receive address of dac
-         if(LOGLEVEL >= 8)
-            $display("%t\t INFO8\t [ %m ] \t Odbieranie adresu", $time);
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie adresu", $time);
 	 for(i = 0; i < 4; i=i+1) begin
             receive_bit( address[i] );
 	 end
 
 	 // Receive 12 bit of value
-         if(LOGLEVEL >= 8)
-            $display("%t\t INFO8\t [ %m ] \t Odbieranie wartosci", $time);
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie wartosci", $time);
 	 for(i = 0; i < 12; i=i+1) begin
             receive_bit( value[i] );
 	 end
 
 	 // Receive 4 dont care bits
-         if(LOGLEVEL >= 8)
-            $display("%t\t INFO8\t [ %m ] \t Odbieranie 4 ostatnich nie znaczacych bitow", $time);
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie 4 ostatnich nie znaczacych bitow", $time);
 	 for(i = 0; i < 4; i=i+1) begin
             receive_bit( dontcare4[i] );
 	 end
 
-         if(LOGLEVEL >= 8)
-            $display("%t\t INFO8\t [ %m ] \t Odebrano pakiet", $time);
+         if(LOGLEVEL >= 3)
+            $display("%t\t INFO3\t [ %m ] \t Odebrano pakiet", $time);
       end
    endtask
 
@@ -173,11 +177,7 @@ module DacLTC2624Behav
             $display("%t\t INFO3\t [ %m ] \t Odbieranie danych", $time);
 
 	 received_packet = 1'b0;
-
-	 //
 	 receive_packet();
-
-	 //
 	 received_packet = 1'b1;
 
       end
