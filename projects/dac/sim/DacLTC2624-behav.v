@@ -74,20 +74,18 @@ module DacLTC2624Behav
 
    // Resetuj licznik lub go podbij na kazdym narastajacym zboczu zegara
    always @(negedge DAC_CLR or posedge SPI_SCK) begin
-      if(~DAC_CLR) begin
+      if(~DAC_CLR)
          conf_idx <= 6'd0;
-      end else begin
+      else
          conf_idx <= conf_idx + 1;
-      end
    end
 
    // Resetuj rejestr odbiorczy lub go przesun na kazdym opadajacym zboczu zegara
    always @(negedge DAC_CLR or negedge SPI_SCK) begin
-      if(~DAC_CLR) begin
+      if(~DAC_CLR)
          conf <= 32'd0;
-      end else begin
+      else
          conf <= { conf[30:0], SPI_MOSI };
-      end
    end
 
    // Sprawdz czy odebrano 32 bity
