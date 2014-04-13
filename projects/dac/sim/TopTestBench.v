@@ -1,36 +1,70 @@
-module TopTestBench(
-	input CLK50MHZ,
-	input RST,
-	output reg BTN_WEST,
-	output reg BTN_EAST,
-	output reg [3:0] SW
-    );
+module TopTestBench #(
+   LOGLEVEL      = 3,
+   LOGLEVEL_LESS = 3,
+   LOGLEVEL_MORE = 3,
+   LOGLEVEL_SW   = 3,
+   LOGLEVEL_RST  = 3
+) (
+   input 	 CLK50MHZ,
+   input 	 RST,
+   output  	 BTN_WEST,
+   output  	 BTN_EAST,
+   output  [3:0] SW
+);
 
-	initial begin
-		SW = 4'h0;
-		BTN_WEST = 1'b0;
-		BTN_EAST = 1'b0;
+   // Instancje przyciskow
+   Set #(
+      .LOGLEVEL(LOGLEVEL_LESS),
+      .N(1)
+   ) set_less (
+      .signals( BTN_EAST )
+   );
+   Set #(
+      .LOGLEVEL(LOGLEVEL_MORE),
+      .N(1)
+   ) set_more (
+      .signals( BTN_WEST )
+   );
+   Set #(
+      .LOGLEVEL(LOGLEVEL_SW),
+      .N(4)
+   ) set_sw (
+      .signals( SW )
+   );
 
-		@(negedge RST);
-		#300;
-
-		BTN_EAST = 1'b1;
-		#250;
-		BTN_EAST = 1'b0;
-
-
-		#3800;
-		BTN_EAST = 1'b1;
-		#250;
-		BTN_EAST = 1'b0;
+   // Monitorowanie resetu
+   Monitor #(
+      .LOGLEVEL(LOGLEVEL_RST),
+      .N(1)
+   ) monitor_rst (
+      .signals( RST )
+   );
 
 
-		#3800;
-		SW = 4'h1;
-		#2000;
-		SW = 4'h0;
+   initial begin
+      // Zainicjuj niskimi stanami przyciskow
+      set_less.low();
+      set_more.low();
+      set_sw.low();
 
-		#1500;
-	end
+      // Poczekaj na zresetowanie ukladu
+      monitor_rst.wait_for_low();
+      #300;
+
+      // Zwieksz
+      set_more.high_during_and_restore(250);
+
+      // Zwieksz
+      #3800;
+      set_more.high_during_and_restore(250);
+
+      // Zmniejsz
+      #3800;
+      set_less.high_during_and_restore(250);
+
+      // Ustaw zadana wartosc
+      #3800;
+      set_sw.state_during_and_restore(2000, 4'h1);
+   end
 
 endmodule
