@@ -8,13 +8,15 @@ module DacLTC2624Behav
    // 	pokazuje ostrzezenia
    //
    // LOGLEVEL = 3
-   // 	informuje o pomyslnych ustawieniach daca
+   // 	informuje o odbieraniu danych i ich interpretacji
    // LOGLEVEL = 4
-   // 	informuje o stanach linii DAC_CLR i DAC_CS
+   // 	informuje o wlasciwej liczbie bitow w pakiecie
    // LOGLEVEL = 5
    // 	informuje o adresie daca
-   // LOGLEVEL = 6 //TODO del
-   // 	debug
+   // LOGLEVEL = 6
+   // 	informuje o odbiorze danych (moment podniesienia flagi DAC_CS)
+   // LOGLEVEL = 7
+   // 	informuje o przebiegu resetowania daca
    parameter LOGLEVEL      = 5,
    parameter LOGLEVEL_CLR  = 3
 ) (
@@ -37,22 +39,22 @@ module DacLTC2624Behav
    reg 	  inited = 1'b0;
    initial begin
 
-      if(LOGLEVEL >= 4)
-         $display("%t\t INFO4\t [ %m ] \t Oczekiwanie na zresetowanie daca", $time);
+      if(LOGLEVEL >= 7)
+         $display("%t\t INFO7\t [ %m ] \t Oczekiwanie na zresetowanie daca", $time);
       monitor_clr.wait_for_low();
       monitor_clr.ensure_low_during( 40 );
       monitor_clr.wait_for_high();
 
-      if(LOGLEVEL >= 4)
-         $display("%t\t INFO4\t [ %m ] \t Zresetowano daca", $time);
+      if(LOGLEVEL >= 7)
+         $display("%t\t INFO7\t [ %m ] \t Zresetowano daca", $time);
       inited = 1'b1;
    end
 
    // Sprawdza czy dac zostal zresetowany przed nadaniem danych
    always @(negedge DAC_CS)
       if(inited) begin
-         if(LOGLEVEL >= 4)
-            $display("%t\t INFO4\t [ %m ] \t Odbieranie danych", $time);
+         if(LOGLEVEL >= 3)
+            $display("%t\t INFO3\t [ %m ] \t Odbieranie danych", $time);
       end else
          if(LOGLEVEL >= 1)
             $display("%t\t BLAD\t [ %m ] \t Nie zresetowano ukladu przed nadaniem nadanych", $time);
@@ -103,8 +105,8 @@ module DacLTC2624Behav
    always @(posedge DAC_CS)
       if(inited) begin
 	 // Zakomunikuj koniec odbioru
-         if(LOGLEVEL >= 4)
-            $display("%t\t INFO4\t [ %m ] \t Podniesiono flage DAC_CS, co konczy odbior danych", $time);
+         if(LOGLEVEL >= 6)
+            $display("%t\t INFO6\t [ %m ] \t Podniesiono flage DAC_CS, co konczy odbior danych", $time);
 
          if(~received32bits) begin
             //Bledy nieodpowiedniej ilosci odebranych bitow
