@@ -33,37 +33,22 @@ module Controller(
 		if(RST) begin
 			data <= 12'h000;
 			data_debug <= 8'h00;
-		end else
-			case(SW)
-				4'h8: begin
-					data <= 12'hffe;
+		end else begin
+			if(less)
+				if(data-STEP > 0) begin
+					data <= data-STEP;
+					data_debug <= data_debug - 1;
+				end else begin
+					data <= 0;
 				end
-				4'h4: begin
-					data <= 12'hf00;
+			else if(more)
+				if(data+STEP<MAXV) begin
+					data <= data+STEP;
+					data_debug <= data_debug + 1;
+				end else begin
+					data <= MAXV;
 				end
-				4'h2: begin
-					data <= 12'h100;
-				end
-				4'h1: begin
-					data <= 12'h001;
-				end
-				default: begin
-					if(less)
-						if(data-STEP > 0) begin
-							data <= data-STEP;
-							data_debug <= data_debug - 1;
-						end else begin
-							data <= 0;
-						end
-					else if(more)
-						if(data+STEP<MAXV) begin
-							data <= data+STEP;
-							data_debug <= data_debug + 1;
-						end else begin
-							data <= MAXV;
-						end
-				end
-			endcase
+		end
 
 
 	always @(posedge CLK50MHZ)
