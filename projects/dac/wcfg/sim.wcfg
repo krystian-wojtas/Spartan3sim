@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="TopTest_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="TopTest" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="31" />
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/SPI_SCK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_SCK</obj_property>
+      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DAC_CS" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CS</obj_property>
+      <obj_property name="ObjectShortName">DAC_CS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DAC_CLR" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CLR</obj_property>
+      <obj_property name="ObjectShortName">DAC_CLR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/SPI_MOSI" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_MOSI</obj_property>
+      <obj_property name="ObjectShortName">SPI_MOSI</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DAC_OUT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_OUT</obj_property>
+      <obj_property name="ObjectShortName">DAC_OUT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_WEST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_WEST</obj_property>
+      <obj_property name="ObjectShortName">BTN_WEST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_EAST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_EAST</obj_property>
+      <obj_property name="ObjectShortName">BTN_EAST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/SW" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">SW[3:0]</obj_property>
+      <obj_property name="ObjectShortName">SW[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LED[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider12" type="divider">
+      <obj_property name="label">behav</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/SPI_SCK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_SCK</obj_property>
+      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/DAC_CS" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CS</obj_property>
+      <obj_property name="ObjectShortName">DAC_CS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/DAC_CLR" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_CLR</obj_property>
+      <obj_property name="ObjectShortName">DAC_CLR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/SPI_MOSI" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">SPI_MOSI</obj_property>
+      <obj_property name="ObjectShortName">SPI_MOSI</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/DAC_OUT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">DAC_OUT</obj_property>
+      <obj_property name="ObjectShortName">DAC_OUT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/inited" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">inited</obj_property>
+      <obj_property name="ObjectShortName">inited</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[11:0]</obj_property>
+      <obj_property name="ObjectShortName">data[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">address[3:0]</obj_property>
+      <obj_property name="ObjectShortName">address[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/command" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">command[3:0]</obj_property>
+      <obj_property name="ObjectShortName">command[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/received32bits" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">received32bits</obj_property>
+      <obj_property name="ObjectShortName">received32bits</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/receivedtoomanybits" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">receivedtoomanybits</obj_property>
+      <obj_property name="ObjectShortName">receivedtoomanybits</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/conf" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">conf[31:0]</obj_property>
+      <obj_property name="ObjectShortName">conf[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/conf_idx" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">conf_idx[5:0]</obj_property>
+      <obj_property name="ObjectShortName">conf_idx[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/LOGLEVEL" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/LOGLEVEL_SCK" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL_SCK[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL_SCK[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/LOGLEVEL_CS" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL_CS[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL_CS[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/LOGLEVEL_CLR" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL_CLR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL_CLR[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/LOGLEVEL_MOSI" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL_MOSI[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL_MOSI[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/LOGLEVEL_OUT" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LOGLEVEL_OUT[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LOGLEVEL_OUT[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>
