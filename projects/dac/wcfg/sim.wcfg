@@ -9,7 +9,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="32" />
+   <WVObjectSize size="33" />
    <wave_markers>
       <marker time="3690000000" label="" />
       <marker time="3390000000" label="" />
@@ -148,6 +148,10 @@
    <wvobject fp_name="/TopTest/DacLTC2624Behav_/received_packet" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">received_packet</obj_property>
       <obj_property name="ObjectShortName">received_packet</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/DacLTC2624Behav_/too_many_bits" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">too_many_bits</obj_property>
+      <obj_property name="ObjectShortName">too_many_bits</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/DacLTC2624Behav_/received_too_many_bits" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">received_too_many_bits</obj_property>

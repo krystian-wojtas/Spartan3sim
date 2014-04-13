@@ -182,18 +182,19 @@ module DacLTC2624Behav
 
       end
 
-   reg received_too_many_bits = 1'b0;
    // Zatrzaskuje moment przeslania zbyt wielu bitow
+   reg too_many_bits = 1'b0;
    always @(negedge DAC_CS)
-      received_too_many_bits = 1'b0;
+      too_many_bits = 1'b0;
    always @(posedge received_packet) begin
       // if(received_packet) begin
          monitor_sck.wait_for_low();
          monitor_sck.wait_for_high();
 
-         received_too_many_bits = 1'b1;
+         too_many_bits = 1'b1;
       // end
    end
+   wire received_too_many_bits = received_packet && too_many_bits;
 
    // Podniesienie DAC_CS konczy transmisje, weryfikowane i wypisywane sa przeslane dane
    always @(posedge DAC_CS) begin
@@ -204,7 +205,7 @@ module DacLTC2624Behav
             $display("%t\t INFO6\t [ %m ] \t Podniesiono flage DAC_CS, co konczy odbior danych", $time);
 
          //Bledy nieodpowiedniej ilosci odebranych bitow
-         if(received_packet && received_too_many_bits) begin
+         if(received_too_many_bits) begin
             if(LOGLEVEL >= 1)
                $display("%t\t BLAD\t [ %m ] \t Do daca wyslanych zostalo wiecej bitow niz 32", $time);
          end else if(idx < 32) begin
