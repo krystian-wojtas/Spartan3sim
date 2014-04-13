@@ -86,38 +86,20 @@ module DacLTC2624Behav
          if(LOGLEVEL >= 1)
             $display("%t BLAD Nie zresetowano ukladu przed nadaniem nadanych", $time);
 
+   // Rejest zlicza kolejno odbierane bity
+   reg [5:0] conf_idx;
+   // W rejestrze przesuwnym zapisywane sa odbierane bity
    reg [31:0] conf;
+   // Pola bitowe otrzymanych danych
    wire [11:0] data = conf[15:4];
    wire [3:0] address = conf[19:16];
    wire [3:0] command = conf[23:20];
-   reg [5:0] conf_idx;
 
-	//Blok odbioru danych z linii SPI_MOSI
-	//Reset ukladu (chwilowym obnizeniem DAC_CLR) zeruje glowny rejestr konfigurujacy daca conf oraz jego licznik conf_idx
-	//Obnizenie linii DAC_CS powoduje aktywowanie odbioru bitow i doklejanie ich do rejestru przesuwnego conf w takt zegara SPI_SCK
-	//Licznik conf_idx zerowany jest gdy transmisja nie jest aktywna.
-	//Gdy jest aktywna zwiekszany jest o jeden w takt zegara, co pokazuje aktulna liczbe odebranych bitow
+   // Licznik conf_idx zerowany jest na poczatku kazdej transmisji
+   always @(negedge DAC_CS)
+      conf_idx <= 6'd0;
 
-   //
-   // always @(negedge DAC_CLR or negedge SPI_SCK) begin
-   //    if(~DAC_CLR) begin
-   //       conf <= 32'd0;
-   //       conf_idx <= 6'd0;
-   //    end else
-   //       if(DAC_CS) begin
-   //          conf_idx <= 6'd0;
-   //       end else begin
-   //          conf <= { conf[30:0], SPI_MOSI };
-   //          conf_idx <= conf_idx + 1;
-   //       end
-   // end
-
-   // // Licznik conf_idx zerowany jest na poczatku kazdej transmisji
-   // always @(negedge DAC_CS)
-   //    conf_idx <= 6'd0;
-
-
-   //
+   // Resetuj licznik lub go podbij na kazdym narastajacym zboczu zegara
    always @(negedge DAC_CLR or posedge SPI_SCK) begin
       if(~DAC_CLR) begin
          conf_idx <= 6'd0;
@@ -126,6 +108,7 @@ module DacLTC2624Behav
       end
    end
 
+   // Resetuj rejestr odbiorczy lub go przesun na kazdym opadajacym zboczu zegara
    always @(negedge DAC_CLR or negedge SPI_SCK) begin
       if(~DAC_CLR) begin
          conf <= 32'd0;
@@ -134,23 +117,10 @@ module DacLTC2624Behav
       end
    end
 
-   // Licznik conf_idx zerowany jest na poczatku kazdej transmisji
-   always @(negedge DAC_CS)
-      conf_idx <= 6'd0;
-
-
-	//Blok sprawdza czy ilosc odebranych bitow wynosi dokladnie 32
-	//Jesli sie zgadza ustawia flage received32bits
-	//Flaga ta jest sprawdzana w kolejnym bloku w momencie podniesienia linii DAC_CS, co sygnalizuje koniec transmisji
-	//Na tej podstwie moga zostac zglaszane bledy jesli przeslanych bitow jest zbyt malo
+   // Sprawdz czy odebrano 32 bity
    assign received32bits = (conf_idx == 32);
 
-	//Blok wykrywa przeslanie zbyt duzej liczby bitow do daca
-	//Flaga receivedtoomanybits jest wygaszana w momencie aktywowania odbioru danych obnizeniem linii DAC_CS
-	//Flaga jest podnoszona jesli liczba odebranych bitow przekroczy prawidlowa ilosc 32.
-	//Stan podniesionej flagi jest utrzymywany do momentu aktywowania odbioru nowej danej.
-	//W tym czasie licznik odebranych bitow conf_idx bedzie sie wielokrotnie przepelniac odbieraja nowe bity,
-	// przez co nie bedzie mozna stwierdzic ile bitow za duzo zostalo przeslanych
+   // Zatrzaskuje moment przeslania zbyt wielu bitow
    reg      receivedtoomanybits = 1'b0;
    always @(negedge DAC_CS)
       receivedtoomanybits <= 1'b0;
@@ -158,12 +128,7 @@ module DacLTC2624Behav
       if(conf_idx > 32)
          receivedtoomanybits <= 1'b1;
 
-	//Blok obsluguje moment podniesienia linii DAC_CS, co sygnalizuje koniec transmisji
-	//Operacje tutaj zawarte sa wykonywane tylko po uprzednim zresetowaniu ukladu
-	//Sprawdzana jest ilosc odebranych bitow i wyswietlane sa informacje o bledach jesli bitow nie jest dokladnie 32
-	//Jesli ilosc bitow jest wlasciwa, wypisywane sa informacje o odebranej probce z podzialem na wywstawiana wartosc, adres daca i komende
-	//Jesli adres daca lub komenda maja nieprawidlowa wartosc, zglaszany jest blad
-	//Komenda zawsze powinna miec wartosc 0011
+   // Podniesienie DAC_CS konczy transmisje, weryfikowane i wypisywane sa przelane dane
    always @(posedge DAC_CS)
       if(inited) begin
 	 // Zakomunikuj koniec odbioru
@@ -198,7 +163,7 @@ module DacLTC2624Behav
                default: if(LOGLEVEL >= 1) $display("%t BLAD nieprawidlowy adres daca", $time);
             endcase
 
-	    // Sprawdz czy wyslano wlasciwa komende
+	    // Sprawdz czy wyslano wlasciwa komende, jedyna poprawna to 0011
             if(command != 4'b0011)
                if(LOGLEVEL >= 1)
                   $display("%t BLAD nieprawidlowa komenda %b (0x%h) - aby natychmiastowo ustawic dac nalezy wyslac 0011 (0x3)", $time, command, command);
@@ -206,9 +171,8 @@ module DacLTC2624Behav
          end
       end
 
+   // Na linii wyjsciowej DAC_OUT beda sie pojawiac kolejne bity wypychane z rejestru przesuwnego daca
+   // Nastepuje to na opadajacym zboczu zegara SPI_SCK przy obnizonej linii aktywacji transmisji DAC_CS
+   assign DAC_OUT = DAC_CS ? 1'b0 : conf[31];
 
-	//Na linii wyjsciowej DAC_OUT beda sie pojawiac kolejne bity wypychane z rejestru przesuwnego konfigurujacego daca
-	//Nastepuje to w takt zegara SPI_SCK przy obnizonej linii aktywacji transmisji DAC_CS
-	//TODO odbieranie ostatniego bitu
-	assign DAC_OUT = DAC_CS ? 1'b0 : conf[31];
 endmodule
