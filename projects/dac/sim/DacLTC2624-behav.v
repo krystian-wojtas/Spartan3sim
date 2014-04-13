@@ -185,14 +185,14 @@ module DacLTC2624Behav
    reg received_too_many_bits = 1'b0;
    // Zatrzaskuje moment przeslania zbyt wielu bitow
    always @(negedge DAC_CS)
-      received_too_many_bits <= 1'b0;
-   always @(posedge SPI_SCK) begin
-      if(received_packet) begin
+      received_too_many_bits = 1'b0;
+   always @(posedge received_packet) begin
+      // if(received_packet) begin
          monitor_sck.wait_for_low();
          monitor_sck.wait_for_high();
 
-         received_too_many_bits <= 1'b1;
-      end
+         received_too_many_bits = 1'b1;
+      // end
    end
 
    // Podniesienie DAC_CS konczy transmisje, weryfikowane i wypisywane sa przeslane dane
@@ -204,7 +204,7 @@ module DacLTC2624Behav
             $display("%t\t INFO6\t [ %m ] \t Podniesiono flage DAC_CS, co konczy odbior danych", $time);
 
          //Bledy nieodpowiedniej ilosci odebranych bitow
-         if(received_too_many_bits) begin
+         if(received_packet && received_too_many_bits) begin
             if(LOGLEVEL >= 1)
                $display("%t\t BLAD\t [ %m ] \t Do daca wyslanych zostalo wiecej bitow niz 32", $time);
          end else if(idx < 32) begin
@@ -219,7 +219,7 @@ module DacLTC2624Behav
 
                // Wypisz odebrane pola
                if(LOGLEVEL >= 3)
-                  $display("%t\t INFO3\t [ %m ] \t Ustawiono\twartosc %d (0x%h)\tna na adresie %d (0x%h)\tz komenda %d (0x%h)", $time, value, value, address, address, command, command);
+                  $display("%t\t INFO3\t [ %m ] \t Ustawiono\twartosc %d (0x%h)\tna adresie %d (0x%h)\tz komenda %d (0x%h)", $time, value, value, address, address, command, command);
 
                // Wypisz ustawian-ego/-ne dac-a/-i bazujac na przeslanym adresie lub zakomunikuj blad
                case(address)
