@@ -20,11 +20,7 @@ module Controller(
 	assign address = 4'b1111;
 	assign command = 4'b0011;
 	reg [7:0] data_debug = 8'h55;
-
         assign LED = data_debug;
-//	assign data = {4'h0, datareg}; //TODO 4'b1 ?
-//	assign data = 12'hffe;
-//	assign data = 12'h3ff;
 
 	localparam STEP = 32;
 	localparam MAXV = {12{1'b1}};

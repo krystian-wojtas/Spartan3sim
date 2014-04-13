@@ -11,7 +11,7 @@ module DacSpi (
 	input [11:0] data,
 	input [3:0] address,
 	input [3:0] command,
-	output [31:0] dac_datareceived, //TODO 31 _
+	output [31:0] dac_datareceived,
 	input dactrig,
 	output dacdone
 	);
@@ -28,8 +28,6 @@ module DacSpi (
 		.clk_hf(spi_sck), //half filled 50%
 		.neg_trig(tick_neg)
 	);
-
-
 
 	wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
 	Spi #(
@@ -49,7 +47,6 @@ module DacSpi (
 		.clk(CLK50MHZ),
 		.tick(tick_neg)
 	);
-
 
 	assign SPI_SCK = (~dacdone) ? spi_sck : 1'b0;
 	assign DAC_CLR = ~RST;
