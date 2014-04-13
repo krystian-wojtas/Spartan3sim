@@ -16,10 +16,7 @@ module DacLTC2624Behav
    // LOGLEVEL = 6 //TODO del
    // 	debug
    parameter LOGLEVEL      = 5,
-   parameter LOGLEVEL_SCK  = 3,
-   parameter LOGLEVEL_CS   = 3,
-   parameter LOGLEVEL_CLR  = 3,
-   parameter LOGLEVEL_MOSI = 3
+   parameter LOGLEVEL_CLR  = 3
 ) (
    input  SPI_SCK,
    input  DAC_CS,
@@ -28,52 +25,26 @@ module DacLTC2624Behav
    output DAC_OUT
 );
 
-   // Instancje obserwatorow linii
-   Monitor #(
-      .LOGLEVEL(LOGLEVEL_SCK),
-      .N(1)
-   ) monitor_sck (
-      .signals( SPI_SCK )
-   );
-   Monitor #(
-      .LOGLEVEL(LOGLEVEL_CS),
-      .N(1)
-   ) monitor_cs (
-      .signals( DAC_CS )
-   );
+   // Instancja obserwatora linii resetu
    Monitor #(
       .LOGLEVEL(LOGLEVEL_CLR),
       .N(1)
    ) monitor_clr (
       .signals( DAC_CLR )
    );
-   Monitor #(
-      .LOGLEVEL(LOGLEVEL_MOSI),
-      .N(1)
-   ) monitor_mosi (
-      .signals( SPI_MOSI )
-   );
-
-   // Instacja ustawiacza zwrotnego
-   // Set #(
-   //    .LOGLEVEL(LOGLEVEL_OUT),
-   //    .N(1)
-   // ) set_out (
-   //    .signals( DAC_OUT )
-   // );
 
    // Przed uzyciem daca nalezy go najpierw zresetowac poprzez chwilowe obnizenie linii DAC_CLR
    reg 	  inited = 1'b0;
    initial begin
 
       if(LOGLEVEL >= 4)
-         $display("%t INFO4 Oczekiwanie na zresetowanie daca", $time);
+         $display("%t\t INFO4\t [ %m ] \t Oczekiwanie na zresetowanie daca", $time);
       monitor_clr.wait_for_low();
       monitor_clr.ensure_low_during( 40 );
       monitor_clr.wait_for_high();
 
       if(LOGLEVEL >= 4)
-         $display("%t INFO4 Zresetowano daca", $time);
+         $display("%t\t INFO4\t [ %m ] \t Zresetowano daca", $time);
       inited = 1'b1;
    end
 
@@ -81,10 +52,10 @@ module DacLTC2624Behav
    always @(negedge DAC_CS)
       if(inited) begin
          if(LOGLEVEL >= 4)
-            $display("%t INFO4 Odbieranie danych", $time);
+            $display("%t\t INFO4\t [ %m ] \t Odbieranie danych", $time);
       end else
          if(LOGLEVEL >= 1)
-            $display("%t BLAD Nie zresetowano ukladu przed nadaniem nadanych", $time);
+            $display("%t\t BLAD\t [ %m ] \t Nie zresetowano ukladu przed nadaniem nadanych", $time);
 
    // Rejest zlicza kolejno odbierane bity
    reg [5:0] conf_idx;
@@ -133,40 +104,40 @@ module DacLTC2624Behav
       if(inited) begin
 	 // Zakomunikuj koniec odbioru
          if(LOGLEVEL >= 4)
-            $display("%t INFO4 Podniesiono flage DAC_CS, co konczy odbior danych", $time);
+            $display("%t\t INFO4\t [ %m ] \t Podniesiono flage DAC_CS, co konczy odbior danych", $time);
 
          if(~received32bits) begin
             //Bledy nieodpowiedniej ilosci odebranych bitow
             if(receivedtoomanybits) begin
                if(LOGLEVEL >= 1)
-                  $display("%t BLAD Do daca wyslanych zostalo wiecej bitow niz 32", $time);
+                  $display("%t\t BLAD\t [ %m ] \t Do daca wyslanych zostalo wiecej bitow niz 32", $time);
             end else
                if(LOGLEVEL >= 1)
-                  $display("%t BLAD Do daca wyslanych zostalo %d bitow. Nalezy wyslac 32", $time, conf_idx);
+                  $display("%t\t BLAD\t [ %m ] \t Do daca wyslanych zostalo %d bitow. Nalezy wyslac 32", $time, conf_idx);
 
          end else begin
             // Odebrana wlasciwa ilosc bitow
             if(LOGLEVEL >= 4)
-               $display("%t INFO4 Odebrane dane zawieraja wlasciwa ilosc bitow", $time);
+               $display("%t\t INFO4\t [ %m ] \t Odebrane dane zawieraja wlasciwa ilosc bitow", $time);
 
 	    // Wypisz odebrane pola
             if(LOGLEVEL >= 3)
-               $display("%t INFO3 Ustawiono\twartosc %d (0x%h)\tna na adresie %d (0x%h)\tz komenda %d (0x%h)", $time, data, data, address, address, command, command);
+               $display("%t\t INFO3\t [ %m ] \t Ustawiono\twartosc %d (0x%h)\tna na adresie %d (0x%h)\tz komenda %d (0x%h)", $time, data, data, address, address, command, command);
 
 	    // Wypisz ustawian-ego/-ne dac-a/-i bazujac na przeslanym adresie lub zakomunikuj blad
             case(address)
-               4'b0000: if(LOGLEVEL >= 5) $display("%t INFO5 dac adresu %b (0x%h) - ustawi dac A", $time, address, address);
-               4'b0001: if(LOGLEVEL >= 5) $display("%t INFO5 dac adresu %b (0x%h) - ustawi dac B", $time, address, address);
-               4'b0010: if(LOGLEVEL >= 5) $display("%t INFO5 dac adresu %b (0x%h) - ustawi dac C (mozliwe ustawienie wzmocnienia)", $time, address, address);
-               4'b0011: if(LOGLEVEL >= 5) $display("%t INFO5 dac adresu %b (0x%h) - ustawi dac D (mozliwe ustawienie wzmocnienia)", $time, address, address);
-               4'b1111: if(LOGLEVEL >= 5) $display("%t INFO5 daci adresu %b (0x%h) - ustawi wszystkie dac-i", $time, address, address);
-               default: if(LOGLEVEL >= 1) $display("%t BLAD nieprawidlowy adres daca", $time);
+               4'b0000: if(LOGLEVEL >= 5) $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) jest dac-iem A", $time, address, address);
+               4'b0001: if(LOGLEVEL >= 5) $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) jest dac-iem B", $time, address, address);
+               4'b0010: if(LOGLEVEL >= 5) $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) jest dac-iem C (mozliwe ustawienie wzmocnienia)", $time, address, address);
+               4'b0011: if(LOGLEVEL >= 5) $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) jest dac-iem D (mozliwe ustawienie wzmocnienia)", $time, address, address);
+               4'b1111: if(LOGLEVEL >= 5) $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) odpowiada wszystkim dac-om", $time, address, address);
+               default: if(LOGLEVEL >= 1) $display("%t\t BLAD\t [ %m ] \t Nieprawidlowy adres daca", $time);
             endcase
 
 	    // Sprawdz czy wyslano wlasciwa komende, jedyna poprawna to 0011
             if(command != 4'b0011)
                if(LOGLEVEL >= 1)
-                  $display("%t BLAD nieprawidlowa komenda %b (0x%h) - aby natychmiastowo ustawic dac nalezy wyslac 0011 (0x3)", $time, command, command);
+                  $display("%t\t BLAD\t [ %m ] \t Nieprawidlowa komenda %b (0x%h) - aby natychmiastowo ustawic dac nalezy wyslac 0011 (0x3)", $time, command, command);
 
          end
       end

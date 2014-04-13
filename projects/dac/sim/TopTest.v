@@ -15,10 +15,7 @@ module TopTest();
    wire DAC_OUT;
    DacLTC2624Behav #(
       .LOGLEVEL(5),
-      .LOGLEVEL_SCK(3),
-      .LOGLEVEL_CS(3),
-      .LOGLEVEL_CLR(3),
-      .LOGLEVEL_MOSI(3)
+      .LOGLEVEL_CLR(3)
    ) DacLTC2624Behav_(
       .SPI_SCK(SPI_SCK),
       .DAC_CS(DAC_CS),
