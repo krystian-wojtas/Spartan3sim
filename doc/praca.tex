@@ -251,14 +251,46 @@ Dane przesyłane do układu LTC2624 są 32-bitową ramką uwidocznioną powyższ
 Trzecie pole jest 12-bitową wartością binarną odpowiadającą wystawianemu napięciu. Ramka kończy się 4 nieistotnymi bitami. W przykładzie na wszystkich konwerterach pojawiłaby się połowa z ustawionych zakresów napięć.
 
 
+\subsection{Aplikacja}
 
-\subsection{HDL}
-\lstinputlisting[caption=Top.v]{../projects/dac/Top.v}
-\lstinputlisting[label=Controller,caption=Controller.v]{../projects/dac/Controller.v}
-\lstinputlisting[label=DacSpi,caption=DacSpi.v]{../projects/dac/DacSpi.v}
+Zrealizowany projekt wykorzystuje opisany układ obecny na płytce przetwornika cyfrowo-analogowego. Po wystartowaniu lub resecie ustawiane jest zerowe napięcie. Używając dwóch przycisków można napięcie podnieść lub obniżyć w zakresie $0V - 3.3V$ z krokiem $32 / 4096$. Zawsze pojedynczy pakiet ustawia wszystkie cztery konwertery dostępne w układzie na raz. Podgląd na bieżący stan podawanego napięcia pokazują diody LED.
+
+
+\subsection{Synteza}
+
+\subsubsection{Warstwa wierzchnia}
+
+Moduł najwyższy łączy interfejs SPI przetworników z odfiltrowanymi z drgań sygnałami przycisków i diodami led.
+%% \begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v,firstnumber=14]
+\begin{lstlisting}[label=Top,caption=Top.v]
+module Top (
+        input CLK50MHZ,
+        input RST,
+        // dac
+        output SPI_SCK,
+        output DAC_CLR,
+        output DAC_CS,
+        output SPI_MOSI,
+        input DAC_OUT,
+        // control
+        input [3:0] SW,
+        input BTN_WEST,
+        input BTN_EAST,
+        output [7:0] LED
+   );
+\end{lstlisting}
+Instancjuje także moduł kontrolera i warstwe spajającą interfejs DAC-a z wewnętrznym SPI.
 
 %\newpage
-\subsection{Moduł behawioralny}
+\subsection{Symulacja}
+
+
+\subsubsection{Przypadek testowy}
+Przypadek testowy łączy moduł syntezowalny z niezbędnymi sygnałami zegara i resetu, a także instancjuje moduł behawioralny
+
+
+
+
 Wykonana została wzorcowa konfiguracja FPGA poprawnie ustawiająca DAC-i. Przedstawiona symulacja pokazuje wykres przebiegów czasowych linii prowadzących do układu DAC. Układ taktowany jest zegarem 50Mhz pochodzącym z kwarcu dostępnego na płytce. Przesyłana ramka jest przykładem z poprzedniego rozdziału - połowa zakresów napięć wystawiana na wszystkich dac-ach. Pola z bitami nieistonymi są tak ustawione aby pojedynczymi, skrajnymi pikami pokazywały początek i koniec ramki.
 
 \begin{figure}[htb]
@@ -268,8 +300,6 @@ Wykonana została wzorcowa konfiguracja FPGA poprawnie ustawiająca DAC-i. Przed
 
 
 \includegraphics[width=15cm]{grafika/dac-uml.jpg}
-
-\lstinputlisting[label=dac,caption=dacLTC2624behav.v]{zrodla/dacLTC2624-behav.v}
 
 
 \newpage
