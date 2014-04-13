@@ -14,7 +14,11 @@ module TopTest();
    wire SPI_MOSI;
    wire DAC_OUT;
    DacLTC2624Behav #(
-      .LOGLEVEL(4)
+      .LOGLEVEL(5),
+      .LOGLEVEL_SCK(3),
+      .LOGLEVEL_CS(3),
+      .LOGLEVEL_CLR(3),
+      .LOGLEVEL_MOSI(3)
    ) DacLTC2624Behav_(
       .SPI_SCK(SPI_SCK),
       .DAC_CS(DAC_CS),
@@ -43,12 +47,18 @@ module TopTest();
       .LED(LED)
    );
 
-   TopTestBench TopTestBench_(
-           .CLK50MHZ(CLK50MHZ),
-           .RST(RST),
-           .BTN_WEST(BTN_WEST),
-           .BTN_EAST(BTN_EAST),
-           .SW(SW)
+   TopTestBench #(
+      .LOGLEVEL(5),
+      .LOGLEVEL_LESS(0),
+      .LOGLEVEL_MORE(0),
+      .LOGLEVEL_SW(0),
+      .LOGLEVEL_RST(0)
+   ) TopTestBench_ (
+      .CLK50MHZ(CLK50MHZ),
+      .RST(RST),
+      .BTN_WEST(BTN_WEST),
+      .BTN_EAST(BTN_EAST),
+      .SW(SW)
    );
 
 endmodule
