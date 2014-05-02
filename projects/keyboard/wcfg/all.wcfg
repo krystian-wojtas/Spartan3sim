@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="TopTest_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="TopTest" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="62" />
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/PS2_CLK1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PS2_CLK1</obj_property>
+      <obj_property name="ObjectShortName">PS2_CLK1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/PS2_DATA1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PS2_DATA1</obj_property>
+      <obj_property name="ObjectShortName">PS2_DATA1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LED[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider6" type="divider">
+      <obj_property name="label">keyboard</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_clk</obj_property>
+      <obj_property name="ObjectShortName">ps2_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_data" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_data</obj_property>
+      <obj_property name="ObjectShortName">ps2_data</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/scancode" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">scancode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">scancode[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/scan_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">scan_ready</obj_property>
+      <obj_property name="ObjectShortName">scan_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_clk_reg[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ps2_clk_reg[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_negedge" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2_clk_negedge</obj_property>
+      <obj_property name="ObjectShortName">ps2_clk_negedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/trig" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">trig</obj_property>
+      <obj_property name="ObjectShortName">trig</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/data_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_out[9:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/WAIT_STARTBIT" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WAIT_STARTBIT[2:0]</obj_property>
+      <obj_property name="ObjectShortName">WAIT_STARTBIT[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/START_RECEVING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">START_RECEVING[2:0]</obj_property>
+      <obj_property name="ObjectShortName">START_RECEVING[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/RECEIVING" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">RECEIVING[2:0]</obj_property>
+      <obj_property name="ObjectShortName">RECEIVING[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/RECEIVED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">RECEIVED[2:0]</obj_property>
+      <obj_property name="ObjectShortName">RECEIVED[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider23" type="divider">
+      <obj_property name="label">ps2 clk shiftreg</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/CLKB" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLKB</obj_property>
+      <obj_property name="ObjectShortName">CLKB</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/set" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">set</obj_property>
+      <obj_property name="ObjectShortName">set</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/tick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tick</obj_property>
+      <obj_property name="ObjectShortName">tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/rx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/data_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_in[1:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/data_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_out[1:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/tx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/shiftreg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">shiftreg[1:0]</obj_property>
+      <obj_property name="ObjectShortName">shiftreg[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/ps2_clk_shiftreg_/WIDTH" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider34" type="divider">
+      <obj_property name="label">serial</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/CLKB" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLKB</obj_property>
+      <obj_property name="ObjectShortName">CLKB</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/rx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/tx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/data_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_in[10:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[10:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/data_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_out[10:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[10:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/trig" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">trig</obj_property>
+      <obj_property name="ObjectShortName">trig</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/tick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tick</obj_property>
+      <obj_property name="ObjectShortName">tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/sent_all_bits" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sent_all_bits</obj_property>
+      <obj_property name="ObjectShortName">sent_all_bits</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/WIDTH" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider57" type="divider">
+      <obj_property name="label">shiftreg</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/CLKB" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLKB</obj_property>
+      <obj_property name="ObjectShortName">CLKB</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/set" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">set</obj_property>
+      <obj_property name="ObjectShortName">set</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/tick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tick</obj_property>
+      <obj_property name="ObjectShortName">tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/rx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/data_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_in[10:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[10:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/data_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_out[10:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[10:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/tx" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/shiftreg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">shiftreg[10:0]</obj_property>
+      <obj_property name="ObjectShortName">shiftreg[10:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/WIDTH" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider46" type="divider">
+      <obj_property name="label">controller</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/controller_/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/controller_/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/controller_/scancode" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">scancode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">scancode[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/controller_/scan_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">scan_ready</obj_property>
+      <obj_property name="ObjectShortName">scan_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/Top_/controller_/led" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">led[7:0]</obj_property>
+      <obj_property name="ObjectShortName">led[7:0]</obj_property>
+   </wvobject>
+</wave_config>

@@ -40,7 +40,6 @@ module Serial  #(
                 .data_out(data_out)
         );
 
-
         always @(posedge CLKB)
                 if(RST)
                         ready <= 1'b1;
