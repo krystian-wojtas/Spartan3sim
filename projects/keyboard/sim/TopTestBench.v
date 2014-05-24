@@ -16,7 +16,8 @@ module TopTestBench (
       @(negedge RST);
       #10_000;
 
-      keyboard_behav.send_char(8'b00001111);
+      keyboard_behav.send_scancode(8'b00001111);
+      keyboard_behav.type_char("a");
    end
 
 endmodule
