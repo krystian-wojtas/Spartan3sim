@@ -958,11 +958,11 @@ Interfejs PS2 występuje najczęściej jako 6 stykowe gniazdo mini-DIN, takie te
    \caption{Port mini-DIN}
 \end{figure}
 
-Styk trzeci jest masą, styk czwarty zasila urządzenia peryferyjne napięciem 5 V podając natężenie nie większe niż 275mA. Linią pierwszą wymieniane są dane w takt zegara na linii piątej. Tyle wystarcza do komunikacji z urządzeniem peryferyjnym myszki lub klawiatury. Połączenia numer dwa i sześć zazwyczaj nie są wykorzystywane. Jednak w rzadkich przypadkach producent może je wykorzystać dla drugiego urządzenia. Wtedy z pomocą kabla rozdzielającego można podłączyć mysz i klawiature do jednego, wspólnego gniazda DIN. To rozwiązanie stosowane jest w starych laptopach oraz na płytce Spartan 3AN.
+Styk trzeci jest masą, styk czwarty zasila urządzenia peryferyjne napięciem 5 V podając natężenie nie większe niż 275mA. Linią pierwszą wymieniane są dane w takt zegara na linii piątej. Tyle wystarcza do komunikacji z urządzeniem peryferyjnym myszki lub klawiatury. Połączenia numer dwa i sześć zazwyczaj nie są wykorzystywane. Jednak w rzadkich przypadkach producent może je wykorzystać dla drugiego urządzenia. Wtedy z pomocą kabla rozdzielającego można podłączyć mysz i klawiature do jednego, wspólnego gniazda mini-DIN. To rozwiązanie stosowane jest w starych laptopach oraz na płytce Spartan 3AN dla oszczędności miejsca.
 
 Linie zegara i danych wysterowane są wysoko w stanie jałowym. Obie są dwukierunkowe, co jest zrealizowane przez konfigurację otwartego kolektora podciągnietego do stanu wysokiego. Zegar taktowany jest zawsze przez urządzenie peryferyjne z częstotliwością w zakresie $10 - 16.7 kHz$. Urządzenie przesyłając porcje danych do hosta najpierw przesyła niski bit startu, po czym następuje bajt danych w kolejności zaczynającej od bitu najmniej znaczącego, dalej jest bit parzystości i wysoki bit stopu. Stan bitów może być zmieniany w połowie czasu wysokiego zegara, bity odczytywane są przez hosta na zboczu opadającym.
 
-Host może wysłać komende do urządzenia. Przetrzymuję on wtedy linie zegarową oraz danych w stanach niskich przez czas co najmniej 100ms. Po tym zwalnia linie zegarową. Jest do żądanie do urządzenia o umożliwienie przesłania danych i wytaktowanie linii zegarowej. Po podaniu zegara, host ustawia bity w chwilach niskiego zegara. Ramka wygląda podobnie zawierając bit startu, bajt danych, parzystość i stop. Jednak po tym następuje dodatkowy bit potwierdzenia. Jest to obniżenie linii danych przez urządzenie i wygenerowania dla niego dodatkowego pulsu zegara. Potwierdza to właściwy odbiór danej.
+Host może wysłać komende do urządzenia. Przetrzymuje on wtedy linie zegarową oraz danych w stanach niskich przez czas co najmniej 100ms. Po tym zwalnia linie zegarową. Jest do żądanie do urządzenia o umożliwienie przesłania danych i wytaktowanie linii zegarowej. Po podaniu zegara, host ustawia bity w chwilach niskiego zegara. Ramka wygląda podobnie zawierając bit startu, bajt danych, parzystość i stop. Jednak po tym następuje dodatkowy bit potwierdzenia. Jest to obniżenie linii danych przez urządzenie i wygenerowania dla niego dodatkowego pulsu zegara. Potwierdza to właściwy odbiór danej.
 
 \subsection{Klawiatura}
 
@@ -974,9 +974,11 @@ Skan kod zajmuje jeden bajt. Krótkie wciśnięcie klawisza wysyła jego skan ko
 
 Rozróżnia się klawisze lewego oraz prawego alt-a i cntr-la. Lewe klawisze przesyłane są jak wszystkie pozostałe. Natomiast klawisze prawe poprzedzone są ramką o treści E0.
 
+Do klawiatury można wysyłać polecenia od hosta. Polecenie echo określone bajtem $EE$ powoduje odesłanie przez klawiature tego samego bajtu $EE$. Można ustawić częstotliwość powtarzania wciśniętego klawisze komendą $F3$. Po niej klawiatura odpowiada potwierdzeniem $FA$ i następny bajt przesyła host z żadaną częstotliwośćią. Komenda $ED$ ustawia stan diod led $Caps Lock$, $Scroll Lock$, $Num Lock$. Klawiatura ją także potwierdza odsyłając $FA$ i oczekuje kolejnego bajtu z maską diod.
+
 \subsection{Aplikacja}
 
-Aplikacja odbiera przeslany przez klawiature bajt i wyświetla go na diodach led. Można zauważyć skan kod wciskanego klawisza oraz mignięcia bajtu F0 przy zwalnianiu.
+Aplikacja odbiera przeslany przez klawiature bajt i wyświetla go na diodach led. Można zauważyć skan kod wciskanego klawisza oraz mignięcia bajtu F0 przy zwalnianiu. Aplikacja nie przesyła do klawiatury żadnych komend.
 
 \subsection{Synteza}
 
@@ -1035,7 +1037,7 @@ endmodule
 \end{lstlisting}
 
 \subsubsection{Klawiatura}
-Najważniejszym modułem projektu jest sama klawiatura. Przyjmuje linie zegarową $ps2_clk$ i danych $ps2_data$, po odebraniu skan kodu wystawia go przewodem równoległym $scancode$ i informuje o tym ustawiając flagę $scan_ready$.
+Najważniejszym modułem projektu jest sama klawiatura. Przyjmuje linie zegarową $ps2\_clk$ i danych $ps2\_data$, po odebraniu skan kodu wystawia go przewodem równoległym $scancode$ i informuje o tym ustawiając flagę $scan\_ready$.
 \begin{lstlisting}[label=Keyboard,caption=Keyboard.v]
 module Keyboard(
     input  CLK50MHZ,
@@ -1128,17 +1130,15 @@ endmodule
 
 \subsection{Symulacja}
 
-Moduł symulacyjny klawiatury nadaje wciśnięcia i zwolnienia paru klawiszy.
-
 Moduł najwyższy $TopTest$ powołuje zegar, reset, moduł najwyższy syntezowalny oraz przypadek testowy do przeprowadznia.
 
 \subsubsection{Przypadek testowy}
 
-Przypadek testowy powołuje instację zachowawczą klawiatury, po czym operuje na jej zestawie zadań.
+Przypadek testowy powołuje instację zachowawczą klawiatury, po czym operuje na jej zestawie zadań wciskając oraz zwalniając parę z nich.
 \begin{lstlisting}[label=TopTestBench,caption=TopTestBench.v]
 module TopTestBench (
-    // keyboard
     input RST,
+    // keyboard
     output PS2_CLK1,
     output PS2_DATA1
 );
@@ -1154,14 +1154,11 @@ module TopTestBench (
       @(negedge RST);
       #10_000;
 
-      keyboard_behav.send_scancode(8'b00001111);
-      keyboard_behav.press_char("a");
-      keyboard_behav.press_(keyboard_behav.SPACE);
-      keyboard_behav.type_char("a");
-
       keyboard_behav.press_right_alt();
-      keyboard_behav.type_char("b");
+      keyboard_behav.type_char("a");
       keyboard_behav.release_right_alt();
+
+      keyboard_behav.type_(keyboard_behav.ENTER);
    end
 
 endmodule
@@ -1170,7 +1167,8 @@ endmodule
 \subsubsection{Klawiatura zachowawczo}
 
 Moduł zachowawczy przyjmuje parametr żadanej szczegółowości logowania oraz wysterowywuje linie zegara i danych.
-\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard_behav.v]
+
+\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v]
 module Keyboard_behav
 #(
    // LOGLEVEL = 0
@@ -1198,15 +1196,15 @@ module Keyboard_behav
 );
 \end{lstlisting}
 
-Ustawiane zostają stałe połowy okresu $HALF_PERIOD = 7 000 000$ oraz ćwiartka. Instancjalizowane zostją moduły ustawiania linii zegara i danych oraz inicjalizowane zostają stanami wysokimi.
+Ustawiane zostają stałe połowy okresu $HALF\_PERIOD = 7 000 000$ oraz ćwiartka. Instancjalizowane zostją moduły ustawiania linii zegara i danych oraz inicjalizowane zostają stanami wysokimi.
 
-Konstrukcja zadania wysyłającego daną $send_$ jest bliźniaczo podobna do zadania $transmit$ z modułu $Rs232_behav$. Wysyłane bity są jedynie zmieniane w połowie wysokiego zegara, a ramka poszerzona jest o bit parzystości wyrażany operatorem redukcji
-\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard_behav.v,firstnumber=75]
+Konstrukcja zadania wysyłającego daną $send\_$ jest bliźniaczo podobna do zadania $transmit$ z modułu $Rs232\_behav$. Wysyłane bity są jedynie zmieniane w połowie wysokiego zegara, a ramka poszerzona jest o bit parzystości wyrażany operatorem redukcji
+\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v,firstnumber=75]
 	 odd = ~^ scancode;
 \end{lstlisting}
 
 Zapisane są mapowania klawiszy specjalnych do odpowiadających skan kodów.
-\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard_behav.v,firstnumber=110]
+\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v,firstnumber=110]
    // Pare klawiszy specjalnych
 
    reg [7:0] ESC         = 8'h76;
@@ -1224,7 +1222,7 @@ Zapisane są mapowania klawiszy specjalnych do odpowiadających skan kodów.
 \end{lstlisting}
 
 Zdefiniowanych jest pare podstawowych operacji na klawiszach.
-\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard_behav.v,firstnumber=125]
+\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v,firstnumber=125]
    // Zadania ogolne do wcisniecia, puszczenia oraz przetrzymania zadanego klawisza
 
    task press_
@@ -1260,7 +1258,7 @@ Zdefiniowanych jest pare podstawowych operacji na klawiszach.
 \end{lstlisting}
 
 Dla rozróżnienia lewego lub prawego ctrl-a, dołączone są dedykowane zadania. To samo podejście zastosowane jest dla alt-a.
-\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard_behav.v,firstnumber=158]
+\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v,firstnumber=158]
    // Klawisze lewego i prawego alt-a oraz ctrl-a sa rozroznialne
 
    task press_left_control
@@ -1295,7 +1293,7 @@ Dla rozróżnienia lewego lub prawego ctrl-a, dołączone są dedykowane zadania
 \end{lstlisting}
 
 Translacją znaków tablicy ASCII do odpowiadających skan kodów zajmuje się tablica $char_to_scancode$.
-\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard_behav.v,firstnumber=220]
+\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v,firstnumber=220]
    // Mapowanie znaku do skan kodu
    reg [7:0] char_to_scancode [255:0];
    initial begin
@@ -1305,8 +1303,8 @@ Translacją znaków tablicy ASCII do odpowiadających skan kodów zajmuje się t
 \end{lstlisting}
 
 Ostatnie zadania operują na przekazanych znakach tablicy ASCII i przesyłają ich skan kod.
-\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard_behav.v,firstnumber=262]
-   // Zadania operują na znakach
+\begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v,firstnumber=262]
+   // Zadania operuja na znakach
 
    task press_char
    (
