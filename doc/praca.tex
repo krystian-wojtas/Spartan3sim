@@ -1335,6 +1335,63 @@ Ostatnie zadania operują na przekazanych znakach tablicy ASCII i przesyłają i
 \end{lstlisting}
 
 
+\subsubsection{Przebieg}
+
+
+Wycinek zrzutu ekranu pokazuje przebieg symulacji. Niebieskie markery oddzielają sekwencję dla poszczegolnych klawiszy.
+\begin{figure}[htb]
+   \centering
+   \includegraphics[width=15cm]{grafika/keyboard_sim.png}
+   \caption{Przebieg symulacji}
+\end{figure}
+
+
+Zamieszczone jest wyjście logów dla domyślnych poziomów logowania.
+\begin{lstlisting}[label=Keyboard_output,caption=Keyboard logs output]
+  10000000 INFO3 [ TopTest.TopTestBench_.keyboard_behav.press_right_alt ]  Wcisnieto prawy alt
+  10000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 11100000 (0x e0)
+  10000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '11100000' (0x e0)
+  890000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 11100000 (0x e0)
+  890000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 00010001 (0x 11)
+  890000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '00010001' (0x 11)
+  1770000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 00010001 (0x 11)
+  1770000000 INFO3 [ TopTest.TopTestBench_.keyboard_behav.type_char ]  Wpisywanie klawisza o literze/cyfrze 01100001 (0x 61) (dec  97) (ascii a)
+  1770000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.type_ ]  Wpisywanie przycisku o skan kodzie 00011100 (0x 1c)
+  1770000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 00011100 (0x 1c)
+  1770000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '00011100' (0x 1c)
+  2650000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 00011100 (0x 1c)
+  2730000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.release_ ]  Zwalnianie przycisku o skan kodzie 00011100 (0x 1c)
+  2730000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 11110000 (0x f0)
+  2730000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '11110000' (0x f0)
+  3610000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 11110000 (0x f0)
+  3610000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 00011100 (0x 1c)
+  3610000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '00011100' (0x 1c)
+  4490000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 00011100 (0x 1c)
+  4570000000 INFO3 [ TopTest.TopTestBench_.keyboard_behav.release_right_alt ]  Zwalnianie prawego alt-a
+  4570000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 11100000 (0x e0)
+  4570000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '11100000' (0x e0)
+  5450000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 11100000 (0x e0)
+  5450000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.release_ ]  Zwalnianie przycisku o skan kodzie 00010001 (0x 11)
+  5450000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 11110000 (0x f0)
+  5450000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '11110000' (0x f0)
+  6330000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 11110000 (0x f0)
+  6330000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 00010001 (0x 11)
+  6330000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '00010001' (0x 11)
+  7210000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 00010001 (0x 11)
+  7210000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.type_ ]  Wpisywanie przycisku o skan kodzie 01011010 (0x 5a)
+  7210000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 01011010 (0x 5a)
+  7210000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '01011010' (0x 5a)
+  8090000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 01011010 (0x 5a)
+  8170000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.release_ ]  Zwalnianie przycisku o skan kodzie 01011010 (0x 5a)
+  8170000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 11110000 (0x f0)
+  8170000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '11110000' (0x f0)
+  9050000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 11110000 (0x f0)
+  9050000000 INFO4 [ TopTest.TopTestBench_.keyboard_behav.press_ ]  Wcisnieto przycisk o skan kodzie 01011010 (0x 5a)
+  9050000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wysylanie bajtu '01011010' (0x 5a)
+  9930000000 INFO5 [ TopTest.TopTestBench_.keyboard_behav.send_ ]  Wyslano bajt 01011010 (0x 5a)
+\end{lstlisting}
+
+
 \newpage
 \section{VGA}
 Standard VGA odpowiada za przesłanie obrazu do wyświetlacza przy ustalonych rozmiarach oraz częstotliwości odświeżania. Obraz przesyłany jest punkt po punkcie zwanych pikselami w porządku od lewej do prawej kolumny, zaczynając od górnego do dolnego wiersza.

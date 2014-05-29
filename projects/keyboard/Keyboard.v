@@ -1,4 +1,4 @@
-module Keyboard(
+module Keyboard (
     input  CLK50MHZ,
     input  RST,
     input  ps2_clk,
@@ -25,7 +25,7 @@ module Keyboard(
    wire        ps2_clk_negedge = ( ps2_clk_reg == 2'b10 );
    wire        trig;
    wire        ready;
-   wire [9:0] data_out;
+   wire [9:0] frame;
    Serial #(
       .WIDTH(10)
    ) Serial_ (
@@ -34,14 +34,23 @@ module Keyboard(
       // serial module interface
       .rx(ps2_data),
       .data_in(10'b0),
-      .data_out(data_out),
+      .data_out(frame),
       .trig(trig),
       .ready(ready),
       .tick(ps2_clk_negedge)
    );
 
    // Get rid of start, stop and odd bits
-   assign scancode = data_out[9:2];
+   wire [7:0] data_reversed = frame[9:2];
+
+   // Reverse bits order
+   genvar      i;
+   generate
+      for(i=0; i<8; i=i+1)
+      begin : swiz
+	 assign scancode[i] = data_reversed[7-i];
+      end
+   endgenerate
 
    localparam [2:0]
     WAIT_STARTBIT = 3'd0,
