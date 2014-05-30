@@ -11,8 +11,8 @@ module Vga_Behav_Lines_Counter
    //      informuje o odebraniu prawidlowej ilosci linii w ramce
    //
    parameter LOGLEVEL = 5,
-   parameter LOGLEVEL_VGA_VSYNC = 5,
-   parameter LOGLEVEL_VGA_HSYNC = 5,
+   parameter LOGLEVEL_VGA_VSYNC = 3,
+   parameter LOGLEVEL_VGA_HSYNC = 3,
 
    parameter LINES = 521
 ) (
@@ -38,7 +38,6 @@ module Vga_Behav_Lines_Counter
    );
 
    // Zlicza ilosc odebranych wierszy w ramce i sprawdza czy jest wlasciwa
-
    integer i=0;
    always @(negedge vga_vsync)
       if(synchronized) begin

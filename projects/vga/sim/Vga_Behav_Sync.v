@@ -15,10 +15,10 @@ module Vga_Behav_Sync
    //      informuje o nadaniu kolumn lub ramek
    //
    parameter LOGLEVEL = 5,
-   parameter LOGLEVEL_VGA_COLOURS_V = 7,
-   parameter LOGLEVEL_VGA_COLOURS_H = 7,
-   parameter LOGLEVEL_VGA_VSYNC = 7,
-   parameter LOGLEVEL_VGA_HSYNC = 7,
+   parameter LOGLEVEL_VGA_COLOURS_V = 3,
+   parameter LOGLEVEL_VGA_COLOURS_H = 3,
+   parameter LOGLEVEL_VGA_VSYNC = 3,
+   parameter LOGLEVEL_VGA_HSYNC = 3,
 
    // Domyslnie 640x480
    parameter V_S   = 16_700_000,
@@ -68,7 +68,6 @@ module Vga_Behav_Sync
    );
 
    // Sprawdzanie synchronizacji ramek
-
    always @(negedge vga_vsync) begin
       if(synchronized) begin
          if( LOGLEVEL >= 3 )
@@ -90,10 +89,10 @@ module Vga_Behav_Sync
 
             // Czas wyswietlania wszystkich kolejnych wierszy w ramce
             if( LOGLEVEL >= 4 )
-               $display("%t\t INFO4\t [ %m ] \t Nadawanie wierszy", $time);
+               $display("%t\t INFO4\t [ %m ] \t Nadawanie ramki", $time);
             #(V_S - V_FP - V_PW - V_BP + 13581);
             if( LOGLEVEL >= 5 )
-               $display("%t\t INFO5\t [ %m ] \t Nadano wiersze", $time);
+               $display("%t\t INFO5\t [ %m ] \t Nadano ramke", $time);
 
             // Czas do nastepnej synchronizacji ramki
             monitor_vga_colours_v.ensure_low_during( V_FP -13581 -1 );
@@ -104,7 +103,6 @@ module Vga_Behav_Sync
    end
 
    // Sprawdzanie synchronizacji wierszy
-
    always @(negedge vga_hsync) begin
       if(synchronized) begin
          // logs.info1("Rozpoczecie odbioru nowego wiersza");
@@ -126,10 +124,10 @@ module Vga_Behav_Sync
 
             // Czas wyswietlania wszystkich kolejnych pikseli w wierszu
             if( LOGLEVEL >= 4 )
-               $display("%t\t INFO4\t [ %m ] \t Nadawanie kolorow w wierszu", $time);
+               $display("%t\t INFO4\t [ %m ] \t Nadawanie wiersza", $time);
             #(H_S - H_FP - H_PW - H_BP);
             if( LOGLEVEL >= 5 )
-               $display("%t\t INFO5\t [ %m ] \t Nadano kolory w wierszu", $time);
+               $display("%t\t INFO5\t [ %m ] \t Nadano  wiersz", $time);
 
             // Czas do nastepnej synchronizacji wierszy
             monitor_vga_colours_h.ensure_low_during( H_FP -1 );

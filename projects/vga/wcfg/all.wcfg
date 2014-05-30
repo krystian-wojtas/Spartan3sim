@@ -9,7 +9,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="71" />
+   <WVObjectSize size="80" />
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
@@ -281,6 +281,42 @@
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">128 128 255</obj_property>
       <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_R" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_R[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_R[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_G" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_G[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_G[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_B" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_B[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_B[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_HSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_HSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_HSYNC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/VGA_VSYNC" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">VGA_VSYNC</obj_property>
+      <obj_property name="ObjectShortName">VGA_VSYNC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_NEXT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_NEXT</obj_property>
+      <obj_property name="ObjectShortName">BTN_NEXT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/BTN_PREV" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">BTN_PREV</obj_property>
+      <obj_property name="ObjectShortName">BTN_PREV</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
