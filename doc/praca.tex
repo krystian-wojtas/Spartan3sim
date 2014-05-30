@@ -125,20 +125,23 @@ Na kolejnych dwóch stronach proszę dołączyć kolejno recenzje pracy popełni
 
 Celem pracy jest oprogramowanie za pomocą języka opisu sprzętu (Verliog) układów używanych podczas zajęć laboratoryjnych z Projektowanie Systemów Cyfrowych. Praca polegałaby na przygotowaniu zestawu syntezowalnych bloków HDL do wszystkich elementów płytki „Xilnix Spartan-3AN Starter Kit” (www.xilinx.com/products/devkits/HW-SPAR3AN-SK-UNI-G.htm). Dodatkowo należy opracować modele behawioralne służące do testowania poprawności kodu (poszczególnych modułów sprzętu) tworzonego przez studentów podczas zajęć. Podsumowaniem całości ma być projekt kompleksowo demonstrujący możliwości wyżej wspomnianego sprzętu.
 
-Utworzone moduły behawioralne muszą (wiernie) odzwierciedlać zachowania układów występujących na płytce.
+Utworzone moduły behawioralne muszą jak najwierniej odzwierciedlać zachowania układów występujących na płytce.
 Znajdą wtedy zastosowanie w uruchamianych symulacjach przebiegów czasowych danej konfiguracji układu programowalnego FPGA. Dzięki nim możliwe będzie stwierdzenie czy dla zsyntetyzowanej konfiguracji stany linii FPGA prowadzące do konkretnego układu płytki przebiegają poprawnie i czy zachodzi pożądana komunikacja poprzez generowanie przez te moduły stosownych komunikatów. W ten sposób studenci będą mogli testować poprawność działania utworzonej przez siebie konfiguracji bez fizycznego dosępu do sprzętu.
 %zsyntetysowanej/wysyntetyzowanej
 
 
 \newpage
 \section{Projekty}
-Każdy z symulowanych układów jest osobnym symulowalnym jak również syntezowalnym projektem środowiska Xilinx ISE. Projekty objęte są rozproszonym systemem kontroli wersji GIT, każdy jest jego osobnym podmodułem spajanym repozytorium superprojektu.
+Każdy z symulowanych układów jest osobnym symulowalnym jak również syntezowalnym projektem środowiska Xilinx ISE jak również posiada skrypty do budowania dla programu $make$.
+
+\subsection{Układ katalogów}
+Praca wersjonowana jest rozproszonym systemem kontroli zawartości $git$. Drzewo katalogów rozpoczyna się rozgałęzieniem na $doc$ oraz $projects$. $doc$ zawiera źródłą oraz materiały do zbudowania tego dokumentu, $projects$ zawiera projekty dla poszczególnych poruszanych układów. Zawiera także szczególny katalog $generic$, ponieważ nie jest on projektem, składowane są w nim pliki powszechnego zastosowania.
 
 \subsection{Moduły ogólnego zastosowania}
 Moduły ogólnego zastosowania, współdzielone pomiędzy projektami położone są w folderze nazwanym generic.
 
 \subsubsection{Zegar}
-Jest to moduł niezbędny do symulacji, wprowadza prostokątną linie zegarową.
+Jest to moduł niezbędny do symulacji, formuje prostokątną linie zegarową.
 \lstinputlisting[label=Zegar,caption=Clock.v]{../projects/generic/sim/Clock.v}
 
 \subsubsection{Reset}
