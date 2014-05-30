@@ -1052,32 +1052,24 @@ module Keyboard(
     );
 \end{lstlisting}
 
-Wykrywanie zbocza opadającego zegara zrealizowane jest dwubitowym rejestrem przesuwnym i ciągłym porównywaniem go z wzorcem zbocza.
+Wykrywanie zbocza opadającego zegara zrealizowane jest dwubitowym rejestrem przesuwnym i ciągłym porównywaniem go z wzorcem zbocza w pomocniczym module $Bits\_Reverse$.
 \begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=10]
    // Detect negative edge on input ps2 clock line
-
-   wire [1:0]  ps2_clk_reg;
-   Shiftreg #(
-      .WIDTH(2)
-   ) ps2_clk_shiftreg_ (
-      .CLKB(CLK50MHZ),
-      .en(1'b1),
-      .set(1'b0),
-      .tick(1'b1),
-      .rx(ps2_clk),
-      .data_in(2'b11),
-      .data_out(ps2_clk_reg)
+   wire    ps2_clk_negedge;
+   Edge_Detector ps2_clk_negedge_detector (
+      .clk(CLK50MHZ),
+      .signal(ps2_clk),
+      .neg(ps2_clk_negedge)
    );
-
-   wire        ps2_clk_negedge = ( ps2_clk_reg == 2'b10 );
 \end{lstlisting}
 
-Przesyłana ramka zczytywana jest szeregowo na wykrytym zboczu opadającym przy wykorzystaniu modułu serializacji.
-\begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=26]
+Przesyłana ramka zczytywana jest szeregowo na wykrytym zboczu opadającym przy wykorzystaniu modułu serializacji. Moduł odbiera jedynie 10 pierwszych bitów z ramki, ostatni stop bit nie jest zapisywany. Ponieważ pierszy takt zegara ps2 wprawia maszynę stanów w ruch i dopiero włącza serializację do pracy, takt ten nie zostanie policzony wewnątrz serializaji. Obejściem byłoby dopisanie rejestru opóżniającego takty zegara ps2 o cykl i przekazanie go do serializacji lub, co jest prostrze, obcięcie ramki.
+\begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=18]
    wire        trig;
    wire        ready;
-   wire [9:0] data_out;
+   wire [9:0] frame;
    Serial #(
+      // ignore 11th stop bit as first tick is not counted
       .WIDTH(10)
    ) Serial_ (
       .CLKB(CLK50MHZ),
@@ -1085,21 +1077,24 @@ Przesyłana ramka zczytywana jest szeregowo na wykrytym zboczu opadającym przy 
       // serial module interface
       .rx(ps2_data),
       .data_in(10'b0),
-      .data_out(data_out),
+      .data_out(frame),
       .trig(trig),
       .ready(ready),
       .tick(ps2_clk_negedge)
    );
 \end{lstlisting}
 
-Ramka pozbawiana jest otaczających bitów startu, parzystości i stopu, co ekstrahuje przesyłany bajt danych. Dane nie są weryfikowane pod kątem zgodności z bitem parzystości.
-\begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=43]
-   // Get rid of start, stop and odd bits
-   assign scancode = data_out[9:2];
+Ramka pozbawiana jest otaczających bitów startu, parzystości i stopu, co ekstrahuje przesyłany bajt danych. Ogólny moduł do obsługi rejestru przesuwnego zaprojektowany został do odbieru bitów w kolejności od najbardziej znaczącego. Protokół PS2 przesyła je w odwrotnej kolejności, przez co wymagane jest użycie dodakowego modułu przywracającego pierwotny porządek. Odebrane dane nie są weryfikowane pod kątem zgodności z bitem parzystości.
+\begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=36]
+   // Get rid of start, stop and odd bits, then reverse bit order of the data
+   Bits_Reverse reversing (
+      .orginal( frame[9:2] ),
+      .reversed( scancode)
+   );
 \end{lstlisting}
 
 Klawiatura zawiera maszynę stanów. Najpierw czeka na rozpoczęcie transmisji opadającym zboczem zegara. Kiedy to nastąpi, uruchamia odbiór szeregowy i czeka na jego zakończenie. Zakończenie odbioru wprawia ją w ostatni stan sygnalizujący modułowi wyższemu gotowość odebranego bajtu.
-\begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=46]
+\begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=42]
    localparam [2:0]
     WAIT_STARTBIT = 3'd0,
     START_RECEVING = 3'd1,
