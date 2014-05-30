@@ -1394,7 +1394,7 @@ Zamieszczone jest wyjście logów dla domyślnych poziomów logowania.
 
 \newpage
 \section{VGA}
-Standard VGA odpowiada za przesłanie obrazu do wyświetlacza przy ustalonych rozmiarach oraz częstotliwości odświeżania. Obraz przesyłany jest punkt po punkcie zwanych pikselami w porządku od lewej do prawej kolumny, zaczynając od górnego do dolnego wiersza.
+Standard VGA odpowiada za przesłanie obrazu do wyświetlacza. Wprowadziła go firma IBM w 1987 roku w jej linii komputerów ososbistych. Standard definiuje maksymale wymiary obrazu w trybie znakowym jako 720x480, natomiast w trybie  graficznym jest to 640x480 przy 16 lub 256 dostępnych kolorach i częstotliwości odświeżania do 70 Hz. Punkty obrazu, zwane pikselami, przesyłane są w porządku od lewej do prawej kolumny, zaczynając od górnego do dolnego wiersza.
 
 Po przesłaniu każdego wiersza, następuje chwilowe obniżenie linii synchronizacyjnej $HSYNC$. Natomiast po przesłaniu całej ramki, chwilowo opuszczana jest linia $VSYNC$. W punktach tych i ich pewnym otoczeniu należy uzniemić linie kolorów.
 
@@ -1432,13 +1432,12 @@ module Top (
 Sygnały przycisków przewijania należy pozbawić drgań styków wykorzystując poznany moduł $Debouncer$. Następnie zostają zainstancjonowane moduły $Sync$ służący sychronizacji oraz $Controller$, który obsługuje przyciski i podaje wybrany kolor.
 
 \subsubsection{Synchronizacja}
+Standard VGA powstał w czasach monitorów kineskopowych. Technologia ta ukierunkowywuje elektromagnesami naładowaną wiązkę o wybranej energii w punkt na luminoforze, czym wyzwala fotony światła. Momenty gdy wiązka powraca na początek kolejnej linii lub całej ramki są punktami synchronizacji. Podczas powrotów wiązki, a także w chwilach przed i po, musi być ona wygaszona (przez obniżenie wartości składowych kolorów), aby nie zakłócić kolorów nadanych luminoforowi w pierwszym przebiegu.
+
 Zadaniem modułu synchronizacyjnego jest właściwe wytaktowanie linii zawiadamiających o początku nowej ramki lub nowej kolumny. Są to sygnały cyfrowe utrzymywane w stanie wysokim, w chwilach synchronizacji zostają obniżane. Domyślne parametry dostosowane są do przesyłania obrazu rozmiaru 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Odmierzanie czasu przesyłu kolum  bazuje na podstawowym zegarze występującym na płytce o częstotliwości 50 mHz. Natomiast przesłanie ramki sygnalizowane jest po zliczeniu wysłania odpowiedniej liczby kolumn.
 
-Standard VGA powstał w czasach monitorów kineskopowych. Technologia ta ukierunkowywuje elektromagnesami naładowaną wiązkę o wybranej energii w punkt na ekranie, czym wyzwala fotony światła. Momenty gdy wiązka powraca na początek kolejnej linii lub całej ramki są punktami synchronizacji. Wtedy, a także chwilę przed i po synchronizacjach, musi być ona wygaszona obniżając wartość składowych kolorów w celu zachowania już nadanych kolorów pikselom. Sygnał $dispalying$ określa czy kolory mogą być podawane, sygnały współrzędnych x i y podają bieżącą lokalizuję wiązki.
+Sygnał $dispalying$ określa czy kolory mogą być podawane, sygnały współrzędnych $x$ i $y$ podają bieżącą lokalizuję wiązki.
 
-TODO sprawdzic jak to dziala
-
-TODO moze zamienic kolejnosc akapitow
 \begin{lstlisting}[label=Syncvga,caption=Sync.v]
 module Sync
 #(
@@ -1463,7 +1462,7 @@ module Sync
 );
 \end{lstlisting}
 
-Synchronizacja opiera się na dwóch licznikach. Pierwszy zlicza zegar podstawowy 50 mHz, drugi zlicza przepełnienia pierwszego śledząc bieżącą linie w ramce. Połączenia i oraz j są aktualnymi stanami liczników.
+Synchronizacja opiera się na dwóch licznikach. Pierwszy zlicza zegar podstawowy 50 mHz, drugi zlicza przepełnienia pierwszego śledząc bieżącą linie w ramce. Połączenia $i$ oraz $j$ są aktualnymi stanami liczników.
 \begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=23]
         wire [10:0] i;
         wire        h;
@@ -1552,70 +1551,15 @@ Każdy z bitów bieżącego koloru odpowiada jednej ze składowych podstawowych.
 \subsection{Symulacja}
 Symulacja musi zweryfikować, czy sygnały synchronizacyjne pojawiają się w spodziewanych okresach oraz czy wtedy oraz w w ich otoczeniu wiązka jest wygaszona. Do tego zliczane są linie w ramce.
 
-Moduł topowy zaczyna się od inicjalizacji sygnału zegarowego i resetu potrzebnych modułom syntezowalnym.
-\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=3]
-module TopTest ();
+Moduł topowy standardowo inicjalizuje sygnał zegarowy, resetu, przypadek testowy i moduł najwyższy syntezowalny.
 
-    wire CLK50MHZ;
-    Clock Clock_( .clk(CLK50MHZ) );
-
-    wire RST;
-    Reset Reset_( .RST(RST) );
-\end{lstlisting}
-
-Za odbiór nadawanych sygnałów wtyczki VGA odpowiada moduł Vga\_Behav. Został zainicjowany z czterama poziomami logowania.
-\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=11]
-    // vga interface
-    wire [3:0] VGA_R;
-    wire [3:0] VGA_G;
-    wire [3:0] VGA_B;
-    wire       VGA_HSYNC;
-    wire       VGA_VSYNC;
-    Vga_Behav #(
-       .INFO1(1),
-       .INFO2(1),
-       .INFO3(1),
-       .INFO4(1)
-    ) vga_behav_ (
-        .vga_r(VGA_R),
-        .vga_g(VGA_G),
-        .vga_b(VGA_B),
-        .vga_hsync(VGA_HSYNC),
-        .vga_vsync(VGA_VSYNC)
-    );
-\end{lstlisting}
+Za odbiór nadawanych sygnałów wtyczki VGA odpowiada moduł $Vga\_Behav$. Został zainicjowany z czterama poziomami logowania.
 
 Zaimplementowana jest symulacja wciśnięć przycisków zmian kolorów.
-\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=30]
-    // color control
-    wire       BTN_NEXT;
-    wire       BTN_PREV;
-    TopTestBench TopTestBench_ (
-        .BTN_NEXT(BTN_NEXT),
-        .BTN_PREV(BTN_PREV)
-    );
-\end{lstlisting}
 
 Wszelkie połączenia utworzone do tej pory przekazane zostają do najwyższego modułu syntezowalnego.
-\begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=38]
-    Top Top_ (
-        .CLK50MHZ(CLK50MHZ),
-        .RST(RST),
-        // vga interface
-        .VGA_R(VGA_R),
-        .VGA_G(VGA_G),
-        .VGA_B(VGA_B),
-        .VGA_HSYNC(VGA_HSYNC),
-        .VGA_VSYNC(VGA_VSYNC),
-        // color control
-        .BTN_NEXT(BTN_NEXT),
-        .BTN_PREV(BTN_PREV)
-    );
 
-endmodule
-\end{lstlisting}
-
-Vga\_Behav przyjmuje szereg parametrów. Domyślne wartości odpowiadają odbiorowi obrazu o rozmiarach 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Czasy niewiele różnią się od tych podanych w dokumentacji do płytki, dostosowane są dla zegara 50 mHz. Domyślnie pokazywane są jedynie wiadomości o błędach i ostrzeżeniach.
+$Vga\_Behav$ przyjmuje szereg parametrów. Domyślne wartości odpowiadają odbiorowi obrazu o rozmiarach 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Czasy niewiele różnią się od tych podanych w dokumentacji do płytki, dostosowane są dla zegara 50 mHz. Domyślnie pokazywane są jedynie wiadomości o błędach i ostrzeżeniach.
 
 Moduł jedynie przyjmuje sygnały, nie generuje żadnych zwrotnych. Przyjmuje trzy czterobitowe sygnały kolorów oraz dwie synchronizajce linii i ramek dokładnie to co moduł topowy generuje.
 \subsubsection{Moduł behawioralny}
@@ -1624,10 +1568,10 @@ module Vga_Behav
 #(
    parameter ERROR = 1,
    parameter WARN  = 1,
-   parameter INFO1 = 0,
-   parameter INFO2 = 0,
-   parameter INFO3 = 0,
-   parameter INFO4 = 0,
+   parameter INFO1 = 1,
+   parameter INFO2 = 1,
+   parameter INFO3 = 1,
+   parameter INFO4 = 1,
 
    // Domyslnie 640x480
    parameter V_S   = 16_700_000,

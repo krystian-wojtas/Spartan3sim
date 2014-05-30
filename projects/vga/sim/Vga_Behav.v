@@ -1,11 +1,20 @@
 module Vga_Behav
 #(
-   parameter ERROR = 1,
-   parameter WARN  = 1,
-   parameter INFO1 = 0,
-   parameter INFO2 = 0,
-   parameter INFO3 = 0,
-   parameter INFO4 = 0,
+   // LOGLEVEL = 0
+   //      bez zadnych komunikatow
+   // LOGLEVEL = 1
+   //      pokazuje bledy
+   // LOGLEVEL = 2
+   //      pokazuje ostrzezenia
+   //
+   // LOGLEVEL = 3
+   //      informuje o oczekiwaniu na poczatek nowej ramki
+   // LOGLEVEL = 4
+   //      informuje o zsynchronizowaniu ramki
+   //
+   parameter LOGLEVEL = 5,
+   parameter LOGLEVEL_SYNC = 5,
+   parameter LOGLEVEL_LINES = 5,
 
    // Domyslnie 640x480
    parameter V_S   = 16_700_000,
@@ -27,8 +36,7 @@ module Vga_Behav
 );
 
    Monitor #(
-      .LOGLEVEL(7),
-      // .LOGLEVEL(9),
+      .LOGLEVEL(2),
       .N(1)
    ) monitor_vga_vsync (
       .signals( vga_vsync )
@@ -38,8 +46,8 @@ module Vga_Behav
 
    reg   synchronized=1'b0;
    initial begin
-      if( INFO1 )
-         $display("%t\t INFO1\t [ %m ] \t Oczekiwanie na poczatek nowej ramki.", $time);
+      if( LOGLEVEL >= 3 )
+         $display("%t\t INFO3\t [ %m ] \t Oczekiwanie na poczatek nowej ramki.", $time);
 
       // Poczekaj na pierwszy puls synchronizacji ramki
       // Nie sprawdza jednak dlugosci jego trwania, pomiar pulsu synchronizacji nastapi od drugiej ramki
@@ -49,16 +57,12 @@ module Vga_Behav
       // Zsynchronizowano, zacznij odbierac ramki
       synchronized=1'b1;
 
-      if( INFO1 )
-         $display("%t\t INFO1\t [ %m ] \t Rozpoczecie odbioru ramek.", $time);
+      if( LOGLEVEL >= 4 )
+         $display("%t\t INFO4\t [ %m ] \t Zsynchronizowano, rozpoczecie odbioru ramek.", $time);
    end
 
    Vga_Behav_Sync #(
-      .ERROR(ERROR),
-      .INFO1(INFO1),
-      .INFO2(INFO2),
-      .INFO3(INFO3),
-      .INFO4(INFO4),
+      .LOGLEVEL(LOGLEVEL_SYNC),
       .V_S(V_S),
       .V_FP(V_FP),
       .V_PW(V_PW),
@@ -77,11 +81,7 @@ module Vga_Behav
    );
 
    Vga_Behav_Lines_Counter #(
-      .ERROR(ERROR),
-      .INFO1(INFO1),
-      .INFO2(INFO2),
-      .INFO3(INFO3),
-      .INFO4(INFO4),
+      .LOGLEVEL(LOGLEVEL_LINES),
       .LINES(LINES)
    ) vga_behav_lines_counter_ (
       .vga_hsync(vga_hsync),

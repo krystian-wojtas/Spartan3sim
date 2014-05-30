@@ -1,11 +1,18 @@
 module Vga_Behav_Lines_Counter
 #(
-   parameter ERROR = 1,
-   parameter WARN  = 1,
-   parameter INFO1 = 0,
-   parameter INFO2 = 0,
-   parameter INFO3 = 0,
-   parameter INFO4 = 0,
+   // LOGLEVEL = 0
+   //      bez zadnych komunikatow
+   // LOGLEVEL = 1
+   //      pokazuje bledy
+   // LOGLEVEL = 2
+   //      pokazuje ostrzezenia
+   //
+   // LOGLEVEL = 3
+   //      informuje o odebraniu prawidlowej ilosci linii w ramce
+   //
+   parameter LOGLEVEL = 5,
+   parameter LOGLEVEL_VGA_VSYNC = 5,
+   parameter LOGLEVEL_VGA_HSYNC = 5,
 
    parameter LINES = 521
 ) (
@@ -17,16 +24,14 @@ module Vga_Behav_Lines_Counter
    // Instancje monitorow
 
    Monitor #(
-      .LOGLEVEL(7),
-      // .LOGLEVEL(9),
+      .LOGLEVEL(LOGLEVEL_VGA_VSYNC),
       .N(1)
    ) monitor_vga_vsync (
       .signals( vga_vsync )
    );
 
    Monitor #(
-      .LOGLEVEL(7),
-      // .LOGLEVEL(9),
+      .LOGLEVEL(LOGLEVEL_VGA_HSYNC),
       .N(1)
    ) monitor_vga_hsync (
       .signals( vga_hsync )
@@ -45,11 +50,11 @@ module Vga_Behav_Lines_Counter
 
          // Sprawdz ilosc odebranych linii, zakomunikuj warunkowo o rezultacie
          if(i != LINES+1) begin
-            if(ERROR)
+            if(LOGLEVEL >= 1)
                $display("%t\t BLAD\t [ %m ] \t Pomiedzy synchronizacjami kolumn wyslano %d linii. W cyklu powinno ich nastapic %d.", $time, i, LINES);
          end else
-            if(INFO2)
-               $display("%t\t INFO2\t [ %m ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, i);
+            if(LOGLEVEL >= 3)
+               $display("%t\t INFO3\t [ %m ] \t Odebrano wlasciwa ilosc linii %d w cyklu.", $time, i);
 
       end
    always @(negedge vga_hsync)
