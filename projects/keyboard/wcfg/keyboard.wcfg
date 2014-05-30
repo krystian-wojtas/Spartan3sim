@@ -9,13 +9,15 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="61" />
+   <WVObjectSize size="66" />
    <wave_markers>
       <marker time="830070000000" label="" />
       <marker time="2590070000000" label="" />
       <marker time="3550070000000" label="" />
       <marker time="5390070000000" label="" />
       <marker time="8030070000000" label="" />
+      <marker time="8990070000000" label="" />
+      <marker time="11000000000000" label="" />
    </wave_markers>
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
@@ -254,6 +256,26 @@
    <wvobject fp_name="/TopTest/Top_/keyboard_/Serial_/Shiftreg_/WIDTH" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
       <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK50MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK50MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/PS2_CLK1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PS2_CLK1</obj_property>
+      <obj_property name="ObjectShortName">PS2_CLK1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/PS2_DATA1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PS2_DATA1</obj_property>
+      <obj_property name="ObjectShortName">PS2_DATA1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TopTest/LED" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">LED[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LED[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/CLK50MHZ" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">CLK50MHZ</obj_property>
