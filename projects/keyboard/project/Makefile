@@ -5,6 +5,7 @@ synt += ../../generic/Serial.v
 synt += ../../generic/Shiftreg.v
 synt += ../../generic/Counter.v
 synt += ../../generic/Edge_Detector.v
+synt += ../../generic/Bits_Reverse.v
 
 sim += $(synt)
 sim += ../sim/TopTest.v

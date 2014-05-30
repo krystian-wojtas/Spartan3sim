@@ -8,22 +8,6 @@ module Keyboard (
     );
 
    // Detect negative edge on input ps2 clock line
-
-   // wire [1:0]  ps2_clk_reg;
-   // Shiftreg #(
-   //    .WIDTH(2)
-   // ) ps2_clk_shiftreg_ (
-   //    .CLKB(CLK50MHZ),
-   //    .en(1'b1),
-   //    .set(1'b0),
-   //    .tick(1'b1),
-   //    .rx(ps2_clk),
-   //    .data_in(2'b11),
-   //    .data_out(ps2_clk_reg)
-   // );
-
-   // wire        ps2_clk_negedge = ( ps2_clk_reg == 2'b10 );
-
    wire    ps2_clk_negedge;
    Edge_Detector ps2_clk_negedge_detector (
       .clk(CLK50MHZ),
@@ -35,6 +19,7 @@ module Keyboard (
    wire        ready;
    wire [9:0] frame;
    Serial #(
+      // ignore 11th stop bit as first tick is not counted
       .WIDTH(10)
    ) Serial_ (
       .CLKB(CLK50MHZ),
@@ -48,17 +33,11 @@ module Keyboard (
       .tick(ps2_clk_negedge)
    );
 
-   // Get rid of start, stop and odd bits
-   wire [7:0] data_reversed = frame[9:2];
-
-   // Reverse bits order
-   genvar      i;
-   generate
-      for(i=0; i<8; i=i+1)
-      begin : swiz
-	 assign scancode[i] = data_reversed[7-i];
-      end
-   endgenerate
+   // Get rid of start, stop and odd bits, then reverse bit order of the data
+   Bits_Reverse reversing (
+      .orginal( frame[9:2] ),
+      .reversed( scancode)
+   );
 
    localparam [2:0]
     WAIT_STARTBIT = 3'd0,
