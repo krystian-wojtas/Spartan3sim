@@ -9,20 +9,28 @@ module Keyboard (
 
    // Detect negative edge on input ps2 clock line
 
-   wire [1:0]  ps2_clk_reg;
-   Shiftreg #(
-      .WIDTH(2)
-   ) ps2_clk_shiftreg_ (
-      .CLKB(CLK50MHZ),
-      .en(1'b1),
-      .set(1'b0),
-      .tick(1'b1),
-      .rx(ps2_clk),
-      .data_in(2'b11),
-      .data_out(ps2_clk_reg)
+   // wire [1:0]  ps2_clk_reg;
+   // Shiftreg #(
+   //    .WIDTH(2)
+   // ) ps2_clk_shiftreg_ (
+   //    .CLKB(CLK50MHZ),
+   //    .en(1'b1),
+   //    .set(1'b0),
+   //    .tick(1'b1),
+   //    .rx(ps2_clk),
+   //    .data_in(2'b11),
+   //    .data_out(ps2_clk_reg)
+   // );
+
+   // wire        ps2_clk_negedge = ( ps2_clk_reg == 2'b10 );
+
+   wire    ps2_clk_negedge;
+   Edge_Detector ps2_clk_negedge_detector (
+      .clk(CLK50MHZ),
+      .signal(ps2_clk),
+      .neg(ps2_clk_negedge)
    );
 
-   wire        ps2_clk_negedge = ( ps2_clk_reg == 2'b10 );
    wire        trig;
    wire        ready;
    wire [9:0] frame;

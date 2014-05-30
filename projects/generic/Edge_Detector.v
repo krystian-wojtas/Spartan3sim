@@ -1,30 +1,28 @@
-`timescale 1ns / 1ps
-
 module Edge_Detector(
-    input  CLK50MHZ,
-    input  line,
+    input  clk,
+    input  signal,
     output pos,
     output neg
     );
 
-   // Record last 2 states of line
+   // Record last 2 states of signal
 
-   wire [1:0]  line_last2;
+   wire [1:0] last2;
    Shiftreg #(
       .WIDTH(2)
-   ) ps2_clk_shiftreg_ (
-           .CLKB(CLK50MHZ),
+   ) shiftreg_ (
+           .CLKB(clk),
            .en(1'b1),
            .set(1'b0),
            .tick(1'b1),
-           .rx(line),
+           .rx(signal),
            .data_in(2'b11),
-           .data_out(line_last2)
+           .data_out(last2)
            );
 
    // Detect negative or positive edges
 
-   assign pos = ( line_last2 == 2'b01 );
-   assign neg = ( line_last2 == 2'b10 );
+   assign pos = ( last2 == 2'b01 );
+   assign neg = ( last2 == 2'b10 );
 
 endmodule

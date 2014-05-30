@@ -4,6 +4,7 @@ synt += ../Keyboard.v
 synt += ../../generic/Serial.v
 synt += ../../generic/Shiftreg.v
 synt += ../../generic/Counter.v
+synt += ../../generic/Edge_Detector.v
 
 sim += $(synt)
 sim += ../sim/TopTest.v
