@@ -280,12 +280,304 @@ Moduł w początkowej chwili na krótko podnosi linię, w zamierzeniu sygnału r
 \lstinputlisting[label=Reset,caption=Reset.v]{../projects/generic/sim/Reset.v}
 
 \subsubsection{Ustawiacz}
-% TODO
-\lstinputlisting[label=Reset,caption=Reset.v]{../projects/generic/sim/Reset.v}
+Moduł przyjmuje grupę sygnałów przy inicjalizacji, po czym udostępnia zadania operujące na nich i informujące o swoich działaniach z zadaną dokładnością.
+\begin{lstlisting}[label=Set,caption=Set.v]
+module Set
+#(
+   // LOGLEVEL = 0
+   //      bez zadnych komunikatow
+   // LOGLEVEL = 1
+   //      bledy
+   // LOGLEVEL = 2
+   //      ostrzezenia
+   //
+   // LOGLEVEL = 3
+   //      informuje o zamiarze zmiany sygnalu
+   // LOGLEVEL = 4
+   //      informuje o zmianie sygnalu
+   // LOGLEVEL = 5
+   //      informuje o zamiarze przeczekiwania
+   // LOGLEVEL = 6
+   //      informuje o przeczekaniu
+   parameter LOGLEVEL = 1,
+
+   parameter N = 1
+) (
+   output reg [N-1:0] signals
+);
+\end{lstlisting}
+
+Zadanie $state$ ustawia podany stan na sygnałach i loguje swoje zamiary.
+\begin{lstlisting}[label=Set,caption=Set.v,firstnumber=25]
+   // Zadanie ustawia okreslony stan
+   task state
+   (
+      input [N-1:0] new_signals
+   );
+      begin
+
+         // Poinformuj o stanie poprzednim
+         if( LOGLEVEL >= 3 )
+            $display("%t\t INFO3\t [ %m ] \t Stan sygnalow zostanie zmieniony. Obecny stan '%b' (0x %h), spodziewany stan '%b' (0x %h)", $time, signals, signals, new_signals, new_signals);
+
+         // Zmien stan
+         signals = new_signals;
+
+         // Poinformuj o zmianie
+         if( LOGLEVEL >= 4 )
+            $display("%t\t INFO4\t [ %m ] \t Stan sygnalow zostal zmieniony. Obecny stan '%b' (0x %h)", $time, signals, signals);
+
+      end
+   endtask
+\end{lstlisting}
+
+Zadanie $low$ uziemi sygnały. Prawie identycznie wyglądają $high$ oraz $z$ dla wysokiej impedancji.
+\begin{lstlisting}[label=Set,caption=Set.v,firstnumber=47]
+   // Zadanie ustawia stan niski na wszystkich liniach
+   task low ();
+      begin
+         state( {N{1'b0}} );
+      end
+   endtask
+\end{lstlisting}
+
+Do ustawiania zadanego stanu na określony czas służy $state\_during$. Istnieją też poręczniejsze, wyspecjalizowane zadania $low\_during$, $high\_during$, $z\_during$.
+\begin{lstlisting}[label=Set,caption=Set.v,firstnumber=71]
+   // Zadanie ustawia zadany stan i przeczekuje zadany okres czasu
+   task state_during
+   (
+      input [31:0] period,
+      input [N-1:0] new_signals
+   );
+      begin
+
+         // Ustaw stan sygnalow na zadany
+         state( new_signals );
+
+         // Opcjonalnie poinformuj o przeczekiwaniu
+         if( LOGLEVEL >= 5 )
+            $display("%t\t INFO5\t [ %m ] \t Sygnal w stanie %b (hex %h) zostaje zamrozony przez zadany okres czasu %d", $time, new_signals, new_signals, period);
+
+         // Przeczekaj zadany czas
+         #period;
+
+         // Opcjonalnie poinformuj o dalszym biegu
+         if( LOGLEVEL >= 6)
+            $display("%t\t INFO6\t [ %m ] \t Przeczekiwanie stanu %b (hex %h) zostalo zakonczone po %d", $time, new_signals, new_signals, period);
+
+      end
+   endtask
+\end{lstlisting}
+
+Ostatnia grupa zadań z modułu $Set$ ustawia żądany stan, przeczekuje zadany czas, po czym przywraca pierwotny stan sygnałów. Oczywiście także tutaj występują specjalizacje w postaci $low\_during\_and\_restore$, $high\_during\_and\_restore$.
+\begin{lstlisting}[label=Set,caption=Set.v,firstnumber=71]
+   // Zadanie ustawia okreslony stan i przeczekuje zadany okres czasu, po czym wraca do stanu poprzedniego
+   task state_during_and_restore
+   (
+      input [31:0]  period,
+      input [N-1:0] new_signals
+   );
+      reg [N-1:0]   saved_signals;
+      begin
+         saved_signals = signals;
+         state( new_signals );
+         #period;
+         state( saved_signals );
+      end
+   endtask
+\end{lstlisting}
+
 
 \subsubsection{Monitor}
-% TODO
-\lstinputlisting[label=Reset,caption=Reset.v]{../projects/generic/sim/Reset.v}
+
+$Monitor$ dostaje grupę sygnałów i oferuje zadania do prześledzenia niezmienności ich stanów.
+\begin{lstlisting}[label=Monitor,caption=Monitor.v,firstnumber=0]
+module Monitor
+#(
+   // LOGLEVEL = 0
+   //      bez zadnych komunikatow
+   // LOGLEVEL = 1
+   //      bledy
+   // LOGLEVEL = 2
+   //      ostrzezenia
+   //
+   // LOGLEVEL = 3
+   //      informuje o stalosci przeczekanego sygnalu
+   // LOGLEVEL = 4
+   //      informuj o oczekiwaniu na przyjecie przez sygnal zadanej wartosci
+   // LOGLEVEL = 5
+   //      informuj o zastaniu spodziewanego stanu sygnalow
+   // LOGLEVEL = 6
+   //      zrzuca stan monitorowanej linii z kazdej chwili czasu
+   parameter LOGLEVEL = 1,
+
+   // Szerokosc badanej szyny sygnalowej
+   //
+   parameter N = 1
+) (
+   input [N-1:0] signals
+);
+\end{lstlisting}
+
+Można upewnić się czy sygnały znajdują się w spodziewanych stanach. Występują specjalizacje $ensure\_low$, $ensure\_high$, $ensure\_z$.
+\begin{lstlisting}[label=Monitor,caption=Monitor.v,firstnumber=27]
+   // Zadanie sprawdza, czy sygnaly sa w zadanym stanie
+   task ensure_state
+   (
+      input [N-1:0] expected_signals,
+      output ensurance
+   );
+      begin
+
+         // Jesli sygnaly sa zgodne z oczekiwaniami, wystawi jedynke
+         ensurance = 1'b1;
+
+         if( signals !== expected_signals ) begin
+
+            // Sygnaly sie roznia, wystaw zero
+            ensurance = 1'b0;
+
+            // Zglos blad
+            if( LOGLEVEL >= 1 )
+               $display("%t\t ERROR\t [ %m ] \t Sygnaly nie sa zgodne z oczekiwaniami. Stan obecny '%b' (0x %h), spodziewany '%b' (0x %h)", $time, signals, signals, expected_signals, expected_signals);
+
+         end
+
+         // Zakomunikuj o zastaniu spodziewanych stanow
+         if( ensurance )
+            if( LOGLEVEL >= 5 )
+               $display("%t\t INFO5\t [ %m ] \t Sygnaly sa zgodne z oczekiwaniami. Stan oczekiwany '%b' (0x %h)", $time, expected_signals, expected_signals);
+
+      end
+   endtask
+\end{lstlisting}
+
+Do weryfikacji czy sygnały nie zmienią się przez podany czas służy zadanie $ensure\_same\_during$.
+\begin{lstlisting}[label=Monitor,caption=Monitor.v,firstnumber=90]
+   // Zadanie bada stalosc zadanych sygnalow w ustalonym przedziale czasu
+   task ensure_same_during
+   (
+      input [31:0] period,
+      output       ensurance
+   );
+      integer         i;
+      reg [N-1:0] saved_signals;
+      begin
+
+         // Jesli stan linii pozostanie bez zmian, wystawi jedynke
+         ensurance = 1'b1;
+
+         // Zapisz stan linii z momentu rozpoczecia tego zadania
+         saved_signals = signals;
+
+         // Monitoruj linie przez zadany czas lub do momentu pierwszej zmiany stanu
+         for(i=0; i<period && ensurance; i=i+1) begin
+            if(signals !== saved_signals) begin
+
+               // Sygnal sie zmienil podczas badania, zakoncz zerem
+               ensurance = 1'b0;
+
+               // Zglos blad
+               if( LOGLEVEL >= 1 )
+                  $display("%t\t ERROR\t [ %m ] \t Nastapila nieoczekiwana zmiana stanu monitorowanej linii po czasie %d 000 / %d 000. Stan obecny '%b' (0x %h), spodziewany '%b' (0x %h)", $time, i, period, signals, signals, saved_signals, saved_signals);
+
+            end
+
+            // Wypisz wszystkie iteracje petli na zyczenie ostatniego poziomu logowania
+            if( LOGLEVEL >= 9 )
+               $display("%t\t INFO9\t [ %m ] \t Stan linii '%b' (0x %h) zapisana '%b' (0x %h) czas %d 000", $time, signals, signals, saved_signals, saved_signals, i);
+
+            // Przejdz do nastepnego kroku czasowego
+            #1;
+
+         end
+
+         // Zakomunikuj o oczekiwanej stalosci sygnalu w zadanym czasie
+         if( ~ensurance )
+
+            if( LOGLEVEL >= 3 )
+               $display("%t\t INFO3\t [ %m ] \t Stan '%b' (0x %h) linii zgodnie z oczekiwaniami nie zmienil sie po czasie %d 000", $time, signals, signals, i);
+
+      end
+   endtask
+\end{lstlisting}
+
+Do weryfikacji czy sygnały są w spodziewanym stanie oraz czy będą w nim tkwić przez podany czas, dostępne jest zadanie $ensure\_state\_during$. Są także doprecyzowane wersje $ensure\_low\_during$, $ensure\_high\_during$, $ensure\_z\_during$.
+\begin{lstlisting}[label=Monitor,caption=Monitor.v,firstnumber=138]
+   // Zadanie oczekuje okreslonego stanu badanych linii w nadzorowanym okresie
+   task ensure_state_during
+   (
+      input [31:0] period,
+      input [N-1:0] expected_signals,
+      output ensurance
+    );
+      reg    same;
+      begin
+
+         if( LOGLEVEL >= 7 )
+            $display("%t\t INFO7\t [ %m ] \t Sprawdzanie czy obecny stan sygnalow '%b' (0x %h) bedzie niezmienny i zgodny z oczekiwanym wzorcem '%b' (0x %h) przez zadany czas '%d'", $time, signals, signals, expected_signals, expected_signals, period);
+
+         // Jesli linie pozostaly w zadanym stanie przez okres proby, potwierdzi jedynka
+         ensurance = 1'b1;
+
+         // Sprawdz czy od poczatku wystapil stan wzorcowy
+         if( signals != expected_signals ) begin
+
+            // Sygnaly roznia sie od wzorca od poczatku, zwroc zero
+            ensurance = 1'b0;
+
+            // Zlos blad
+            if( LOGLEVEL >= 1 )
+               $display("%t\t ERROR\t [ %m ] \t Wszystkie sygnaly juz od poczatku roznia sie od wzorca '%b' (0x %h), natomiast wystapily '%b' (0x %h)", $time, expected_signals, expected_signals, signals, signals);
+
+         end
+
+         // Jesli sygnaly zaczely jako zgodne ze wzorcem, dopilnuj ich niezmiennosci w badanym czasie
+         ensure_same_during(period, same);
+         if( ensurance && ~same ) begin
+
+            // Co najmniej jedna linia sie poroznila, zwroc zero
+            ensurance = 1'b0;
+
+            // Zglos blad
+            if( LOGLEVEL >= 1 )
+               $display("%t\t ERROR\t [ %m ] \t Sygnaly '%b' (0x %h) nieoczekiwanie rozminely sie ze wzorcem '%b' (0x %h)", $time, signals, signals, expected_signals, expected_signals);
+         end
+
+      end
+   endtask
+\end{lstlisting}
+
+W przypadku chęci zaczekania na ustalenie się pożądanego stanu, można wywołać zadanie $wait\_for\_state$, lub jego konkretniejsze wersje $wait\_for\_low$, $wait\_for\_high$, $wait\_for\_z$.
+\begin{lstlisting}[label=Monitor,caption=Monitor.v,firstnumber=231]
+   // Zadanie czeka na zadany stan
+   task wait_for_state
+   (
+      input [N-1:0] expected_signals
+   );
+      integer       i;
+      // reg     [1023:0]      a;
+      begin
+         i = 0;
+
+         // Poinformuj o oczekiwaniu na zadany stan
+         if( LOGLEVEL >= 4 )
+            $display("%t\t INFO4 \t [ %m ] \t Oczekiwanie na przyjecie stanu '%b' (0x %h). Stan obecny '%b' (0x %h)", $time, expected_signals, expected_signals, signals, signals);
+
+         // Oczekuj zadanego stanu
+         while( signals !== expected_signals ) begin
+            i = i+1;
+            #1;
+         end
+
+         // Poinformuj o ustaleniu sie zadanego stanu
+         if( LOGLEVEL >= 4 )
+            $display("%t\t INFO4\t [ %m ] \t Oczekiwany stan  '%b' (0x %h) ustalil sie po czasie %d 000", $time, expected_signals, expected_signals, i);
+
+      end
+   endtask
+\end{lstlisting}
+
 
 
 \newpage
