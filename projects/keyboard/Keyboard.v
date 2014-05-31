@@ -33,7 +33,7 @@ module Keyboard (
       .tick(ps2_clk_negedge)
    );
 
-   // Get rid of start, stop and odd bits, then reverse bit order of the data
+   // Get rid of start and odd bits, then reverse bit order of the data
    Bits_Reverse reversing (
       .orginal( frame[9:2] ),
       .reversed( scancode)

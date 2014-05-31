@@ -20,7 +20,7 @@ module Edge_Detector(
            .data_out(last2)
            );
 
-   // Detect negative or positive edges
+   // Detect negative or positive edge
 
    assign pos = ( last2 == 2'b01 );
    assign neg = ( last2 == 2'b10 );

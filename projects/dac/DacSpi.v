@@ -21,7 +21,7 @@ module DacSpi (
 	wire tick_neg;
 	wire spi_sck;
 	ModClk #(
-		.DIV(2)
+		.DIV(6)
 	) ModClk_(
 		.CLK50MHZ(CLK50MHZ),
 		.rst(dactrig),

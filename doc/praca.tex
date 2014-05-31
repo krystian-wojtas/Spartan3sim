@@ -203,7 +203,6 @@ Każdy z symulowanych układów jest osobnym symulowalnym jak również syntezow
 \subsubsection{Układ katalogów}
 Praca wersjonowana jest rozproszonym systemem kontroli zawartości $git$. Drzewo katalogów rozpoczyna się rozgałęzieniem na $doc$ oraz $projects$. $doc$ zawiera źródła oraz materiały do zbudowania tego dokumentu, $projects$ zawiera projekty, a drzewa katalogów każdego są podobne. Zamieszczona jest struktura projektu klawiatury.
 
-%% \begin{lstlisting}[label=Top,caption=Top.v]
 \begin{verbatim}
 keyboard/
     Controller.v
@@ -223,7 +222,6 @@ keyboard/
         all.wcfg
         keyboard.wcfg
 \end{verbatim}
-%% \end{lstlisting}
 
 Wszelkie pliki syntezowalne mieszczą się na pierwszym poziomie w katalogach projektów. Źródła symulacyjne usytuowane są w podkatalogach $sim$. Przygotowane zbiory wykresów położone są w $wcfg$. Katalogi $project$ gromadzą pliki projektów dla środowiska ISE Xilinx oraz alternatywnie skrypty $Makefile$. W nim również składowane są wszelkie pośrednie wyniki procesu syntezy.
 
@@ -231,34 +229,28 @@ Katalogiem szczególnym jest $generic$. W nim składowane są pliki powszechnego
 
 \subsection{Synteza}
 
-\subsubsection{Funkcja logarytmiczna}
-Funkcja ta jest bardzo pomocna w ustaleniu szerokości deklarowanego rejestru na podstawie górnego zakresu liczb przez niego zapamietywanych. Wartość funkcji obliczana jest na etapie elaboracji.
-\lstinputlisting[label=log2,caption=log2.v]{../projects/generic/log2.v}
-
 \subsubsection{Licznik}
-Zastosowanie licznika powtarza się najczęściej.
+Zastosowanie licznika powtarza się najczęściej. Zlicza on ilość wysokich stanów podawanego sygnału $sig$ w taktach zegara $CLKB$, ale tylko gdy flagę pracy $en$ ma włączoną. Podnosi flagę $full$ w chwilach przepełnień. Można go resetować w trakcie pracy, wtedy zaczyna zliczać od zera. Aktualny stan licznika wyprowadza połączeniem $cnt$ do modułu nadrzędnego dla szczegółowszych porównań.
 \lstinputlisting[label=Licznik,caption=Licznik.v]{../projects/generic/Counter.v}
 
 \subsubsection{Drgania styków}
-Wciskanie przycisków
-Przyciski na płytce są mechaniczne. Pojedyncze wciśnięcie jest obarczone początkowymi drganiami styków, co dla FPGA jest wielokrotnym wciśnięciem tego samego przycisku w bardzo krótkich odstępach czasu. Niepożądanego efektu można się pozbyć przez $Debouncer$-a bazującego na liczniku.
+Przyciski na płytce są mechaniczne. Pojedyncze wciśnięcie jest obarczone początkowymi drganiami styków, co dla FPGA jest wielokrotnym wciśnięciem tego samego przycisku w bardzo krótkich odstępach czasu. $Debouncer$ zatrzymuje propagację krótkich sygnałów poprzez odmierzenie wymaganego czasu stabilizacji w liczniku. Dla symulacji czas ten jest celowo skrócony.
 \lstinputlisting[label=Debouncer,caption=Debouncer.v]{../projects/generic/Debouncer.v}
 
 \subsubsection{Spowalniacz zegara}
-
-\lstinputlisting[label=Odwracacz,caption=Bits\_Reverse.v]{../projects/generic/Bits\_Reverse.v}
+Jeśli zegar $50mhz$ jest zbyt szybki, można go spowolnić modułem $ModClk$. Bazuje na liczniku, wystawia momenty zbocza opadającego, narastającego, oraz nowy sygnał powolnego zegara o połowie wypełnienia.
+\lstinputlisting[label=Spowalniacz,caption=ModClk.v]{../projects/generic/ModClk.v}
 
 \subsubsection{Rejestr przesuwny}
-Rejestr przesuwny zapisuje daną wejsciową z interfejsu równoległego do swojego wewnętrznego rejestru w momencie, gdy zauważy podiesioną flagę 'set'. Jeśli flagi właczenia 'en' oraz działania 'tick' są ustawione, wtedy moduł rejest przesuwa w lewo, wstawiając dostarczony bit 'rx' w puste miejsce. Wyjściowy bit 'tx' zawsze wskazuje na bit z końca rejestru.
+Rejestr przesuwny zapisuje daną wejściową z interfejsu równoległego do swojego wewnętrznego rejestru w momencie, gdy zauważy podiesioną flagę $set$. Jeśli flagi właczenia $en$ oraz działania $tick$ są ustawione, wtedy moduł rejest przesuwa w lewo, wstawiając dostarczony bit $rx$ w puste miejsce. Wyjściowy bit $tx$ zawsze wskazuje na bit z końca rejestru.
 \lstinputlisting[label=Rejestr,caption=Shiftreg.v]{../projects/generic/Shiftreg.v}
 
 \subsubsection{Wykrywacz zbocza}
-Wykrywanie zbocza zrealizowane jest przy użyciu rejetru przesuwnego zapisującego stale dwie ostatnie wartości śledzone sygnału w takt podanego zegara. Flagi $pos$ i $neg$ sygnalizują zbocze przy wykryciu właściwego wzorca.
-\lstinputlisting[label=Zbocza,caption=Edge\_Detector.v]{../projects/generic/Edge\_Detector.v}
-
+Wykrywanie zbocza zrealizowane jest przy użyciu rejetru przesuwnego stale zapamiętującego dwie ostatnie wartości śledzonego sygnału w takt podanego zegara. Flagi $pos$ i $neg$ sygnalizują zbocze przy wykryciu właściwego wzorca.
+\lstinputlisting[label=Zbocza,caption=Edge\_Detector.v]{../projects/generic/Edge_Detector.v}
 
 \subsubsection{Serializacja}
-Zadaniem modułu jest serializacja tj. przesłanie danych dostarczonych naraz interfejsem równoległym po kolei bit po bicie w takt zegara lub operacja desarializaj tj. operacja odwrotna. Moduł wykorzystuje zaprezentowany rejestr przesuwny oraz licznik.
+Moduł dane serializuje, to jest dane dostarczone szyną równoległą przesyła kolejno bit po bicie pojedynczą linią w takt oferowanego zegara. Równocześnie wykonuje operację odwrotną. $Serial$ skomponowany jest z poznanych modułów licznika i rejestru przesuwnego, ale uzupełnia je o synchroniczne zakończenie pracy.
 \lstinputlisting[label=Serial,caption=Serial.v]{../projects/generic/Serial.v}
 
 \subsubsection{SPI}
@@ -266,12 +258,16 @@ Serial Peripheral Interface jest popularnym sprzętowym interfejsem komunikacji.
 \lstinputlisting[label=SPI,caption=Spi.v]{../projects/generic/Spi.v}
 
 \subsubsection{Generator impulsów}
-Zadaniem generatorota impulsów jest wytwarzanie impulsów jak najbliższe pożadanemu okresowi.
+Zadaniem generatora impulsów jest wytwarzanie impulsów jak najbliższych pożadanemu okresowi.
 \lstinputlisting[label=BaudRateGenerator,caption=BaudRateGenerator.v]{../projects/generic/BaudRateGenerator.v}
 
 \subsubsection{Odwracacz bitów}
-Odwrócenie kolejności bitów w rejestrze wymaga wygenerowania kodu. Niedogodność języka została schowana w dedykowanym module.
-\lstinputlisting[label=Odwracacz,caption=Bits\_Reverse.v]{../projects/generic/Bits\_Reverse.v}
+Odwrócenie kolejności bitów w rejestrze wymaga automatycznego wygenerowania kodu. Niedogodność języka została schowana w module $Bits\_Reverse$.
+\lstinputlisting[label=Odwracacz,caption=Bits\_Reverse.v]{../projects/generic/Bits_Reverse.v}
+
+\subsubsection{Funkcja logarytmiczna}
+Funkcja ta jest bardzo pomocna w ustaleniu szerokości deklarowanego rejestru na podstawie górnego zakresu liczb przez niego zapamiętywanych. Wartość funkcji obliczana jest na etapie elaboracji.
+\lstinputlisting[label=log2,caption=log2.v]{../projects/generic/log2.v}
 
 \subsection{Symulacja}
 
@@ -1206,7 +1202,7 @@ Przesyłana ramka zczytywana jest szeregowo na wykrytym zboczu opadającym przy 
 
 Ramka pozbawiana jest otaczających bitów startu, parzystości i stopu, co ekstrahuje przesyłany bajt danych. Ogólny moduł do obsługi rejestru przesuwnego zaprojektowany został do odbieru bitów w kolejności od najbardziej znaczącego. Protokół PS2 przesyła je w odwrotnej kolejności, przez co wymagane jest użycie dodakowego modułu przywracającego pierwotny porządek. Odebrane dane nie są weryfikowane pod kątem zgodności z bitem parzystości.
 \begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=36]
-   // Get rid of start, stop and odd bits, then reverse bit order of the data
+   // Get rid of start and odd bits, then reverse bit order of the data
    Bits_Reverse reversing (
       .orginal( frame[9:2] ),
       .reversed( scancode)

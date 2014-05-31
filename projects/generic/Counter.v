@@ -6,11 +6,11 @@ module Counter #(
 ) (
         input         CLKB,
         // counter
-        input         en, // if high counter is enabled and is counting
+        input         en,  // if high, then counter is enabled and is counting
         input         rst, // set counter register to zero
         input         sig, // signal which is counted
         output reg [WIDTH-1:0] cnt = {WIDTH{1'b0}},
-        output    full // one pulse if counter is full
+        output        full // one pulse if counter is full
 );
 
    always @(posedge CLKB)
@@ -22,6 +22,6 @@ module Counter #(
          else
             cnt <= DELAY;
 
-        assign full = (cnt == MAX);
+   assign full = (cnt == MAX);
 
 endmodule

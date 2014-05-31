@@ -17,25 +17,24 @@ module Spi #(
    input tick
 );
 
-        wire ready_;
-        assign ready = ready_;
-        Serial #(
-                .WIDTH(WIDTH)
-        ) Serial_ (
-                .CLKB(CLKB),
-                .RST(RST),
-                // serial module interface
-                .rx(spi_miso),
-                .tx(spi_mosi),
-                .data_in(data_in),
-                .data_out(data_out),
-                .trig(trig),
-                .ready(ready_),
-                .tick(tick)
-        );
+   wire ready_;
+   assign ready = ready_;
+   Serial #(
+      .WIDTH(WIDTH)
+   ) Serial_ (
+      .CLKB(CLKB),
+      .RST(RST),
+      // serial module interface
+      .rx(spi_miso),
+      .tx(spi_mosi),
+      .data_in(data_in),
+      .data_out(data_out),
+      .trig(trig),
+      .ready(ready_),
+      .tick(tick)
+   );
 
-        assign spi_cs = ready_;
-        assign spi_sck = (~ready_) ? clk : 1'b0;
-//      assign spi_mosi = (en) ? tx : 1'b1;
+   assign spi_cs = ready_;
+   assign spi_sck = (~ready_) ? clk : 1'b0;
 
 endmodule
