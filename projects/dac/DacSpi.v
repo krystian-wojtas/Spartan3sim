@@ -21,10 +21,10 @@ module DacSpi (
 	wire tick_neg;
 	wire spi_sck;
 	ModClk #(
-		.DIV(5)
+		.DIV(2)
 	) ModClk_(
 		.CLK50MHZ(CLK50MHZ),
-		.RST(RST),
+		.rst(dactrig),
 		.clk_hf(spi_sck), //half filled 50%
 		.neg_trig(tick_neg)
 	);

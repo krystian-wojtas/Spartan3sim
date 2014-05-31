@@ -130,35 +130,132 @@ Znajdą wtedy zastosowanie w uruchamianych symulacjach przebiegów czasowych dan
 %zsyntetysowanej/wysyntetyzowanej
 
 
+\section{Wstęp}
+
+
+\section{Elektronika cyfrowa}
+
+
+\subsection{Elementy analogowe}
+
+\subsubsection{Elementy półprzewodnikowe}
+
+\subsubsection{Diody}
+
+\subsubsection{Tranzystory}
+
+
+\subsection{Bramki logiczne}
+
+\subsubsection{Negacja}
+
+\subsubsection{Koniunkcja}
+
+\subsubsection{Alternatywa}
+
+\subsubsection{Alternatywa wykluczająca}
+
+
+\subsection{Logika kombinacyjna}
+
+\subsubsection{Liczby binarne}
+
+\subsubsection{Układ dodający}
+
+\subsubsection{Układ mnożący}
+
+\subsubsection{Komparator}
+
+\subsubsection{Wykrywanie pierwiastka}
+
+
+\subsection{Logika sekwencyjna}
+
+\subsubsection{Przerzutnik}
+
+\subsubsection{Zatrzask}
+
+\subsubsection{Licznik}
+
+
+\subsection{CMOS}
+
+
+\subsection{FPGA}
+
+
+\subsection{Verilog}
+
+\subsubsection{Opis zachowawczy}
+
+\subsubsection{Procesor}
+
+\subsubsection{Symulacja}
+
+
+
 \newpage
-\section{Projekty}
-Każdy z symulowanych układów jest osobnym symulowalnym jak również syntezowalnym projektem środowiska Xilinx ISE jak również posiada skrypty do budowania dla programu $make$.
+\section{Moduły ogólnego przeznaczenia}
 
-\subsection{Układ katalogów}
-Praca wersjonowana jest rozproszonym systemem kontroli zawartości $git$. Drzewo katalogów rozpoczyna się rozgałęzieniem na $doc$ oraz $projects$. $doc$ zawiera źródłą oraz materiały do zbudowania tego dokumentu, $projects$ zawiera projekty dla poszczególnych poruszanych układów. Zawiera także szczególny katalog $generic$, ponieważ nie jest on projektem, składowane są w nim pliki powszechnego zastosowania.
+\subsection{Projekty}
+Każdy z symulowanych układów jest osobnym symulowalnym jak również syntezowalnym projektem środowiska Xilinx ISE. Przygotowane są także skrypty do budowania dla programu $make$.
 
-\subsection{Moduły ogólnego zastosowania}
-Moduły ogólnego zastosowania, współdzielone pomiędzy projektami położone są w folderze nazwanym generic.
+\subsubsection{Układ katalogów}
+Praca wersjonowana jest rozproszonym systemem kontroli zawartości $git$. Drzewo katalogów rozpoczyna się rozgałęzieniem na $doc$ oraz $projects$. $doc$ zawiera źródła oraz materiały do zbudowania tego dokumentu, $projects$ zawiera projekty, a drzewa katalogów każdego są podobne. Zamieszczona jest struktura projektu klawiatury.
 
-\subsubsection{Zegar}
-Jest to moduł niezbędny do symulacji, formuje prostokątną linie zegarową.
-\lstinputlisting[label=Zegar,caption=Clock.v]{../projects/generic/sim/Clock.v}
+%% \begin{lstlisting}[label=Top,caption=Top.v]
+\begin{verbatim}
+keyboard/
+    Controller.v
+    Keyboard.v
+    project
+        default_wcfg
+        isim.cmd
+        keyboard.xise
+        Makefile
+    sim
+        Keyboard_behav.v
+        TopTestBench.v
+        TopTest.v
+    Top.ucf
+    Top.v
+    wcfg
+        all.wcfg
+        keyboard.wcfg
+\end{verbatim}
+%% \end{lstlisting}
 
-\subsubsection{Reset}
-Moduł na chwilę podnosi linię resetu.
-\lstinputlisting[label=Reset,caption=Reset.v]{../projects/generic/sim/Reset.v}
+Wszelkie pliki syntezowalne mieszczą się na pierwszym poziomie w katalogach projektów. Źródła symulacyjne usytuowane są w podkatalogach $sim$. Przygotowane zbiory wykresów położone są w $wcfg$. Katalogi $project$ gromadzą pliki projektów dla środowiska ISE Xilinx oraz alternatywnie skrypty $Makefile$. W nim również składowane są wszelkie pośrednie wyniki procesu syntezy.
+
+Katalogiem szczególnym jest $generic$. W nim składowane są pliki powszechnego zastosowania współdzielone pomiedzy projektami. Sam nie jest projektem. W tym rozdziale zostaną wyszczególnione wszystkie źródła z tego właśnie katalogu.
+
+\subsection{Synteza}
 
 \subsubsection{Funkcja logarytmiczna}
 Funkcja ta jest bardzo pomocna w ustaleniu szerokości deklarowanego rejestru na podstawie górnego zakresu liczb przez niego zapamietywanych. Wartość funkcji obliczana jest na etapie elaboracji.
 \lstinputlisting[label=log2,caption=log2.v]{../projects/generic/log2.v}
 
 \subsubsection{Licznik}
-Zastosowanie licznika powtarza się bardzo często. Dlatego wydzilony on został do osobnego ogólnego modułu.
+Zastosowanie licznika powtarza się najczęściej.
 \lstinputlisting[label=Licznik,caption=Licznik.v]{../projects/generic/Counter.v}
 
+\subsubsection{Drgania styków}
+Wciskanie przycisków
+Przyciski na płytce są mechaniczne. Pojedyncze wciśnięcie jest obarczone początkowymi drganiami styków, co dla FPGA jest wielokrotnym wciśnięciem tego samego przycisku w bardzo krótkich odstępach czasu. Niepożądanego efektu można się pozbyć przez $Debouncer$-a bazującego na liczniku.
+\lstinputlisting[label=Debouncer,caption=Debouncer.v]{../projects/generic/Debouncer.v}
+
+\subsubsection{Spowalniacz zegara}
+
+\lstinputlisting[label=Odwracacz,caption=Bits\_Reverse.v]{../projects/generic/Bits\_Reverse.v}
+
 \subsubsection{Rejestr przesuwny}
-Rejestr przesuwny zapisuje daną wejsciową z interfejsu równoległego do swojego wewnętrznego rejestry w momencie, gdy zauważy podiesioną flagę 'set'. Jeśli flagi właczenia 'en' oraz działania 'tick' są ustawione, wtedy moduł rejest przesuwa, wstawiając dostarczony bit 'rx' w puste miejsce. Wyjściowy bit 'tx' zawsze wskazuje na bit z końca rejestru.
+Rejestr przesuwny zapisuje daną wejsciową z interfejsu równoległego do swojego wewnętrznego rejestru w momencie, gdy zauważy podiesioną flagę 'set'. Jeśli flagi właczenia 'en' oraz działania 'tick' są ustawione, wtedy moduł rejest przesuwa w lewo, wstawiając dostarczony bit 'rx' w puste miejsce. Wyjściowy bit 'tx' zawsze wskazuje na bit z końca rejestru.
 \lstinputlisting[label=Rejestr,caption=Shiftreg.v]{../projects/generic/Shiftreg.v}
+
+\subsubsection{Wykrywacz zbocza}
+Wykrywanie zbocza zrealizowane jest przy użyciu rejetru przesuwnego zapisującego stale dwie ostatnie wartości śledzone sygnału w takt podanego zegara. Flagi $pos$ i $neg$ sygnalizują zbocze przy wykryciu właściwego wzorca.
+\lstinputlisting[label=Zbocza,caption=Edge\_Detector.v]{../projects/generic/Edge\_Detector.v}
+
 
 \subsubsection{Serializacja}
 Zadaniem modułu jest serializacja tj. przesłanie danych dostarczonych naraz interfejsem równoległym po kolei bit po bicie w takt zegara lub operacja desarializaj tj. operacja odwrotna. Moduł wykorzystuje zaprezentowany rejestr przesuwny oraz licznik.
@@ -171,6 +268,29 @@ Serial Peripheral Interface jest popularnym sprzętowym interfejsem komunikacji.
 \subsubsection{Generator impulsów}
 Zadaniem generatorota impulsów jest wytwarzanie impulsów jak najbliższe pożadanemu okresowi.
 \lstinputlisting[label=BaudRateGenerator,caption=BaudRateGenerator.v]{../projects/generic/BaudRateGenerator.v}
+
+\subsubsection{Odwracacz bitów}
+Odwrócenie kolejności bitów w rejestrze wymaga wygenerowania kodu. Niedogodność języka została schowana w dedykowanym module.
+\lstinputlisting[label=Odwracacz,caption=Bits\_Reverse.v]{../projects/generic/Bits\_Reverse.v}
+
+\subsection{Symulacja}
+
+\subsubsection{Zegar}
+Jest to moduł niezbędny do symulacji, formuje prostokątną linie zegarową.
+\lstinputlisting[label=Zegar,caption=Clock.v]{../projects/generic/sim/Clock.v}
+
+\subsubsection{Reset}
+Moduł w początkowej chwili na krótko podnosi linię, w zamierzeniu sygnału resetu.
+\lstinputlisting[label=Reset,caption=Reset.v]{../projects/generic/sim/Reset.v}
+
+\subsubsection{Ustawiacz}
+% TODO
+\lstinputlisting[label=Reset,caption=Reset.v]{../projects/generic/sim/Reset.v}
+
+\subsubsection{Monitor}
+% TODO
+\lstinputlisting[label=Reset,caption=Reset.v]{../projects/generic/sim/Reset.v}
+
 
 \newpage
 \section{DAC}
