@@ -265,10 +265,9 @@ NET "LED<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SL
 # Directional Push-Buttons (BTN)
 ##############################################################################
 
-#NET "BTN_NORTH"     LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-NET "RST"   		   LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ; #BTN_SOUTH
-#NET "BTN_SOUTH"    	LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
-NET "BTN_WEST"      LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "BTN_NORTH"    LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "RST"	   LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ; #BTN_SOUTH
+NET "BTN_WEST"     LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 NET "BTN_EAST"     LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 
 ##############################################################################
@@ -283,10 +282,10 @@ NET "BTN_EAST"     LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
 ## Mechanical Switches (SW)
 ###############################################################################
 #
-NET "SW<0>"         LOC = "V8"   | IOSTANDARD = LVCMOS33 ;
-NET "SW<1>"         LOC = "U10"  | IOSTANDARD = LVCMOS33 ;
-NET "SW<2>"         LOC = "U8"   | IOSTANDARD = LVCMOS33 ;
-NET "SW<3>"         LOC = "T9"   | IOSTANDARD = LVCMOS33 ;
+# NET "SW<0>"         LOC = "V8"   | IOSTANDARD = LVCMOS33 ;
+# NET "SW<1>"         LOC = "U10"  | IOSTANDARD = LVCMOS33 ;
+# NET "SW<2>"         LOC = "U8"   | IOSTANDARD = LVCMOS33 ;
+# NET "SW<3>"         LOC = "T9"   | IOSTANDARD = LVCMOS33 ;
 #
 ###############################################################################
 ## Serial Ports (RS232)

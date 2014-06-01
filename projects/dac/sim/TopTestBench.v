@@ -15,14 +15,12 @@ module TopTestBench #(
    parameter LOGLEVEL      = 5,
    parameter LOGLEVEL_LESS = 3,
    parameter LOGLEVEL_MORE = 3,
-   parameter LOGLEVEL_SW   = 3,
    parameter LOGLEVEL_RST  = 3
 ) (
    input 	 CLK50MHZ,
    input 	 RST,
    output  	 BTN_WEST,
-   output  	 BTN_EAST,
-   output  [3:0] SW
+   output  	 BTN_EAST
 );
 
    // Instancje przyciskow
@@ -38,12 +36,6 @@ module TopTestBench #(
    ) set_more (
       .signals( BTN_WEST )
    );
-   Set #(
-      .LOGLEVEL(LOGLEVEL_SW),
-      .N(4)
-   ) set_sw (
-      .signals( SW )
-   );
 
    // Monitorowanie resetu
    Monitor #(
@@ -53,7 +45,6 @@ module TopTestBench #(
       .signals( RST )
    );
 
-
    initial begin
 
       // Zainicjuj niskimi stanami przyciskow
@@ -61,7 +52,6 @@ module TopTestBench #(
          $display("%t\t INFO4\t [ %m ] \t Rozpoczynanie symulacji, ustawianie przyciskow na poczatkowe stany rozwarcia", $time);
       set_less.low();
       set_more.low();
-      set_sw.low();
 
       // Poczekaj na zresetowanie ukladu
       if( LOGLEVEL >= 5 )
@@ -86,11 +76,6 @@ module TopTestBench #(
          $display("%t\t INFO3\t [ %m ] \t Zmniejszanie napiecia", $time);
       set_less.high_during_and_restore(250);
 
-      // Ustaw zadana wartosc
-      #3800;
-      if( LOGLEVEL >= 3 )
-         $display("%t\t INFO3\t [ %m ] \t Ustawianie wybranej wartosci", $time);
-      set_sw.state_during_and_restore(2000, 4'h1);
    end
 
 endmodule

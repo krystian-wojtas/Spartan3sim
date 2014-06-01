@@ -14,7 +14,7 @@ module TopTest();
    wire SPI_MOSI;
    wire DAC_OUT;
    DacLTC2624Behav #(
-      .LOGLEVEL(9),
+      .LOGLEVEL(5),
       .LOGLEVEL_CLR(3)
    ) DacLTC2624Behav_(
       .SPI_SCK(SPI_SCK),
@@ -26,7 +26,6 @@ module TopTest();
 
    wire BTN_WEST;
    wire BTN_EAST;
-   wire [3:0] SW;
    wire [7:0] LED;
    Top Top_(
       .CLK50MHZ(CLK50MHZ),
@@ -40,7 +39,6 @@ module TopTest();
       //control
       .BTN_WEST(BTN_WEST),
       .BTN_EAST(BTN_EAST),
-      .SW(SW),
       .LED(LED)
    );
 
@@ -54,8 +52,7 @@ module TopTest();
       .CLK50MHZ(CLK50MHZ),
       .RST(RST),
       .BTN_WEST(BTN_WEST),
-      .BTN_EAST(BTN_EAST),
-      .SW(SW)
+      .BTN_EAST(BTN_EAST)
    );
 
 endmodule

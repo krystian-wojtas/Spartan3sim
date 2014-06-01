@@ -187,12 +187,10 @@ module DacLTC2624Behav
    always @(negedge DAC_CS)
       too_many_bits = 1'b0;
    always @(posedge received_packet) begin
-      // if(received_packet) begin
-         monitor_sck.wait_for_low();
-         monitor_sck.wait_for_high();
+      monitor_sck.wait_for_low();
+      monitor_sck.wait_for_high();
 
-         too_many_bits = 1'b1;
-      // end
+      too_many_bits = 1'b1;
    end
    wire received_too_many_bits = received_packet && too_many_bits;
 

@@ -671,46 +671,380 @@ Zrealizowany projekt wykorzystuje opisany układ obecny na płytce przetwornika 
 
 \subsubsection{Warstwa wierzchnia}
 
-Moduł najwyższy łączy interfejs SPI przetworników z odfiltrowanymi z drgań sygnałami przycisków i diodami led.
+Moduł najwyższy łączy interfejs SPI przetworników z odfiltrowanymi z drgań sygnałami przycisków i diodami led. Instancjuje także moduł kontrolera i warstwe spajającą interfejs DAC-a z wewnętrznym SPI.
 %% \begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v,firstnumber=14]
 \begin{lstlisting}[label=Top,caption=Top.v]
 module Top (
-        input CLK50MHZ,
-        input RST,
-        // dac
-        output SPI_SCK,
-        output DAC_CLR,
-        output DAC_CS,
-        output SPI_MOSI,
-        input DAC_OUT,
-        // control
-        input [3:0] SW,
-        input BTN_WEST,
-        input BTN_EAST,
-        output [7:0] LED
-   );
+   input CLK50MHZ,
+   input RST,
+   // dac
+   output SPI_SCK,
+   output DAC_CLR,
+   output DAC_CS,
+   output SPI_MOSI,
+   input DAC_OUT,
+   // control
+   input BTN_WEST,
+   input BTN_EAST,
+   input BTN_NORTH,
+   output [7:0] LED
+);
 \end{lstlisting}
-Instancjuje także moduł kontrolera i warstwe spajającą interfejs DAC-a z wewnętrznym SPI.
 
-%\newpage
+\subsubsection{Kontroler}
+
+Kontroler posiada połączenia do przycisków $RST$ i odfiltrowanych z drgań $less$, $more$ oraz $maxx$. W zależności od ich wciśnięć, kontroler wystawi nową wartość $data$ dostępną dla DAC-ów oraz zawiadamia o tym flagą $dactrig$. Zawsze adresowane są wszystkie DAC-i z komendą natychmiastowego ustawienia nowej wartości. Podgląd aktualnie wystawianej wartości pokazują diody LED.
+\begin{lstlisting}[label=Controller,caption=Controller.v]
+module Controller(
+   input RST,
+   input CLK50MHZ,
+   // verilog module interface
+   output     [11:0] data,
+   output reg [3:0 ] address = 4'b1111,
+   output reg [3:0 ] command = 4'b0011,
+   output            dactrig,
+   // control
+   input             less,
+   input             more,
+   input             maxx,
+   // leds
+   output     [7:0 ] LED
+);
+\end{lstlisting}
+
+Moduł ma wewnętrzny rejestr przechowujący bieżący stan wystawianego napięcia. Wciskane przyciski go modyfikują.
+\begin{lstlisting}[label=Controller,caption=Controller.v,firstnumber=17]
+   reg [7:0] d = 8'd0;
+   always @(posedge CLK50MHZ)
+      if(RST)       d <= 8'd0;
+      else if(maxx) d <= 8'hff;
+      else if(less) begin if( 0 < d ) d <= d - 1; end
+      else if(more) begin if( ~&  d ) d <= d + 1; end
+
+   assign data = { d, 4'h0 };
+   assign LED = d;
+\end{lstlisting}
+
+Pojawienie się nowej wartości należy obwieścić modułowi nadrzędnemu.
+\begin{lstlisting}[label=Controller,caption=Controller.v,firstnumber=27]
+   assign dactrig = (less || more || maxx);
+\end{lstlisting}
+
+\subsubsection{DacSpi}
+Jest to warstwa zajmująca się opóżnieniem zegara bazowego oraz doprecyzowaniem ogólnego modułu SPI. $50mHz$ to górna granica działania kostki DAC-ów. Dla pewniejszego działania, zalecane jest niższe taktowanie, co zrealizowane jest modułem $ClkMod$ z podanym parametrem dzielnika $DIV = 6$. Do SPI przekazane zostaje 32-bitowe połączenie spojone z danych uzyskanych od kontrolera i otoczone bitami nieznaczącymi.
+\begin{lstlisting}[label=Controller,caption=Controller.v,firstnumber=32]
+   wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
+\end{lstlisting}
+
+Zegar magistrali SPI taktowany jest tylko w razie konieczności. Resetowanie DAC-ów następuje odwrotnie do przycisku reset.
+\begin{lstlisting}[label=Controller,caption=Controller.v,firstnumber=51]
+   assign SPI_SCK = (~dacdone) ? spi_sck : 1'b0;
+   assign DAC_CLR = ~RST;
+\end{lstlisting}
+
+
 \subsection{Symulacja}
 
+W teście inicjalizowane są zegar, reset, moduł syntezowalny, zachowawczy i przypadek testowy.
 
 \subsubsection{Przypadek testowy}
-Przypadek testowy łączy moduł syntezowalny z niezbędnymi sygnałami zegara i resetu, a także instancjuje moduł behawioralny
 
+W przypadku testowym powoływane są ustawiacze przycisków zwiększania oraz zmniejszania napięcia, a także monitor linii resetu. Symulacja czeka na zresetowanie układu, następnie poprzez przyciski dwukrotnie zwiększa napięcie i raz je zmniejsza.
 
+\subsubsection{DAC zachowawczo}
 
+Interfejs modułu ukazuje poziomy logowania wraz z liniami upozorowanej kostki.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=0]
+module DacLTC2624Behav
+#(
+   // LOGLEVEL = 0
+   // 	bez zadnych komunikatow
+   // LOGLEVEL = 1
+   // 	pokazuje bledy
+   // LOGLEVEL = 2
+   // 	pokazuje ostrzezenia
+   //
+   // LOGLEVEL = 3
+   // 	informuje o odbieraniu danych, odebraniu i ich interpretacji
+   // LOGLEVEL = 4
+   // 	informuje o wlasciwej liczbie bitow w pakiecie
+   // LOGLEVEL = 5
+   // 	informuje o adresie daca
+   // LOGLEVEL = 6
+   // 	informuje o zakonczeniu odbioru danych (moment podniesienia flagi DAC_CS)
+   // LOGLEVEL = 7
+   // 	informuje o odbieraniu poszczegolnych pol pakietu
+   // LOGLEVEL = 8
+   // 	informuje o odbiorze poszczegolnych bitow pakietu
+   // LOGLEVEL = 9
+   // 	informuje o przebiegu resetowania daca
+   parameter LOGLEVEL      = 5,
+   parameter LOGLEVEL_SCK  = 3,
+   parameter LOGLEVEL_CLR  = 3,
+   parameter LOGLEVEL_MOSI = 3,
+   parameter LOGLEVEL_SCK_MOSI = 3
+) (
+   input  SPI_SCK,
+   input  DAC_CS,
+   input  DAC_CLR,
+   input  SPI_MOSI,
+   output DAC_OUT
+);
+\end{lstlisting}
 
-Wykonana została wzorcowa konfiguracja FPGA poprawnie ustawiająca DAC-i. Przedstawiona symulacja pokazuje wykres przebiegów czasowych linii prowadzących do układu DAC. Układ taktowany jest zegarem 50Mhz pochodzącym z kwarcu dostępnego na płytce. Przesyłana ramka jest przykładem z poprzedniego rozdziału - połowa zakresów napięć wystawiana na wszystkich dac-ach. Pola z bitami nieistonymi są tak ustawione aby pojedynczymi, skrajnymi pikami pokazywały początek i koniec ramki.
+Moduł zachowawczy sprawdza, czy użytkownik zresetował kostke przed użyciem. Informacja ta zawarta zostaje w rejestrze $inited$. Wątek powróci przy odebraniu ramki.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=63]
+   // Przed uzyciem daca nalezy go najpierw zresetowac poprzez chwilowe obnizenie linii DAC_CLR
+   reg 	  inited = 1'b0;
+   initial begin
+
+      if(LOGLEVEL >= 9)
+         $display("%t\t INFO9\t [ %m ] \t Oczekiwanie na zresetowanie daca", $time);
+      monitor_clr.wait_for_low();
+      monitor_clr.ensure_low_during( 40 );
+      monitor_clr.wait_for_high();
+
+      if(LOGLEVEL >= 9)
+         $display("%t\t INFO9\t [ %m ] \t Zresetowano daca", $time);
+      inited = 1'b1;
+   end
+\end{lstlisting}
+
+Kalkulowany jest indeks przesyłanego bitu.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=78]
+   // Rejest zlicza kolejno odbierane bity
+   reg [5:0] idx = 6'd0;
+   // Licznik idx zerowany jest na poczatku kazdej transmisji
+   always @(negedge DAC_CS)
+      idx <= 6'd0;
+   // Resetuj licznik lub go podbij na kazdym narastajacym zboczu zegara
+   always @(posedge SPI_SCK) begin
+      idx <= idx + 1;
+   end
+\end{lstlisting}
+
+Zadanie odbioru pojedynczego bitu upewnia się, że wartość bitu jest stabilna w zczytywanym oknie czasowym.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=88]
+   // Odbiera jeden bit
+   task receive_bit
+   (
+      output received_bit
+   );
+      begin
+         if(LOGLEVEL >= 8)
+            $display("%t\t INFO8\t [ %m ] \t Odbieranie kolejnego bitu", $time);
+
+	 // Po wlaczeniu daca do szyny spi zegar powinien zaczac nisko
+         monitor_sck.ensure_low_during( 40 );
+         monitor_sck.wait_for_high();
+
+	 // 4ns stabilnosci zegara i zczytywanej linii miso
+	 monitor_sck_mosi.ensure_state_during( 4 );
+	 received_bit = SPI_MOSI;
+
+	 // konczenie okresu zegara
+	 monitor_sck.ensure_high_during( 40 - 4 );
+	 monitor_sck.wait_for_low();
+
+         if(LOGLEVEL >= 8)
+            $display("%t\t INFO8\t [ %m ] \t Odebrano bit %b", $time, received_bit);
+      end
+   endtask
+\end{lstlisting}
+
+Odbieranie całego pakietu podzielone jest na mniejsze fragmenty w celu dokładniejszego logowania komunikacji.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=114]
+   // Pola bitowe otrzymanych danych
+   reg [ 3:0] dontcare4 = 4'd0;
+   reg [11:0] value     = 12'd0;
+   reg [ 3:0] address   = 4'd0;
+   reg [ 3:0] command   = 4'd0;
+   reg [ 8:0] dontcare8 = 8'd0;
+   wire [31:0] packet = { dontcare4, value, address, command, dontcare8 };
+   // Odbiera 32 bity danych pakietu
+   task receive_packet
+   ();
+      integer i;
+      begin
+         if(LOGLEVEL >= 3)
+            $display("%t\t INFO3\t [ %m ] \t Odbieranie pakietu", $time);
+
+	 // Receive 8 dont care bits
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie 8 pierwszych nie znaczacych bitow", $time);
+	 for(i = 0; i < 8; i=i+1) begin
+            receive_bit( dontcare8[i] );
+	 end
+
+	 // Receive command
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie komendy", $time);
+	 for(i = 0; i < 4; i=i+1) begin
+            receive_bit( command[i] );
+	 end
+
+	 // Receive address of dac
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie adresu", $time);
+	 for(i = 0; i < 4; i=i+1) begin
+            receive_bit( address[i] );
+	 end
+
+	 // Receive 12 bit of value
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie wartosci", $time);
+	 for(i = 0; i < 12; i=i+1) begin
+            receive_bit( value[i] );
+	 end
+
+	 // Receive 4 dont care bits
+         if(LOGLEVEL >= 7)
+            $display("%t\t INFO7\t [ %m ] \t Odbieranie 4 ostatnich nie znaczacych bitow", $time);
+	 for(i = 0; i < 4; i=i+1) begin
+            receive_bit( dontcare4[i] );
+	 end
+
+         if(LOGLEVEL >= 3)
+            $display("%t\t INFO3\t [ %m ] \t Odebrano pakiet", $time);
+      end
+   endtask
+\end{lstlisting}
+
+Obniżenie linii $DAC\_CS$ rozpoczyna przesył ramki. Tutaj potwierdzane jest uprzednie zresetowanie układu.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=169]
+   reg received_packet = 1'b0;
+   // Odbiera pakiet i wyzwala o tym flage
+   always @(negedge DAC_CS)
+      if(!inited) begin
+         if(LOGLEVEL >= 1)
+            $display("%t\t BLAD\t [ %m ] \t Nie zresetowano ukladu przed nadaniem nadanych", $time);
+      end else begin
+         if(LOGLEVEL >= 3)
+            $display("%t\t INFO3\t [ %m ] \t Odbieranie danych", $time);
+
+	 received_packet = 1'b0;
+	 receive_packet();
+	 received_packet = 1'b1;
+
+      end
+\end{lstlisting}
+
+Śledzić należy przesłanie zbyt dużej ilości bitów w ramce.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=185]
+   // Zatrzaskuje moment przeslania zbyt wielu bitow
+   reg too_many_bits = 1'b0;
+   always @(negedge DAC_CS)
+      too_many_bits = 1'b0;
+   always @(posedge received_packet) begin
+      monitor_sck.wait_for_low();
+      monitor_sck.wait_for_high();
+
+      too_many_bits = 1'b1;
+   end
+   wire received_too_many_bits = received_packet && too_many_bits;
+\end{lstlisting}
+
+Podniesienie linii $DAC\_CS$ oznacza zakończenie nadawania ramki. Wypisywane są wtedy szczegółowe komunikaty o zaadresowanym DAC-u, podanej komendzie oraz wystawionej wartości, lub błędy transmisji jeśli jakiekolwiek zaistniały.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=197]
+   // Podniesienie DAC_CS konczy transmisje, weryfikowane i wypisywane sa przeslane dane
+   always @(posedge DAC_CS) begin
+      if(inited) begin
+
+         // Zakomunikuj koniec odbioru
+         if(LOGLEVEL >= 6)
+            $display("%t\t INFO6\t [ %m ] \t Podniesiono flage DAC_CS, co konczy odbior danych", $time);
+
+         //Bledy nieodpowiedniej ilosci odebranych bitow
+         if(received_too_many_bits) begin
+            if(LOGLEVEL >= 1)
+               $display("%t\t BLAD\t [ %m ] \t Do daca wyslanych zostalo wiecej bitow niz 32", $time);
+         end else if(idx < 32) begin
+            if(LOGLEVEL >= 1)
+               $display("%t\t BLAD\t [ %m ] \t Do daca wyslanych zostalo %d bitow. Nalezy wyslac 32", $time, idx);
+
+         // Odebrano wlasciwa ilosc bitow, parsuj dane
+         end else begin
+
+            if(LOGLEVEL >= 4)
+               $display("%t\t INFO4\t [ %m ] \t Odebrane dane zawieraja wlasciwa ilosc bitow", $time);
+
+               // Wypisz odebrane pola
+               if(LOGLEVEL >= 3)
+                  $display("%t\t INFO3\t [ %m ] \t Ustawiono\twartosc %d (0x%h)\tna adresie %d (0x%h)\tz komenda %d (0x%h)", $time, value, value, address, address, command, command);
+
+               // Wypisz ustawian-ego/-ne dac-a/-i bazujac na przeslanym adresie lub zakomunikuj blad
+               case(address)
+                  4'b0000:
+                     if(LOGLEVEL >= 5)
+                        $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) jest dac-iem A", $time, address, address);
+                  4'b0001:
+                     if(LOGLEVEL >= 5)
+                        $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) jest dac-iem B", $time, address, address);
+                  4'b0010:
+                     if(LOGLEVEL >= 5)
+                        $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) jest dac-iem C (mozliwe ustawienie wzmocnienia)", $time, address, address);
+                  4'b0011:
+                     if(LOGLEVEL >= 5)
+                        $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) jest dac-iem D (mozliwe ustawienie wzmocnienia)", $time, address, address);
+                  4'b1111:
+                     if(LOGLEVEL >= 5)
+                        $display("%t\t INFO5\t [ %m ] \t Dac o adresie %b (0x%h) odpowiada wszystkim dac-om", $time, address, address);
+                  default:
+                     if(LOGLEVEL >= 1)
+                        $display("%t\t BLAD\t [ %m ] \t Nieprawidlowy adres daca", $time);
+               endcase
+
+               // Sprawdz czy wyslano wlasciwa komende, jedyna poprawna to 0011
+               // Odbierana komenda jest w odwroconym porzadku bitow
+               if(command != 4'b1100)
+                  if(LOGLEVEL >= 1)
+                     $display("%t\t BLAD\t [ %m ] \t Nieprawidlowa komenda %b (0x%h) - aby natychmiastowo ustawic dac nalezy wyslac 0011 (0x3)", $time, command, command);
+
+         end
+      end
+   end
+\end{lstlisting}
+
+Istotnym aspektem modułu behawioralnego jest zwracanie poprzenio zapamiętanej wartości linią $DAC\_OUT$.
+\begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=255]
+   // Na linii wyjsciowej DAC_OUT beda sie pojawiac kolejne bity wypychane z rejestru przesuwnego daca
+   // Nastepuje to na narastajacym zboczu zegara SPI_SCK przy obnizonej linii aktywacji transmisji DAC_CS
+   assign DAC_OUT = DAC_CS ? 1'b0 : packet[31];
+\end{lstlisting}
+
+\subsubsection{Przebieg}
+
+Przedstawiona symulacja pokazuje wykres przebiegów czasowych linii prowadzących do układu DAC. Pola z bitami nieistonymi przesyłanej ramki są tak dobrane aby pojedynczymi, skrajnymi pikami pokazywały początek i koniec ramki.
 
 \begin{figure}[htb]
    \centering
-   \includegraphics[width=13cm]{grafika/toptest-fastdac-110.png}
+   \includegraphics[width=15cm]{grafika/dac_sim.png}
 \end{figure}
 
-
-\includegraphics[width=15cm]{grafika/dac-uml.jpg}
+Zestaw komunikatów z przebigu symulacji.
+\begin{lstlisting}[label=dacout,caption=DAC logi]
+  301000 INFO3 [ TopTest.TopTestBench_ ]  Zwiekszanie napiecia
+  510000 INFO3 [ TopTest.DacLTC2624Behav_ ]  Odbieranie danych
+  510000 INFO3 [ TopTest.DacLTC2624Behav_.receive_packet ]  Odbieranie pakietu
+  4350000 INFO4 [ TopTest.DacLTC2624Behav_ ]  Odebrane dane zawieraja wlasciwa ilosc bitow
+  4350000 INFO3 [ TopTest.DacLTC2624Behav_ ]  Ustawionowartosc    0 (0x000)na adresie 15 (0xf)z komenda 12 (0xc)
+  4350000 INFO5 [ TopTest.DacLTC2624Behav_ ]  Dac o adresie 1111 (0xf) odpowiada wszystkim dac-om
+  4351000 INFO3 [ TopTest.TopTestBench_ ]  Zwiekszanie napiecia
+  4351000 INFO3 [ TopTest.DacLTC2624Behav_.receive_packet ]  Odebrano pakiet
+  4530000 INFO3 [ TopTest.DacLTC2624Behav_ ]  Odbieranie danych
+  4530000 INFO3 [ TopTest.DacLTC2624Behav_.receive_packet ]  Odbieranie pakietu
+  8370000 INFO4 [ TopTest.DacLTC2624Behav_ ]  Odebrane dane zawieraja wlasciwa ilosc bitow
+  8370000 INFO3 [ TopTest.DacLTC2624Behav_ ]  Ustawionowartosc  128 (0x080)na adresie 15 (0xf)z komenda 12 (0xc)
+  8370000 INFO5 [ TopTest.DacLTC2624Behav_ ]  Dac o adresie 1111 (0xf) odpowiada wszystkim dac-om
+  8371000 INFO3 [ TopTest.DacLTC2624Behav_.receive_packet ]  Odebrano pakiet
+  8401000 INFO3 [ TopTest.TopTestBench_ ]  Zmniejszanie napiecia
+  8610000 INFO3 [ TopTest.DacLTC2624Behav_ ]  Odbieranie danych
+  8610000 INFO3 [ TopTest.DacLTC2624Behav_.receive_packet ]  Odbieranie pakietu
+  12450000 INFO4 [ TopTest.DacLTC2624Behav_ ]  Odebrane dane zawieraja wlasciwa ilosc bitow
+  12450000 INFO3 [ TopTest.DacLTC2624Behav_ ]  Ustawionowartosc   64 (0x040)na adresie 15 (0xf)z komenda 12 (0xc)
+  12450000 INFO5 [ TopTest.DacLTC2624Behav_ ]  Dac o adresie 1111 (0xf) odpowiada wszystkim dac-om
+  12451000 INFO3 [ TopTest.DacLTC2624Behav_.receive_packet ]  Odebrano pakiet
+\end{lstlisting}
 
 
 \newpage
@@ -1338,13 +1672,13 @@ Odbiór bitu realizowany jest w kolejnym dedykowanym zadaniu. Sprawdzane jest, c
 
 \subsubsection{Wyjście}
 
-\begin{verbatim}
+\begin{lstlisting}[label=rsout,caption=Rs log,firstnumber=255]
 96800000 INFO3 [ TopTest.rs232 ]  Wyslano bajt '01001000' (0x 48) (dec  72) (ascii H)
 183600000 INFO3 [ TopTest.rs232 ]  Wyslano bajt '01000101' (0x 45) (dec  69) (ascii E)
 183710000 INFO3 [ TopTest.rs232 ]  Odebrano bajt '01001000' (0x 48) (dec  72) (ascii H)
 270400000 INFO3 [ TopTest.rs232 ]  Wyslano bajt '01001100' (0x 4c) (dec  76) (ascii L)
 270570000 INFO3 [ TopTest.rs232 ]  Odebrano bajt '01000101' (0x 45) (dec  69) (ascii E)
-\end{verbatim}
+\end{lstlisting}
 
 %% \subsubsection{HDL}
 %% \lstinputlisting[caption=Top.v]{../projects/rs232/Top.v}
