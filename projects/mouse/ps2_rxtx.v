@@ -71,21 +71,21 @@ module ps2_rxtx
 
 
    // instantiate ps2 transmitter
-   // ps2_tx ps2_tx_unit
-   //    (.clk(clk), .reset(reset), .wr_ps2(wr_ps2),
-   //     .din(din), .ps2d(ps2d), .ps2c(ps2c),
-   //     .tx_idle(tx_idle), .tx_done_tick(tx_done_tick));
-   localparam STRM=8'h2f; // stream command F4
-   PS2_Writer PS2_Writer_ (
-      .clk(clk),
-      .rst(reset),
-      .wr_ps2(wr_ps2),
-      .ps2d(ps2d),
-      .ps2c(ps2c),
-      .ps2c_neg(ps2c_neg),
-      .cmd(STRM),
-      .tx_idle(tx_idle),
-      .sended(tx_done_tick)
-   );
+   ps2_tx ps2_tx_unit
+      (.clk(clk), .reset(reset), .wr_ps2(wr_ps2),
+       .din(din), .ps2d(ps2d), .ps2c(ps2c),
+       .tx_idle(tx_idle), .tx_done_tick(tx_done_tick));
+   // localparam STRM=8'h2f; // stream command F4
+   // PS2_Writer PS2_Writer_ (
+   //    .clk(clk),
+   //    .rst(reset),
+   //    .wr_ps2(wr_ps2),
+   //    .ps2d(ps2d),
+   //    .ps2c(ps2c),
+   //    .ps2c_neg(ps2c_neg),
+   //    .cmd(STRM),
+   //    .tx_idle(tx_idle),
+   //    .sended(tx_done_tick)
+   // );
 
 endmodule

@@ -32,42 +32,42 @@ module Top
                   (btnm[1])     ? 10'h3ff : // right button
                   p_reg + {xm[8], xm};      // x movement
 
-  always @*
-     case (p_reg[9:7])
-        3'b000: led = 8'b10000000;
-        3'b001: led = 8'b01000000;
-        3'b010: led = 8'b00100000;
-        3'b011: led = 8'b00010000;
-        3'b100: led = 8'b00001000;
-        3'b101: led = 8'b00000100;
-        3'b110: led = 8'b00000010;
-        default: led = 8'b00000001;
-     endcase
+  // always @*
+  //    case (p_reg[9:7])
+  //       3'b000: led = 8'b10000000;
+  //       3'b001: led = 8'b01000000;
+  //       3'b010: led = 8'b00100000;
+  //       3'b011: led = 8'b00010000;
+  //       3'b100: led = 8'b00001000;
+  //       3'b101: led = 8'b00000100;
+  //       3'b110: led = 8'b00000010;
+  //       default: led = 8'b00000001;
+  //    endcase
 
 
-   // reg [7:0] cnt = 8'd0;
-   // reg            xm_cnt = 1'b0;
+   reg [7:0] cnt = 8'd0;
+   reg            xm_cnt = 1'b0;
 
-// always @(posedge clk)
-// begin
-//    if(m_done_tick) begin
-//       if(xm[7:0]) begin
-//         if(xm[8] && xm[7:0] > 8'd100)
-//           led <= { led[0], led[7:1] };
-//         else if(xm[7:0] < 8'd100)
-//           led <= { led[6:0], led[7] };
-//         // led[4:1] <= xm[4:0];
-//          end
-//       else if(btnm) begin
-//          if(btnm[2]) begin
-//           led <= { led[6:0], led[7] };
-//            // led <= ~led;
-//             end
-//         else
-//         led <= { btnm, 5'd0 };
-//          end
-//   end
-// end
+always @(posedge clk)
+begin
+   if(m_done_tick) begin
+      if(xm[7:0]) begin
+        if(xm[8] && xm[7:0] > 8'd100)
+          led <= { led[0], led[7:1] };
+        else if(xm[7:0] < 8'd100)
+          led <= { led[6:0], led[7] };
+        // led[4:1] <= xm[4:0];
+         end
+      else if(btnm) begin
+         if(btnm[2]) begin
+          led <= { led[6:0], led[7] };
+           // led <= ~led;
+            end
+        else
+        led <= { btnm, 5'd0 };
+         end
+  end
+end
 
 
 // always @(posedge clk)
