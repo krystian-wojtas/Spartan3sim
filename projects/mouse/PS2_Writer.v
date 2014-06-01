@@ -32,7 +32,7 @@ module PS2_Writer (
    // 11,12 ten sam efekt w jedna strone
    // 13 nie dziala
    Serial #(
-      .WIDTH(12)
+      .WIDTH(11)
    ) Serial_ (
       .CLKB(clk),
       .RST(rst),
