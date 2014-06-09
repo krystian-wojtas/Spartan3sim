@@ -141,7 +141,7 @@ Rodzi to też problemy natury etycznej inwigilacja obywateli
 Elektronika cyfrowa operuje na prądach zmiennych, nieokresowych o stałych napięciach. Odróżniane są jedynie dwa stany logiczne - stan wysokiego potencjału będący logicznym wyrażeniem prawdy oraz stan niskiego potencjału - odpowiednik fałszu. Tworzona jest sieć logiczna operująca na zadanych stanach i dostarczająca rezultat działania na swoich wyjściach. Sieć często pracuje w rytm dostarczanego zegaru - okresowego sygnału prostokątnego o 50\% wypełnieniu. Sieć może zapamiętać pewne stany wejściowe i brać je pod uwagę w wyliczaniu następnych cykli.
 
 \subsection{Logika cyfrowa}
-%% Każda sieć zbudowana jest jedynie z kilku typów podstawowych operacji logicznych.
+Każda sieć zbudowana jest jedynie z kilku typów podstawowych operacji logicznych.
 
 \subsubsection{Negacja}
 Element negujący zawsze zaprzeczy każdej podanej treści i podmieni jej zawartość na przeciwną.
@@ -214,7 +214,7 @@ Alternatywa powiela prawdę, jeśli tak stanowi co najmniej jeden jej doradca.
 \end{minipage}
 \begin{minipage}{11cm}
    \includegraphics[width=10cm]{grafika/obwody/circuit-or.png}
-   %% \caption{Demostracja logiki alternatywy zrealizowanej na połączeniach}
+   %% \caption{Demostracja logiki alternatywy zrealizownanej na połączeniach}
 \end{minipage}
 \end{table}
 
@@ -235,16 +235,85 @@ $\lnot (p \lor q) \iff (\lnot p \land \lnot q)$
 Prawa te są niezbędne do zaprojektowania sieci lub jej optymalizacji.
 
 \subsection{Bramki logiczne}
-Są to układy scalone realizujące wyspecyfikowane przez producenta operacje logiczne. Na samych przedstawionych połączeniach można osiągnąć logikę koniunkcji lub alternatywy. Nie da się jednak sygnałowi zaprzeczyć. Możnaby problem obejść używając przekaźniki lub tranzystory, tudzież ich zestawy odpowiednio połączone i zatopione w gotowych scalakach logicznych.
+Są to układy scalone realizujące wyspecyfikowane przez producenta operacje logiczne. Na samych przedstawionych połączeniach można osiągnąć logikę koniunkcji lub alternatywy. Nie da się jednak sygnałowi zaprzeczyć. Możnaby problem obejść używając mechanicznych przekaźników. Właściwsze mogą okazać się tranzystory, tudzież ich zestawy odpowiednio połączone i zatopione w gotowych scalakach logicznych nazywanych bramkami logicznymi.
 
-Podane są oznaczenia schematyczne operacji.
+\begin{table}[h!]
+\centering
+\begin{minipage}{2.5cm}
+   \centering
+   \includegraphics{grafika/obwody/not.png}
+   \caption*{negacja}
+\end{minipage}
+\begin{minipage}{2.5cm}
+   \centering
+   \includegraphics{grafika/obwody/and.png}
+   \caption*{koniunkcja}
+\end{minipage}
+\begin{minipage}{2.5cm}
+   \centering
+   \includegraphics{grafika/obwody/or.png}
+   \caption*{alternatywa}
+\end{minipage}
+\begin{minipage}{2.5cm}
+   \centering
+   \includegraphics{grafika/obwody/xor.png}
+   \caption*{alternatywa wykluczająca}
+\end{minipage}
+\begin{minipage}{2.5cm}
+   \centering
+   \includegraphics{grafika/obwody/nand.png}
+   \caption*{zaprzeczona koniunkcja}
+\end{minipage}
+\begin{minipage}{2.5cm}
+   \centering
+   \includegraphics{grafika/obwody/nor.png}
+   \caption*{zaprzeczona alternatywa}
+\end{minipage}
+
+\caption*{Oznaczenia schematyczne operacji logicznych}
+\end{table}
+
+Dokumentacja układu określa położenia pinów wejściowych i wyjściowych każdej z dostępnych operacji.
+
+\begin{table}[h!]
+\centering
+\begin{minipage}{5cm}
+   \centering
+   \includegraphics[width=5cm]{grafika/cemi/6not.png}
+   %% \caption*{negacja}
+\end{minipage}
+\begin{minipage}{5cm}
+   \centering
+   \includegraphics[width=5cm]{grafika/cemi/4and.png}
+   %% \caption*{negacja}
+\end{minipage}
+\begin{minipage}{5cm}
+   \centering
+   \includegraphics[width=5cm]{grafika/cemi/4nor.png}
+   %% \caption*{negacja}
+\end{minipage}
+
+\begin{minipage}{5cm}
+   \centering
+   \includegraphics[width=5cm]{grafika/cemi/2nand.png}
+   %% \caption*{negacja}
+\end{minipage}
+\begin{minipage}{5cm}
+   \centering
+   \includegraphics[width=5cm]{grafika/cemi/1nand.png}
+   %% \caption*{negacja}
+\end{minipage}
+\begin{minipage}{5cm}
+   \centering
+   \includegraphics[width=5cm]{grafika/cemi/4xor.png}
+   %% \caption*{negacja}
+\end{minipage}
+
+\caption*{Przykładowe bramki logiczne polskiej PRL-owskiej produkcji firmy CEMI}
+\end{table}
 
 
-
-Dokumentacja układu określa położenia pinów wejściowych i wyjściowych każdej z dostępnych operacji. Przykładowe kostki polskiej PRL-owskiej produkcji firmy CEMI.
-
-% TODO nie mozliwe przeczenia, xor na samych drutach
-
+\subsubsection{Hazard}
 Zadanie nowego stanu wejścia wymaga czasu na przełączenie się wewnętrznych tranzystorów zanim ustali się właściwy wynik na wyjściu. Opóźnienie to nazywane jest czasem propagacji bramki.
 
 \subsubsection{Liczby binarne}
