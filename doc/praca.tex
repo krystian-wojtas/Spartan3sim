@@ -154,7 +154,7 @@ Element negujący zawsze zaprzeczy każdej podanej treści i podmieni jej zawart
 
 \begin{tabular}{ | c || r | }
   \hline
-  $x$ & nie $x$ \\ \hline
+  $p$ & $\lnot p$ \\ \hline
   0 & 1 \\
   1 & 0 \\
   \hline
@@ -179,7 +179,7 @@ Koniunkcja wyznacza prawdę tylko, gdy wszyscy jej doradcy jednogłośnie ją po
 
 \begin{tabular}{ | c | c || c | }
   \hline
-  $x$ & $y$ & $x$ oraz $y$ \\ \hline
+  $p$ & $q$ & $p \land q$ \\ \hline
   0 & 0 & 0 \\
   0 & 1 & 0 \\
   1 & 0 & 0 \\
@@ -189,7 +189,7 @@ Koniunkcja wyznacza prawdę tylko, gdy wszyscy jej doradcy jednogłośnie ją po
 \end{minipage}
 \begin{minipage}{11cm}
    \includegraphics[width=10cm]{grafika/obwody/circuit-and.png}
-   %% \caption{Demostracja koniunkcji zrealizowanej na połączeniach}
+   \caption*{Demostracja koniunkcji zrealizowanej na połączeniach}
 \end{minipage}
 \end{table}
 
@@ -204,7 +204,7 @@ Alternatywa powiela prawdę, jeśli tak stanowi co najmniej jeden jej doradca.
 
 \begin{tabular}{ | c | c || c | }
   \hline
-  $x$ & $y$ & $x$ lub $y$ \\ \hline
+  $p$ & $q$ & $p \lor q$ \\ \hline
   0 & 0 & 0 \\
   0 & 1 & 1 \\
   1 & 0 & 1 \\
@@ -214,28 +214,132 @@ Alternatywa powiela prawdę, jeśli tak stanowi co najmniej jeden jej doradca.
 \end{minipage}
 \begin{minipage}{11cm}
    \includegraphics[width=10cm]{grafika/obwody/circuit-or.png}
-   %% \caption{Demostracja logiki alternatywy zrealizownanej na połączeniach}
+   \caption*{Demostracja alternatywy zrealizownanej na połączeniach}
 \end{minipage}
 \end{table}
 
 
+\newpage
+
 \subsubsection{Alternatywa wykluczająca}
 Alternatywa wykluczająca przechyli się ku prawdzie, gdy jest ona głoszona przez nieparzystą liczbę doradców.
 
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{5.5cm}
+\centering
+
+\begin{tabular}{ | c | c || c | }
+  \hline
+  $p$ & $q$ & $p \oplus q$ \\ \hline
+  0 & 0 & 0 \\
+  0 & 1 & 1 \\
+  1 & 0 & 1 \\
+  1 & 1 & 0 \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{11cm}
+\begin{tabular}{  c r }
+  & \\
+\end{tabular}
+\end{minipage}
+\end{table}
+
 \subsubsection{Prawa De Morgana}
-I prawo De Morgana to prawo zaprzeczania koniunkcji. Negacja koniunkcji jest równoważna alternatywie negacji.
+Do formułowania praw należy wprowadzić kolejny symbol logiczny równoważności. W zasadzie jest on zaprzeczeniem poznanej już alternatywy wykluczającej.
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{5.5cm}
+\centering
+
+\begin{tabular}{ | c | c || c | }
+  \hline
+  $p$ & $q$ & $p \iff q$ \\ \hline
+  0 & 0 & 1 \\
+  0 & 1 & 0 \\
+  1 & 0 & 0 \\
+  1 & 1 & 1 \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{11cm}
+\begin{tabular}{  c r }
+  & \\
+\end{tabular}
+\end{minipage}
+\end{table}
+
+\textbf{I prawo De Morgana} to prawo zaprzeczania koniunkcji. Negacja koniunkcji jest równoważna alternatywie negacji.
 
 $\lnot (p \land q) \iff (\lnot p \lor \lnot q)$
 
-II prawo De Morgana to prawo zaprzeczenia alternatywy. Negacja alternatywy jest równoważna koniunkcji negacji
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{15cm}
+\centering
+
+\begin{tabular}{ | c | c || c | c || c | c | c || c | }
+  \hline
+  $p$ & $q$ & $p \land q$ & $\lnot (p \land q)$ & $\lnot p$ & $\lnot q$ & $(\lnot p \lor \lnot q)$ & $\lnot (p \land q) \iff (\lnot p \lor \lnot q)$ \\ \hline
+  0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\
+  0 & 1 & 0 & 1 & 1 & 0 & 1 & 1 \\
+  1 & 0 & 0 & 1 & 0 & 1 & 1 & 1 \\
+  1 & 1 & 1 & 0 & 0 & 0 & 0 & 1 \\
+  \hline
+\end{tabular}
+
+\end{minipage}
+\begin{minipage}{0.5cm}
+\begin{tabular}{  c r }
+  & \\
+\end{tabular}
+\end{minipage}
+\end{table}
+
+
+\textbf{II prawo De Morgana} to prawo zaprzeczenia alternatywy. Negacja alternatywy jest równoważna koniunkcji negacji
 
 
 $\lnot (p \lor q) \iff (\lnot p \land \lnot q)$
 
-Prawa te są niezbędne do zaprojektowania sieci lub jej optymalizacji.
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{15cm}
+\centering
+
+\begin{tabular}{ | c | c || c | c || c | c | c || c | }
+  \hline
+  $p$ & $q$ & $p \lor q$ & $\lnot (p \lor q)$ & $\lnot p$ & $\lnot q$ & $(\lnot p \land \lnot q)$ & $\lnot (p \lor q) \iff (\lnot p \land \lnot q)$ \\ \hline
+  0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\
+  0 & 1 & 1 & 0 & 1 & 0 & 0 & 1 \\
+  1 & 0 & 1 & 0 & 0 & 1 & 0 & 1 \\
+  1 & 1 & 1 & 0 & 0 & 0 & 0 & 1 \\
+  \hline
+\end{tabular}
+
+\end{minipage}
+\begin{minipage}{0.5cm}
+\begin{tabular}{  c r }
+  & \\
+\end{tabular}
+\end{minipage}
+\end{table}
+
+
+Prawa te są bardzo pomocne do optymalizacji sieci.
+
+
+\subsubsection{Zasada precedencji}
+Pomiędzy zdaniami logicznymi używa się nawiasowania dla zmiany pierwszeństwa ich ewaluacji. Naturalnym biegiem jest rozpatrywanie ich według przyjętej hierarchii $\lnot \land \lor \iff$.
 
 \subsection{Bramki logiczne}
-Są to układy scalone realizujące wyspecyfikowane przez producenta operacje logiczne. Na samych przedstawionych połączeniach można osiągnąć logikę koniunkcji lub alternatywy. Nie da się jednak sygnałowi zaprzeczyć. Możnaby problem obejść używając mechanicznych przekaźników. Właściwsze mogą okazać się tranzystory, tudzież ich zestawy odpowiednio połączone i zatopione w gotowych scalakach logicznych nazywanych bramkami logicznymi.
+Są to układy scalone realizujące wyspecyfikowane przez producenta operacje logiczne. Na samych połączeniach przewodów można jedynie osiągnąć logikę koniunkcji lub alternatywy. Nie da się jednak obecnemu w sieci sygnałowi zaprzeczyć. Możnaby problem obejść używając mechanicznych przekaźników. Właściwsze mogą okazać się tranzystory, tudzież ich zestawy odpowiednio połączone i zatopione w gotowych scalakach nazywanych bramkami logicznymi.
 
 \begin{table}[h!]
 \centering
@@ -284,7 +388,7 @@ Dokumentacja układu określa położenia pinów wejściowych i wyjściowych ka�
 \end{minipage}
 \begin{minipage}{5cm}
    \centering
-   \includegraphics[width=5cm]{grafika/cemi/4and.png}
+   \includegraphics[width=5cm]{grafika/cemi/4nand.png}
    %% \caption*{negacja}
 \end{minipage}
 \begin{minipage}{5cm}
@@ -312,9 +416,14 @@ Dokumentacja układu określa położenia pinów wejściowych i wyjściowych ka�
 \caption*{Przykładowe bramki logiczne polskiej PRL-owskiej produkcji firmy CEMI}
 \end{table}
 
+\begin{figure}[htb]
+   \centering
+   \includegraphics[width=4cm]{grafika/cemi/ucy7438.jpg}
+   \caption*{Egzemlarz bramki logicznej}
+\end{figure}
 
 \subsubsection{Hazard}
-Zadanie nowego stanu wejścia wymaga czasu na przełączenie się wewnętrznych tranzystorów zanim ustali się właściwy wynik na wyjściu. Opóźnienie to nazywane jest czasem propagacji bramki.
+Zadanie nowego stanu wejścia wymaga czasu na przełączenie się wewnętrznych tranzystorów zanim ustali się właściwy wynik na wyjściu. Opóźnienie to nazywane jest czasem propagacji bramki. W tych chwilach stany wyjść są nieustalone.
 
 \subsubsection{Liczby binarne}
 
