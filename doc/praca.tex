@@ -138,7 +138,7 @@ Współczesny świat nafaszerowany jest układami cyfrowymi wspomagającymi lub 
 Rodzi to też problemy natury etycznej inwigilacja obywateli
 
 \section{Elektronika cyfrowa}
-Elektronika cyfrowa operuje na prądach zmiennych, nieokresowych o stałych napięciach. Odróżniane są jedynie dwa stany logiczne - stan wysokiego potencjału będący logicznym wyrażeniem prawdy oraz stan niskiego potencjału - odpowiednik fałszu. Tworzona jest sieć logiczna operująca na zadanych stanach i dostarczająca rezultat działania na swoich wyjściach. Sieć często pracuje w rytm dostarczanego zegaru - okresowego sygnału prostokątnego o 50\% wypełnieniu. Sieć może zapamiętać pewne stany wejściowe i brać je pod uwagę w wyliczaniu następnych cykli.
+Elektronika cyfrowa operuje na prądach zmiennych, nieokresowych o stałych napięciach. Odróżniane są jedynie dwa stany logiczne - stan wysokiego potencjału będący logicznym wyrażeniem prawdy oraz stan niskiego potencjału - odpowiednik fałszu. Tworzona jest sieć logiczna operująca na zadanych stanach i dostarczająca rezultat działania na swoich wyjściach. Sieć często pracuje w rytm podsuniętego zegaru - okresowego sygnału prostokątnego o 50\% wypełnieniu. Sieć może zapamiętać pewne stany wejściowe i brać je pod uwagę w wyliczaniu następnych cykli.
 
 \subsection{Logika cyfrowa}
 Każda sieć zbudowana jest jedynie z kilku typów podstawowych operacji logicznych.
@@ -423,9 +423,114 @@ Dokumentacja układu określa położenia pinów wejściowych i wyjściowych ka�
 \end{figure}
 
 \subsubsection{Hazard}
-Zadanie nowego stanu wejścia wymaga czasu na przełączenie się wewnętrznych tranzystorów zanim ustali się właściwy wynik na wyjściu. Opóźnienie to nazywane jest czasem propagacji bramki. W tych chwilach stany wyjść są nieustalone.
+Zadanie nowego stanu wejścia wymaga czasu na przełączenie się wewnętrznych tranzystorów zanim ustali się właściwy wynik na wyjściu. Opóźnienie to nazywane jest czasem propagacji bramki. W tych krótkich momentach stany wyjść są nieustalone.
+
+
+
+\subsection{Systemy liczbowe}
+
+Cyfry są zestawem symboli danego systemu liczbowego ułożonych w określonym porządku według rosnących znaczeń. Przyjęło się uważać za naturalny system o dziesięciu cyfrach.
+
+$0_{min}$ $1$ $2$ $3$ $4$ $5$ $6$ $7$ $8$ $9^{max}$
+
+Końce porządku wyznaczają symbole najmniejszy i największy.
+
+Liczba jest nieskończonym ciągiem cyfr.
+
+Algorytm nieskończonej inkrementacji liczby zaczyna od nieskończonego ciągu symboli najmniejszych.
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $0_{min}$
+
+Przegląda ciąg zaczynając od najbardziej skrajnego prawego miejsca poszukując pierwszego symbolu niemaksymalnego. Natrafia na niego natychmiast.
+
+Element ten jest sukcesywnie podmieniany na symbol starszy stopniem w szeregu.
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $1$
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $2$
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $3$
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $4$
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $5$
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $6$
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $7$
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $8$
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $9^{max}$
+
+Po wyczerpaniu puli na pierwszej pozycji, zajrzy na następną z kolei i tam napotka symbol niemaksymalny do podmiany na większy. Wszystkie symbole na prawo od znalezionej pozycji muszą zostać zminimalizowane.
+
+$0_{min}$ ... $0_{min}$ $1$ $0_{min}$
+
+Ponownie można podmieniać sybmole na pierwszej pozycji zgodnie z porządkiem aż do osiągnięcia symbolu maksymalnego. Wtedy ponownie poszukiwana będzie pozycja pierwsza niemaksymalna i tu algorytm się zapętla.
+
+$0_{min}$ ... $0_{min}$ $1$ $1$
 
 \subsubsection{Liczby binarne}
+
+Stosując tą samą zasadę postępowania można odliczać liczby w dowolnym systemie o uznanym porządku symboli. Logika binarna skraca pulę symboli do dwóch możliwości, odróżniając jedynie sybmole najmnięjszy i największy.
+
+$0_{min}$ $1^{max}$
+
+Odliczanie zawsze startuje od nieskończonego ciągu symboli najmniejszych.
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $0_{min}$
+
+Już po pierwszej iteracji pula zostaje wyczerpana.
+
+$0_{min}$ ... $0_{min}$ $0_{min}$ $1^{max}$
+
+Należy użyć kolejnej, drugiej pozycji i wyzerować poprzednie.
+
+$0_{min}$ ... $0_{min}$ $1^{max}$ $0_{min}$
+
+Iteracja pierwszej pozycji
+
+$0_{min}$ ... $0_{min}$ $1^{max}$ $1^{max}$
+
+I znowu przepełnienie, tym razem już dwóch pierwszych pozycji. Należy poruszyć trzecią jako pierwszą niemaksymalną.
+
+$0_{min}$ ... $1^{max}$ $0_{min}$ $0_{min}$
+
+Na dwóch pierwszych pozycjach zostają powtórzone trzy poprzednie kroki, po czym należy sięgnąć na pozycję czwartą i powtórzyć kroki jej dotychczasowe. I tak do nieskończoności.
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ | c | c | c | c |}
+  \hline
+  dwójkowy & ósemkowy & dziesiętny & szesnastkowy \\ \hline
+  00000 & 00 & 00 & 00 \\
+  00001 & 01 & 01 & 01 \\
+  00010 & 02 & 02 & 02 \\
+  00011 & 03 & 03 & 03 \\
+  00100 & 04 & 04 & 04 \\
+  00101 & 05 & 05 & 05 \\
+  00110 & 06 & 06 & 06 \\
+  00111 & 07 & 07 & 07 \\
+  01000 & 10 & 08 & 08 \\
+  01001 & 11 & 09 & 09 \\
+  01010 & 12 & 10 & 0A \\
+  01011 & 13 & 11 & 0B \\
+  01100 & 14 & 12 & 0C \\
+  01101 & 15 & 13 & 0D \\
+  01110 & 16 & 14 & 0E \\
+  01111 & 17 & 15 & 0F \\
+  10000 & 20 & 16 & 10 \\
+  10001 & 21 & 17 & 11 \\
+  10010 & 22 & 18 & 12 \\
+  10011 & 23 & 19 & 13 \\
+  10100 & 24 & 20 & 14 \\
+  \hline
+\end{tabular}
+\caption*{Tabela odzwierciedla odliczanie w paru systemach liczbowych}
+\end{table}
+
 
 \subsection{Układy kombinacyjne}
 
@@ -447,20 +552,6 @@ Zadanie nowego stanu wejścia wymaga czasu na przełączenie się wewnętrznych 
 \subsubsection{Licznik}
 
 
-\subsection{Elementy analogowe}
-
-\subsubsection{Elementy półprzewodnikowe}
-
-\subsubsection{Diody}
-
-\subsubsection{Tranzystory}
-
-
-\subsection{CMOS}
-
-Na przedstawionych elementach analogowych opiera się elektronika cyfrowa. Jednak nie wykorzystuje ona pełnych zakresów prac zaadoptowanych tranzystorów. Wystarczają jej jedynie dwa binarne stany - nasycenia, nazywany stanem wysokim lub logiczną jedynką oraz pracy będący stanem niskim, tudzież logicznym zerem. Sieć logiczna operuje stanami wejściowymi dostarczając rezultat działania na swoim wyjściu.
-
-
 
 \subsection{FPGA}
 
@@ -473,6 +564,19 @@ Na przedstawionych elementach analogowych opiera się elektronika cyfrowa. Jedna
 
 \subsubsection{Symulacja}
 
+
+\subsection{Elementy analogowe}
+
+\subsubsection{Elementy półprzewodnikowe}
+
+\subsubsection{Diody}
+
+\subsubsection{Tranzystory}
+
+
+\subsection{CMOS}
+
+Na przedstawionych elementach analogowych opiera się elektronika cyfrowa. Jednak nie wykorzystuje ona pełnych zakresów prac zaadoptowanych tranzystorów. Wystarczają jej jedynie dwa binarne stany - nasycenia, nazywany stanem wysokim lub logiczną jedynką oraz pracy będący stanem niskim, tudzież logicznym zerem. Sieć logiczna operuje stanami wejściowymi dostarczając rezultat działania na swoim wyjściu.
 
 
 \newpage
