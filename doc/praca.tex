@@ -543,9 +543,9 @@ W systemie dwójkowym (binarnym) pojedynczą cyfrę nazywa się jednym bitem inf
 
 \subsubsection{Jednobitowy układ dodający}
 
-Układ ten dodaje dwa jednobitowe sygnały nazwane $A$ i $B$. Jeśli oba wejścia wystawią stan wysoki, wtedy wynik $2$ w systemie binarnym $(10)_2$ jest liczbą dwucyfrową wymagającą dwóch wyjściowych linii $Y$ i starszej $C_1$ (informującej też o przepełnieniu).
+Układ ten dodaje dwa jednobitowe sygnały nazwane $A$ i $B$. Jeśli oba wejścia wystawią stan wysoki, wtedy wynik $2$ w systemie binarnym $(10)_2$ jest liczbą dwucyfrową wymagającą dwóch wyjściowych linii $S$ i starszej $C$ (informującej też o przepełnieniu).
 
-Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $Y$ jest alternatywą wykluczającą wejść, natomiast $C_1$ jest ich koniunkcją.
+Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $S$ jest alternatywą wykluczającą wejść, natomiast $C$ jest ich koniunkcją.
 
 \begin{table}[h!]
 \centering
@@ -555,7 +555,7 @@ Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $Y$ jest alternaty
 
 \begin{tabular}{ | c | c || c | c | }
   \hline
-  $A$ & $B$ & $Y$ & $C_1$ \\ \hline
+  $A$ & $B$ & $S$ & $C$ \\ \hline
   0 & 0 & 0 & 0 \\
   0 & 1 & 1 & 0 \\
   1 & 0 & 1 & 0 \\
@@ -564,8 +564,9 @@ Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $Y$ jest alternaty
 \end{tabular}
 \end{minipage}
 \begin{minipage}{11cm}
-   \includegraphics[width=10cm]{grafika/obwody/circuit-and.png}
-   \caption*{Demostracja koniunkcji zrealizowanej na połączeniach}
+   \centering
+   \includesvg[svgpath = grafika/obwody/]{Half_Adder}
+   \caption*{Sieć logiczna jednobitowego układu dodającego}
 \end{minipage}
 \end{table}
 
@@ -573,7 +574,6 @@ Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $Y$ jest alternaty
 \subsubsection{Wielobitowy układ dodający}
 
 Dodawanie liczb złożonych z większej liczby bitów wymaga właściwego obchodzenia się z bitem przepełnienia. Mechanizm unaocznia dodawanie pisemne, które jest analogiczne jak w systemie dziesiętnym. Dla przykładu użyte zastaną liczby $A = 14 = (1110)_2$ oraz $B = 7 = (0111)_2$. Indeks przy oznaczeniu liczby odnosi się do cyfry na wskazanej pozycji bitu.
-%% Do liczb tych można się odnieść poprzez ich poszczególne pozycje cyfr, to jest $A ( A_3 A_2 A_1 A_0 )$.
 
 \begin{table}[h!]
 \centering
@@ -581,26 +581,26 @@ Dodawanie liczb złożonych z większej liczby bitów wymaga właściwego obchod
 \begin{minipage}{5.5cm}
 \centering
 
-\begin{tabular}{  c  c  c  c  c  }
-  1 & 1 & 1 &   &  \\
-    & 1 & 1 & 1 & 0 \\
-    & 0 & 1 & 1 & 1 \\
+\begin{tabular}{  c  c  c  c  c  c  }
+      & 1 & 1 & 1 &   &   \\
+      &   & 1 & 1 & 1 & 0 \\
+  $+$ &   & 0 & 1 & 1 & 1 \\
   \hline
-  1 & 0 & 1 & 0 & 1 \\
+      & 1 & 0 & 1 & 0 & 1 \\
 \end{tabular}
 \end{minipage}
 \begin{minipage}{11cm}
-\begin{tabular}{  c  c  c  c  c  }
-  $C_3$ & $C_2$ & $C_1$ & $C_0$  &  \\
-        & $A_3$ & $A_2$ & $A_1$ & $A_0$ \\
-        & $B_3$ & $B_2$ & $B_1$ & $B_0$ \\
+\begin{tabular}{  c  c  c  c  c  c  }
+      & $C_4$ & $C_3$ & $C_2$ & $C_1$ &       \\
+      &       & $A_3$ & $A_2$ & $A_1$ & $A_0$ \\
+  $+$ &       & $B_3$ & $B_2$ & $B_1$ & $B_0$ \\
   \hline
-        & $Y_3$ & $Y_2$ & $Y_1$ & $Y_0$ \\
+      &       & $S_3$ & $S_2$ & $S_1$ & $S_0$ \\
 \end{tabular}
 \end{minipage}
 \end{table}
 
-Najpierw dodawane są najmłodsze bity $A_0 = 0$ i $B_0 = 1$, a ich wynikiem, zgodnie z tabelą dodawania jednobitowego, jest $Y_0 = 1$. W następnej kolumnie występują dwa stany wysokie, co zgodnie z tabelą wynosi $0$ dla $Y_1$, ale ustawiany jest bit przepełnienia $C_1$. Dla trzeciej kolumny ponownie oba wejścia są wysokie, jednak należy także wziąść pod uwagę przepełnienie $C_1$ z poprzedniego kroku. Ta sytuacja dotąd nie została uwzględniona. Do tego należy zaprezentować ogólniejszą tabelę prawdy uwzględniającą bit przepełnienia z poprzedniego dodawania.
+Najpierw dodawane są najmłodsze bity $A_0 = 0$ i $B_0 = 1$, a ich wynikiem, zgodnie z tabelą dodawania jednobitowego, jest $S_0 = 1$. W następnej kolumnie występują dwa stany wysokie, co zgodnie z tabelą wynosi $0$ dla $S_1$, ale ustawiany jest bit przepełnienia $C_2$. Dla trzeciej kolumny ponownie oba wejścia są wysokie, jednak należy także wziąść pod uwagę przepełnienie $C_2$ z poprzedniego kroku. Ta sytuacja dotąd nie została uwzględniona. Należy dla niej zaprezentować ogólniejszą tabelę prawdy uwzględniającą bit przepełnienia z poprzedniego dodawania.
 
 \begin{table}[h!]
 \centering
@@ -610,7 +610,7 @@ Najpierw dodawane są najmłodsze bity $A_0 = 0$ i $B_0 = 1$, a ich wynikiem, zg
 
 \begin{tabular}{ | c | c | c || c | c | }
   \hline
-  $A$ & $B$ & $C_0$ & $Y$ & $C_1$ \\ \hline
+  $A$ & $B$ & $C_{in}$ & $S$ & $C_{out}$ \\ \hline
   0 & 0 & 0 & 0 & 0 \\
   0 & 1 & 0 & 1 & 0 \\
   1 & 0 & 0 & 1 & 0 \\
@@ -625,25 +625,21 @@ Najpierw dodawane są najmłodsze bity $A_0 = 0$ i $B_0 = 1$, a ich wynikiem, zg
 \begin{minipage}{11cm}
    \centering
    \includesvg[svgpath = grafika/obwody/]{Full-adder_logic_diagram_old}
-   \caption*{Sieć logiczna wielobitowego układu dodającego}
+   \caption*{Sieć logiczna pojedynczego ogniwa wielobitowego układu dodającego.}
 \end{minipage}
 \end{table}
-
-%% \begin{figure}[htbp]
-%%   \centering
-%%   \includesvg{example}
-%%   \caption{svg image}
-%% \end{figure}
 
 Teraz widać, że ogólna postać dodawania ma trzy wejścia - dwa są bitami z obu składników na odpowiadających sobie pozycjach, trzeci sygnał jest wartością przepełnienia z dodawania na poprzedniej pozycji.
 
 Tak więc w kolumnie trzeciej wystąpiła sytuacja, gdzie oba wejścia są wysokie jak również i bit przepełnienia. Według nowej tablicy trzy jedynki na wejściu dają dwie na wyjściu.
 
-Czwarta kolumna otrzymuje przepełnienie i jedną jedynkę, co oznacza zero dla $Y_3$ oraz ostatnie przepełnienie $C_3$. Wynikiem jest $21 = (10101)_2$, co wymaga zapisu na 5 bitach. Ostatni bit przepełnienia zapewnia brakujący piąty bit wyniku, dzięki czemu suma jest właściwa w postaci $C_3 Y_3 Y_2 Y_1 Y_0$.
+Czwarta kolumna otrzymuje przepełnienie i jedną jedynkę, co oznacza zero dla $S_3$ oraz ostatnie przepełnienie $C_4$. Wynikiem jest $21 = (10101)_2$, co wymaga zapisu na 5 bitach. Ostatni bit przepełnienia zapewnia brakujący piąty bit wyniku, dzięki czemu suma jest właściwa w postaci $C_4 S_3 S_2 S_1 S_0$.
 
-
-
-\subsubsection{Wielobitowy układ dodający}
+\begin{figure}[htb]
+   \centering
+   \includesvg[width=15cm,svgpath = grafika/obwody/]{4-bit_ripple_carry_adder}
+   \caption*{4-bitowy układ dodający zbudowany jest z 4 ogniw}
+\end{figure}
 
 
 \subsubsection{Jednobitowy komparator}
