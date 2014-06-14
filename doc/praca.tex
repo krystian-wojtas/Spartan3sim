@@ -14,7 +14,8 @@
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{wrapfig}
-
+\usepackage{svg}
+\usepackage{amsmath}
 
 \geometry{hmargin={2cm, 2cm}, height=10.0in}
 \DeclareCaptionFont{white}{\color{white}}
@@ -437,7 +438,7 @@ Końce porządku wyznaczają symbole najmniejszy i największy.
 
 Liczba jest nieskończonym ciągiem cyfr.
 
-Algorytm nieskończonej inkrementacji liczby zaczyna od nieskończonego ciągu symboli najmniejszych.
+Algorytm nieskończonej inkrementacji liczby zaczyna od jej postaci najmniejszej.
 
 $0_{min}$ ... $0_{min}$ $0_{min}$ $0_{min}$
 
@@ -534,12 +535,122 @@ Na dwóch pierwszych pozycjach zostają powtórzone trzy poprzednie kroki, po cz
 
 \subsection{Układy kombinacyjne}
 
-\subsubsection{Układ dodający}
+Są to układy cyfrowe, które nie zapamiętują stanów pośrednich obliczeń wewnątrz sieci. Stany wyść są zależne jedynie od stanów bieżących wejść. Są ich funkcją logiczną.
+
+Linie wejść/wyjść układów cyfrowych często są liczbami reprezentowanymi w systemie dwójkowym. Uprzednio zaprezentowane nieskończone ciągi cyfr są modelem matematycznym nie mającym odzwierciedlenia w realnych układach elektronicznych na współczesnym etapie rozwoju techniki. Maszyny przejawiają skończoną precyzję obliczeń wykonywaną w skończonym czasie.
+
+W systemie dwójkowym (binarnym) pojedynczą cyfrę nazywa się jednym bitem informacji. Na jednym bicie można zapisać jedną z dwóch możliwych wartości $0_{min}$ lub $1^{max}$. Na dwóch bitach zapisuje się wszystkie dwie możliwości pierwszego bitu zdwukrotnione dwiema możliwościami bitu drugiej pozycji. Razem 4 możliwości. Dodając trzeci bit, również ilość możliwości się dubluje dając 8. I tu uwidacznia się pewna reguła - na $n$ bitach można zapisać jedną z $2^n$ możliwych liczb. Odliczając od zera, liczbą największą będzie $2^n-1$.
+
+\subsubsection{Jednobitowy układ dodający}
+
+Układ ten dodaje dwa jednobitowe sygnały nazwane $A$ i $B$. Jeśli oba wejścia wystawią stan wysoki, wtedy wynik $2$ w systemie binarnym $(10)_2$ jest liczbą dwucyfrową wymagającą dwóch wyjściowych linii $Y$ i starszej $C_1$ (informującej też o przepełnieniu).
+
+Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $Y$ jest alternatywą wykluczającą wejść, natomiast $C_1$ jest ich koniunkcją.
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{5.5cm}
+\centering
+
+\begin{tabular}{ | c | c || c | c | }
+  \hline
+  $A$ & $B$ & $Y$ & $C_1$ \\ \hline
+  0 & 0 & 0 & 0 \\
+  0 & 1 & 1 & 0 \\
+  1 & 0 & 1 & 0 \\
+  1 & 1 & 0 & 1 \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{11cm}
+   \includegraphics[width=10cm]{grafika/obwody/circuit-and.png}
+   \caption*{Demostracja koniunkcji zrealizowanej na połączeniach}
+\end{minipage}
+\end{table}
+
+
+\subsubsection{Wielobitowy układ dodający}
+
+Dodawanie liczb złożonych z większej liczby bitów wymaga właściwego obchodzenia się z bitem przepełnienia. Mechanizm unaocznia dodawanie pisemne, które jest analogiczne jak w systemie dziesiętnym. Dla przykładu użyte zastaną liczby $A = 14 = (1110)_2$ oraz $B = 7 = (0111)_2$. Indeks przy oznaczeniu liczby odnosi się do cyfry na wskazanej pozycji bitu.
+%% Do liczb tych można się odnieść poprzez ich poszczególne pozycje cyfr, to jest $A ( A_3 A_2 A_1 A_0 )$.
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{5.5cm}
+\centering
+
+\begin{tabular}{  c  c  c  c  c  }
+  1 & 1 & 1 &   &  \\
+    & 1 & 1 & 1 & 0 \\
+    & 0 & 1 & 1 & 1 \\
+  \hline
+  1 & 0 & 1 & 0 & 1 \\
+\end{tabular}
+\end{minipage}
+\begin{minipage}{11cm}
+\begin{tabular}{  c  c  c  c  c  }
+  $C_3$ & $C_2$ & $C_1$ & $C_0$  &  \\
+        & $A_3$ & $A_2$ & $A_1$ & $A_0$ \\
+        & $B_3$ & $B_2$ & $B_1$ & $B_0$ \\
+  \hline
+        & $Y_3$ & $Y_2$ & $Y_1$ & $Y_0$ \\
+\end{tabular}
+\end{minipage}
+\end{table}
+
+Najpierw dodawane są najmłodsze bity $A_0 = 0$ i $B_0 = 1$, a ich wynikiem, zgodnie z tabelą dodawania jednobitowego, jest $Y_0 = 1$. W następnej kolumnie występują dwa stany wysokie, co zgodnie z tabelą wynosi $0$ dla $Y_1$, ale ustawiany jest bit przepełnienia $C_1$. Dla trzeciej kolumny ponownie oba wejścia są wysokie, jednak należy także wziąść pod uwagę przepełnienie $C_1$ z poprzedniego kroku. Ta sytuacja dotąd nie została uwzględniona. Do tego należy zaprezentować ogólniejszą tabelę prawdy uwzględniającą bit przepełnienia z poprzedniego dodawania.
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{5.5cm}
+\centering
+
+\begin{tabular}{ | c | c | c || c | c | }
+  \hline
+  $A$ & $B$ & $C_0$ & $Y$ & $C_1$ \\ \hline
+  0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 1 & 0 \\
+  1 & 0 & 0 & 1 & 0 \\
+  1 & 1 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 1 & 0 \\
+  0 & 1 & 1 & 0 & 1 \\
+  1 & 0 & 1 & 0 & 1 \\
+  1 & 1 & 1 & 1 & 1 \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{11cm}
+   \centering
+   \includesvg[svgpath = grafika/obwody/]{Full-adder_logic_diagram_old}
+   \caption*{Sieć logiczna wielobitowego układu dodającego}
+\end{minipage}
+\end{table}
+
+%% \begin{figure}[htbp]
+%%   \centering
+%%   \includesvg{example}
+%%   \caption{svg image}
+%% \end{figure}
+
+Teraz widać, że ogólna postać dodawania ma trzy wejścia - dwa są bitami z obu składników na odpowiadających sobie pozycjach, trzeci sygnał jest wartością przepełnienia z dodawania na poprzedniej pozycji.
+
+Tak więc w kolumnie trzeciej wystąpiła sytuacja, gdzie oba wejścia są wysokie jak również i bit przepełnienia. Według nowej tablicy trzy jedynki na wejściu dają dwie na wyjściu.
+
+Czwarta kolumna otrzymuje przepełnienie i jedną jedynkę, co oznacza zero dla $Y_3$ oraz ostatnie przepełnienie $C_3$. Wynikiem jest $21 = (10101)_2$, co wymaga zapisu na 5 bitach. Ostatni bit przepełnienia zapewnia brakujący piąty bit wyniku, dzięki czemu suma jest właściwa w postaci $C_3 Y_3 Y_2 Y_1 Y_0$.
+
+
+
+\subsubsection{Wielobitowy układ dodający}
+
+
+\subsubsection{Jednobitowy komparator}
+
+\subsubsection{Wielobitowy komparator}
 
 \subsubsection{Układ mnożący}
-
-\subsubsection{Komparator}
-
 \subsubsection{Wykrywanie pierwiastka}
 
 
