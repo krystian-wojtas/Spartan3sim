@@ -248,6 +248,9 @@ Alternatywa wykluczająca przechyli się ku prawdzie, gdy jest ona głoszona prz
 \end{minipage}
 \end{table}
 
+\subsubsection{Zasada precedencji}
+Pomiędzy zdaniami logicznymi używa się nawiasowania dla zmiany pierwszeństwa ich ewaluacji. Naturalnym biegiem jest rozpatrywanie ich według przyjętej hierarchii $\lnot \land \lor \iff$.
+
 \subsubsection{Prawa De Morgana}
 Do formułowania praw należy wprowadzić kolejny symbol logiczny równoważności. W zasadzie jest on zaprzeczeniem poznanej już alternatywy wykluczającej.
 
@@ -335,9 +338,6 @@ $\lnot (p \lor q) \iff (\lnot p \land \lnot q)$
 
 Prawa te są bardzo pomocne do optymalizacji sieci.
 
-
-\subsubsection{Zasada precedencji}
-Pomiędzy zdaniami logicznymi używa się nawiasowania dla zmiany pierwszeństwa ich ewaluacji. Naturalnym biegiem jest rozpatrywanie ich według przyjętej hierarchii $\lnot \land \lor \iff$.
 
 \subsection{Bramki logiczne}
 Są to układy scalone realizujące wyspecyfikowane przez producenta operacje logiczne. Na samych połączeniach przewodów można jedynie osiągnąć logikę koniunkcji lub alternatywy. Nie da się jednak obecnemu w sieci sygnałowi zaprzeczyć. Możnaby problem obejść używając mechanicznych przekaźników. Właściwsze mogą okazać się tranzystory, tudzież ich zestawy odpowiednio połączone i zatopione w gotowych scalakach nazywanych bramkami logicznymi.
@@ -642,13 +642,85 @@ Czwarta kolumna otrzymuje przepełnienie i jedną jedynkę, co oznacza zero dla 
 \end{figure}
 
 
-\subsubsection{Jednobitowy komparator}
+\subsubsection{Multiplexer}
 
-\subsubsection{Wielobitowy komparator}
 
-\subsubsection{Układ mnożący}
-\subsubsection{Wykrywanie pierwiastka}
+\subsubsection{Jednobitowy układ porównujący}
 
+Układ porównujący stwierdza, czy dwa wejściowe sygnały $A$ i $B$ są sobie równe linią $=$. A jeśli nie są, wtedy określi który z nich reprezentuje większą wartość za pomocą wyprowadzeń $<$ oraz $>$.
+
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{6.5cm}
+\centering
+
+\begin{tabular}{ | c | c || c | c | c | }
+  \hline
+  $A$ & $B$ & $A<B$ & $A=B$ & $A>B$ \\ \hline
+  0 & 0 & 0 & 1 & 0 \\
+  0 & 1 & 1 & 0 & 0 \\
+  1 & 0 & 0 & 0 & 1 \\
+  1 & 1 & 0 & 1 & 0 \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{10cm}
+   \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
+   \caption*{Sieć logiczna jednobitowego układu porównującego}
+\end{minipage}
+\end{table}
+
+
+\subsubsection{Wielobitowy układ porównujący}
+
+Równość dwóch dowolnych wartości $n$-bitowych stwierdza się, jeśli wszystkie odpowiadające sobie bity są sobie równe.
+
+$x_i= A_i \cdot B_i + \overline{A}_i \cdot \overline{B}_i.$
+
+$(A=B) = x_nx_{n-1} (...) x_2x_1x_0$
+
+Nierówność stwierdza się porównując odpowiadające sobie bity kolejno poczynając od najstarszego aż do wykrycia pierwszej nieprawidłowości. Znak $<$ lub $>$ nierówności klaruje się według porównania jedobitowego na znalezionej pozycji.
+
+$(A>B)=A_3 \cdot \overline{B}_3+x_3 A_2 \overline{B}_2+x_3 x_2 A_1 \overline{B}_1+x_3x_2x_1 A_0 \overline{B}_0$
+
+$(A<B)=\overline{A}_3 \cdot B_3+x_3 \overline{A}_2 B_2+x_3 x_2 \overline{A}_1 B_1+x_3x_2x_1 \overline{A}_0 B_0$
+
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{9cm}
+\centering
+
+\begin{tabular}{ | c | c | c | c || c | c | c | }
+  \hline
+  $A_1$ & $A_0$ & $B_1$ & $B_0$ & $A<B$ & $A=B$ & $A>B$ \\ \hline
+  0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1 & 1 & 0 & 0 \\
+  0 & 0 & 1 & 0 & 1 & 0 & 1 \\
+  0 & 0 & 1 & 1 & 1 & 0 & 0 \\ \hline
+  0 & 1 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+  0 & 1 & 1 & 0 & 0 & 0 & 1 \\
+  0 & 1 & 1 & 1 & 1 & 0 & 0 \\ \hline
+  1 & 0 & 0 & 0 & 0 & 0 & 1 \\
+  1 & 0 & 0 & 1 & 0 & 0 & 1 \\
+  1 & 0 & 1 & 0 & 0 & 1 & 0 \\
+  1 & 0 & 1 & 1 & 1 & 0 & 0 \\ \hline
+  1 & 1 & 0 & 0 & 0 & 0 & 1 \\
+  1 & 1 & 0 & 1 & 0 & 0 & 1 \\
+  1 & 1 & 1 & 0 & 0 & 0 & 1 \\
+  1 & 1 & 1 & 1 & 0 & 1 & 0 \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{7.5cm}
+   \includegraphics[width=7cm]{grafika/obwody/circuit_diagram_2_bit_magnitude_comparator.png}
+   \caption*{Sieć logiczna dwubitowego układu porównującego}
+\end{minipage}
+\end{table}
 
 \subsection{Układy sekwencyjne}
 
