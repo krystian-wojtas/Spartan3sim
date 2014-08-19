@@ -722,17 +722,80 @@ $(A<B)=\overline{A}_3 \cdot B_3+x_3 \overline{A}_2 B_2+x_3 x_2 \overline{A}_1 B_
 \end{minipage}
 \end{table}
 
+
+
 \subsection{Układy sekwencyjne}
 
-\subsubsection{Przerzutnik}
+W układach sekwencyjnych do pewnych sygnałów wejściowych są przyłączone niektóre wyjścia sprzężeniem zwrotnym. Dzięki temu na bieżący wynik obliczeń wpływają obliczenia uprzednie. Zachodzi efekt pamięci - sieć pamięta swoje poprzednie stany.
 
-\subsubsection{Zatrzask}
+\subsubsection{Zatrzask SR}
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{6.5cm}
+\centering
+
+\begin{tabular}{ | c | c || c | c | }
+  \hline
+  $\lnot S$ & $\lnot R$ & $Q$ & $\lnot Q$ \\ \hline
+  0 & 0 & x & x \\
+  0 & 1 & 1 & 0 \\
+  1 & 0 & 0 & 1 \\
+  1 & 1 & $Q_{n-1}$ & $\lnot Q_{n-1}$ \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{10cm}
+   \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
+   \caption*{Sieć logiczna jednobitowego układu porównującego}
+\end{minipage}
+\end{table}
+
+Przerzutnik SR zbudowany jest z dwóch bramek NOR lub NAND. Wynik wyjścia jednej bramki skierowany jest ponownie do wejścia drugiej. Dzięki temu pozostawiając układ w stanie neutralnym, stale utrzymuje on na swoim wyjściu ostatnio wybrany stan. Stan wybiera się wytrącając układ ze stanu neutralnego krótkim zwarciem linii $S$ lub $R$ do masy. Jeśli obie linie naraz zostaną zwarte, wtedy stan wyjściowy uzależniony jest od wewnętrznych hazardów i przyjmuje się go za nieustalony.
+
+\subsubsection{Przerzutnik D}
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{6.5cm}
+\centering
+
+\begin{tabular}{ | c | c || c | }
+  \hline
+  $D$ & $C$ & $Q$ \\ \hline
+  x & 0 & $Q_{n-1}$ \\
+  0 & 1 & 0 \\
+  1 & 1 & 1 \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{10cm}
+   \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
+   \caption*{Sieć logiczna jednobitowego układu porównującego}
+\end{minipage}
+\end{table}
+
+Przerzutnik D jest rozszerzeniem zatrzasku SR o 2 dodatkowe bramki uniemożliwiające osiągnięcie stanu zabronionego obarczonego nieprzewidywalnymi hazardami. Oczekuje on przyłączenia linii danych $D$ oraz zegarowej $C$. W chwilach wysokiego stanu zegara, stale przepisuje on daną $D$ na wyjście. Gdy stan zegara stanie się niski, wtedy ostatnia przepisana i 'zapamiętana' wartość $D$ jest utrzymywana na wyjściu.
+
+
+Dwa przerzutniki D czułe na przeciwne poziomy zegara łączy się kaskadowo. Efektem jest przerzutnik czuły na zbocze zegara. Kierunek zbocza wyznacza kolejność podłączenia przerzutników czułych na przeciwne poziomy zegara.
+
+\subsubsection{Rejestr}
+
+Rejestr jest układem pamięciowym przechowującym bity informacji. Jego budowę można oprzeć na zestawie przerzutników typu D łącząc je równolegle.
 
 \subsubsection{Licznik}
 
-
+Licznik to układ inkrementujący liczbę przedstawianą binarnie na wyjściu w takt dostarczanego zegara. Zbudować go można łącząc szeregowo przerzutniki typu D. Do pierszego dostarcza się sygnał zegarowy, a sygnałem $C$ dla kolejnych jest wyjście $Q$ z poprzedniego. Każdemu przerzutnikowi z osobna zwiera się wyjście $\lnot Q$ z wejściem $D$. Inkrementowana liczba ujawnia się w ciągu $Q_{n-1} Q_{n-2} .. Q_{0}$.
 
 \subsection{FPGA}
+
+Field Programmable Gate Array jest układem elektronicznym pozwalającym na skonfigurowanie jego zachowania. Konfiguracja taka jest zestawem wygenerowanych danych dostarczonych do FPGA i określa logikę, według której układ ma pracować. Ekwiwalentą logikę przedstawić można układem bramek logicznych i przerzutników.
+
+\subsubsection{Architektura}
+
 
 
 \subsection{Verilog}
@@ -742,15 +805,6 @@ $(A<B)=\overline{A}_3 \cdot B_3+x_3 \overline{A}_2 B_2+x_3 x_2 \overline{A}_1 B_
 \subsubsection{Procesor}
 
 \subsubsection{Symulacja}
-
-
-\subsection{Elementy analogowe}
-
-\subsubsection{Elementy półprzewodnikowe}
-
-\subsubsection{Diody}
-
-\subsubsection{Tranzystory}
 
 
 \subsection{CMOS}
