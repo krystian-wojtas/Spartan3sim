@@ -118,6 +118,10 @@ Na kolejnych dwóch stronach proszę dołączyć kolejno recenzje pracy popełni
 \newpage
 \section{Wstęp}
 
+Nie sposób przecenić wynalazku NAZWISKO tranzytora z roku ROK uhonorawanego nagrodą Nobla oraz wszelkich jego późniejszych następstw pozwalających ujrzeć świat w obecnie oglądanej elektronicznej postaci. Droga ekspansji mikroprocesorów wydaje się już być nieodwracalna. Zrewolucjonizowały każdą dziedzinę życia. A to dopiero początek, wciąż jeszcze wiele przed nami. Tradycyjnie kultywowane systemy edukacji, obiegu pieniądza, sprawowania władzy państwowej są przestarzałe. Jednakże chodziaż kwestia inwigilacji obywateli jest prężnie rozwijana oraz ukoronowana wszelkimi zdobyczami techniki. Zachodzi pytanie, czy świat opisany przez Huxleya w wizji `Rok 1904` właśnie nie nastaje. Technicznie jest już to możliwe, a skalę zapoczątkowanego zjawiska unaocznił Edward Snowden upubliczniając dokonania Agencji Której Nie Ma.
+
+Powstałe zagadnienia natury etycznej wymagają szerokiej dyskusji. Byłaby ona sensowniejsza przy zrozumieniu działania zewsząd otaczającego nas sprzętu i jego możliwościach. Niestety na początku 21 wieku wiedza ta nie jest powszechna i uważana jest za specjalistyczną. Niniejsza praca jest próbą odczarowania demonów tkwiących w tematyce elektroniki cyfrowej i zmycia z niej znamion nieokiełznanej aury tajemniczości.
+
 \subsection{Cel pracy}
 
 \begin{figure}[htb]
@@ -131,12 +135,6 @@ Celem pracy jest oprogramowanie za pomocą języka opisu sprzętu (Verliog) ukł
 Utworzone moduły behawioralne muszą jak najwierniej odzwierciedlać zachowania układów występujących na płytce.
 Znajdą wtedy zastosowanie w uruchamianych symulacjach przebiegów czasowych danej konfiguracji układu programowalnego FPGA. Dzięki nim możliwe będzie stwierdzenie czy dla zsyntetyzowanej konfiguracji stany linii FPGA prowadzące do konkretnego układu płytki przebiegają poprawnie i czy zachodzi pożądana komunikacja poprzez generowanie przez te moduły stosownych komunikatów. W ten sposób studenci będą mogli testować poprawność działania utworzonej przez siebie konfiguracji bez fizycznego dosępu do sprzętu.
 %zsyntetysowanej/wysyntetyzowanej
-
-\subsection{TODO Rozkmina}
-
-Współczesny świat nafaszerowany jest układami cyfrowymi wspomagającymi lub całkowicie zastępującymi pracę człowieka.
-
-Rodzi to też problemy natury etycznej inwigilacja obywateli
 
 \section{Elektronika cyfrowa}
 Elektronika cyfrowa operuje na prądach zmiennych, nieokresowych o stałych napięciach. Odróżniane są jedynie dwa stany logiczne - stan wysokiego potencjału będący logicznym wyrażeniem prawdy oraz stan niskiego potencjału - odpowiednik fałszu. Tworzona jest sieć logiczna operująca na zadanych stanach i dostarczająca rezultat działania na swoich wyjściach. Sieć często pracuje w rytm podsuniętego zegaru - okresowego sygnału prostokątnego o 50\% wypełnieniu. Sieć może zapamiętać pewne stany wejściowe i brać je pod uwagę w wyliczaniu następnych cykli.
@@ -573,7 +571,7 @@ Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $S$ jest alternaty
 
 \subsubsection{Wielobitowy układ dodający}
 
-Dodawanie liczb złożonych z większej liczby bitów wymaga właściwego obchodzenia się z bitem przepełnienia. Mechanizm unaocznia dodawanie pisemne, które jest analogiczne jak w systemie dziesiętnym. Dla przykładu użyte zastaną liczby $A = 14 = (1110)_2$ oraz $B = 7 = (0111)_2$. Indeks przy oznaczeniu liczby odnosi się do cyfry na wskazanej pozycji bitu.
+Dodawanie liczb złożonych z większej liczby bitów wymaga właściwego obchodzenia się z bitem przepełnienia. Mechanizm ujawnia dodawanie pisemne, które jest analogiczne jak w systemie dziesiętnym. Dla przykładu użyte zastaną liczby $A = 14 = (1110)_2$ oraz $B = 7 = (0111)_2$. Indeks przy oznaczeniu liczby odnosi się do cyfry na wskazanej pozycji bitu.
 
 \begin{table}[h!]
 \centering
@@ -780,7 +778,7 @@ Przerzutnik SR zbudowany jest z dwóch bramek NOR lub NAND. Wynik wyjścia jedne
 Przerzutnik D jest rozszerzeniem zatrzasku SR o 2 dodatkowe bramki uniemożliwiające osiągnięcie stanu zabronionego obarczonego nieprzewidywalnymi hazardami. Oczekuje on przyłączenia linii danych $D$ oraz zegarowej $C$. W chwilach wysokiego stanu zegara, stale przepisuje on daną $D$ na wyjście. Gdy stan zegara stanie się niski, wtedy ostatnia przepisana i 'zapamiętana' wartość $D$ jest utrzymywana na wyjściu.
 
 
-Dwa przerzutniki D czułe na przeciwne poziomy zegara łączy się kaskadowo. Efektem jest przerzutnik czuły na zbocze zegara. Kierunek zbocza wyznacza kolejność podłączenia przerzutników czułych na przeciwne poziomy zegara.
+Dwa przerzutniki D czułe na przeciwne poziomy zegara łączy się kaskadowo. Efektem jest przerzutnik czuły na zbocze zegara. Kierunek zbocza wyznacza kolejność podłączenia przerzutników.
 
 \subsubsection{Rejestr}
 
@@ -796,9 +794,15 @@ Field Programmable Gate Array jest układem elektronicznym pozwalającym na skon
 
 \subsubsection{Architektura}
 
+W układzie FPGA wyszczególnić można elementy nazywane blokami logicznymi, które zwarte są ze sobą siecią konfigurowalnych połączeń. Linie wejściowe bloku logicznego poprowadzone poprzez multipleksery do przerzutników* stają się indeksem komórki pamięci. Wartość tam zapisana będzie wynikiem działania sieci. Pamięć ta przechowuje możliwe stany wyjściowe dla wszystkich kombinacji wejść, stąd nazywna jest tablicą przeszukiwań LUT. Tym sposobem odwzorować można dowolną logikę kombinacyjną.
 
+Układy FPGA pozwalają na więcej, także odzwierciedlają logikę sekwencyjną. Wynik z tablicy LUT jest poprowadzony przez multiplekser. Jego konfiguracja powoduje bezpośrednie wyprowadzenie sygnału z bloku logicznego lub przeprowadzenie go przez dedykowany przerzutnik (taktowany wspólnym zegarem dla wszystkich bloków). W tym przypadku bloki logiczne spełniają także funkcję pamięciową.
+
+Logika programowalna przechowuje konfigurację swojego działania w rozprosznych w układzie pamięciach RAM. Zapis pamięci o połączeniach między blokami logicznymi, zawartością ich tablic LUT oraz konfiguracją ich multiplekserów dla przerzutników jest konfiguracją układu FPGA. Od zadanej konfiguracji zależy działanie całego układu elektronicznego.
 
 \subsection{Verilog}
+
+Modelowanie pojedynczych bitów w poszczególnych pamięciach RAM układu FPGA byłoby niezwykle żmudnym i błędogennym zadaniem, dodatkowo nieprzenośnym pomiędzy róznymi typami układów. Dlatego wykształciły się języki opisu sprzętu. Projektant zapisuje w nich co układ ma robić, po czym przekazuje to właściwemu narzędziu, które w procesie syntezy wyprodukuje konfiguracje dla zadanego układu FPGA. Jednym z takich języków jest Verilog powstały w roku ROK.
 
 \subsubsection{Opis zachowawczy}
 
