@@ -800,13 +800,174 @@ Układy FPGA pozwalają na więcej, także odzwierciedlają logikę sekwencyjną
 
 Logika programowalna przechowuje konfigurację swojego działania w rozprosznych w układzie pamięciach RAM. Zapis pamięci o połączeniach między blokami logicznymi, zawartością ich tablic LUT oraz konfiguracją ich multiplekserów dla przerzutników jest konfiguracją układu FPGA. Od zadanej konfiguracji zależy działanie całego układu elektronicznego.
 
-\subsection{Verilog}
+\subsection{Języki Opisu Sprzętu}
 
-Modelowanie pojedynczych bitów w poszczególnych pamięciach RAM układu FPGA byłoby niezwykle żmudnym i błędogennym zadaniem, dodatkowo nieprzenośnym pomiędzy róznymi typami układów. Dlatego wykształciły się języki opisu sprzętu. Projektant zapisuje w nich co układ ma robić, po czym przekazuje to właściwemu narzędziu, które w procesie syntezy wyprodukuje konfiguracje dla zadanego układu FPGA. Jednym z takich języków jest Verilog powstały w roku ROK.
+Modelowanie pojedynczych bitów w poszczególnych pamięciach RAM układu FPGA byłoby niezwykle żmudnym i błędogennym zadaniem, a powstały efekt końcowy byłby nieprzenośny na układy nowsze lub innych producentów. Stąd narosła potrzeba narzędzia do wygenerowania konfiguracji FPGA dla wskazanego chipsetu bazując na dostarczonym modelu pożądanego funkcjonowania sprzętu. Model taki sporządzany jest w języku opisu sprzętu elektronicznego. Najpopularniejsze to VHDL i Verilog oraz wzbogacony o rozszerzenia obiektowe SystemVerilog.
 
-\subsubsection{Opis zachowawczy}
+Języki te ze swojej natury modelują procesy współbieżne synchronizowane na zboczach zegara taktującego cały układ.
+
+\subsubsection{Verilog}
+
+Odpowiednikiem obudów układów elektronicznych z wyprowadzonymi pinami wejścia i wyjścia są w Verilogu moduły. W ich opisie wyspecyfikowana jest lista wejść i wyjść, a wewnątrz deklarowanego modułu powoływać można instancje innych i modelować połączenia między nimi. Struktura jest hierarchiczna. Zewnętrzne połączenia modułu najwyższego poziomu są wyprowadzeniami pinów FPGA.
+
+Moduły mogą definiować rejestry dzięki typowi $reg$. Dostęp do informacji tam zawartych można wyprowadzić do innych modułów poprzez połączenia typu $wire$. Jednakże tylko moduł deklarujący rejestr może do niego informację wpisać.
+
+Język dopuszcza modelowanie na poziomie bramek logicznych. Przykładowy moduł sumatora jednobitowego można przedstawić następująco.
+
+\begin{lstlisting}[label=Sum1,caption=Sum1.v]
+module Sum1
+(
+   input wire A,
+   input wire B,
+   input wire Cin,
+   output wire Y,
+   output wire Cou
+);
+
+wire g1_o, g2_o, g3_o, g4_o;
+
+and g1(g1_o, A, B);
+xor g4(g4_o, A, B);
+and g2(g2_o, Cin, g4_o);
+or  g3(Cout, g1_o, g2_o);
+xor g5(Y, Cin, g4_0);
+
+endmodule
+\end{lstlisting}
+
+Jednakże właściwsze jest modelowanie na wyższym poziomie abstrakcji zwanym zachowawczym. Syntezator zdolny jest sam podstawić bramki pod logikę, którą się mu przedstawi nie wprost.
+
+\begin{lstlisting}[label=Sum1,caption=Sum1.v]
+module Sum1
+(
+   input wire A,
+   input wire B,
+   input wire Cin,
+   output wire Y,
+   output wire Cout
+);
+
+{ Cout, Y } = A + B + Cin;
+
+endmodule
+\end{lstlisting}
+
+Zastosowany tu został operator konkatenacji $\{\}$ do złączenia wyjść jednobitowych w szerszy twór dwubitowy, przyjmujący rezultat sumy i możliwe przepełnienie wyniku.
+
+Do zamodelowania logiki sekwencyjnej posłużyć się należy rejestrem i blokiem $always$. Przykładowy timer zlicza takty zegara głównego i w równych odstępach czasu informuje o swoich przepełnieniach.
+
+\begin{lstlisting}[label=Timer,caption=Timer.v]
+module Timer
+(
+   input clk,
+   output full,
+);
+
+reg [2:0] counter = 3'd0;
+assign full = reg == 3'b111;
+
+alway @(posedge clk)
+   reg <= reg + 1;
+
+endmodule
+\end{lstlisting}
+
+Zadeklarowany został 3-bitowy rejestr $counter$ o początkowej zerowej wartości. Wyjście $full$ zamodelowane zostało kombinacyjnie i osiągnie stan wysoki tylko, gdy licznik jest pełny. Na narastjących zboczach dostarczonego z zewnątrz zegara $clk$ wykonuje się blok $always$ inkrementując licznik. Moduł ten generuje sygnał $full$ co 8 takt zegara.
 
 \subsubsection{Procesor}
+
+Na FPGA można zaimplementować logikę arytmetyczną operującą na tych samych rejestrach. Operacje następowałyby pojedynczo w kolejności uzależnionej od ciągu dostarczonych instrukcji nazywanych programem. Co więcej, specjalne instrukcje skoku warunkowego sprawdzałyby stan bieżących obliczeń i od ich zależności mogłyby zakłócić porządek wykonywanego programu zmieniając aktualną pozycję w wykonywanym ciągu instrukcji. Taką konstrukcję nazywa się procesorem.
+
+Przykładowy prosty procesor operuje na jednym 8-bitowym rejestrze zwanym akumulatorem. Ma on dostęp do pamięci RAM również o 8-bitowej szerokości szyny danych. Wszystkie instrukcje są jednakowej długości 2 bajtów i ulokowane są w oddzielnej pamięci PROM. Doprecyzowując procesor ten jest 8-bitowym przedstawicielem rodziny RISC (Reduced Instruction Set Computing) o architekturze harwardzkiej.
+
+Jego możliwości przedstawia tabela
+
+\begin{figure}[htb]
+  \centering
+\begin{tabular}{ | l | l | l | }
+  \hline
+  Kod maszynowy  & Instrukcja & Opis \\ \hline
+  00000 xxx OP1$_8$  & LDI OP1$_8$     & Ładuje do akumulatora wartość OP1$_8$ podaną w instrukcji \\ \hline
+  00101 ADDR$_{11}$    & LD ADDR$_{11}$ & Ładuje do akumulatora wartość dostępną pod adresem ADDR$_{11}$ \\ \hline
+  00110 ADDR$_{11}$    & ST ADDR$_{11}$ & Zapisuje wartość z akumulatora pod adresem ADDR$_{11}$ \\ \hline
+  10000 xxx OP1$_8$  & ADD OP1$_8$  & Dodaje do akumulatora wartość podaną w instrukcji OP1$_8$ \\ \hline
+  10001 xxx OP1$_8$  & SUB OP1$_8$  & Odejmuje od akumulatora wartość podaną w instrukcji OP1$_8$ \\ \hline
+  10010 xxx OP1$_8$  & AND OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną AND z operandem OP1$_8$ \\ \hline
+  10011 xxx OP1$_8$  & OR  OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną OR  z operandem OP1$_8$ \\ \hline
+  10100 xxx OP1$_8$  & XOR OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną XOR z operandem OP1$_8$ \\ \hline
+  10101 xxx xxxxxxxx & NOT          & Wykonuje na akumulatorze funkcję logiczną NOT \\ \hline
+  10111 xxx xxxxxxxx & LR           & Przesuwa wartość akumulatora w lewo \\ \hline
+  11000 xxx xxxxxxxx & RR           & Przesuwa wartość akumulatora w prawo \\ \hline
+  00001 ADDR$_{11}$ & JMP  ADDR$_{11}$ & Następne instrukcje procesor wykonana spod adresu ADDR$_{11}$ \\ \hline
+  00010 ADDR$_{11}$ & JMPZ ADDR$_{11}$ & Jeśli w akumulatorze jest wartość zero, to następne instrukcje procesor wykonana spod adresu ADDR$_{11}$ \\ \hline
+  \hline
+\end{tabular}
+\end{figure}
+
+Są instrukcje bezargumentowe jak zaprzeczenie NOT oraz przesunięcia LR i RR. Reszta wymaga argumentu w postaci adresu pamięci $ADDR_{11}$ lub operandu $OP1_8$. Wartości te zakodowane są bezpośrednio w instrukcji na dalszych bitach.
+
+\begin{lstlisting}[label=CPU,caption=CPU.v]
+module CPU
+(
+   input clk,
+   input rst,
+   output [7:0] outport
+);
+
+reg [7:0] ACC;
+reg [10:0] PC, PCtmp;
+reg [15:0] IR;
+wire [4:0] OPCODE=IR[15:11];
+wire [10:0] ADDR=IR[10:0];
+wire [7:0] OP1 = IR[7:0];
+
+reg [15:0] PROM [0:2047];
+reg [7:0] RAM [0:2047];
+assign outport = RAM[7:0][0];
+
+always @(posedge clk)
+   if(rst) PC <= 11'h7ff;
+   else begin
+      PC <= PCtmp;
+      IR <= PROM[PCtmp];
+   end
+
+always @*
+   case(OPCODE)
+      5'b00001: PCtmp=ADDR;
+      5'b00010: if(ACC == 7'd0) PCtmp = ADDR; else PCtmp = PC + 1;
+      default: PCtmp = PC + 1;
+   endcase
+
+always @(posedge clk) begin
+   case(OPCODE)
+
+      // Load immediate value
+      5'b00000: ACC <= OP1
+
+      // Load from / store to RAM
+      5'b00101: ACC <= RAM[ADDR];
+      5'b00110: RAM[ADDR] <= ACC;
+
+      // ALU
+      5'b10000: ACC <= ACC + OP1;
+      5'b10001: ACC <= ACC - OP1;
+      5'b10010: ACC <= ACC & OP1;
+      5'b10011: ACC <= ACC | OP1;
+      5'b10100: ACC <= ACC ^ OP1;
+      5'b10101: ACC <= ~ ACC;
+      5'b10111: ACC <= { ACC[0], ACC[7:1] };
+      5'b11000: ACC <= { ACC[6:0], ACC[7] };
+   endcase
+
+endmodule
+\end{lstlisting}
+
+Moduł rozpoczyna się od zadeklarowania pamięci danych RAM, instrukcji PROM oraz niezbędnych rejestrów akumulatora ACC, wskaźników bieżącej instrukcji PC, PCtmp oraz rejestru z pobraną bieżącą instrukcją IR. Poprzez połączenia wyekstrahowane są z rejestru instrukcji pola mnemonika OPCODE, adresu ADDR oraz operandu OP1.
+
+W każdym takcie zegarowym procesor uaktualnia sobie wskaźnik następnej wykonywanej instrukcji oraz pobiera ją z pamięci. Następną instrukcją zazwyczaj jest kolejną w programie, chyba że zdekodowana została instrukcja skoku $JMP$. Wtedy procesor przeniesie wykonania programu pod instrukcję zadaną w argumencie adresu. Jeśli zdekodowany został skok warunkowy $JMPZ$, to najpierw sprawdzona zostaje zawartość akumulatora i skok nastąpi tylko przy jego zerowej wartości.
+
+Ostatni blok wykonuje operacje na akumulatorze i zawiera jednostkę arytmetyczno-logiczną.
 
 \subsubsection{Symulacja}
 
