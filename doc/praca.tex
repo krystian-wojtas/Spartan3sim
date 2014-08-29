@@ -118,7 +118,7 @@ Na kolejnych dwóch stronach proszę dołączyć kolejno recenzje pracy popełni
 \newpage
 \section{Wstęp}
 
-Nie sposób przecenić wynalazku NAZWISKO tranzytora z roku ROK uhonorawanego nagrodą Nobla oraz wszelkich jego późniejszych następstw pozwalających ujrzeć świat w obecnie oglądanej elektronicznej postaci. Droga ekspansji mikroprocesorów wydaje się już być nieodwracalna. Zrewolucjonizowały każdą dziedzinę życia. A to dopiero początek, wciąż jeszcze wiele przed nami. Tradycyjnie kultywowane systemy edukacji, obiegu pieniądza, sprawowania władzy państwowej są przestarzałe. Jednakże chodziaż kwestia inwigilacji obywateli jest prężnie rozwijana oraz ukoronowana wszelkimi zdobyczami techniki. Zachodzi pytanie, czy świat opisany przez Huxleya w wizji `Rok 1904` właśnie nie nastaje. Technicznie jest już to możliwe, a skalę zapoczątkowanego zjawiska unaocznił Edward Snowden upubliczniając dokonania Agencji Której Nie Ma.
+Nie sposób przecenić wynalazku NAZWISKO tranzystora z roku ROK uhonorowanego nagrodą Nobla oraz wszelkich jego późniejszych następstw pozwalających ujrzeć świat w obecnie oglądanej elektronicznej postaci. Droga ekspansji mikroprocesorów wydaje się już być nieodwracalna. Zrewolucjonizowały każdą dziedzinę życia. A to dopiero początek, wciąż jeszcze wiele przed nami. Tradycyjnie kultywowane systemy edukacji, obiegu pieniądza, sprawowania władzy państwowej są przestarzałe. Jednakże chociaż kwestia inwigilacji obywateli jest prężnie rozwijana oraz ukoronowana wszelkimi zdobyczami techniki. Zachodzi pytanie, czy świat opisany przez Huxleya w wizji `Rok 1904` właśnie nie nastaje. Technicznie jest już to możliwe, a skalę zapoczątkowanego zjawiska unaocznił Edward Snowden upubliczniając dokonania Agencji Której Nie Ma.
 
 Powstałe zagadnienia natury etycznej wymagają szerokiej dyskusji. Byłaby ona sensowniejsza przy zrozumieniu działania zewsząd otaczającego nas sprzętu i jego możliwościach. Niestety na początku 21 wieku wiedza ta nie jest powszechna i uważana jest za specjalistyczną. Niniejsza praca jest próbą odczarowania demonów tkwiących w tematyce elektroniki cyfrowej i zmycia z niej znamion nieokiełznanej aury tajemniczości.
 
@@ -133,11 +133,11 @@ Powstałe zagadnienia natury etycznej wymagają szerokiej dyskusji. Byłaby ona 
 Celem pracy jest oprogramowanie za pomocą języka opisu sprzętu (Verliog) układów używanych podczas zajęć laboratoryjnych z Projektowanie Systemów Cyfrowych. Praca polegałaby na przygotowaniu zestawu syntezowalnych bloków HDL do wszystkich elementów płytki „Xilnix Spartan-3AN Starter Kit” (www.xilinx.com/products/devkits/HW-SPAR3AN-SK-UNI-G.htm). Dodatkowo należy opracować modele behawioralne służące do testowania poprawności kodu (poszczególnych modułów sprzętu) tworzonego przez studentów podczas zajęć. Podsumowaniem całości ma być projekt kompleksowo demonstrujący możliwości wyżej wspomnianego sprzętu.
 
 Utworzone moduły behawioralne muszą jak najwierniej odzwierciedlać zachowania układów występujących na płytce.
-Znajdą wtedy zastosowanie w uruchamianych symulacjach przebiegów czasowych danej konfiguracji układu programowalnego FPGA. Dzięki nim możliwe będzie stwierdzenie czy dla zsyntetyzowanej konfiguracji stany linii FPGA prowadzące do konkretnego układu płytki przebiegają poprawnie i czy zachodzi pożądana komunikacja poprzez generowanie przez te moduły stosownych komunikatów. W ten sposób studenci będą mogli testować poprawność działania utworzonej przez siebie konfiguracji bez fizycznego dosępu do sprzętu.
+Znajdą wtedy zastosowanie w uruchamianych symulacjach przebiegów czasowych danej konfiguracji układu programowalnego FPGA. Dzięki nim możliwe będzie stwierdzenie czy dla zsyntetyzowanej konfiguracji stany linii FPGA prowadzące do konkretnego układu płytki przebiegają poprawnie i czy zachodzi pożądana komunikacja poprzez generowanie przez te moduły stosownych komunikatów. W ten sposób studenci będą mogli testować poprawność działania utworzonej przez siebie konfiguracji bez fizycznego dostępu do sprzętu.
 %zsyntetysowanej/wysyntetyzowanej
 
 \section{Elektronika cyfrowa}
-Elektronika cyfrowa operuje na prądach zmiennych, nieokresowych o stałych napięciach. Odróżniane są jedynie dwa stany logiczne - stan wysokiego potencjału będący logicznym wyrażeniem prawdy oraz stan niskiego potencjału - odpowiednik fałszu. Tworzona jest sieć logiczna operująca na zadanych stanach i dostarczająca rezultat działania na swoich wyjściach. Sieć często pracuje w rytm podsuniętego zegaru - okresowego sygnału prostokątnego o 50\% wypełnieniu. Sieć może zapamiętać pewne stany wejściowe i brać je pod uwagę w wyliczaniu następnych cykli.
+Elektronika cyfrowa operuje na prądach zmiennych, nieokresowych o stałych napięciach. Odróżniane są jedynie dwa stany logiczne - stan wysokiego potencjału będący logicznym wyrażeniem prawdy oraz stan niskiego potencjału - odpowiednik fałszu. Tworzona jest sieć logiczna operująca na zadanych stanach i dostarczająca rezultat działania na swoich wyjściach. Sieć często pracuje w rytm podsuniętego zegara - okresowego sygnału prostokątnego o 50\% wypełnieniu. Sieć może zapamiętać pewne stany wejściowe i brać je pod uwagę w wyliczaniu następnych cykli.
 
 \subsection{Logika cyfrowa}
 Każda sieć zbudowana jest jedynie z kilku typów podstawowych operacji logicznych.
@@ -188,7 +188,7 @@ Koniunkcja wyznacza prawdę tylko, gdy wszyscy jej doradcy jednogłośnie ją po
 \end{minipage}
 \begin{minipage}{11cm}
    \includegraphics[width=10cm]{grafika/obwody/circuit-and.png}
-   \caption*{Demostracja koniunkcji zrealizowanej na połączeniach}
+   \caption*{Demonstracja koniunkcji zrealizowanej na połączeniach}
 \end{minipage}
 \end{table}
 
@@ -213,7 +213,7 @@ Alternatywa powiela prawdę, jeśli tak stanowi co najmniej jeden jej doradca.
 \end{minipage}
 \begin{minipage}{11cm}
    \includegraphics[width=10cm]{grafika/obwody/circuit-or.png}
-   \caption*{Demostracja alternatywy zrealizownanej na połączeniach}
+   \caption*{Demonstracja alternatywy zrealizowanej na połączeniach}
 \end{minipage}
 \end{table}
 
@@ -338,7 +338,7 @@ Prawa te są bardzo pomocne do optymalizacji sieci.
 
 
 \subsection{Bramki logiczne}
-Są to układy scalone realizujące wyspecyfikowane przez producenta operacje logiczne. Na samych połączeniach przewodów można jedynie osiągnąć logikę koniunkcji lub alternatywy. Nie da się jednak obecnemu w sieci sygnałowi zaprzeczyć. Możnaby problem obejść używając mechanicznych przekaźników. Właściwsze mogą okazać się tranzystory, tudzież ich zestawy odpowiednio połączone i zatopione w gotowych scalakach nazywanych bramkami logicznymi.
+Są to układy scalone realizujące wyspecyfikowane przez producenta operacje logiczne. Na samych połączeniach przewodów można jedynie osiągnąć logikę koniunkcji lub alternatywy. Nie da się jednak obecnemu w sieci sygnałowi zaprzeczyć. Można by problem obejść używając mechanicznych przekaźników. Właściwsze mogą okazać się tranzystory, tudzież ich zestawy odpowiednio połączone i zatopione w gotowych scalakach nazywanych bramkami logicznymi.
 
 \begin{table}[h!]
 \centering
@@ -418,7 +418,7 @@ Dokumentacja układu określa położenia pinów wejściowych i wyjściowych ka�
 \begin{figure}[htb]
    \centering
    \includegraphics[width=4cm]{grafika/cemi/ucy7438.jpg}
-   \caption*{Egzemlarz bramki logicznej}
+   \caption*{Egzemplarz bramki logicznej}
 \end{figure}
 
 \subsubsection{Hazard}
@@ -466,13 +466,13 @@ Po wyczerpaniu puli na pierwszej pozycji, zajrzy na następną z kolei i tam nap
 
 $0_{min}$ ... $0_{min}$ $1$ $0_{min}$
 
-Ponownie można podmieniać sybmole na pierwszej pozycji zgodnie z porządkiem aż do osiągnięcia symbolu maksymalnego. Wtedy ponownie poszukiwana będzie pozycja pierwsza niemaksymalna i tu algorytm się zapętla.
+Ponownie można podmieniać symbole na pierwszej pozycji zgodnie z porządkiem aż do osiągnięcia symbolu maksymalnego. Wtedy ponownie poszukiwana będzie pozycja pierwsza niemaksymalna i tu algorytm się zapętla.
 
 $0_{min}$ ... $0_{min}$ $1$ $1$
 
 \subsubsection{Liczby binarne}
 
-Stosując tą samą zasadę postępowania można odliczać liczby w dowolnym systemie o uznanym porządku symboli. Logika binarna skraca pulę symboli do dwóch możliwości, odróżniając jedynie sybmole najmnięjszy i największy.
+Stosując tą samą zasadę postępowania można odliczać liczby w dowolnym systemie o uznanym porządku symboli. Logika binarna skraca pulę symboli do dwóch możliwości, odróżniając jedynie sybmole najmniejszy i największy.
 
 $0_{min}$ $1^{max}$
 
@@ -533,17 +533,17 @@ Na dwóch pierwszych pozycjach zostają powtórzone trzy poprzednie kroki, po cz
 
 \subsection{Układy kombinacyjne}
 
-Są to układy cyfrowe, które nie zapamiętują stanów pośrednich obliczeń wewnątrz sieci. Stany wyść są zależne jedynie od stanów bieżących wejść. Są ich funkcją logiczną.
+Są to układy cyfrowe, które nie zapamiętują stanów pośrednich obliczeń wewnątrz sieci. Stany wyjść są zależne jedynie od stanów bieżących wejść. Są ich funkcją logiczną.
 
 Linie wejść/wyjść układów cyfrowych często są liczbami reprezentowanymi w systemie dwójkowym. Uprzednio zaprezentowane nieskończone ciągi cyfr są modelem matematycznym nie mającym odzwierciedlenia w realnych układach elektronicznych na współczesnym etapie rozwoju techniki. Maszyny przejawiają skończoną precyzję obliczeń wykonywaną w skończonym czasie.
 
 W systemie dwójkowym (binarnym) pojedynczą cyfrę nazywa się jednym bitem informacji. Na jednym bicie można zapisać jedną z dwóch możliwych wartości $0_{min}$ lub $1^{max}$. Na dwóch bitach zapisuje się wszystkie dwie możliwości pierwszego bitu zdwukrotnione dwiema możliwościami bitu drugiej pozycji. Razem 4 możliwości. Dodając trzeci bit, również ilość możliwości się dubluje dając 8. I tu uwidacznia się pewna reguła - na $n$ bitach można zapisać jedną z $2^n$ możliwych liczb. Odliczając od zera, liczbą największą będzie $2^n-1$.
 
-\subsubsection{Jednobitowy układ dodający}
+\subsubsection{Jedno-bitowy układ dodający}
 
-Układ ten dodaje dwa jednobitowe sygnały nazwane $A$ i $B$. Jeśli oba wejścia wystawią stan wysoki, wtedy wynik $2$ w systemie binarnym $(10)_2$ jest liczbą dwucyfrową wymagającą dwóch wyjściowych linii $S$ i starszej $C$ (informującej też o przepełnieniu).
+Układ ten dodaje dwa jedno-bitowe sygnały nazwane $A$ i $B$. Jeśli oba wejścia wystawią stan wysoki, wtedy wynik $2$ w systemie binarnym $(10)_2$ jest liczbą dwucyfrową wymagającą dwóch wyjściowych linii $S$ i starszej $C$ (informującej też o przepełnieniu).
 
-Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $S$ jest alternatywą wykluczającą wejść, natomiast $C$ jest ich koniunkcją.
+Po sformułowaniu tablicy prawdy łatwo zauważyć, że linia $S$ jest alternatywą wykluczającą wejść, natomiast $C$ jest ich koniunkcją.
 
 \begin{table}[h!]
 \centering
@@ -564,7 +564,7 @@ Po zformułowaniu tablicy prawdy łatwo zauważyć, że linia $S$ jest alternaty
 \begin{minipage}{11cm}
    \centering
    \includesvg[svgpath = grafika/obwody/]{Half_Adder}
-   \caption*{Sieć logiczna jednobitowego układu dodającego}
+   \caption*{Sieć logiczna jedno-bitowego układu dodającego}
 \end{minipage}
 \end{table}
 
@@ -598,7 +598,7 @@ Dodawanie liczb złożonych z większej liczby bitów wymaga właściwego obchod
 \end{minipage}
 \end{table}
 
-Najpierw dodawane są najmłodsze bity $A_0 = 0$ i $B_0 = 1$, a ich wynikiem, zgodnie z tabelą dodawania jednobitowego, jest $S_0 = 1$. W następnej kolumnie występują dwa stany wysokie, co zgodnie z tabelą wynosi $0$ dla $S_1$, ale ustawiany jest bit przepełnienia $C_2$. Dla trzeciej kolumny ponownie oba wejścia są wysokie, jednak należy także wziąść pod uwagę przepełnienie $C_2$ z poprzedniego kroku. Ta sytuacja dotąd nie została uwzględniona. Należy dla niej zaprezentować ogólniejszą tabelę prawdy uwzględniającą bit przepełnienia z poprzedniego dodawania.
+Najpierw dodawane są najmłodsze bity $A_0 = 0$ i $B_0 = 1$, a ich wynikiem, zgodnie z tabelą dodawania jedno-bitowego, jest $S_0 = 1$. W następnej kolumnie występują dwa stany wysokie, co zgodnie z tabelą wynosi $0$ dla $S_1$, ale ustawiany jest bit przepełnienia $C_2$. Dla trzeciej kolumny ponownie oba wejścia są wysokie, jednak należy także wziąść pod uwagę przepełnienie $C_2$ z poprzedniego kroku. Ta sytuacja dotąd nie została uwzględniona. Należy dla niej zaprezentować ogólniejszą tabelę prawdy uwzględniającą bit przepełnienia z poprzedniego dodawania.
 
 \begin{table}[h!]
 \centering
@@ -643,7 +643,7 @@ Czwarta kolumna otrzymuje przepełnienie i jedną jedynkę, co oznacza zero dla 
 \subsubsection{Multiplexer}
 
 
-\subsubsection{Jednobitowy układ porównujący}
+\subsubsection{Jedno-bitowy układ porównujący}
 
 Układ porównujący stwierdza, czy dwa wejściowe sygnały $A$ i $B$ są sobie równe linią $=$. A jeśli nie są, wtedy określi który z nich reprezentuje większą wartość za pomocą wyprowadzeń $<$ oraz $>$.
 
@@ -666,7 +666,7 @@ Układ porównujący stwierdza, czy dwa wejściowe sygnały $A$ i $B$ są sobie 
 \end{minipage}
 \begin{minipage}{10cm}
    \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
-   \caption*{Sieć logiczna jednobitowego układu porównującego}
+   \caption*{Sieć logiczna jedno-bitowego układu porównującego}
 \end{minipage}
 \end{table}
 
@@ -679,7 +679,7 @@ $x_i= A_i \cdot B_i + \overline{A}_i \cdot \overline{B}_i.$
 
 $(A=B) = x_nx_{n-1} (...) x_2x_1x_0$
 
-Nierówność stwierdza się porównując odpowiadające sobie bity kolejno poczynając od najstarszego aż do wykrycia pierwszej nieprawidłowości. Znak $<$ lub $>$ nierówności klaruje się według porównania jedobitowego na znalezionej pozycji.
+Nierówność stwierdza się porównując odpowiadające sobie bity kolejno poczynając od najstarszego aż do wykrycia pierwszej nieprawidłowości. Znak $<$ lub $>$ nierówności klaruje się według porównania jedno-bitowego na znalezionej pozycji.
 
 $(A>B)=A_3 \cdot \overline{B}_3+x_3 A_2 \overline{B}_2+x_3 x_2 A_1 \overline{B}_1+x_3x_2x_1 A_0 \overline{B}_0$
 
@@ -716,7 +716,7 @@ $(A<B)=\overline{A}_3 \cdot B_3+x_3 \overline{A}_2 B_2+x_3 x_2 \overline{A}_1 B_
 \end{minipage}
 \begin{minipage}{7.5cm}
    \includegraphics[width=7cm]{grafika/obwody/circuit_diagram_2_bit_magnitude_comparator.png}
-   \caption*{Sieć logiczna dwubitowego układu porównującego}
+   \caption*{Sieć logiczna dwu-bitowego układu porównującego}
 \end{minipage}
 \end{table}
 
@@ -746,7 +746,7 @@ W układach sekwencyjnych do pewnych sygnałów wejściowych są przyłączone n
 \end{minipage}
 \begin{minipage}{10cm}
    \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
-   \caption*{Sieć logiczna jednobitowego układu porównującego}
+   \caption*{Sieć logiczna jedno-bitowego układu porównującego}
 \end{minipage}
 \end{table}
 
@@ -771,7 +771,7 @@ Przerzutnik SR zbudowany jest z dwóch bramek NOR lub NAND. Wynik wyjścia jedne
 \end{minipage}
 \begin{minipage}{10cm}
    \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
-   \caption*{Sieć logiczna jednobitowego układu porównującego}
+   \caption*{Sieć logiczna jedno-bitowego układu porównującego}
 \end{minipage}
 \end{table}
 
@@ -786,19 +786,19 @@ Rejestr jest układem pamięciowym przechowującym bity informacji. Jego budowę
 
 \subsubsection{Licznik}
 
-Licznik to układ inkrementujący liczbę przedstawianą binarnie na wyjściu w takt dostarczanego zegara. Zbudować go można łącząc szeregowo przerzutniki typu D. Do pierszego dostarcza się sygnał zegarowy, a sygnałem $C$ dla kolejnych jest wyjście $Q$ z poprzedniego. Każdemu przerzutnikowi z osobna zwiera się wyjście $\lnot Q$ z wejściem $D$. Inkrementowana liczba ujawnia się w ciągu $Q_{n-1} Q_{n-2} .. Q_{0}$.
+Licznik to układ inkrementujący liczbę przedstawianą binarnie na wyjściu w takt dostarczanego zegara. Zbudować go można łącząc szeregowo przerzutniki typu D. Do pierwszego dostarcza się sygnał zegarowy, a sygnałem $C$ dla kolejnych jest wyjście $Q$ z poprzedniego. Każdemu przerzutnikowi z osobna zwiera się wyjście $\lnot Q$ z wejściem $D$. Inkrementowana liczba ujawnia się w ciągu $Q_{n-1} Q_{n-2} .. Q_{0}$.
 
 \subsection{FPGA}
 
-Field Programmable Gate Array jest układem elektronicznym pozwalającym na skonfigurowanie jego zachowania. Konfiguracja taka jest zestawem wygenerowanych danych dostarczonych do FPGA i określa logikę, według której układ ma pracować. Ekwiwalentą logikę przedstawić można układem bramek logicznych i przerzutników.
+Field Programmable Gate Array jest układem elektronicznym pozwalającym na skonfigurowanie jego zachowania. Konfiguracja taka jest zestawem wygenerowanych danych dostarczonych do FPGA i określa logikę, według której układ ma pracować. Ekwiwalentną logikę przedstawić można układem bramek logicznych i przerzutników.
 
 \subsubsection{Architektura}
 
-W układzie FPGA wyszczególnić można elementy nazywane blokami logicznymi, które zwarte są ze sobą siecią konfigurowalnych połączeń. Linie wejściowe bloku logicznego poprowadzone poprzez multipleksery do przerzutników* stają się indeksem komórki pamięci. Wartość tam zapisana będzie wynikiem działania sieci. Pamięć ta przechowuje możliwe stany wyjściowe dla wszystkich kombinacji wejść, stąd nazywna jest tablicą przeszukiwań LUT. Tym sposobem odwzorować można dowolną logikę kombinacyjną.
+W układzie FPGA wyszczególnić można elementy nazywane blokami logicznymi, które zwarte są ze sobą siecią konfigurowalnych połączeń. Linie wejściowe bloku logicznego poprowadzone poprzez multipleksery do przerzutników* stają się indeksem komórki pamięci. Wartość tam zapisana będzie wynikiem działania sieci. Pamięć ta przechowuje możliwe stany wyjściowe dla wszystkich kombinacji wejść, stąd nazywana jest tablicą przeszukiwań LUT. Tym sposobem odwzorować można dowolną logikę kombinacyjną.
 
 Układy FPGA pozwalają na więcej, także odzwierciedlają logikę sekwencyjną. Wynik z tablicy LUT jest poprowadzony przez multiplekser. Jego konfiguracja powoduje bezpośrednie wyprowadzenie sygnału z bloku logicznego lub przeprowadzenie go przez dedykowany przerzutnik (taktowany wspólnym zegarem dla wszystkich bloków). W tym przypadku bloki logiczne spełniają także funkcję pamięciową.
 
-Logika programowalna przechowuje konfigurację swojego działania w rozprosznych w układzie pamięciach RAM. Zapis pamięci o połączeniach między blokami logicznymi, zawartością ich tablic LUT oraz konfiguracją ich multiplekserów dla przerzutników jest konfiguracją układu FPGA. Od zadanej konfiguracji zależy działanie całego układu elektronicznego.
+Logika programowalna przechowuje konfigurację swojego działania w rozproszonych w układzie pamięciach RAM. Zapis pamięci o połączeniach między blokami logicznymi, zawartością ich tablic LUT oraz konfiguracją ich multiplekserów dla przerzutników jest konfiguracją układu FPGA. Od zadanej konfiguracji zależy działanie całego układu elektronicznego.
 
 \subsection{Języki Opisu Sprzętu}
 
@@ -815,9 +815,9 @@ reg rejestr_jednobitowy_z_przypisana_wartoscia = 1'b1;
 reg [7:0] rejestr_8bitowy = 8'haa;
 reg [7:0] pamiec_256_elementow_1bajtowych [255:0];
 \end{lstlisting}
-Rejestry dane przechowują. Można je wpisywać i odczytywać. Prawa strona przypisania zawiera liczbę bitów przedstawianej liczby, po apostrofie definiuje jej system liczbowy zapisu (z dostępnych binarnego $b$, heksadesymalnego $h$ i dziesiętnego $d$), na końcu przedstawia samą liczbę.
+Rejestry dane przechowują. Można je wpisywać i odczytywać. Prawa strona przypisania zawiera liczbę bitów przedstawianej liczby, po apostrofie definiuje jej system liczbowy zapisu (z dostępnych binarnego $b$, heksadecymalnego $h$ i dziesiętnego $d$), na końcu przedstawia samą liczbę.
 
-Drugim typem danych jest połączenie tworzące więź z rejstrem macierzystym.
+Drugim typem danych jest połączenie tworzące więź z rejestrem macierzystym.
 \begin{lstlisting}[label=reg,caption=Polaczenie]
 wire polaczenie_jednobitowe = rejestr_jednobitowy;
 wire [2:0] ekstrakcja_3bitow_z_rejestru = rejestr_8bitowy[3:1];
@@ -826,7 +826,7 @@ wire kombinatoryka = (rejestr_jednobitowy) ? rejestr_8bitowy[4] : 1'b1;
 \end{lstlisting}
 Połączenia mogą jedynie wskazywać dane zamieszczone w rejestrach. Nie można do nich danych zapisywać, do tego celu potrzebny jest bezpośredni dostęp do wskazywanego rejestru. Połączenia mogą ukazywać jedynie interesującą część rejestru dzięki operatorowi ekstrakcji $[ ]$. Mogą też wskazywać części danych zapisanych w kilku innych rejestrach poprzez ich konkatenację $\{\}$. Operator trójargumentowy $? :$ umożliwia zapisanie wyrażeń kombinacyjnych warunkowych.
 
-Dostępne są podstawowe bramki logiczne i poprzez połącznie między nimi modeluje się logikę kombinacyjną, na przykład sumatora jednobitowego.
+Dostępne są podstawowe bramki logiczne i poprzez połączenie między nimi modeluje się logikę kombinacyjną, na przykład sumatora jedno bitowego.
 \begin{lstlisting}[label=Sum1,caption=Sum1.v]
 wire A, B, Cin, Y, Cou;
 wire g1_o, g2_o, g3_o, g4_o;
@@ -855,7 +855,7 @@ always @(posedge clk)
    reg <= reg + 1;
 \end{lstlisting}
 
-Zadeklarowany został 3-bitowy rejestr $counter$ o początkowej zerowej wartości. Wyjście $full$ sformułowane jest kombinacyjnie i osiąga stan wysoki tylko, gdy licznik jest pełny. Na narastjących zboczach dostarczonego z zewnątrz zegara $clk$ wykonuje się blok $always$ inkrementując licznik. W rezultacie sygnał $full$ generowany jest co 8 takt zegara.
+Zadeklarowany został 3-bitowy rejestr $counter$ o początkowej zerowej wartości. Wyjście $full$ sformułowane jest kombinacyjnie i osiąga stan wysoki tylko, gdy licznik jest pełny. Na narastających zboczach dostarczonego z zewnątrz zegara $clk$ wykonuje się blok $always$ inkrementując licznik. W rezultacie sygnał $full$ generowany jest co 8 takt zegara.
 
 Odpowiednikiem obudów układów elektronicznych z wyprowadzonymi pinami są w Verilogu moduły. W ich opisie wyspecyfikowana jest lista wejść i wyjść, a wewnątrz deklarowanego modułu powoływać można instancje innych i modelować połączenia między nimi. Struktura jest hierarchiczna. Zewnętrzne połączenia modułu najwyższego poziomu są wyprowadzeniami pinów FPGA.
 \begin{lstlisting}[label=Top,caption=Top.v]
@@ -999,7 +999,7 @@ Zestaw dostępnych instrukcji zapisany jest makrami asemblera. Pewne makra przyj
 %define JMPZ(addr)  db 00010000b, addr
 \end{lstlisting}
 
-Definicje makr wykorzystuje się do zapisania kodu czytelnieszego dla człowieka, a gotowego do tłumaczenia na kod maszynowy.
+Definicje makr wykorzystuje się do zapisania kodu czytelniejszego dla człowieka, a gotowego do tłumaczenia na kod maszynowy.
 
 \begin{lstlisting}[label=Diods,caption=Diods.asm]
 %include "instructions.asm"
@@ -1035,7 +1035,7 @@ initial begin
 end
 \end{lstlisting}
 
-Sygnał zegarowy definiuje się w opóżnianym czasowo bloku $always$.
+Sygnał zegarowy definiuje się w opóźnianym czasowo bloku $always$.
 \begin{lstlisting}[label=clk,caption=Clk]
 wire clk;
 initial clk = 0;
@@ -1080,7 +1080,7 @@ keyboard/
 
 Wszelkie pliki syntezowalne mieszczą się na pierwszym poziomie w katalogach projektów. Źródła symulacyjne usytuowane są w podkatalogach $sim$. Przygotowane zbiory wykresów położone są w $wcfg$. Katalogi $project$ gromadzą pliki projektów dla środowiska ISE Xilinx oraz alternatywnie skrypty $Makefile$. W nim również składowane są wszelkie pośrednie wyniki procesu syntezy.
 
-Katalogiem szczególnym jest $generic$. W nim składowane są pliki powszechnego zastosowania współdzielone pomiedzy projektami. Sam nie jest projektem. W tym rozdziale zostaną wyszczególnione wszystkie źródła z tego właśnie katalogu.
+Katalogiem szczególnym jest $generic$. W nim składowane są pliki powszechnego zastosowania współdzielone pomiędzy projektami. Sam nie jest projektem. W tym rozdziale zostaną wyszczególnione wszystkie źródła z tego właśnie katalogu.
 
 \subsection{Synteza}
 
@@ -1097,11 +1097,11 @@ Jeśli zegar $50mhz$ jest zbyt szybki, można go spowolnić modułem $ModClk$. B
 \lstinputlisting[label=Spowalniacz,caption=ModClk.v]{../projects/generic/ModClk.v}
 
 \subsubsection{Rejestr przesuwny}
-Rejestr przesuwny zapisuje daną wejściową z interfejsu równoległego do swojego wewnętrznego rejestru w momencie, gdy zauważy podiesioną flagę $set$. Jeśli flagi właczenia $en$ oraz działania $tick$ są ustawione, wtedy moduł rejest przesuwa w lewo, wstawiając dostarczony bit $rx$ w puste miejsce. Wyjściowy bit $tx$ zawsze wskazuje na bit z końca rejestru.
+Rejestr przesuwny zapisuje daną wejściową z interfejsu równoległego do swojego wewnętrznego rejestru w momencie, gdy zauważy podniesioną flagę $set$. Jeśli flagi włączenia $en$ oraz działania $tick$ są ustawione, wtedy moduł rejestr przesuwa w lewo, wstawiając dostarczony bit $rx$ w puste miejsce. Wyjściowy bit $tx$ zawsze wskazuje na bit z końca rejestru.
 \lstinputlisting[label=Rejestr,caption=Shiftreg.v]{../projects/generic/Shiftreg.v}
 
 \subsubsection{Wykrywacz zbocza}
-Wykrywanie zbocza zrealizowane jest przy użyciu rejetru przesuwnego stale zapamiętującego dwie ostatnie wartości śledzonego sygnału w takt podanego zegara. Flagi $pos$ i $neg$ sygnalizują zbocze przy wykryciu właściwego wzorca.
+Wykrywanie zbocza zrealizowane jest przy użyciu rejestru przesuwnego stale zapamiętującego dwie ostatnie wartości śledzonego sygnału w takt podanego zegara. Flagi $pos$ i $neg$ sygnalizują zbocze przy wykryciu właściwego wzorca.
 \lstinputlisting[label=Zbocza,caption=Edge\_Detector.v]{../projects/generic/Edge_Detector.v}
 
 \subsubsection{Serializacja}
@@ -1109,11 +1109,11 @@ Moduł dane serializuje, to jest dane dostarczone szyną równoległą przesyła
 \lstinputlisting[label=Serial,caption=Serial.v]{../projects/generic/Serial.v}
 
 \subsubsection{SPI}
-Serial Peripheral Interface jest popularnym sprzętowym interfejsem komunikacji. Jest on wyjaśniony w części poświęconej DAC-owi. Wykorzystuje moduł serializacji dodając jedynie funcjonalność lini Chip Select.
+Serial Peripheral Interface jest popularnym sprzętowym interfejsem komunikacji. Jest on wyjaśniony w części poświęconej DAC-owi. Wykorzystuje moduł serializacji dodając jedynie funkcjonalność linii Chip Select.
 \lstinputlisting[label=SPI,caption=Spi.v]{../projects/generic/Spi.v}
 
 \subsubsection{Generator impulsów}
-Zadaniem generatora impulsów jest wytwarzanie impulsów jak najbliższych pożadanemu okresowi.
+Zadaniem generatora impulsów jest wytwarzanie impulsów jak najbliższych pożądanemu okresowi.
 \lstinputlisting[label=BaudRateGenerator,caption=BaudRateGenerator.v]{../projects/generic/BaudRateGenerator.v}
 
 \subsubsection{Odwracacz bitów}
@@ -1526,7 +1526,7 @@ Zrealizowany projekt wykorzystuje opisany układ obecny na płytce przetwornika 
 
 \subsubsection{Warstwa wierzchnia}
 
-Moduł najwyższy łączy interfejs SPI przetworników z odfiltrowanymi z drgań sygnałami przycisków i diodami led. Instancjuje także moduł kontrolera i warstwe spajającą interfejs DAC-a z wewnętrznym SPI.
+Moduł najwyższy łączy interfejs SPI przetworników z odfiltrowanymi z drgań sygnałami przycisków i diodami led. Instancjuje także moduł kontrolera i warstwę spajającą interfejs DAC-a z wewnętrznym SPI.
 %% \begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v,firstnumber=14]
 \begin{lstlisting}[label=Top,caption=Top.v]
 module Top (
@@ -1586,7 +1586,7 @@ Pojawienie się nowej wartości należy obwieścić modułowi nadrzędnemu.
 \end{lstlisting}
 
 \subsubsection{DacSpi}
-Jest to warstwa zajmująca się opóżnieniem zegara bazowego oraz doprecyzowaniem ogólnego modułu SPI. $50mHz$ to górna granica działania kostki DAC-ów. Dla pewniejszego działania, zalecane jest niższe taktowanie, co zrealizowane jest modułem $ClkMod$ z podanym parametrem dzielnika $DIV = 6$. Do SPI przekazane zostaje 32-bitowe połączenie spojone z danych uzyskanych od kontrolera i otoczone bitami nieznaczącymi.
+Jest to warstwa zajmująca się opóźnieniem zegara bazowego oraz doprecyzowaniem ogólnego modułu SPI. $50mHz$ to górna granica działania kostki DAC-ów. Dla pewniejszego działania, zalecane jest niższe taktowanie, co zrealizowane jest modułem $ClkMod$ z podanym parametrem dzielnika $DIV = 6$. Do SPI przekazane zostaje 32-bitowe połączenie spojone z danych uzyskanych od kontrolera i otoczone bitami nieznaczącymi.
 \begin{lstlisting}[label=Controller,caption=Controller.v,firstnumber=32]
    wire [WIDTH-1:0] dacdatatosend = {8'h80, command, address, data, 4'h1};
 \end{lstlisting}
@@ -1860,7 +1860,7 @@ Podniesienie linii $DAC\_CS$ oznacza zakończenie nadawania ramki. Wypisywane s�
    end
 \end{lstlisting}
 
-Istotnym aspektem modułu behawioralnego jest zwracanie poprzenio zapamiętanej wartości linią $DAC\_OUT$.
+Istotnym aspektem modułu behawioralnego jest zwracanie poprzednio zapamiętanej wartości linią $DAC\_OUT$.
 \begin{lstlisting}[label=DacLTC2624Behav,caption=DacLTC2624Behav.v,firstnumber=255]
    // Na linii wyjsciowej DAC_OUT beda sie pojawiac kolejne bity wypychane z rejestru przesuwnego daca
    // Nastepuje to na narastajacym zboczu zegara SPI_SCK przy obnizonej linii aktywacji transmisji DAC_CS
@@ -1869,14 +1869,14 @@ Istotnym aspektem modułu behawioralnego jest zwracanie poprzenio zapamiętanej 
 
 \subsubsection{Przebieg}
 
-Przedstawiona symulacja pokazuje wykres przebiegów czasowych linii prowadzących do układu DAC. Pola z bitami nieistonymi przesyłanej ramki są tak dobrane aby pojedynczymi, skrajnymi pikami pokazywały początek i koniec ramki.
+Przedstawiona symulacja pokazuje wykres przebiegów czasowych linii prowadzących do układu DAC. Pola z bitami nieistotnymi przesyłanej ramki są tak dobrane aby pojedynczymi, skrajnymi pikami pokazywały początek i koniec ramki.
 
 \begin{figure}[htb]
    \centering
    \includegraphics[width=15cm]{grafika/dac_sim.png}
 \end{figure}
 
-Zestaw komunikatów z przebigu symulacji.
+Zestaw komunikatów z przebiegu symulacji.
 \begin{lstlisting}[label=dacout,caption=DAC logi]
   301000 INFO3 [ TopTest.TopTestBench_ ]  Zwiekszanie napiecia
   510000 INFO3 [ TopTest.DacLTC2624Behav_ ]  Odbieranie danych
@@ -1921,7 +1921,7 @@ Płytka Spartan 3AN jest wyposażona w obrotowy przełącznik o dwóch wyprowadz
 
 \subsection{Aplikacja}
 
-FPGA po skonfigurowaniu lub zresetowaniu zapala jedną diode, piątą lub szóstą w szeregu. Obrót rotora powoduje przesunięcie stanu wszystkich diód o jedną pozycję w lewo lub w prawo w zależności od kierunku obrotu. Pozycje skrajne się cyklicznie uzupełniają. Rotor można także nacisnąć, co spowoduje zmiane stanu pierwszej diody na przeciwny. Nacisk ma własną linię sygnałową nie powiązaną z obrotowymi.
+FPGA po skonfigurowaniu lub zresetowaniu zapala jedną diode, piątą lub szóstą w szeregu. Obrót rotora powoduje przesunięcie stanu wszystkich diód o jedną pozycję w lewo lub w prawo w zależności od kierunku obrotu. Pozycje skrajne się cyklicznie uzupełniają. Rotor można także nacisnąć, co spowoduje zmianę stanu pierwszej diody na przeciwny. Nacisk ma własną linię sygnałową nie powiązaną z obrotowymi.
 
 \subsection{Synteza}
 
@@ -1982,7 +1982,7 @@ Rejestry pomocnicze zatrzaskują stan linii $rotb$. $rotary\_q1$ gdy wyprowadzen
 
 Dodatkowy rejestr $prev\_rotary\_q1$ przechowuje wartość $rotary\_q1$ z poprzedniej chwili. To umożliwia wykrycie zbocza narastającego $rotary\_q1$, czyli momentu gdy obrót się skończył i oba wyprowadzenia pokrętła są ponownie wysokie w stanie jałowym.
 
-Pogląd na kierunek obrotu daje drugi rejestr pomocniczy $rotary\_q2$. Linie pokrętłą nie kończą wysterowywania obrotu jednocześnie. Kolejność powrotów mówi o kierunku obrotu. $rotary\_q2$ zachowa stan $rotb$ w chwili pierwszego powrotu. Wystarczy teraz sprawdzić zachowany stan $rotary\_q2$, by odpowiedzieć czy ona wróciła pierwsza, co implikowałoby obrót w prawo - zgodny z ruchem wskazówek zegara.
+Pogląd na kierunek obrotu daje drugi rejestr pomocniczy $rotary\_q2$. Linie pokrętła nie kończą wysterowywania obrotu jednocześnie. Kolejność powrotów mówi o kierunku obrotu. $rotary\_q2$ zachowa stan $rotb$ w chwili pierwszego powrotu. Wystarczy teraz sprawdzić zachowany stan $rotary\_q2$, by odpowiedzieć czy ona wróciła pierwsza, co implikowałoby obrót w prawo - zgodny z ruchem wskazówek zegara.
 \begin{lstlisting}[label=Rotor,caption=Rotor.v,firstnumber=22]
     reg prev_rotary_q1 = 1'b0;
     reg rotary_event = 1'b0;
@@ -2092,7 +2092,7 @@ Obrót w prawo jest analogiczny do lewego.
 \end{lstlisting}
 
 
-Po zwolnieniu wciśniętoego przycisku, dołożona jest chwila przerwy.
+Po zwolnieniu wciśniętego przycisku, dołożona jest chwila przerwy.
 \begin{lstlisting}[label=Rotor_behav,caption=Rotor\_behav.v]
    task press_center();
       begin
@@ -2138,7 +2138,7 @@ Finished circuit initialization process.
 
 Rs232 jest asynchronicznym, szeregowym standardem komunikacyjnym. Zdefiniowane są osobne linie do wysyłanych i odbieranych danych. Szybkość transmisji ustala się ręcznie w urządzeniach końcowych.
 
-Stanem wysokim określony jest stan bezczynności. Nadawanie danych rozpoczyna się od opuszczenia linii $tx$ na okres jednego bitu tzw. startowego. Natępnie przesyłane są kolejne bity danych i kończone są wysokim bitem stopu. Standard przewiduje możliwy bit parzystości poprzedzający stop.
+Stanem wysokim określony jest stan bezczynności. Nadawanie danych rozpoczyna się od opuszczenia linii $tx$ na okres jednego bitu tzw. startowego. Następnie przesyłane są kolejne bity danych i kończone są wysokim bitem stopu. Standard przewiduje możliwy bit parzystości poprzedzający stop.
 
 \subsection{Aplikacja}
 Zaimplementowana aplikacja oczekuje wysłania bajtu danych przez urządzenie po drugiej stronie kabla, po czym mu go odsyła w niezmienionej postaci. Działa jak zwykłe echo. Pracuje z prędkością 115200 bitów na sekundę. Nie implementuje bitu parzystości.
@@ -2151,7 +2151,7 @@ Moduł najwyższy w zasadzie przepuszcza wszystkie połączenia do właściwego 
 
 
 \subsubsection{Transmisja}
-Transmiter jest prostszy, zatem od niego warto zacząć. Należy przekazać mu w parametrach taktowanie zegara podstawowego płytki oraz zakładaną prędkość pracy. Aby z modułu skorzystać wystarczy podsunąć wysyłany bajt połączeniem $TxD\_data$, po czym podnieść na jeden cykl $TxD\_start$. Wtedy zacznie formować stan linii wyjściowej $TxD$ poprzez serializacje dostarczonego bajtu wraz z dodatkowymi skrajnymi bitami startu i stopu. Swoją zajętość sygnalizuje flagą $TxD\_busy$.
+Transmiter jest prostszy, zatem od niego warto zacząć. Należy przekazać mu w parametrach taktowanie zegara podstawowego płytki oraz zakładaną prędkość pracy. Aby z modułu skorzystać wystarczy podsunąć wysyłany bajt połączeniem $TxD\_data$, po czym podnieść na jeden cykl $TxD\_start$. Wtedy zacznie formować stan linii wyjściowej $TxD$ poprzez serializację dostarczonego bajtu wraz z dodatkowymi skrajnymi bitami startu i stopu. Swoją zajętość sygnalizuje flagą $TxD\_busy$.
 \begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v]
 module Rs232Tx
 #(
@@ -2185,7 +2185,7 @@ Zalecany standard 232 przewiduje tolerancję niedokładności zegara nie przekra
     );
 \end{lstlisting}
 
-Znany moduł do serializacji zajmuje sie wysyłaniem danych w takt sygnału generowanego przez $BaudRateGenerator$. Dane te należy otoczyć bitem startu i stopu oraz w całości zanegować dla spójności z jałową jedynką.
+Znany moduł do serializacji zajmuje się wysyłaniem danych w takt sygnału generowanego przez $BaudRateGenerator$. Dane te należy otoczyć bitem startu i stopu oraz w całości zanegować dla spójności z jałową jedynką.
 \begin{lstlisting}[label=Rs232Tx,caption=Rs232Tx.v,firstnumber=29]
     // START BIT, data, STOP BIT
     wire [9:0]  rs_data = { 1'b1, ~TxD_data, 1'b0 };
@@ -2258,7 +2258,7 @@ Protokół jest asynchroniczny, więc sygnał zegarowy nie jest przekazywany, co
     );
 \end{lstlisting}
 
-Tutaj instancjalizowany jest rejestr przesuwny dla próbek oraz kreowany układ głosujacy przypisaniem ciągłym.
+Tutaj instancjalizowany jest rejestr przesuwny dla próbek oraz kreowany układ głosujący przypisaniem ciągłym.
 \begin{lstlisting}[label=Rs232Rx,caption=Rs232Rx.v,firstnumber=40]
    wire [2:0]   rx3;
    Shiftreg #(
@@ -2503,7 +2503,7 @@ Zadanie odbierające dane symetrycznie do nadającego spodziewa się bitu startu
    endtask
 \end{lstlisting}
 
-Odbiór bitu realizowany jest w kolejnym dedykowanym zadaniu. Sprawdzane jest, czy linia $rx$ jest stabilna przez dlugość trwania okresu z wyłączeniem początkowego i końcowego możliwego błędu synchronizacji zegarów.
+Odbiór bitu realizowany jest w kolejnym dedykowanym zadaniu. Sprawdzane jest, czy linia $rx$ jest stabilna przez długość trwania okresu z wyłączeniem początkowego i końcowego możliwego błędu synchronizacji zegarów.
 \begin{lstlisting}[label=sim/Rs232 behav,caption=sim/Rs232 behav.v,firstnumber=89]
    // Zadanie odbiera bit probkujac go 3 krotnie
    task receive_bit
@@ -2558,15 +2558,15 @@ Interfejs PS2 występuje najczęściej jako 6 stykowe gniazdo mini-DIN, takie te
    \caption{Port mini-DIN}
 \end{figure}
 
-Styk trzeci jest masą, styk czwarty zasila urządzenia peryferyjne napięciem 5 V podając natężenie nie większe niż 275mA. Linią pierwszą wymieniane są dane w takt zegara na linii piątej. Tyle wystarcza do komunikacji z urządzeniem peryferyjnym myszki lub klawiatury. Połączenia numer dwa i sześć zazwyczaj nie są wykorzystywane. Jednak w rzadkich przypadkach producent może je wykorzystać dla drugiego urządzenia. Wtedy z pomocą kabla rozdzielającego można podłączyć mysz i klawiature do jednego, wspólnego gniazda mini-DIN. To rozwiązanie stosowane jest w starych laptopach oraz na płytce Spartan 3AN dla oszczędności miejsca.
+Styk trzeci jest masą, styk czwarty zasila urządzenia peryferyjne napięciem 5 V podając natężenie nie większe niż 275mA. Linią pierwszą wymieniane są dane w takt zegara na linii piątej. Tyle wystarcza do komunikacji z urządzeniem peryferyjnym myszki lub klawiatury. Połączenia numer dwa i sześć zazwyczaj nie są wykorzystywane. Jednak w rzadkich przypadkach producent może je wykorzystać dla drugiego urządzenia. Wtedy z pomocą kabla rozdzielającego można podłączyć mysz i klawiaturę do jednego, wspólnego gniazda mini-DIN. To rozwiązanie stosowane jest w starych laptopach oraz na płytce Spartan 3AN dla oszczędności miejsca.
 
-Linie zegara i danych wysterowane są wysoko w stanie jałowym. Obie są dwukierunkowe, co jest zrealizowane przez konfigurację otwartego kolektora podciągnietego do stanu wysokiego. Zegar taktowany jest zawsze przez urządzenie peryferyjne z częstotliwością w zakresie $10 - 16.7 kHz$. Urządzenie przesyłając porcje danych do hosta najpierw przesyła niski bit startu, po czym następuje bajt danych w kolejności zaczynającej od bitu najmniej znaczącego, dalej jest bit parzystości i wysoki bit stopu. Stan bitów może być zmieniany w połowie czasu wysokiego zegara, bity odczytywane są przez hosta na zboczu opadającym.
+Linie zegara i danych wysterowane są wysoko w stanie jałowym. Obie są dwukierunkowe, co jest zrealizowane przez konfigurację otwartego kolektora podciągniętego do stanu wysokiego. Zegar taktowany jest zawsze przez urządzenie peryferyjne z częstotliwością w zakresie $10 - 16.7 kHz$. Urządzenie przesyłając porcje danych do hosta najpierw przesyła niski bit startu, po czym następuje bajt danych w kolejności zaczynającej od bitu najmniej znaczącego, dalej jest bit parzystości i wysoki bit stopu. Stan bitów może być zmieniany w połowie czasu wysokiego zegara, bity odczytywane są przez hosta na zboczu opadającym.
 
-Host może wysłać komende do urządzenia. Przetrzymuje on wtedy linie zegarową oraz danych w stanach niskich przez czas co najmniej 100ms. Po tym zwalnia linie zegarową. Jest do żądanie do urządzenia o umożliwienie przesłania danych i wytaktowanie linii zegarowej. Po podaniu zegara, host ustawia bity w chwilach niskiego zegara. Ramka wygląda podobnie zawierając bit startu, bajt danych, parzystość i stop. Jednak po tym następuje dodatkowy bit potwierdzenia. Jest to obniżenie linii danych przez urządzenie i wygenerowania dla niego dodatkowego pulsu zegara. Potwierdza to właściwy odbiór danej.
+Host może wysłać komendę do urządzenia. Przetrzymuje on wtedy linie zegarową oraz danych w stanach niskich przez czas co najmniej 100ms. Po tym zwalnia linie zegarową. Jest do żądanie do urządzenia o umożliwienie przesłania danych i wytaktowanie linii zegarowej. Po podaniu zegara, host ustawia bity w chwilach niskiego zegara. Ramka wygląda podobnie zawierając bit startu, bajt danych, parzystość i stop. Jednak po tym następuje dodatkowy bit potwierdzenia. Jest to obniżenie linii danych przez urządzenie i wygenerowania dla niego dodatkowego pulsu zegara. Potwierdza to właściwy odbiór danej.
 
 \subsection{Klawiatura}
 
-Klawiatura PS2 nadaje momenty wciśniecia lub zwolnienia poszczególnych klawiszy. Jeśli klawisz jest przetrzymany dłużej, wtedy nadawane są przypomnienia jego wciśnięcia w odstępach 100ms.
+Klawiatura PS2 nadaje momenty wciśnięcia lub zwolnienia poszczególnych klawiszy. Jeśli klawisz jest przetrzymany dłużej, wtedy nadawane są przypomnienia jego wciśnięcia w odstępach 100ms.
 
 Kody wciskanych klawiszy, nazywane skan kodami, powiązane są z ich położeniem i wcale się nie zakłada układu QWERTY rozmieszczenia klawiszy. Skan kody wymagają przekonwertowania do odpowiadającego użytkownikowi układu znaków.
 
@@ -2574,11 +2574,11 @@ Skan kod zajmuje jeden bajt. Krótkie wciśnięcie klawisza wysyła jego skan ko
 
 Rozróżnia się klawisze lewego oraz prawego alt-a i cntr-la. Lewe klawisze przesyłane są jak wszystkie pozostałe. Natomiast klawisze prawe poprzedzone są ramką o treści E0.
 
-Do klawiatury można wysyłać polecenia od hosta. Polecenie echo określone bajtem $EE$ powoduje odesłanie przez klawiature tego samego bajtu $EE$. Można ustawić częstotliwość powtarzania wciśniętego klawisze komendą $F3$. Po niej klawiatura odpowiada potwierdzeniem $FA$ i następny bajt przesyła host z żadaną częstotliwośćią. Komenda $ED$ ustawia stan diod led $Caps Lock$, $Scroll Lock$, $Num Lock$. Klawiatura ją także potwierdza odsyłając $FA$ i oczekuje kolejnego bajtu z maską diod.
+Do klawiatury można wysyłać polecenia od hosta. Polecenie echo określone bajtem $EE$ powoduje odesłanie przez klawiaturę tego samego bajtu $EE$. Można ustawić częstotliwość powtarzania wciśniętego klawisze komendą $F3$. Po niej klawiatura odpowiada potwierdzeniem $FA$ i następny bajt przesyła host z żądaną częstotliwością. Komenda $ED$ ustawia stan diod led $Caps Lock$, $Scroll Lock$, $Num Lock$. Klawiatura ją także potwierdza odsyłając $FA$ i oczekuje kolejnego bajtu z maską diod.
 
 \subsection{Aplikacja}
 
-Aplikacja odbiera przeslany przez klawiature bajt i wyświetla go na diodach led. Można zauważyć skan kod wciskanego klawisza oraz mignięcia bajtu F0 przy zwalnianiu. Aplikacja nie przesyła do klawiatury żadnych komend.
+Aplikacja odbiera przesłany przez klawiaturę bajt i wyświetla go na diodach led. Można zauważyć skan kod wciskanego klawisza oraz mignięcia bajtu F0 przy zwalnianiu. Aplikacja nie przesyła do klawiatury żadnych komend.
 
 \subsection{Synteza}
 
@@ -2660,7 +2660,7 @@ Wykrywanie zbocza opadającego zegara zrealizowane jest dwubitowym rejestrem prz
    );
 \end{lstlisting}
 
-Przesyłana ramka zczytywana jest szeregowo na wykrytym zboczu opadającym przy wykorzystaniu modułu serializacji. Moduł odbiera jedynie 10 pierwszych bitów z ramki, ostatni stop bit nie jest zapisywany. Ponieważ pierszy takt zegara ps2 wprawia maszynę stanów w ruch i dopiero włącza serializację do pracy, takt ten nie zostanie policzony wewnątrz serializaji. Obejściem byłoby dopisanie rejestru opóżniającego takty zegara ps2 o cykl i przekazanie go do serializacji lub, co jest prostrze, obcięcie ramki.
+Przesyłana ramka zczytywana jest szeregowo na wykrytym zboczu opadającym przy wykorzystaniu modułu serializacji. Moduł odbiera jedynie 10 pierwszych bitów z ramki, ostatni stop bit nie jest zapisywany. Ponieważ pierwszy takt zegara ps2 wprawia maszynę stanów w ruch i dopiero włącza serializację do pracy, takt ten nie zostanie policzony wewnątrz serializacji. Obejściem byłoby dopisanie rejestru opóźniającego takty zegara ps2 o cykl i przekazanie go do serializacji lub, co jest prostsze, obcięcie ramki.
 \begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=18]
    wire        trig;
    wire        ready;
@@ -2681,7 +2681,7 @@ Przesyłana ramka zczytywana jest szeregowo na wykrytym zboczu opadającym przy 
    );
 \end{lstlisting}
 
-Ramka pozbawiana jest otaczających bitów startu, parzystości i stopu, co ekstrahuje przesyłany bajt danych. Ogólny moduł do obsługi rejestru przesuwnego zaprojektowany został do odbieru bitów w kolejności od najbardziej znaczącego. Protokół PS2 przesyła je w odwrotnej kolejności, przez co wymagane jest użycie dodakowego modułu przywracającego pierwotny porządek. Odebrane dane nie są weryfikowane pod kątem zgodności z bitem parzystości.
+Ramka pozbawiana jest otaczających bitów startu, parzystości i stopu, co ekstrahuje przesyłany bajt danych. Ogólny moduł do obsługi rejestru przesuwnego zaprojektowany został do odbioru bitów w kolejności od najbardziej znaczącego. Protokół PS2 przesyła je w odwrotnej kolejności, przez co wymagane jest użycie dodatkowego modułu przywracającego pierwotny porządek. Odebrane dane nie są weryfikowane pod kątem zgodności z bitem parzystości.
 \begin{lstlisting}[label=Keyboard,caption=Keyboard.v,firstnumber=36]
    // Get rid of start and odd bits, then reverse bit order of the data
    Bits_Reverse reversing (
@@ -2725,11 +2725,11 @@ endmodule
 
 \subsection{Symulacja}
 
-Moduł najwyższy $TopTest$ powołuje zegar, reset, moduł najwyższy syntezowalny oraz przypadek testowy do przeprowadznia.
+Moduł najwyższy $TopTest$ powołuje zegar, reset, moduł najwyższy syntezowalny oraz przypadek testowy do przeprowadzenia.
 
 \subsubsection{Przypadek testowy}
 
-Przypadek testowy powołuje instację zachowawczą klawiatury, po czym operuje na jej zestawie zadań wciskając oraz zwalniając parę z nich.
+Przypadek testowy powołuje instancję zachowawczą klawiatury, po czym operuje na jej zestawie zadań wciskając oraz zwalniając parę z nich.
 \begin{lstlisting}[label=TopTestBench,caption=TopTestBench.v]
 module TopTestBench (
     input RST,
@@ -2761,7 +2761,7 @@ endmodule
 
 \subsubsection{Klawiatura zachowawczo}
 
-Moduł zachowawczy przyjmuje parametr żadanej szczegółowości logowania oraz wysterowywuje linie zegara i danych.
+Moduł zachowawczy przyjmuje parametr żądanej szczegółowości logowania oraz wysterowywuje linie zegara i danych.
 
 \begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v]
 module Keyboard_behav
@@ -2791,7 +2791,7 @@ module Keyboard_behav
 );
 \end{lstlisting}
 
-Ustawiane zostają stałe połowy okresu $HALF\_PERIOD = 7 000 000$ oraz ćwiartka. Instancjalizowane zostją moduły ustawiania linii zegara i danych oraz inicjalizowane zostają stanami wysokimi.
+Ustawiane zostają stałe połowy okresu $HALF\_PERIOD = 7 000 000$ oraz ćwiartka. Instancjalizowane zostają moduły ustawiania linii zegara i danych oraz inicjalizowane zostają stanami wysokimi.
 
 Konstrukcja zadania wysyłającego daną $send\_$ jest bliźniaczo podobna do zadania $transmit$ z modułu $Rs232\_behav$. Wysyłane bity są jedynie zmieniane w połowie wysokiego zegara, a ramka poszerzona jest o bit parzystości wyrażany operatorem redukcji
 \begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v,firstnumber=75]
@@ -2816,7 +2816,7 @@ Zapisane są mapowania klawiszy specjalnych do odpowiadających skan kodów.
    reg [7:0] RELEASE     = 8'hf0;
 \end{lstlisting}
 
-Zdefiniowanych jest pare podstawowych operacji na klawiszach.
+Zdefiniowanych jest parę podstawowych operacji na klawiszach.
 \begin{lstlisting}[label=Keyboard_behav,caption=Keyboard\_behav.v,firstnumber=125]
    // Zadania ogolne do wcisniecia, puszczenia oraz przetrzymania zadanego klawisza
 
@@ -2933,7 +2933,7 @@ Ostatnie zadania operują na przekazanych znakach tablicy ASCII i przesyłają i
 \subsubsection{Przebieg}
 
 
-Wycinek zrzutu ekranu pokazuje przebieg symulacji. Niebieskie markery oddzielają sekwencję dla poszczegolnych klawiszy.
+Wycinek zrzutu ekranu pokazuje przebieg symulacji. Niebieskie markery oddzielają sekwencję dla poszczególnych klawiszy.
 \begin{figure}[htb]
    \centering
    \includegraphics[width=15cm]{grafika/keyboard_sim.png}
@@ -2989,16 +2989,16 @@ Zamieszczone jest wyjście logów dla domyślnych poziomów logowania.
 
 \newpage
 \section{VGA}
-Standard VGA odpowiada za przesłanie obrazu do wyświetlacza. Wprowadziła go firma IBM w 1987 roku w jej linii komputerów ososbistych. Standard definiuje maksymale wymiary obrazu w trybie znakowym jako 720x480, natomiast w trybie  graficznym jest to 640x480 przy 16 lub 256 dostępnych kolorach i częstotliwości odświeżania do 70 Hz. Punkty obrazu, zwane pikselami, przesyłane są w porządku od lewej do prawej kolumny, zaczynając od górnego do dolnego wiersza.
+Standard VGA odpowiada za przesłanie obrazu do wyświetlacza. Wprowadziła go firma IBM w 1987 roku w jej linii komputerów osobistych. Standard definiuje maksymalne wymiary obrazu w trybie znakowym jako 720x480, natomiast w trybie  graficznym jest to 640x480 przy 16 lub 256 dostępnych kolorach i częstotliwości odświeżania do 70 Hz. Punkty obrazu, zwane pikselami, przesyłane są w porządku od lewej do prawej kolumny, zaczynając od górnego do dolnego wiersza.
 
-Po przesłaniu każdego wiersza, następuje chwilowe obniżenie linii synchronizacyjnej $HSYNC$. Natomiast po przesłaniu całej ramki, chwilowo opuszczana jest linia $VSYNC$. W punktach tych i ich pewnym otoczeniu należy uzniemić linie kolorów.
+Po przesłaniu każdego wiersza, następuje chwilowe obniżenie linii synchronizacyjnej $HSYNC$. Natomiast po przesłaniu całej ramki, chwilowo opuszczana jest linia $VSYNC$. W punktach tych i ich pewnym otoczeniu należy uziemić linie kolorów.
 
 Kolor pikseli określa złożenie nasycenia trzech podstawowych barw: czerwonej, zielonej i niebieskiej. Ich stan podawany jest osobnymi liniami analogowo wartościami napięcia z zakresu $0.0V - 0.7V$.
 
 Płytka Spartan wykorzystuje po 4 cyfrowe wyjścia FPGA dla każdej z barw łączone w drabinki rezystorowe tworząc proste ADC.
 
 \subsection{Aplikacja}
-Zaprojektowana aplikacja pokazuje na ekranie przyłączonego wyświetlacza jeden z ośmiu kolorów. Użytkownik wybiera ulubiony kolor posługując się dwoma przyciskami. Jeden z nich przełącza kolor tła na następną dostępną barwe, drugi wraca do poprzedeniej. Końce listy dostępnych barw są połączone, próba wykroczenia poza nią powoduje płynne przejście na jej przeciwny koniec.
+Zaprojektowana aplikacja pokazuje na ekranie przyłączonego wyświetlacza jeden z ośmiu kolorów. Użytkownik wybiera ulubiony kolor posługując się dwoma przyciskami. Jeden z nich przełącza kolor tła na następną dostępną barwę, drugi wraca do poprzedniej. Końce listy dostępnych barw są połączone, próba wykroczenia poza nią powoduje płynne przejście na jej przeciwny koniec.
 
 \subsection{Synteza}
 
@@ -3006,7 +3006,7 @@ Zaprojektowana aplikacja pokazuje na ekranie przyłączonego wyświetlacza jeden
 \iffalse
 \subsubsection{Top}
 \fi
-Moduł najwyższy przyjmuje sygnały zegarowy, resetu oraz dwóch przycisków służacych zmianie koloru wyświetlanego tła. Moduł wyprowadza sygnały synchronizacji ramek i kolumn oraz pożądany kolor podany poprzez trzy czterobitowe rejestry nasycenia czerwieni, błękitu i zieleni.
+Moduł najwyższy przyjmuje sygnały zegarowy, resetu oraz dwóch przycisków służących zmianie koloru wyświetlanego tła. Moduł wyprowadza sygnały synchronizacji ramek i kolumn oraz pożądany kolor podany poprzez trzy czterobitowe rejestry nasycenia czerwieni, błękitu i zieleni.
 
 \begin{lstlisting}[label=Topvga,caption=Top.v]
 module Top (
@@ -3024,12 +3024,12 @@ module Top (
 );
 \end{lstlisting}
 
-Sygnały przycisków przewijania należy pozbawić drgań styków wykorzystując poznany moduł $Debouncer$. Następnie zostają zainstancjonowane moduły $Sync$ służący sychronizacji oraz $Controller$, który obsługuje przyciski i podaje wybrany kolor.
+Sygnały przycisków przewijania należy pozbawić drgań styków wykorzystując poznany moduł $Debouncer$. Następnie zostają zainstancjonowane moduły $Sync$ służący synchronizacji oraz $Controller$, który obsługuje przyciski i podaje wybrany kolor.
 
 \subsubsection{Synchronizacja}
 Standard VGA powstał w czasach monitorów kineskopowych. Technologia ta ukierunkowywuje elektromagnesami naładowaną wiązkę o wybranej energii w punkt na luminoforze, czym wyzwala fotony światła. Momenty gdy wiązka powraca na początek kolejnej linii lub całej ramki są punktami synchronizacji. Podczas powrotów wiązki, a także w chwilach przed i po, musi być ona wygaszona (przez obniżenie wartości składowych kolorów), aby nie zakłócić kolorów nadanych luminoforowi w pierwszym przebiegu.
 
-Zadaniem modułu synchronizacyjnego jest właściwe wytaktowanie linii zawiadamiających o początku nowej ramki lub nowej kolumny. Są to sygnały cyfrowe utrzymywane w stanie wysokim, w chwilach synchronizacji zostają obniżane. Domyślne parametry dostosowane są do przesyłania obrazu rozmiaru 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Odmierzanie czasu przesyłu kolum  bazuje na podstawowym zegarze występującym na płytce o częstotliwości 50 mHz. Natomiast przesłanie ramki sygnalizowane jest po zliczeniu wysłania odpowiedniej liczby kolumn.
+Zadaniem modułu synchronizacyjnego jest właściwe wytaktowanie linii zawiadamiających o początku nowej ramki lub nowej kolumny. Są to sygnały cyfrowe utrzymywane w stanie wysokim, w chwilach synchronizacji zostają obniżane. Domyślne parametry dostosowane są do przesyłania obrazu rozmiaru 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Odmierzanie czasu przesyłu kolumn  bazuje na podstawowym zegarze występującym na płytce o częstotliwości 50 mHz. Natomiast przesłanie ramki sygnalizowane jest po zliczeniu wysłania odpowiedniej liczby kolumn.
 
 Sygnał $dispalying$ określa czy kolory mogą być podawane, sygnały współrzędnych $x$ i $y$ podają bieżącą lokalizuję wiązki.
 
@@ -3086,7 +3086,7 @@ Synchronizacja opiera się na dwóch licznikach. Pierwszy zlicza zegar podstawow
         );
 \end{lstlisting}
 
-Dzięki przypisaniu ciągłemu do warunku logicznego, liczniki w stanach od 0 do długosći trwania pulsu wywołują efekt synchronizacji. Natomiast połączenie $dispalying$ obejmuje również chwile zakazu wyświetlania wokół tych punktów.
+Dzięki przypisaniu ciągłemu do warunku logicznego, liczniki w stanach od 0 do długości trwania pulsu wywołują efekt synchronizacji. Natomiast połączenie $dispalying$ obejmuje również chwile zakazu wyświetlania wokół tych punktów.
 \begin{lstlisting}[label=Syncvga,caption=Sync.v,firstnumber=49]
         assign displaying = (
             i >= H_PW + H_BP &&
@@ -3147,10 +3147,10 @@ Każdy z bitów bieżącego koloru odpowiada jednej ze składowych podstawowych.
 Symulacja musi zweryfikować, czy sygnały synchronizacyjne pojawiają się w spodziewanych okresach oraz czy wtedy oraz w ich otoczeniu wiązka jest wygaszona. Do tego zliczane są linie w ramce.
 
 \subsubsection{Przypadek testowy}
-Zaimplementowana jest symulacja wciśnięć przycisków zmian kolorów. Wciskany jest dwuktrotnie przycisk żadania następnego koloru, po czym raz wciśnięty zostaje przycisk koloru poprzedniego.
+Zaimplementowana jest symulacja wciśnięć przycisków zmian kolorów. Wciskany jest dwukrotnie przycisk żądania następnego koloru, po czym raz wciśnięty zostaje przycisk koloru poprzedniego.
 
 \subsubsection{Moduł behawioralny}
-Za odbiór i sprawdzenie nadawanych sygnałów wtyczki VGA odpowiada moduł $Vga\_Behav$. Przyjmuje trzy czterobitowe sygnały kolorów oraz dwie synchronizajce linii i ramek. Moduł jedynie odbiera sygnały, nie generuje żadnych zwrotnych.
+Za odbiór i sprawdzenie nadawanych sygnałów wtyczki VGA odpowiada moduł $Vga\_Behav$. Przyjmuje trzy czterobitowe sygnały kolorów oraz dwie synchronizujące linii i ramek. Moduł jedynie odbiera sygnały, nie generuje żadnych zwrotnych.
 
 $Vga\_Behav$ przyjmuje szereg parametrów. Domyślne wartości odpowiadają odbiorowi obrazu o rozmiarach 640x480 pikseli przy częstotliwości odświeżania 60 Hz. Czasy niewiele różnią się od tych podanych w dokumentacji do płytki, dostosowane są dla zegara 50 mHz.
 
@@ -3392,7 +3392,7 @@ Finished circuit initialization process.
 
 \subsection{Makefile}
 
-Projekty można zsyntetyzować, przesymulować oraz przesłać na płytke z wykorzystaniem programu GNU make. Skrypt wykorzystuje narzędzia Xilinxa dostępne z linii poleceń. W repozytorium podmodułu generic dostępny jest katalog 'makefile' z szablonami dla wszystkich projektów. Makefile'e projektów wyszczególniają swoje zależne pliki po czym załączają ogólny plik Makefile nazwany 'generic'.
+Projekty można zsyntetyzować, przesymulować oraz przesłać na płytkę z wykorzystaniem programu GNU make. Skrypt wykorzystuje narzędzia Xilinxa dostępne z linii poleceń. W repozytorium podmodułu generic dostępny jest katalog 'makefile' z szablonami dla wszystkich projektów. Makefile'e projektów wyszczególniają swoje zależne pliki po czym załączają ogólny plik Makefile nazwany 'generic'.
 
 \lstinputlisting[label=Makefile,caption=Makefile]{../projects/generic/makefile/generic}
 \lstinputlisting[label=config.ut,caption=config.ut]{../projects/generic/makefile/config.ut}
