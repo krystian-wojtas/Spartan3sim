@@ -808,22 +808,27 @@ Języki te ze swojej natury modelują procesy współbieżne synchronizowane na 
 
 \subsubsection{Verilog}
 
-Odpowiednikiem obudów układów elektronicznych z wyprowadzonymi pinami wejścia i wyjścia są w Verilogu moduły. W ich opisie wyspecyfikowana jest lista wejść i wyjść, a wewnątrz deklarowanego modułu powoływać można instancje innych i modelować połączenia między nimi. Struktura jest hierarchiczna. Zewnętrzne połączenia modułu najwyższego poziomu są wyprowadzeniami pinów FPGA.
+Verilog dysponuje dwoma podstawowymi typami danych. Pierwszym jest rejestr, oto jego deklaracja
+\begin{lstlisting}[label=reg,caption=Rejestr]
+reg rejestr_jednobitowy;
+reg rejestr_jednobitowy_z_przypisana_wartoscia = 1'b1;
+reg [7:0] rejestr_8bitowy = 8'haa;
+reg [7:0] pamiec_256_elementow_1bajtowych [255:0];
+\end{lstlisting}
+Rejestry dane przechowują. Można je wpisywać i odczytywać. Prawa strona przypisania zawiera liczbę bitów przedstawianej liczby, po apostrofie definiuje jej system liczbowy zapisu (z dostępnych binarnego $b$, heksadesymalnego $h$ i dziesiętnego $d$), na końcu przedstawia samą liczbę.
 
-Moduły mogą definiować rejestry dzięki typowi $reg$. Dostęp do informacji tam zawartych można wyprowadzić do innych modułów poprzez połączenia typu $wire$. Jednakże tylko moduł deklarujący rejestr może do niego informację wpisać.
+Drugim typem danych jest połączenie tworzące więź z rejstrem macierzystym.
+\begin{lstlisting}[label=reg,caption=Polaczenie]
+wire polaczenie_jednobitowe = rejestr_jednobitowy;
+wire [2:0] ekstrakcja_3bitow_z_rejestru = rejestr_8bitowy[3:1];
+wire [7:0] konkatenacja_rejestrow = {rejestr_8bitowy[6:0], rejestr_jednobitowy};
+wire kombinatoryka = (rejestr_jednobitowy) ? rejestr_8bitowy[4] : 1'b1;
+\end{lstlisting}
+Połączenia mogą jedynie wskazywać dane zamieszczone w rejestrach. Nie można do nich danych zapisywać, do tego celu potrzebny jest bezpośredni dostęp do wskazywanego rejestru. Połączenia mogą ukazywać jedynie interesującą część rejestru dzięki operatorowi ekstrakcji $[ ]$. Mogą też wskazywać części danych zapisanych w kilku innych rejestrach poprzez ich konkatenację $\{\}$. Operator trójargumentowy $? :$ umożliwia zapisanie wyrażeń kombinacyjnych warunkowych.
 
-Język dopuszcza modelowanie na poziomie bramek logicznych. Przykładowy moduł sumatora jednobitowego można przedstawić następująco.
-
+Dostępne są podstawowe bramki logiczne i poprzez połącznie między nimi modeluje się logikę kombinacyjną, na przykład sumatora jednobitowego.
 \begin{lstlisting}[label=Sum1,caption=Sum1.v]
-module Sum1
-(
-   input wire A,
-   input wire B,
-   input wire Cin,
-   output wire Y,
-   output wire Cou
-);
-
+wire A, B, Cin, Y, Cou;
 wire g1_o, g2_o, g3_o, g4_o;
 
 and g1(g1_o, A, B);
@@ -831,48 +836,54 @@ xor g4(g4_o, A, B);
 and g2(g2_o, Cin, g4_o);
 or  g3(Cout, g1_o, g2_o);
 xor g5(Y, Cin, g4_0);
-
-endmodule
 \end{lstlisting}
 
-Jednakże właściwsze jest modelowanie na wyższym poziomie abstrakcji zwanym zachowawczym. Syntezator zdolny jest sam podstawić bramki pod logikę, którą się mu przedstawi nie wprost.
+Jednakże właściwsze jest modelowanie na wyższym poziomie abstrakcji zwanym zachowawczym. Syntezator zdolny jest sam podstawić bramki pod logikę, którą się mu przedstawi opisowo.
 
 \begin{lstlisting}[label=Sum1,caption=Sum1.v]
-module Sum1
-(
-   input wire A,
-   input wire B,
-   input wire Cin,
-   output wire Y,
-   output wire Cout
-);
+wire A, B, Cin, Y, Cout;
 
 { Cout, Y } = A + B + Cin;
-
-endmodule
 \end{lstlisting}
 
-Zastosowany tu został operator konkatenacji $\{\}$ do złączenia wyjść jednobitowych w szerszy twór dwubitowy, przyjmujący rezultat sumy i możliwe przepełnienie wyniku.
-
-Do zamodelowania logiki sekwencyjnej posłużyć się należy rejestrem i blokiem $always$. Przykładowy timer zlicza takty zegara głównego i w równych odstępach czasu informuje o swoich przepełnieniach.
-
+Do zamodelowania logiki sekwencyjnej posłużyć się należy rejestrem i blokiem $always$ czułym na zbocze zegara. Zapisywanie wartości do konkretnego rejestru dozwolone jest tylko w jednym, dedykowanym bloku $always$. Przykładowy timer zlicza takty zegara głównego i w równych odstępach czasu informuje o swoich przepełnieniach.
 \begin{lstlisting}[label=Timer,caption=Timer.v]
-module Timer
+reg [2:0] counter = 3'd0;
+wire full = reg == 3'b111;
+
+always @(posedge clk)
+   reg <= reg + 1;
+\end{lstlisting}
+
+Zadeklarowany został 3-bitowy rejestr $counter$ o początkowej zerowej wartości. Wyjście $full$ sformułowane jest kombinacyjnie i osiąga stan wysoki tylko, gdy licznik jest pełny. Na narastjących zboczach dostarczonego z zewnątrz zegara $clk$ wykonuje się blok $always$ inkrementując licznik. W rezultacie sygnał $full$ generowany jest co 8 takt zegara.
+
+Odpowiednikiem obudów układów elektronicznych z wyprowadzonymi pinami są w Verilogu moduły. W ich opisie wyspecyfikowana jest lista wejść i wyjść, a wewnątrz deklarowanego modułu powoływać można instancje innych i modelować połączenia między nimi. Struktura jest hierarchiczna. Zewnętrzne połączenia modułu najwyższego poziomu są wyprowadzeniami pinów FPGA.
+\begin{lstlisting}[label=Top,caption=Top.v]
+module Top
 (
-   input clk,
-   output full,
+   input wire clk,
+   input wire rst,
+   input wire [3:0] buttons,
+   output wire [7:0] leds
 );
 
-reg [2:0] counter = 3'd0;
-assign full = reg == 3'b111;
+wire blink_led;
+wire light_all_leds;
 
-alway @(posedge clk)
-   reg <= reg + 1;
+Controller controller_(
+    .buttons(buttons)
+    .blink_led(blink_led),
+    .light_all_leds(light_all_leds)
+);
+
+Leds leds_(
+    .leds(leds),
+    .blink_led(blink_led),
+    .light_all_leds(light_all_leds)
+);
 
 endmodule
 \end{lstlisting}
-
-Zadeklarowany został 3-bitowy rejestr $counter$ o początkowej zerowej wartości. Wyjście $full$ zamodelowane zostało kombinacyjnie i osiągnie stan wysoki tylko, gdy licznik jest pełny. Na narastjących zboczach dostarczonego z zewnątrz zegara $clk$ wykonuje się blok $always$ inkrementując licznik. Moduł ten generuje sygnał $full$ co 8 takt zegara.
 
 \subsubsection{Procesor}
 
@@ -887,24 +898,24 @@ Jego możliwości przedstawia tabela
 \begin{tabular}{ | l | l | l | }
   \hline
   Kod maszynowy  & Instrukcja & Opis \\ \hline
-  00000 xxx OP1$_8$  & LDI OP1$_8$     & Ładuje do akumulatora wartość OP1$_8$ podaną w instrukcji \\ \hline
-  00101 ADDR$_{11}$    & LD ADDR$_{11}$ & Ładuje do akumulatora wartość dostępną pod adresem ADDR$_{11}$ \\ \hline
-  00110 ADDR$_{11}$    & ST ADDR$_{11}$ & Zapisuje wartość z akumulatora pod adresem ADDR$_{11}$ \\ \hline
-  10000 xxx OP1$_8$  & ADD OP1$_8$  & Dodaje do akumulatora wartość podaną w instrukcji OP1$_8$ \\ \hline
-  10001 xxx OP1$_8$  & SUB OP1$_8$  & Odejmuje od akumulatora wartość podaną w instrukcji OP1$_8$ \\ \hline
-  10010 xxx OP1$_8$  & AND OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną AND z operandem OP1$_8$ \\ \hline
-  10011 xxx OP1$_8$  & OR  OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną OR  z operandem OP1$_8$ \\ \hline
-  10100 xxx OP1$_8$  & XOR OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną XOR z operandem OP1$_8$ \\ \hline
-  10101 xxx xxxxxxxx & NOT          & Wykonuje na akumulatorze funkcję logiczną NOT \\ \hline
-  10111 xxx xxxxxxxx & LR           & Przesuwa wartość akumulatora w lewo \\ \hline
-  11000 xxx xxxxxxxx & RR           & Przesuwa wartość akumulatora w prawo \\ \hline
-  00001 ADDR$_{11}$ & JMP  ADDR$_{11}$ & Następne instrukcje procesor wykonana spod adresu ADDR$_{11}$ \\ \hline
-  00010 ADDR$_{11}$ & JMPZ ADDR$_{11}$ & Jeśli w akumulatorze jest wartość zero, to następne instrukcje procesor wykonana spod adresu ADDR$_{11}$ \\ \hline
+  0000 xxxx OP1$_8$  & LDI OP1$_8$     & Ładuje do akumulatora wartość OP1$_8$ podaną w instrukcji \\ \hline
+  0001 ADDR$_{12}$   & LD ADDR$_{12}$ & Ładuje do akumulatora wartość dostępną pod adresem ADDR$_{12}$ \\ \hline
+  0010 ADDR$_{12}$   & ST ADDR$_{12}$ & Zapisuje wartość z akumulatora pod adresem ADDR$_{12}$ \\ \hline
+  0011 xxxx OP1$_8$  & ADD OP1$_8$  & Dodaje do akumulatora wartość podaną w instrukcji OP1$_8$ \\ \hline
+  0100 xxxx OP1$_8$  & SUB OP1$_8$  & Odejmuje od akumulatora wartość podaną w instrukcji OP1$_8$ \\ \hline
+  0101 xxxx OP1$_8$  & AND OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną AND z operandem OP1$_8$ \\ \hline
+  0110 xxxx OP1$_8$  & OR  OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną OR  z operandem OP1$_8$ \\ \hline
+  0111 xxxx OP1$_8$  & XOR OP1$_8$  & Wykonuje na akumulatorze funkcję logiczną XOR z operandem OP1$_8$ \\ \hline
+  1000 xxxx xxxxxxxx & NOT          & Wykonuje na akumulatorze funkcję logiczną NOT \\ \hline
+  1001 xxxx xxxxxxxx & LR           & Przesuwa wartość akumulatora w lewo \\ \hline
+  1010 xxxx xxxxxxxx & RR           & Przesuwa wartość akumulatora w prawo \\ \hline
+  1011 ADDR$_{12}$ & JMP  ADDR$_{12}$ & Następne instrukcje procesor wykonana spod adresu ADDR$_{12}$ \\ \hline
+  1100 ADDR$_{12}$ & JMPZ ADDR$_{12}$ & Jeśli w akumulatorze jest wartość zero, to następne instrukcje procesor wykonana spod adresu ADDR$_{12}$ \\ \hline
   \hline
 \end{tabular}
 \end{figure}
 
-Są instrukcje bezargumentowe jak zaprzeczenie NOT oraz przesunięcia LR i RR. Reszta wymaga argumentu w postaci adresu pamięci $ADDR_{11}$ lub operandu $OP1_8$. Wartości te zakodowane są bezpośrednio w instrukcji na dalszych bitach.
+Są instrukcje bezargumentowe jak zaprzeczenie NOT oraz przesunięcia LR i RR. Reszta wymaga argumentu w postaci adresu pamięci $ADDR_{12}$ lub operandu $OP1_8$. Wartości te zakodowane są bezpośrednio w instrukcji na dalszych bitach.
 
 \begin{lstlisting}[label=CPU,caption=CPU.v]
 module CPU
@@ -915,14 +926,14 @@ module CPU
 );
 
 reg [7:0] ACC;
-reg [10:0] PC, PCtmp;
+reg [11:0] PC, PCtmp;
 reg [15:0] IR;
-wire [4:0] OPCODE=IR[15:11];
-wire [10:0] ADDR=IR[10:0];
+wire [3:0] OPCODE=IR[15:12];
+wire [11:0] ADDR=IR[11:0];
 wire [7:0] OP1 = IR[7:0];
 
 reg [15:0] PROM [0:2047];
-reg [7:0] RAM [0:2047];
+reg [7:0] RAM [0:4095];
 assign outport = RAM[7:0][0];
 
 always @(posedge clk)
@@ -934,8 +945,8 @@ always @(posedge clk)
 
 always @*
    case(OPCODE)
-      5'b00001: PCtmp=ADDR;
-      5'b00010: if(ACC == 7'd0) PCtmp = ADDR; else PCtmp = PC + 1;
+      4'b1010: PCtmp=ADDR;
+      4'b1011: if(ACC == 7'd0) PCtmp = ADDR; else PCtmp = PC + 1;
       default: PCtmp = PC + 1;
    endcase
 
@@ -943,21 +954,21 @@ always @(posedge clk) begin
    case(OPCODE)
 
       // Load immediate value
-      5'b00000: ACC <= OP1
+      4'b0000: ACC <= OP1
 
       // Load from / store to RAM
-      5'b00101: ACC <= RAM[ADDR];
-      5'b00110: RAM[ADDR] <= ACC;
+      4'b0001: ACC <= RAM[ADDR];
+      4'b0010: RAM[ADDR] <= ACC;
 
       // ALU
-      5'b10000: ACC <= ACC + OP1;
-      5'b10001: ACC <= ACC - OP1;
-      5'b10010: ACC <= ACC & OP1;
-      5'b10011: ACC <= ACC | OP1;
-      5'b10100: ACC <= ACC ^ OP1;
-      5'b10101: ACC <= ~ ACC;
-      5'b10111: ACC <= { ACC[0], ACC[7:1] };
-      5'b11000: ACC <= { ACC[6:0], ACC[7] };
+      4'b0011: ACC <= ACC + OP1;
+      4'b0100: ACC <= ACC - OP1;
+      4'b0101: ACC <= ACC & OP1;
+      4'b0110: ACC <= ACC | OP1;
+      4'b0111: ACC <= ACC ^ OP1;
+      4'b1000: ACC <= ~ ACC;
+      4'b1001: ACC <= { ACC[6:0], ACC[7] };
+      4'b1100: ACC <= { ACC[0], ACC[7:1] };
    endcase
 
 endmodule
@@ -967,7 +978,47 @@ Moduł rozpoczyna się od zadeklarowania pamięci danych RAM, instrukcji PROM or
 
 W każdym takcie zegarowym procesor uaktualnia sobie wskaźnik następnej wykonywanej instrukcji oraz pobiera ją z pamięci. Następną instrukcją zazwyczaj jest kolejną w programie, chyba że zdekodowana została instrukcja skoku $JMP$. Wtedy procesor przeniesie wykonania programu pod instrukcję zadaną w argumencie adresu. Jeśli zdekodowany został skok warunkowy $JMPZ$, to najpierw sprawdzona zostaje zawartość akumulatora i skok nastąpi tylko przy jego zerowej wartości.
 
-Ostatni blok wykonuje operacje na akumulatorze i zawiera jednostkę arytmetyczno-logiczną.
+Ostatni blok zawiera jednostkę arytmetyczno-logiczną i wykonuje operacje na akumulatorze według zadawanych instrukcji.
+
+\subsection{Program}
+
+Zestaw instrukcji w przedstawionym kodzie maszynowym należy procesorowi dostarczyć, a wcześniej je wygenerować. Język nazywany asemblerem zamienia mnemoniki instrukcji czytelniejsze dla człowieka na właściwy kod maszynowy konkretnego procesora.
+
+Zestaw dostępnych instrukcji zapisany jest makrami asemblera. Pewne makra przyjmują parametr adresu $addr$ lub operandu $op1$ dokładnie jak odpowiadająca generowana instrukcja.
+\begin{lstlisting}[label=Instrukcje,caption=Instructions.asm]
+%define LDI(op1)    db 00000000b, op1
+%define LD(addr)    db 00000001b, addr
+%define ST(addr)    db 00000010b, addr
+%define ADD(op1)    db 00000011b, op1
+%define SUB(op1)    db 00000100b, op1
+%define AND(op1)    db 00000101b, op1
+%define OR(op1)     db 00000110b, op1
+%define XOR(op1)    db 00000111b, op1
+%define NOT         db 00001000b, 0
+%define LR          db 00001001b, 0
+%define RR          db 00001010b, 0
+%define JMP(addr)   db 00001011b, addr
+%define JMPZ(addr)  db 00001100b, addr
+\end{lstlisting}
+
+Definicje makr wykorzystuje się do zapisania kodu czytelnieszego dla człowieka, a gotowego do tłumaczenia na kod maszynowy.
+
+\begin{lstlisting}[label=Diods,caption=Diods.asm]
+%include "instructions.asm"
+
+LDI(00110011b) ; zaladowanie wartosci do akumulatora
+rotate:
+ST(0)          ; przepisanie aktualnego stanu akumulatora do pamieci pod adres 0, zapalenie odpowiadajacych sobie diod
+LR             ; obrocenie rejestru akumulatora w lewo
+JMP(rotate)    ; ponowne obroty wykonywany nieskonczenie
+\end{lstlisting}
+Program najpierw załącza definicję makr dostępnych instrukcji, po czym bazując na nich zapisuje swój przebieg działania. Pierwsze bajty programu to instrukcja ładująca wartość $33_{16}$ do rejestru akumulatora. Następna instrukcja $ST(0)$ zaetykietowana $rotate$ przepisuje zawartość akumulatora do pamięci pod adres $0$. Wartość spod tego specjalnego adresu jest wyprowadzana na piny wyjściowe procesora. Spowoduje to zaświecenie 4 diod. Dalej akumulator jest obracany w lewo, po czym następuje skok programu pod etykietę $rotate$. Nowa wartość zostaje wyprowadzona, co zapali 4 inne diody i wygasi resztę. I ponowny skok, program się zapętla rytmicznie przesuwając świecenie zestawu 4 diod.
+
+Translacja dokonana jest asemblerem yasm i pokazany jest zrzut pliku wyjściowego w formie heksadecymalnej. Powstały kod maszynowy jest zgodny z oczekiwaniami.
+\begin{lstlisting}[label=translacja,caption=Translacja]
+$ yasm -o out.bin program.asm && hd out.bin
+00 33 02 00 09 00 0b 02
+\end{lstlisting}
 
 \subsubsection{Symulacja}
 
