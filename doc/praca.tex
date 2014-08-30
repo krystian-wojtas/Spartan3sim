@@ -980,7 +980,7 @@ W każdym takcie zegarowym procesor uaktualnia sobie wskaźnik następnej wykony
 
 Ostatni blok zawiera jednostkę arytmetyczno-logiczną i wykonuje operacje na akumulatorze według zadawanych instrukcji.
 
-\subsection{Program}
+\subsubsection{Program}
 
 Zestaw instrukcji w przedstawionym kodzie maszynowym należy procesorowi dostarczyć, a wcześniej je wygenerować. Język nazywany asemblerem zamienia mnemoniki instrukcji czytelniejsze dla człowieka na właściwy kod maszynowy konkretnego procesora.
 
@@ -1044,10 +1044,6 @@ always #40 clk <= ~clk;
 \end{lstlisting}
 
 Tak przygotowane sygnały podłączone zostają do instancji CPU, a przebieg działania i stanów sygnałów przedstawiony jest poniżej.
-
-\subsection{CMOS}
-
-Na przedstawionych elementach analogowych opiera się elektronika cyfrowa. Jednak nie wykorzystuje ona pełnych zakresów prac zaadoptowanych tranzystorów. Wystarczają jej jedynie dwa binarne stany - nasycenia, nazywany stanem wysokim lub logiczną jedynką oraz pracy będący stanem niskim, tudzież logicznym zerem. Sieć logiczna operuje stanami wejściowymi dostarczając rezultat działania na swoim wyjściu.
 
 
 \newpage
