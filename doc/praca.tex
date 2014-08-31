@@ -953,7 +953,7 @@ endmodule
 
 Na FPGA można zaimplementować logikę arytmetyczną operującą na tych samych rejestrach. Operacje następowałyby pojedynczo w kolejności uzależnionej od ciągu dostarczonych instrukcji nazywanych programem. Co więcej, specjalne instrukcje skoku warunkowego sprawdzałyby stan bieżących obliczeń i od ich zależności mogłyby zakłócić porządek wykonywanego programu zmieniając aktualną pozycję w wykonywanym ciągu instrukcji. Taką konstrukcję nazywa się procesorem.
 
-Przykładowy prosty procesor operuje na jednym 8-bitowym rejestrze zwanym akumulatorem. Ma on dostęp do pamięci RAM również o 8-bitowej szerokości szyny danych. Wszystkie instrukcje są jednakowej długości 2 bajtów i ulokowane są w oddzielnej pamięci PROM. Doprecyzowując procesor ten jest 8-bitowym przedstawicielem rodziny RISC (Reduced Instruction Set Computing) o architekturze harwardzkiej.
+Przykładowy prosty procesor operuje na jednym 8-bitowym rejestrze zwanym akumulatorem. Ma on dostęp do pamięci RAM również o 8-bitowej szerokości szyny danych. Wszystkie instrukcje są jednakowej długości 2 bajtów i ulokowane są w oddzielnej pamięci PROM. Doprecyzowując procesor ten jest 8-bitowym potokowym przedstawicielem rodziny RISC o architekturze harwardzkiej.
 
 Jego możliwości przedstawia tabela
 
@@ -978,7 +978,9 @@ Jego możliwości przedstawia tabela
 \end{tabular}
 \end{figure}
 
+
 Są instrukcje bezargumentowe jak zaprzeczenie NOT oraz przesunięcia LR i RR. Reszta wymaga argumentu w postaci 12-bitowego adresu pamięci $\{ADDR\}_{12}$ lub 8-bitowego operandu $\{OP1\}_8$. Wartości te zakodowane są bezpośrednio w instrukcji na dalszych bitach.
+
 
 \begin{lstlisting}[label=CPU,caption=CPU.v]
 module Top
@@ -1037,6 +1039,7 @@ always @(posedge clk)
 
 endmodule
 \end{lstlisting}
+
 
 Moduł rozpoczyna się od zadeklarowania pamięci danych RAM, instrukcji PROM oraz niezbędnych rejestrów akumulatora ACC, wskaźników bieżącej instrukcji PC, PCtmp oraz rejestru z pobraną bieżącą instrukcją IR. Poprzez połączenia wyekstrahowane są z rejestru instrukcji pola mnemonika OPCODE, adresu ADDR oraz operandu OP1.
 
@@ -1108,6 +1111,12 @@ always #40 clk <= ~clk;
 \end{lstlisting}
 
 Tak przygotowane sygnały podłączone zostają do instancji CPU, a przebieg działania i stanów sygnałów przedstawiony jest poniżej.
+
+\begin{figure}[htb]
+   \centering
+   \includegraphics[width=17cm]{grafika/cpu.png}
+   \caption*{Przebieg symulacji działania CPU}
+\end{figure}
 
 
 \newpage
