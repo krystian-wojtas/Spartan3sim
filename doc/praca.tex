@@ -1090,7 +1090,6 @@ $ yasm -o out.bin program.asm && hd out.bin
 
 %% Zamodelowaną logikę i jej poprawność można sprawdzić w symulatorze. Pokazuje on wykres przebiegów stanów interesujących sygnałów w czasie.
 
-
 Moduły syntezowalne dla FPGA dobrze jest przesymulować dla zweryfikowania poprawności działania zamodelowanej logiki. Moduły symulacyjne instancjonują wierzchnią warstwę syntezy i zwykle podłączają im linie zegarowe i resetu. Linie te należy zdefiniować, a w tym celu używa się niesyntezowalnych instrukcji spowolnienia czasu. W przykładzie sygnał resetu ustawiany jest wysoko przez krótki czas, po czym wraca do stanu niskiego.
 \begin{lstlisting}[label=reset,caption=Reset]
 wire rst;
@@ -1107,17 +1106,18 @@ Sygnał zegarowy definiuje się w opóźnianym czasowo bloku $always$.
 \begin{lstlisting}[label=clk,caption=Clk]
 wire clk;
 initial clk = 0;
-always #40 clk <= ~clk;
+always #10 clk <= ~clk;
 \end{lstlisting}
 
-Tak przygotowane sygnały podłączone zostają do instancji CPU, a przebieg działania i stanów sygnałów przedstawiony jest poniżej.
+Tak przygotowane sygnały podłączone zostają do instancji CPU i uruchomione w symulacji.
 
 \begin{figure}[htb]
    \centering
-   \includegraphics[width=17cm]{grafika/cpu.png}
+   \includegraphics[width=18cm]{grafika/cpu.png}
    \caption*{Przebieg symulacji działania CPU}
 \end{figure}
 
+Symulacja przedstawia wykres stanów sygnałów w czasie. Zgodnie z oczekiwaniami zegar zmienia swój poziom co 10 ns, natomiast sygnał resetu został podniesiony na 40ns. Po tym procesor zaczął pracować. Po porównaniu opkodów kolejno wykonywanych instrukcji z zapisem programu nasuwa się wniosek o poprawności działania zamodelowanego układu.
 
 \newpage
 \section{Moduły ogólnego przeznaczenia}
