@@ -16,6 +16,10 @@
 \usepackage{wrapfig}
 \usepackage{svg}
 \usepackage{amsmath}
+%% \usepackage{tikz}
+\usepackage{circuitikz}
+%% \usetikzlibrary{circuits}
+%% \usepackage{verbatim}
 
 \geometry{hmargin={2cm, 2cm}, height=10.0in}
 \DeclareCaptionFont{white}{\color{white}}
@@ -344,32 +348,44 @@ Są to układy scalone realizujące wyspecyfikowane przez producenta operacje lo
 \centering
 \begin{minipage}{2.5cm}
    \centering
-   \includegraphics{grafika/obwody/not.png}
+\begin{circuitikz}[scale =1.2]
+\draw (0,0) node[not port] () {} ;
+ \end{circuitikz}
    \caption*{negacja}
 \end{minipage}
 \begin{minipage}{2.5cm}
    \centering
-   \includegraphics{grafika/obwody/and.png}
+\begin{circuitikz}[scale =1.2]
+\draw (0,0) node[and port] (myand2) {} ;
+ \end{circuitikz}
    \caption*{koniunkcja}
 \end{minipage}
 \begin{minipage}{2.5cm}
    \centering
-   \includegraphics{grafika/obwody/or.png}
+\begin{circuitikz}[scale =1.2]
+\draw (0,0) node[or port] () {} ;
+ \end{circuitikz}
    \caption*{alternatywa}
 \end{minipage}
 \begin{minipage}{2.5cm}
    \centering
-   \includegraphics{grafika/obwody/xor.png}
+\begin{circuitikz}[scale =1.2]
+\draw (0,0) node[xor port] () {} ;
+ \end{circuitikz}
    \caption*{alternatywa wykluczająca}
 \end{minipage}
 \begin{minipage}{2.5cm}
    \centering
-   \includegraphics{grafika/obwody/nand.png}
+\begin{circuitikz}[scale =1.2]
+\draw (0,0) node[nand port] () {} ;
+ \end{circuitikz}
    \caption*{zaprzeczona koniunkcja}
 \end{minipage}
 \begin{minipage}{2.5cm}
    \centering
-   \includegraphics{grafika/obwody/nor.png}
+\begin{circuitikz}[scale =1.2]
+\draw (0,0) node[nor port] () {} ;
+ \end{circuitikz}
    \caption*{zaprzeczona alternatywa}
 \end{minipage}
 
@@ -665,7 +681,34 @@ Układ porównujący stwierdza, czy dwa wejściowe sygnały $A$ i $B$ są sobie 
 \end{tabular}
 \end{minipage}
 \begin{minipage}{10cm}
-   \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
+\begin{circuitikz}[scale =1.2]
+\draw
+      (2,3) node[not port] (not1) {}
+      (0.3,3) node[anchor=east] {A} -| (not1.in)
+      (2,0) node[not port] (not2) {}
+      (0.3,0) node[anchor=east] {B} -| (not2.in)
+      (4,2) node[and port] (and1) {}
+      (4,1) node[and port] (and2) {}
+      (1,3) to [short, *-] (1,1.23) -|  (and2.in 1)
+      (0.6,0) to [short, *-] (0.6,1.77) -| (1,1.77) -| (and1.in 2)
+      (6,1.5) node[nor port] (nor1) {} -| (6.3,1.5) node[anchor=west] {A=B}
+      (not1.out) -| (and1.in 1)
+      (not2.out) -| (and2.in 2)
+      (and1.out) to[short, -*] (4.5,2) -| (4.5,1.73) -| (nor1.in 1)
+      (4.5,2) -| (4.5,3) -| (6.3,3) node[anchor=west] {A$<$B}
+      (and2.out) to[short, -*] (4.5,1) -| (4.5,1.26) -| (nor1.in 2)
+      (4.5,1) -| (4.5,0) -| (6.3,0) node[anchor=west] {A$>$B}
+;
+ \end{circuitikz}
+
+%% \draw (0,2) node[and port] (myand1) {}
+%%       (0,0) node[and port] (myand2) {}
+%%       (2,1) node[xnor port] (myxnor) {}
+%%       (myand1.out) -| (myxnor.in 1)
+%%       (myand2.out) -| (myxnor.in 2);
+%%  \end{circuitikz}
+
+   %% \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
    \caption*{Sieć logiczna jedno-bitowego układu porównującego}
 \end{minipage}
 \end{table}
@@ -745,8 +788,23 @@ W układach sekwencyjnych do pewnych sygnałów wejściowych są przyłączone n
 \end{tabular}
 \end{minipage}
 \begin{minipage}{10cm}
-   \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
-   \caption*{Sieć logiczna jedno-bitowego układu porównującego}
+\begin{circuitikz}[scale =1.2]
+\draw
+      (2,2) node[nor port] (nor1) {}
+      (2,0) node[nor port] (nor2) {}
+      (0,2.23) node[anchor=east] {R} -| (nor1.in 1)
+      (0,-0.23) node[anchor=east] {S} -| (nor2.in 2)
+
+      %% (nor1.out) to[short, -*] (2.6,2) -| (2.6,1.4) -| (0.3,0.23) -- (nor2.in 1)
+      (nor1.out) to[short, -*] (2.6,2) -| (2.6,1.4) -- (0.3,0.6) -| (0.3,0.23) -- (nor2.in 1)
+      (nor2.out) to[short, -*] (2.6,0) -| (2.6,0.6) -- (0.3,1.4) -| (0.3,1.76) -- (nor1.in 2)
+
+
+      (2.6,2) -| (3.1,2) node[anchor=west] {Q}
+      (2.6,0) -| (3.1,0) node[anchor=west] {$\lnot$Q}
+;
+ \end{circuitikz}
+   \caption*{Zatrzask SR}
 \end{minipage}
 \end{table}
 
@@ -770,8 +828,8 @@ Przerzutnik SR zbudowany jest z dwóch bramek NOR lub NAND. Wynik wyjścia jedne
 \end{tabular}
 \end{minipage}
 \begin{minipage}{10cm}
-   \includegraphics[width=8.5cm]{grafika/obwody/cmp.png}
-   \caption*{Sieć logiczna jedno-bitowego układu porównującego}
+   \includegraphics[width=8.5cm]{grafika/obwody/gated-D-latch.png}
+   \caption*{Przerzutnik D}
 \end{minipage}
 \end{table}
 
@@ -796,9 +854,15 @@ Field Programmable Gate Array jest układem elektronicznym pozwalającym na skon
 
 W układzie FPGA wyszczególnić można elementy nazywane blokami logicznymi, które zwarte są ze sobą siecią konfigurowalnych połączeń. Linie wejściowe bloku logicznego poprowadzone poprzez multipleksery do przerzutników* stają się indeksem komórki pamięci. Wartość tam zapisana będzie wynikiem działania sieci. Pamięć ta przechowuje możliwe stany wyjściowe dla wszystkich kombinacji wejść, stąd nazywana jest tablicą przeszukiwań LUT. Tym sposobem odwzorować można dowolną logikę kombinacyjną.
 
-Układy FPGA pozwalają na więcej, także odzwierciedlają logikę sekwencyjną. Wynik z tablicy LUT jest poprowadzony przez multiplekser. Jego konfiguracja powoduje bezpośrednie wyprowadzenie sygnału z bloku logicznego lub przeprowadzenie go przez dedykowany przerzutnik (taktowany wspólnym zegarem dla wszystkich bloków). W tym przypadku bloki logiczne spełniają także funkcję pamięciową.
+Układy FPGA pozwalają na więcej, także odzwierciedlają logikę sekwencyjną. Wynik z tablicy LUT jest poprowadzony przez multiplekser. Jego konfiguracja powoduje bezpośrednie wyprowadzenie sygnału z bloku logicznego lub przeprowadzenie go przez dedykowany przerzutnik FF (taktowany wspólnym zegarem dla wszystkich bloków). W tym przypadku bloki logiczne spełniają także funkcję pamięciową.
 
 Logika programowalna przechowuje konfigurację swojego działania w rozproszonych w układzie pamięciach RAM. Zapis pamięci o połączeniach między blokami logicznymi, zawartością ich tablic LUT oraz konfiguracją ich multiplekserów dla przerzutników jest konfiguracją układu FPGA. Od zadanej konfiguracji zależy działanie całego układu elektronicznego.
+
+\begin{figure}[htb]
+   \centering
+   \includegraphics[width=8.5cm]{grafika/obwody/CLB_Block_Diagram.png}
+   \caption*{Architektura bloku logicznego FPGA}
+\end{figure}
 
 \subsection{Języki Opisu Sprzętu}
 
