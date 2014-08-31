@@ -1,0 +1,13 @@
+%define LDI(op1)    db 00h, op1
+%define LD(addr)    db 01h, addr
+%define ST(addr)    db 02h, addr
+%define ADD(op1)    db 03h, op1
+%define SUB(op1)    db 04h, op1
+%define AND(op1)    db 05h, op1
+%define OR(op1)     db 06h, op1
+%define XOR(op1)    db 07h, op1
+%define NOT         db 08h, 0
+%define LR          db 09h, 0
+%define RR          db 0Ah, 0
+%define JMP(addr)   db 0Bh, addr
+%define JMPZ(addr)  db 0Ch, addr
