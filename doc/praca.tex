@@ -122,9 +122,9 @@ Na kolejnych dwóch stronach proszę dołączyć kolejno recenzje pracy popełni
 \newpage
 \section{Wstęp}
 
-Nie sposób przecenić wynalazku NAZWISKO tranzystora z roku ROK uhonorowanego nagrodą Nobla oraz wszelkich jego późniejszych następstw pozwalających ujrzeć świat w obecnie oglądanej elektronicznej postaci. Droga ekspansji mikroprocesorów wydaje się już być nieodwracalna. Zrewolucjonizowały każdą dziedzinę życia. A to dopiero początek, wciąż jeszcze wiele przed nami. Tradycyjnie kultywowane systemy edukacji, obiegu pieniądza, sprawowania władzy państwowej są przestarzałe. Jednakże chociaż kwestia inwigilacji obywateli jest prężnie rozwijana oraz ukoronowana wszelkimi zdobyczami techniki. Zachodzi pytanie, czy świat opisany przez Huxleya w wizji `Rok 1904` właśnie nie nastaje. Technicznie jest już to możliwe, a skalę zapoczątkowanego zjawiska unaocznił Edward Snowden upubliczniając dokonania Agencji Której Nie Ma.
+Nie sposób przecenić wynalazku tranzystora z roku 1950 uhonorowanego nagrodą Nobla oraz wszelkich jego późniejszych następstw pozwalających ujrzeć świat w obecnie oglądanej elektronicznej postaci. Droga ekspansji mikroprocesorów wydaje się już być nieodwracalna. Zrewolucjonizowały każdą dziedzinę życia. A to dopiero początek, wciąż jeszcze wiele przed nami. Tradycyjnie kultywowane systemy edukacji, obiegu pieniądza, sprawowania władzy państwowej są przestarzałe. Jednakże chociaż kwestia inwigilacji obywateli jest prężnie rozwijana oraz ukoronowana wszelkimi zdobyczami techniki. Zachodzi pytanie, czy świat opisany przez Orwella w wizji `Rok 1984` właśnie nie nastaje. Technicznie jest już to możliwe, a skalę zapoczątkowanego zjawiska unaocznił Edward Snowden upubliczniając dokonania Agencji Której Nie Ma.
 
-Powstałe zagadnienia natury etycznej wymagają szerokiej dyskusji. Byłaby ona sensowniejsza przy zrozumieniu działania zewsząd otaczającego nas sprzętu i jego możliwościach. Niestety na początku 21 wieku wiedza ta nie jest powszechna i uważana jest za specjalistyczną. Niniejsza praca jest próbą odczarowania demonów tkwiących w tematyce elektroniki cyfrowej i zmycia z niej znamion nieokiełznanej aury tajemniczości.
+Powstałe zagadnienia natury etycznej wymagają szerokiej dyskusji. Byłaby ona sensowniejsza przy zrozumieniu działania zewsząd otaczającego nas sprzętu i jego możliwości. Niestety na początku 21 wieku wiedza ta nie jest powszechna, a nawet uważana jest za specjalistyczną. Niniejsza praca jest próbą odczarowania demonów tkwiących w tematyce elektroniki cyfrowej i zmycia z niej znamion nieokiełznanej aury tajemniczości.
 
 \subsection{Cel pracy}
 
@@ -139,6 +139,8 @@ Celem pracy jest oprogramowanie za pomocą języka opisu sprzętu (Verliog) ukł
 Utworzone moduły behawioralne muszą jak najwierniej odzwierciedlać zachowania układów występujących na płytce.
 Znajdą wtedy zastosowanie w uruchamianych symulacjach przebiegów czasowych danej konfiguracji układu programowalnego FPGA. Dzięki nim możliwe będzie stwierdzenie czy dla zsyntetyzowanej konfiguracji stany linii FPGA prowadzące do konkretnego układu płytki przebiegają poprawnie i czy zachodzi pożądana komunikacja poprzez generowanie przez te moduły stosownych komunikatów. W ten sposób studenci będą mogli testować poprawność działania utworzonej przez siebie konfiguracji bez fizycznego dostępu do sprzętu.
 %zsyntetysowanej/wysyntetyzowanej
+
+\newpage
 
 \section{Elektronika cyfrowa}
 Elektronika cyfrowa operuje na prądach zmiennych, nieokresowych o stałych napięciach. Odróżniane są jedynie dwa stany logiczne - stan wysokiego potencjału będący logicznym wyrażeniem prawdy oraz stan niskiego potencjału - odpowiednik fałszu. Tworzona jest sieć logiczna operująca na zadanych stanach i dostarczająca rezultat działania na swoich wyjściach. Sieć często pracuje w rytm podsuniętego zegara - okresowego sygnału prostokątnego o 50\% wypełnieniu. Sieć może zapamiętać pewne stany wejściowe i brać je pod uwagę w wyliczaniu następnych cykli.
@@ -196,6 +198,7 @@ Koniunkcja wyznacza prawdę tylko, gdy wszyscy jej doradcy jednogłośnie ją po
 \end{minipage}
 \end{table}
 
+
 \subsubsection{Alternatywa}
 Alternatywa powiela prawdę, jeśli tak stanowi co najmniej jeden jej doradca.
 
@@ -220,7 +223,6 @@ Alternatywa powiela prawdę, jeśli tak stanowi co najmniej jeden jej doradca.
    \caption*{Demonstracja alternatywy zrealizowanej na połączeniach}
 \end{minipage}
 \end{table}
-
 
 \newpage
 
@@ -433,7 +435,7 @@ Dokumentacja układu określa położenia pinów wejściowych i wyjściowych ka�
 
 \begin{figure}[htb]
    \centering
-   \includegraphics[width=4cm]{grafika/cemi/ucy7438.jpg}
+   \includegraphics[width=6cm]{grafika/cemi/ucy7438.jpg}
    \caption*{Egzemplarz bramki logicznej}
 \end{figure}
 
@@ -656,9 +658,6 @@ Czwarta kolumna otrzymuje przepełnienie i jedną jedynkę, co oznacza zero dla 
 \end{figure}
 
 
-\subsubsection{Multiplexer}
-
-
 \subsubsection{Jedno-bitowy układ porównujący}
 
 Układ porównujący stwierdza, czy dwa wejściowe sygnały $A$ i $B$ są sobie równe linią $=$. A jeśli nie są, wtedy określi który z nich reprezentuje większą wartość za pomocą wyprowadzeń $<$ oraz $>$.
@@ -713,6 +712,7 @@ Układ porównujący stwierdza, czy dwa wejściowe sygnały $A$ i $B$ są sobie 
 \end{minipage}
 \end{table}
 
+\newpage
 
 \subsubsection{Wielobitowy układ porównujący}
 
@@ -763,6 +763,33 @@ $(A<B)=\overline{A}_3 \cdot B_3+x_3 \overline{A}_2 B_2+x_3 x_2 \overline{A}_1 B_
 \end{minipage}
 \end{table}
 
+
+\subsubsection{Multiplexer}
+
+Multiplexer otrzymuje komplet danych, lecz ukazuje jedynie wybraną, interesującą ich część. Preferencji dokonuje się ustawiając bity maski select.
+
+\begin{table}[h!]
+\centering
+
+\begin{minipage}{5.5cm}
+\centering
+
+\begin{tabular}{ | c | c || c | }
+  \hline
+  $s[1]$ & $s[0]$ & $q$ \\ \hline
+  0 & 0 & d[0] \\
+  0 & 1 & d[1] \\
+  1 & 0 & d[2] \\
+  1 & 1 & d[3] \\
+  \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{11cm}
+   \centering
+   \includegraphics[width=8.5cm]{grafika/obwody/mux.jpg}
+   \caption*{Sieć logiczna multiplexera}
+\end{minipage}
+\end{table}
 
 
 \subsection{Układy sekwencyjne}
@@ -863,6 +890,8 @@ Logika programowalna przechowuje konfigurację swojego działania w rozproszonyc
    \includegraphics[width=8.5cm]{grafika/obwody/CLB_Block_Diagram.png}
    \caption*{Architektura bloku logicznego FPGA}
 \end{figure}
+
+\newpage
 
 \subsection{Języki Opisu Sprzętu}
 
@@ -981,6 +1010,7 @@ Jego możliwości przedstawia tabela
 
 Są instrukcje bezargumentowe jak zaprzeczenie NOT oraz przesunięcia LR i RR. Reszta wymaga argumentu w postaci 12-bitowego adresu pamięci $\{ADDR\}_{12}$ lub 8-bitowego operandu $\{OP1\}_8$. Wartości te zakodowane są bezpośrednio w instrukcji na dalszych bitach.
 
+\newpage
 
 \begin{lstlisting}[label=CPU,caption=CPU.v]
 module Top
@@ -1080,11 +1110,28 @@ JMP(rotate)    ; ponowne obroty wykonywany nieskonczenie
 \end{lstlisting}
 Program najpierw załącza definicję makr dostępnych instrukcji, po czym bazując na nich zapisuje swój przebieg działania. Pierwsze bajty programu to instrukcja ładująca wartość $33_{16}$ do rejestru akumulatora. Następna instrukcja $ST(0)$ zaetykietowana $rotate$ przepisuje zawartość akumulatora do pamięci pod adres $0$. Wartość spod tego specjalnego adresu jest wyprowadzana na piny wyjściowe procesora. Jeśli do procesora przyłączone są diody, spowoduje to zaświecenie 4 diod. Dalej akumulator jest obracany w lewo, po czym następuje skok programu pod etykietę $rotate$. Nowa wartość zostaje wyprowadzona, co zapali 4 inne diody i wygasi resztę. I ponowny skok, program się zapętla rytmicznie przesuwając świecenie zestawu 4 diod.
 
-Translacja dokonana jest asemblerem yasm i pokazany jest zrzut pliku wyjściowego w formie heksadecymalnej. Powstały kod maszynowy jest zgodny z oczekiwaniami.
+Translacja dokonana jest asemblerem yasm.
 \begin{lstlisting}[label=translacja,caption=Translacja]
-$ yasm -o out.bin program.asm && hd out.bin
-00 33 02 00 09 00 0b 02
+$ yasm -o out.bin program.asm
 \end{lstlisting}
+
+Źródło veriloga wczytuje obraz pamięci z zewnętrznego pliku, jednak zadanie $\$readmemb$ spodziewa się postaci liczb binarnych zapisanych w ASCII, co zaspokojone zostaje skryptem perla.
+
+\begin{lstlisting}[label=translacja,caption=Translacja]
+$ perl -ne '$\="\n" and map { print } unpack "(B16)*"' \
+  < out.bin > project/out.bindump
+\end{lstlisting}
+
+Dla rozwiania wątpliwości przedstawiony jest zrzut wynikowego kodu maszynowego.
+\begin{lstlisting}[label=translacja,caption=Translacja]
+$ cat project/out.bindump
+0000000000110011
+0010000000000000
+1001000000000000
+1011000000000010
+\end{lstlisting}
+
+
 
 \subsubsection{Symulacja}
 
@@ -1111,6 +1158,8 @@ always #10 clk <= ~clk;
 
 Tak przygotowane sygnały podłączone zostają do instancji CPU i uruchomione w symulacji.
 
+\newpage
+
 \begin{figure}[htb]
    \centering
    \includegraphics[width=18cm]{grafika/cpu.png}
@@ -1120,6 +1169,7 @@ Tak przygotowane sygnały podłączone zostają do instancji CPU i uruchomione w
 Symulacja przedstawia wykres stanów sygnałów w czasie. Zgodnie z oczekiwaniami zegar zmienia swój poziom co 10 ns, natomiast sygnał resetu został podniesiony na 40ns. Po tym procesor zaczął pracować. Po porównaniu opkodów kolejno wykonywanych instrukcji z zapisem programu nasuwa się wniosek o poprawności działania zamodelowanego układu.
 
 \newpage
+
 \section{Moduły ogólnego przeznaczenia}
 
 \subsection{Projekty}
@@ -3457,6 +3507,23 @@ Finished circuit initialization process.
 \end{lstlisting}
 
 
+\newpage
+\section{bibliografia}
+\begin{description}
+	\item \verb|http://home.agh.edu.pl/~marcino/Uczelnia/Files/JFA/zajecia03JFA.pdf|
+	\item \verb|http://home.agh.edu.pl/~tekomp/pages/referaty/referaty-studenckie/5-1.htm|
+	\item \verb|http://pl.wikipedia.org/wiki/Analiza_sk%C5%82adniowa|
+	\item \verb|http://pl.wikipedia.org/wiki/Parser_LR|
+	\item \verb|http://www.ibm.com/developerworks/ibm/library/it-haggar_bytecode/|
+	\item \verb|http://en.wikipedia.org/wiki/Java_bytecode_instruction_listings|
+	\item \verb|http://en.wikipedia.org/wiki/Class_%28file_format%29|
+	\item \verb|http://java.sun.com/docs/books/jvms/second_edition/html/ClassFile.doc.html|
+	\item \verb|http://www.tutorialspoint.com/perl/perl_oo_perl.htm|
+	\item \verb|http://weston.ruter.net/projects/syntax-tree-drawer/|
+	\item \verb|http://onjava.com/pub/a/onjava/2004/01/14/aop.html|
+\end{description}
+
+\newpage
 
 \section{Dodatki}
 
