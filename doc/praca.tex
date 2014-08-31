@@ -917,26 +917,30 @@ Jego możliwości przedstawia tabela
 Są instrukcje bezargumentowe jak zaprzeczenie NOT oraz przesunięcia LR i RR. Reszta wymaga argumentu w postaci 12-bitowego adresu pamięci $\{ADDR\}_{12}$ lub 8-bitowego operandu $\{OP1\}_8$. Wartości te zakodowane są bezpośrednio w instrukcji na dalszych bitach.
 
 \begin{lstlisting}[label=CPU,caption=CPU.v]
-module CPU
+module Top
 (
    input clk,
    input rst,
    output [7:0] outport
 );
 
-reg [7:0] ACC;
-reg [11:0] PC, PCtmp;
-reg [15:0] IR;
-wire [3:0] OPCODE=IR[15:12];
-wire [11:0] ADDR=IR[11:0];
-wire [7:0] OP1 = IR[7:0];
+reg [7:0]   ACC = 8'd0;
+reg [11:0]  PC = 12'd0;
+reg [11:0]  PCtmp = 12'd0;
+reg [15:0]  IR = 16'd0;
+wire [3:0]  OPCODE = IR[15:12];;
+wire [7:0]  OP1 = IR[7:0];
+wire [11:0] ADDR = IR[11:0];
+wire [11:0] addr2 = { 1'b0, ADDR[11:1] };
 
-reg [15:0] PROM [0:2047];
-reg [7:0] RAM [0:4095];
-assign outport = RAM[7:0][0];
+reg [15:0] PROM [0:3];
+initial $readmemb("out.bindump", PROM);
+reg [7:0] RAM [0:31];
+initial RAM[0] = 8'd0;
+assign outport = RAM[0][7:0];
 
 always @(posedge clk)
-   if(rst) PC <= 11'h7ff;
+   if(rst) PC <= 12'hfff;
    else begin
       PC <= PCtmp;
       IR <= PROM[PCtmp];
@@ -944,21 +948,18 @@ always @(posedge clk)
 
 always @*
    case(OPCODE)
-      4'b1010: PCtmp=ADDR;
-      4'b1011: if(ACC == 7'd0) PCtmp = ADDR; else PCtmp = PC + 1;
+      4'b1011: PCtmp = addr2;
+      4'b1100: if(ACC == 7'd0) PCtmp = addr2; else PCtmp = PC + 1;
       default: PCtmp = PC + 1;
    endcase
 
-always @(posedge clk) begin
+always @(posedge clk)
    case(OPCODE)
-
       // Load immediate value
-      4'b0000: ACC <= OP1
-
+      4'b0000: ACC <= OP1;
       // Load from / store to RAM
       4'b0001: ACC <= RAM[ADDR];
       4'b0010: RAM[ADDR] <= ACC;
-
       // ALU
       4'b0011: ACC <= ACC + OP1;
       4'b0100: ACC <= ACC - OP1;
