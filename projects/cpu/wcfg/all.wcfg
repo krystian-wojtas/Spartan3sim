@@ -49,16 +49,17 @@
    <wvobject fp_name="/TopTest/Top_/ADDR" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">ADDR[11:0]</obj_property>
       <obj_property name="ObjectShortName">ADDR[11:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/addr2" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">addr2[11:0]</obj_property>
       <obj_property name="ObjectShortName">addr2[11:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/OP1" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">OP1[7:0]</obj_property>
       <obj_property name="ObjectShortName">OP1[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TopTest/Top_/PC" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">PC[11:0]</obj_property>
