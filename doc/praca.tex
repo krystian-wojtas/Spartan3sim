@@ -90,7 +90,6 @@ morekeywords={*,...}            % if you want to add more keywords to the set
 {\large \bf \textsf{Kraków, wrzesień 2014}}
 \end{center}
 %% =====  STRONA TYTUŁOWA PRACY MAGISTERSKIEJKIEJ ====
-
 \newpage
 
 %% =====  TYŁ STRONY TYTUŁOWEJ PRACY MAGISTERSKIEJKIEJ ====
@@ -589,7 +588,7 @@ Po sformułowaniu tablicy prawdy łatwo zauważyć, że linia $S$ jest alternaty
 
 \subsubsection{Wielobitowy układ dodający}
 
-Dodawanie liczb złożonych z większej liczby bitów wymaga właściwego obchodzenia się z bitem przepełnienia. Mechanizm ujawnia dodawanie pisemne, które jest analogiczne jak w systemie dziesiętnym. Dla przykładu użyte zastaną liczby $A = 14 = (1110)_2$ oraz $B = 7 = (0111)_2$. Indeks przy oznaczeniu liczby odnosi się do cyfry na wskazanej pozycji bitu.
+Dodawanie liczb złożonych z większej liczby bitów wymaga właściwego obchodzenia się z bitem przepełnienia. Mechanizm ujawnia dodawanie pisemne, które jest analogiczne jak w systemie dziesiętnym. Dla przykładu użyte zostaną liczby $A = 14 = (1110)_2$ oraz $B = 7 = (0111)_2$. Indeks przy oznaczeniu liczby odnosi się do cyfry na wskazanej pozycji bitu.
 
 \begin{table}[h!]
 \centering
@@ -948,7 +947,7 @@ always @(posedge clk)
    reg <= reg + 1;
 \end{lstlisting}
 
-Zadeklarowany został 3-bitowy rejestr $counter$ o początkowej zerowej wartości. Wyjście $full$ sformułowane jest kombinacyjnie i osiąga stan wysoki tylko, gdy licznik jest pełny. Na narastających zboczach dostarczonego z zewnątrz zegara $clk$ wykonuje się blok $always$ inkrementując licznik. W rezultacie sygnał $full$ generowany jest co 8 takt zegara.
+Zadeklarowany został 3-bitowy rejestr $counter$ o początkowej zerowej wartości. Wyjście $full$ sformułowane jest kombinacyjnie i osiąga stan wysoki tylko, gdy licznik jest pełny. Na narastających zboczach dostarczonego z zewnątrz zegara $clk$ wykonuje się blok $always$ inkrementujący licznik. W rezultacie sygnał $full$ generowany jest co 8 takt zegara.
 
 Odpowiednikiem obudów układów elektronicznych z wyprowadzonymi pinami są w Verilogu moduły. W ich opisie wyspecyfikowana jest lista wejść i wyjść, a wewnątrz deklarowanego modułu powoływać można instancje innych i modelować połączenia między nimi. Struktura jest hierarchiczna. Zewnętrzne połączenia modułu najwyższego poziomu są wyprowadzeniami pinów FPGA.
 \begin{lstlisting}[label=Top,caption=Top.v]
@@ -1008,7 +1007,7 @@ Jego możliwości przedstawia tabela
 \end{figure}
 
 
-Są instrukcje bezargumentowe jak zaprzeczenie NOT oraz przesunięcia LR i RR. Reszta wymaga argumentu w postaci 12-bitowego adresu pamięci $\{ADDR\}_{12}$ lub 8-bitowego operandu $\{OP1\}_8$. Wartości te zakodowane są bezpośrednio w instrukcji na dalszych bitach.
+Występują tu instrukcje bezargumentowe jak zaprzeczenie NOT oraz przesunięcia LR i RR. Reszta wymaga argumentu w postaci 12-bitowego adresu pamięci $\{ADDR\}_{12}$ lub 8-bitowego operandu $\{OP1\}_8$. Wartości te zakodowane są bezpośrednio w instrukcji na dalszych bitach.
 
 \newpage
 
@@ -1108,22 +1107,22 @@ ST(0)          ; przepisanie aktualnego stanu akumulatora do pamieci pod adres 0
 LR             ; obrocenie rejestru akumulatora w lewo
 JMP(rotate)    ; ponowne obroty wykonywany nieskonczenie
 \end{lstlisting}
-Program najpierw załącza definicję makr dostępnych instrukcji, po czym bazując na nich zapisuje swój przebieg działania. Pierwsze bajty programu to instrukcja ładująca wartość $33_{16}$ do rejestru akumulatora. Następna instrukcja $ST(0)$ zaetykietowana $rotate$ przepisuje zawartość akumulatora do pamięci pod adres $0$. Wartość spod tego specjalnego adresu jest wyprowadzana na piny wyjściowe procesora. Jeśli do procesora przyłączone są diody, spowoduje to zaświecenie 4 diod. Dalej akumulator jest obracany w lewo, po czym następuje skok programu pod etykietę $rotate$. Nowa wartość zostaje wyprowadzona, co zapali 4 inne diody i wygasi resztę. I ponowny skok, program się zapętla rytmicznie przesuwając świecenie zestawu 4 diod.
+Program najpierw załącza definicję makr dostępnych instrukcji, po czym bazując na nich zapisuje swój przebieg działania. Pierwsze bajty programu to instrukcja ładująca wartość $00110011_{2}$ do rejestru akumulatora. Następna instrukcja $ST(0)$ zaetykietowana $rotate$ przepisuje zawartość akumulatora do pamięci pod adres $0$. Wartość spod tego specjalnego adresu jest wyprowadzana na piny wyjściowe procesora. Jeśli do procesora przyłączone są diody, spowoduje to zaświecenie 4 diod. Dalej akumulator jest obracany w lewo, po czym następuje skok programu pod etykietę $rotate$. Nowa wartość zostaje wyprowadzona, co zapali 4 inne diody i wygasi resztę. I ponowny skok, program się zapętla rytmicznie przesuwając świecenie zestawu 4 diod.
 
-Translacja dokonana jest asemblerem yasm.
+Translacja źródeł programu na kod maszynowy dokonana jest asemblerem yasm.
 \begin{lstlisting}[label=translacja,caption=Translacja]
 $ yasm -o out.bin program.asm
 \end{lstlisting}
 
 Źródło veriloga wczytuje obraz pamięci z zewnętrznego pliku, jednak zadanie $\$readmemb$ spodziewa się postaci liczb binarnych zapisanych w ASCII, co zaspokojone zostaje skryptem perla.
 
-\begin{lstlisting}[label=translacja,caption=Translacja]
+\begin{lstlisting}[label=zrzut,caption=Zrzut]
 $ perl -ne '$\="\n" and map { print } unpack "(B16)*"' \
   < out.bin > project/out.bindump
 \end{lstlisting}
 
 Dla rozwiania wątpliwości przedstawiony jest zrzut wynikowego kodu maszynowego.
-\begin{lstlisting}[label=translacja,caption=Translacja]
+\begin{lstlisting}[label=wydruk,caption=Wydruk]
 $ cat project/out.bindump
 0000000000110011
 0010000000000000
